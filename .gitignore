@@ -1,0 +1,37 @@
+# Dữ liệu — chỉ giữ cấu trúc thư mục
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/*
+!data/**/.gitkeep
+
+# Model artifacts (thường lớn)
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.onnx
+*.joblib
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets
+.env
+.env.*
+
+# Claude Code — thiết lập cá nhân
+.claude/settings.local.json
+
+# OS / IDE
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
