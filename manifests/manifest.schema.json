@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VT-Guard run manifest",
+  "description": "Ban ke mot phien chay (tan cong/benign/hard-negative). Nguon su that de gan nhan o Buoc 4.",
+  "type": "object",
+  "required": ["run_id","class","host","user","ttps","t_start","t_end","tempo","variant","exclude_pids"],
+  "properties": {
+    "run_id":   {"type":"string","description":"vd 20261013-dc01-s014"},
+    "class":    {"type":"string","enum":["attack","benign","hard_negative"]},
+    "host":     {"type":"string","enum":["DC01","WIN10-01"]},
+    "user":     {"type":"string","description":"tai khoan thuc thi, vd VTLAB\\user01"},
+    "user_role":{"type":"string","enum":["standard","admin"]},
+    "ttps":     {"type":"array","items":{"type":"string"},"description":"[] neu benign"},
+    "steps":    {"type":"array","items":{
+        "type":"object",
+        "properties":{
+          "ttp":{"type":"string"},
+          "source":{"type":"string","description":"atomic:T1016/1  hoac  benign:net_inventory"},
+          "t0":{"type":"string"},"t1":{"type":"string"}
+        }}},
+    "t_start":  {"type":"string","description":"ISO8601 UTC"},
+    "t_end":    {"type":"string","description":"ISO8601 UTC"},
+    "tempo":    {"type":"string","enum":["burst","low_and_slow"]},
+    "variant":  {"type":"string","description":"cmd|powershell|wmic|mixed"},
+    "exclude_pids":{"type":"array","items":{"type":"integer"},
+        "description":"PID cua orchestrator + process chay Invoke-AtomicTest -> loai khi gan nhan (chong ro ri)"},
+    "snapshot_before":{"type":"string","description":"ten snapshot da khoi phuc truoc khi chay (bat buoc voi T1003.003)"},
+    "notes":    {"type":"string"},
+    "tool_versions":{"type":"object"}
+  }
+}

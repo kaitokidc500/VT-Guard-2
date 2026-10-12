@@ -1,0 +1,26 @@
+{
+  "_comment": "Ma tran da dang hoa. Moi scenario map toi cac Atomic test theo ID. Lenh tan cong KHONG nam o day - Invoke-AtomicTest doc tu ART.",
+  "atomics": {
+    "T1016":     {"tests": [1,2],  "note": "ipconfig/netsh/route; bien the Volt Typhoon co xem portproxy+firewall"},
+    "T1018":     {"tests": [1,2],  "note": "ping / net view / arp"},
+    "T1087.002": {"tests": [1,2],  "note": "net group/net user /domain; nham Domain Admins", "host_only": ["DC01","WIN10-01"]},
+    "T1654":     {"tests": [1,2],  "note": "#1 Get-EventLog (loc 4624), #2 wevtutil - dung chat Volt Typhoon"},
+    "T1003.003": {"tests": [3],    "note": "NTDSUtil - CHI chay tren DC01, yeu cau snapshot/restore", "host_only": ["DC01"], "needs_snapshot": true}
+  },
+  "accounts": {
+    "standard": "VTLAB\\user01",
+    "admin":    "VTLAB\\admin01"
+  },
+  "tempo": {
+    "burst":        {"min_gap_s": 2,  "max_gap_s": 10},
+    "low_and_slow": {"min_gap_s": 45, "max_gap_s": 240}
+  },
+  "variants": ["cmd","powershell","wmic","mixed"],
+  "sampling_plan": {
+    "attack_runs": 160,
+    "benign_runs": 260,
+    "hard_negative_runs": 120,
+    "ttps_per_attack_run": [1,2,3,4,5],
+    "note": "Moi attack run chon ngau nhien: host hop le voi TTP, account, tempo, variant, thu tu TTP xao tron. Benign+hard_neg phai dung CUNG tap account va CUNG tap cong cu."
+  }
+}
