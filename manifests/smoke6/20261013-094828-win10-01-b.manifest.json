@@ -1,0 +1,30 @@
+﻿{
+    "run_id":  "20261013-094828-win10-01-b",
+    "class":  "benign",
+    "host":  "WIN10-01",
+    "user":  "VTLAB\\admin01",
+    "user_role":  "admin",
+    "ttps":  [
+
+             ],
+    "steps":  [
+                  {
+                      "ttp":  "",
+                      "source":  "benign:user_inventory",
+                      "t0":  "2026-10-13T09:48:28.2040797Z",
+                      "t1":  "2026-10-13T09:48:28.6883315Z",
+                      "ok":  true
+                  }
+              ],
+    "tempo":  "low_and_slow",
+    "variant":  "mixed",
+    "snapshot_before":  "",
+    "exclude_pids":  [
+                         7836
+                     ],
+    "tool_versions":  {
+                          "powershell":  "5.1.19041.6456"
+                      },
+    "t_start":  "2026-10-13T09:48:28.1882847Z",
+    "t_end":  "2026-10-13T09:52:13.6889148Z"
+}
