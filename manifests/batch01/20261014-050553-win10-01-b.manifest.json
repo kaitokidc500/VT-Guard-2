@@ -1,0 +1,37 @@
+﻿{
+    "run_id":  "20261014-050553-win10-01-b",
+    "class":  "benign",
+    "host":  "WIN10-01",
+    "user":  "VTLAB\\user01",
+    "user_role":  "standard",
+    "ttps":  [
+
+             ],
+    "steps":  [
+                  {
+                      "ttp":  "",
+                      "source":  "benign:daily_work",
+                      "t0":  "2026-10-14T05:05:53.5927081Z",
+                      "t1":  "2026-10-14T05:05:53.6708908Z",
+                      "ok":  true
+                  },
+                  {
+                      "ttp":  "",
+                      "source":  "benign:network_check",
+                      "t0":  "2026-10-14T05:07:38.6714268Z",
+                      "t1":  "2026-10-14T05:07:38.8268678Z",
+                      "ok":  true
+                  }
+              ],
+    "tempo":  "low_and_slow",
+    "variant":  "mixed",
+    "snapshot_before":  "",
+    "exclude_pids":  [
+                         6920
+                     ],
+    "tool_versions":  {
+                          "powershell":  "5.1.19041.6456"
+                      },
+    "t_start":  "2026-10-14T05:05:53.5927081Z",
+    "t_end":  "2026-10-14T05:09:07.8275098Z"
+}

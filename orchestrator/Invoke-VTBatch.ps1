@@ -23,7 +23,7 @@ function PickN($arr,$n) { $arr | Sort-Object { $rng.Next() } | Select-Object -Fi
 # Cap nhat cac so test o day SAU KHI ban xac nhan chung chay offline (xem README buoc 3).
 $ttpTests = @{
   "T1016"     = @(1,9)         # ipconfig/netsh/arp...; nslookup
-  "T1018"     = @(3,4,5,21)    # nltest; ping sweep; arp; net group Domain Controller
+  "T1018"     = @(3,5,21)    # nltest; ping sweep; arp; net group Domain Controller
   "T1087.002" = @(1,9,12)      # net user /domain; Domain Admin details; ADSISearcher
   "T1654"     = @(1,2)         # Get-EventLog; WevtUtil (can admin+elevated)
 }
