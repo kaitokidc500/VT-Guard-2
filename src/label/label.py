@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# VT-Guard labeler v3
+# VT-Guard labeler v4 (ho tro nhieu orchestrator chay song song tren cung host)
 # Gan nhan event da chuan hoa (normalize.py) theo manifest + cay tien trinh Sysmon EID1.
 # Nguyen tac:
 #   - Orchestrator = tien trinh chay Invoke-VTSession/Batch (pid in exclude_pids). Event cua no -> LOAI (chong ro ri NHAN).
@@ -74,9 +74,16 @@ def label(rows, manifests):
     excl_by_host=defaultdict(set)
     for m in manifests: excl_by_host[m["host"]] |= set(m.get("exclude_pids",[]))
 
-    def find_session(host, t):
+    # Phan nhom phien theo (host, orchestrator pid): nhieu cua so batch co the chay SONG SONG
+    # tren cung host; ranh gioi phien chi xet cac phien cua CUNG orchestrator.
+    man_by_orch=defaultdict(list)
+    for m in manifests:
+        for pid in m.get("exclude_pids",[]): man_by_orch[(m["host"],pid)].append(m)
+    for k in man_by_orch: man_by_orch[k].sort(key=lambda m: ts(m["t_start"]))
+
+    def find_session(host, t, pid=None):
         # phien co t_start <= t < t_start phien ke tiep (phien cuoi: den t_end + 10 phut)
-        ms=man_by_host.get(host,[])
+        ms=man_by_orch.get((host,pid),[]) if pid is not None else man_by_host.get(host,[])
         for i,m in enumerate(ms):
             st=ts(m["t_start"])
             en=ts(ms[i+1]["t_start"]) if i+1<len(ms) else ts(m["t_end"])+timedelta(seconds=600)
@@ -88,7 +95,7 @@ def label(rows, manifests):
     for r in e1:
         h=r["host"]; pp=r.get("parent_process_id")
         if pp in excl_by_host.get(h,set()):
-            m=find_session(h, ts(r["ts"]))
+            m=find_session(h, ts(r["ts"]), pp)
             if not m: continue
             kind="harness" if r["image_name"] in HARNESS else "exec"
             for gg in [r["process_guid"]]+list(subtree(r["process_guid"],children)):
@@ -106,7 +113,7 @@ def label(rows, manifests):
         g=r.get("process_guid") or (pid_to_guid(e1,h,r["process_id"],w) if r["process_id"] is not None else None)
         # 1) event cua chinh orchestrator -> loai (chong ro ri)
         if r["process_id"] in excl_by_host.get(h,set()):
-            m=find_session(h,w)
+            m=find_session(h,w,r["process_id"])
             r.update(dropped=True,drop_reason="orchestrator",label_source="excluded")
             if m: stats[m["run_id"]]["dropped_orch"]+=1
             continue
