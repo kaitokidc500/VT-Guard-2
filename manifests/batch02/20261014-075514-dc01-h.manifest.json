@@ -1,0 +1,37 @@
+﻿{
+    "run_id":  "20261014-075514-dc01-h",
+    "class":  "hard_negative",
+    "host":  "DC01",
+    "user":  "VTLAB\\admin01",
+    "user_role":  "admin",
+    "ttps":  [
+
+             ],
+    "steps":  [
+                  {
+                      "ttp":  "",
+                      "source":  "benign:log_review",
+                      "t0":  "2026-10-14T07:55:14.4953761Z",
+                      "t1":  "2026-10-14T07:55:14.5268034Z",
+                      "ok":  true
+                  },
+                  {
+                      "ttp":  "",
+                      "source":  "benign:network_check",
+                      "t0":  "2026-10-14T07:57:37.5425637Z",
+                      "t1":  "2026-10-14T07:57:37.7297111Z",
+                      "ok":  true
+                  }
+              ],
+    "tempo":  "low_and_slow",
+    "variant":  "mixed",
+    "snapshot_before":  "",
+    "exclude_pids":  [
+                         6136
+                     ],
+    "tool_versions":  {
+                          "powershell":  "5.1.20348.558"
+                      },
+    "t_start":  "2026-10-14T07:55:14.4953761Z",
+    "t_end":  "2026-10-14T08:00:32.7460181Z"
+}

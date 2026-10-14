@@ -1,0 +1,38 @@
+﻿{
+    "run_id":  "20261014-082233-win10-01-a",
+    "class":  "attack",
+    "host":  "WIN10-01",
+    "user":  "VTLAB\\admin01",
+    "user_role":  "admin",
+    "ttps":  [
+                 "T1016",
+                 "T1654"
+             ],
+    "steps":  [
+                  {
+                      "ttp":  "T1016",
+                      "source":  "atomic:T1016/9",
+                      "t0":  "2026-10-14T08:22:33.7815997Z",
+                      "t1":  "2026-10-14T08:22:44.2813934Z",
+                      "ok":  true
+                  },
+                  {
+                      "ttp":  "T1654",
+                      "source":  "atomic:T1654/2",
+                      "t0":  "2026-10-14T08:24:24.2817955Z",
+                      "t1":  "2026-10-14T08:24:24.8127855Z",
+                      "ok":  true
+                  }
+              ],
+    "tempo":  "low_and_slow",
+    "variant":  "cmd",
+    "snapshot_before":  "",
+    "exclude_pids":  [
+                         3720
+                     ],
+    "tool_versions":  {
+                          "powershell":  "5.1.19041.6456"
+                      },
+    "t_start":  "2026-10-14T08:22:33.7815997Z",
+    "t_end":  "2026-10-14T08:27:12.8285600Z"
+}
