@@ -1,0 +1,923 @@
+{
+  "generated": "2026-10-15T16:25:38+07:00",
+  "versions": {
+    "normalize": "v0",
+    "label": "v6",
+    "featurizer": "f1"
+  },
+  "seed": 1337,
+  "params": {
+    "W": 64,
+    "stride": 32,
+    "K": 8,
+    "time_field": "ts_system",
+    "hard_frac": 0.4,
+    "clean_frac": 0.2,
+    "min_sessions_vocab": 2,
+    "cmd_hash_dim": 256,
+    "cmd_ngram": [
+      3,
+      5
+    ],
+    "t_novel_batches": [
+      "batch05",
+      "ntds2v"
+    ]
+  },
+  "provenance": {
+    "batches": [
+      "batch01",
+      "batch02",
+      "batch03",
+      "batch04",
+      "batch05",
+      "batch06",
+      "ntds",
+      "ntds2",
+      "ntds2v"
+    ],
+    "skipped_files": [
+      "smoke6"
+    ],
+    "manifests_by_batch": {
+      "batch01": 60,
+      "batch02": 80,
+      "batch03": 80,
+      "batch04": 80,
+      "batch05": 80,
+      "batch06": 27,
+      "ntds": 21,
+      "ntds2": 15,
+      "ntds2v": 6
+    },
+    "manifests_by_class": {
+      "attack": 151,
+      "benign": 164,
+      "hard_negative": 134
+    },
+    "labeled_inputs_sha256": {
+      "batch01": "95912b10e3abeeb5ed64ca07ca3e9a931b27ec7b55973a503338563fcb668ca3",
+      "batch02": "68edf034825704be7bebbe736b635213d09a510cc10084615f44a468929e1753",
+      "batch03": "b746038853cc146a3b550debeecbf3cec47188829db3b6b7f667dd0f277c0da8",
+      "batch04": "7a9054296306bbd4f7f0f1cdaad2e531c37248e038355338eef5fe19e0929a34",
+      "batch05": "244ef06561da6ccfa93464f49d97e32ccb3e36d749f7b2c4c34bb3574c3a4466",
+      "batch06": "162616bb4d200d8784c223121c6eb329a6cb152922cf9ada494e603add6fbd1e",
+      "ntds": "3f363b5ec0966a78aea72b775fe6ce03c0147ac273e8319e0a1e5f8fcf7626ba",
+      "ntds2": "cdf56ce825077879c6ef50362101fd28842864df264e6ccf3edb3cc0e4f26d0c",
+      "ntds2v": "a67b26e1bb0a133c6ea503b11ffa47890306f62ccbd01a29d103bc12c14736e0"
+    }
+  },
+  "events": {
+    "read": 407920,
+    "kept": 52165,
+    "malicious": 5122,
+    "benign": 47043,
+    "by_run_class": {
+      "background": 44465,
+      "benign": 1166,
+      "hard_negative": 1412,
+      "attack": 5122
+    },
+    "by_host": {
+      "WIN10-01": 16920,
+      "DC01": 35245
+    },
+    "malicious_by_ttp": {
+      "T1003.003": 338,
+      "T1016": 3157,
+      "T1018": 3478,
+      "T1087.002": 3147,
+      "T1654": 2518
+    },
+    "dropped_by_reason": {
+      "operator_console": 2415,
+      "ps_fragment": 683,
+      "orchestrator": 345312,
+      "art_harness": 1518,
+      "harness_upload": 196
+    },
+    "dropped_by_batch": {
+      "batch01": {
+        "operator_console": 1706,
+        "ps_fragment": 105,
+        "orchestrator": 44363,
+        "art_harness": 158
+      },
+      "batch02": {
+        "harness_upload": 6,
+        "orchestrator": 50287,
+        "art_harness": 214,
+        "ps_fragment": 110
+      },
+      "batch03": {
+        "orchestrator": 78385,
+        "art_harness": 302,
+        "ps_fragment": 175
+      },
+      "batch04": {
+        "orchestrator": 53784,
+        "art_harness": 228,
+        "ps_fragment": 120
+      },
+      "batch05": {
+        "orchestrator": 73052,
+        "ps_fragment": 170,
+        "art_harness": 256
+      },
+      "batch06": {
+        "orchestrator": 1195,
+        "art_harness": 14,
+        "ps_fragment": 3
+      },
+      "ntds": {
+        "orchestrator": 18479,
+        "art_harness": 129,
+        "operator_console": 709,
+        "harness_upload": 72
+      },
+      "ntds2": {
+        "orchestrator": 19316,
+        "art_harness": 162,
+        "harness_upload": 88
+      },
+      "ntds2v": {
+        "orchestrator": 6451,
+        "harness_upload": 30,
+        "art_harness": 55
+      }
+    },
+    "brief_key_collisions": 7713,
+    "runs_without_events": {
+      "benign": 47,
+      "hard_negative": 5,
+      "attack": 3
+    }
+  },
+  "log_hours_by_batch_host": {
+    "batch01|DC01": 2.57,
+    "batch01|WIN10-01": 2.57,
+    "batch02|DC01": 1.59,
+    "batch02|WIN10-01": 1.58,
+    "batch03|DC01": 2.43,
+    "batch03|WIN10-01": 2.42,
+    "batch04|DC01": 1.59,
+    "batch04|WIN10-01": 1.58,
+    "batch05|DC01": 1.99,
+    "batch05|WIN10-01": 1.98,
+    "batch06|DC01": 0.34,
+    "batch06|WIN10-01": 0.33,
+    "ntds|DC01": 0.81,
+    "ntds|WIN10-01": 0.79,
+    "ntds2|DC01": 1.02,
+    "ntds2|WIN10-01": 0.88,
+    "ntds2v|DC01": 0.1,
+    "ntds2v|WIN10-01": 0.06
+  },
+  "log_hours_total": 24.63,
+  "session_hours_by_class": {
+    "attack": 5.86,
+    "benign": 4.8,
+    "hard_negative": 3.08
+  },
+  "windows": {
+    "total": 778,
+    "positive": 278,
+    "negative": 500,
+    "before_cap": 849,
+    "sessions_capped": 14,
+    "sessions_excluded": [
+      [
+        "20261014-041841-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-052317-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-070642-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-071529-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-073145-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-073716-dc01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-075105-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-103113-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-120322-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-122845-dc01-h",
+        "hard_negative",
+        "stream_rong"
+      ],
+      [
+        "20261014-123155-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-133343-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-133522-win10-01-h",
+        "hard_negative",
+        "stream_rong"
+      ],
+      [
+        "20261014-133825-win10-01-b",
+        "benign",
+        "stream_rong"
+      ],
+      [
+        "20261014-164113-dc01-a",
+        "attack",
+        "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
+      ],
+      [
+        "20261015-075708-dc01-a",
+        "attack",
+        "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
+      ],
+      [
+        "20261015-084801-dc01-a",
+        "attack",
+        "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
+      ]
+    ],
+    "by_class": {
+      "attack": {
+        "sessions": 148,
+        "windows": 336,
+        "pos": 278,
+        "neg": 58
+      },
+      "benign": {
+        "sessions": 152,
+        "windows": 256,
+        "pos": 0,
+        "neg": 256
+      },
+      "hard_negative": {
+        "sessions": 132,
+        "windows": 186,
+        "pos": 0,
+        "neg": 186
+      }
+    },
+    "by_batch": {
+      "batch01": {
+        "sessions": 58,
+        "windows": 93,
+        "pos": 36,
+        "neg": 57
+      },
+      "batch02": {
+        "sessions": 75,
+        "windows": 129,
+        "pos": 31,
+        "neg": 98
+      },
+      "batch03": {
+        "sessions": 79,
+        "windows": 173,
+        "pos": 63,
+        "neg": 110
+      },
+      "batch04": {
+        "sessions": 77,
+        "windows": 140,
+        "pos": 40,
+        "neg": 100
+      },
+      "batch05": {
+        "sessions": 77,
+        "windows": 146,
+        "pos": 49,
+        "neg": 97
+      },
+      "batch06": {
+        "sessions": 27,
+        "windows": 30,
+        "pos": 0,
+        "neg": 30
+      },
+      "ntds": {
+        "sessions": 20,
+        "windows": 32,
+        "pos": 24,
+        "neg": 8
+      },
+      "ntds2": {
+        "sessions": 14,
+        "windows": 30,
+        "pos": 30,
+        "neg": 0
+      },
+      "ntds2v": {
+        "sessions": 5,
+        "windows": 5,
+        "pos": 5,
+        "neg": 0
+      }
+    },
+    "full64_rate": {
+      "attack+": 0.737,
+      "attack-": 1.0,
+      "benign-": 0.535,
+      "hard_negative-": 0.403
+    }
+  },
+  "features": {
+    "event_vector": {
+      "categorical_ids": 7,
+      "cmd_hash_dim": 256,
+      "numeric": 5,
+      "total_raw_columns": 268
+    },
+    "vocab_size": {
+      "channel": 8,
+      "event_id": 43,
+      "image_name": 60,
+      "parent_image_name": 17,
+      "host_role": 5,
+      "integrity_level": 8,
+      "logon_type": 8
+    },
+    "unk_rate": {
+      "fit": {
+        "channel": 0.0,
+        "event_id": 0.0002,
+        "image_name": 0.001,
+        "parent_image_name": 0.0003,
+        "host_role": 0.0,
+        "integrity_level": 0.0,
+        "logon_type": 0.0
+      },
+      "t_novel": {
+        "channel": 0.0,
+        "event_id": 0.0001,
+        "image_name": 0.0191,
+        "parent_image_name": 0.0223,
+        "host_role": 0.0,
+        "integrity_level": 0.0,
+        "logon_type": 0.0
+      },
+      "other": {
+        "channel": 0.0,
+        "event_id": 0.0008,
+        "image_name": 0.0018,
+        "parent_image_name": 0.0,
+        "host_role": 0.0,
+        "integrity_level": 0.0,
+        "logon_type": 0.0
+      }
+    }
+  },
+  "splits": {
+    "train": {
+      "sessions": 241,
+      "windows": 413,
+      "positive": 177,
+      "negative": 236,
+      "positive_rate": 0.4286,
+      "sessions_by_batch": {
+        "batch01": 53,
+        "batch02": 46,
+        "batch03": 47,
+        "batch04": 62,
+        "batch06": 10,
+        "ntds": 13,
+        "ntds2": 10
+      },
+      "windows_by_class": {
+        "attack": 201,
+        "benign": 145,
+        "hard_negative": 67
+      },
+      "windows_by_host": {
+        "DC01": 154,
+        "WIN10-01": 259
+      },
+      "ttp_windows": {
+        "T1003.003": 41,
+        "T1016": 87,
+        "T1018": 79,
+        "T1087.002": 96,
+        "T1654": 83
+      },
+      "multi_label_windows": 104,
+      "events": 19755,
+      "sha256": "43aae6e83b0dff8c43e9db655cd72e1ccaed6e9ec3b05c3da54d1790bde2adf8"
+    },
+    "t_clean": {
+      "sessions": 62,
+      "windows": 132,
+      "positive": 47,
+      "negative": 85,
+      "positive_rate": 0.3561,
+      "sessions_by_batch": {
+        "batch02": 23,
+        "batch03": 21,
+        "batch04": 10,
+        "ntds": 4,
+        "ntds2": 4
+      },
+      "windows_by_class": {
+        "attack": 58,
+        "benign": 54,
+        "hard_negative": 20
+      },
+      "windows_by_host": {
+        "DC01": 33,
+        "WIN10-01": 99
+      },
+      "ttp_windows": {
+        "T1003.003": 13,
+        "T1016": 24,
+        "T1018": 26,
+        "T1087.002": 29,
+        "T1654": 21
+      },
+      "multi_label_windows": 30,
+      "events": 6909,
+      "sha256": "fc628170e0ba5cfced42b09c22d9137984e8ab7725e8228e3d1ba775a775c461"
+    },
+    "t_hard": {
+      "sessions": 47,
+      "windows": 82,
+      "positive": 0,
+      "negative": 82,
+      "positive_rate": 0.0,
+      "sessions_by_batch": {
+        "batch01": 5,
+        "batch02": 6,
+        "batch03": 11,
+        "batch04": 5,
+        "batch06": 17,
+        "ntds": 3
+      },
+      "windows_by_class": {
+        "hard_negative": 82
+      },
+      "windows_by_host": {
+        "DC01": 56,
+        "WIN10-01": 26
+      },
+      "ttp_windows": {},
+      "multi_label_windows": 0,
+      "events": 3706,
+      "sha256": "8229393e67ca08a0b4c94ec5e0d2dabe3ce8dfdf64e17dec45048836d5feaf05"
+    },
+    "t_novel": {
+      "sessions": 82,
+      "windows": 151,
+      "positive": 54,
+      "negative": 97,
+      "positive_rate": 0.3576,
+      "sessions_by_batch": {
+        "batch05": 77,
+        "ntds2v": 5
+      },
+      "windows_by_class": {
+        "attack": 77,
+        "benign": 57,
+        "hard_negative": 17
+      },
+      "windows_by_host": {
+        "DC01": 59,
+        "WIN10-01": 92
+      },
+      "ttp_windows": {
+        "T1003.003": 5,
+        "T1016": 37,
+        "T1018": 37,
+        "T1087.002": 34,
+        "T1654": 16
+      },
+      "multi_label_windows": 41,
+      "events": 7399,
+      "sha256": "f9cf96199c19e34154ad6ddabcff1d31dda61b40ec53b947f2b1c2b05bd29951"
+    }
+  },
+  "t1003_003_by_split": {
+    "train": {
+      "positive": 41,
+      "negative_in_t1003_sessions": 2,
+      "negative_dc01": 113,
+      "negative_all": 372,
+      "sessions": 22,
+      "sessions_by_batch": {
+        "ntds": 12,
+        "ntds2": 10
+      }
+    },
+    "t_clean": {
+      "positive": 13,
+      "negative_in_t1003_sessions": 0,
+      "negative_dc01": 20,
+      "negative_all": 119,
+      "sessions": 6,
+      "sessions_by_batch": {
+        "ntds": 2,
+        "ntds2": 4
+      }
+    },
+    "t_hard": {
+      "positive": 0,
+      "negative_in_t1003_sessions": 0,
+      "negative_dc01": 56,
+      "negative_all": 82,
+      "sessions": 0,
+      "sessions_by_batch": {}
+    },
+    "t_novel": {
+      "positive": 5,
+      "negative_in_t1003_sessions": 0,
+      "negative_dc01": 54,
+      "negative_all": 146,
+      "sessions": 5,
+      "sessions_by_batch": {
+        "ntds2v": 5
+      }
+    }
+  },
+  "tool_coverage": {
+    "ping.exe": {
+      "all_pos": 16,
+      "all_neg": 5,
+      "train_pos": 16,
+      "t_clean_pos": 0,
+      "t_hard_pos": 0,
+      "t_novel_pos": 0,
+      "train_neg": 1,
+      "t_clean_neg": 0,
+      "t_hard_neg": 4,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "wevtutil.exe": {
+      "all_pos": 38,
+      "all_neg": 11,
+      "train_pos": 24,
+      "t_clean_pos": 7,
+      "t_hard_pos": 0,
+      "t_novel_pos": 7,
+      "train_neg": 4,
+      "t_clean_neg": 0,
+      "t_hard_neg": 7,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "ntdsutil.exe": {
+      "all_pos": 51,
+      "all_neg": 5,
+      "train_pos": 38,
+      "t_clean_pos": 13,
+      "t_hard_pos": 0,
+      "t_novel_pos": 0,
+      "train_neg": 0,
+      "t_clean_neg": 0,
+      "t_hard_neg": 5,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": true
+    },
+    "vssadmin.exe": {
+      "all_pos": 10,
+      "all_neg": 15,
+      "train_pos": 3,
+      "t_clean_pos": 2,
+      "t_hard_pos": 0,
+      "t_novel_pos": 5,
+      "train_neg": 2,
+      "t_clean_neg": 2,
+      "t_hard_neg": 11,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "nltest.exe": {
+      "all_pos": 23,
+      "all_neg": 19,
+      "train_pos": 9,
+      "t_clean_pos": 5,
+      "t_hard_pos": 0,
+      "t_novel_pos": 9,
+      "train_neg": 6,
+      "t_clean_neg": 0,
+      "t_hard_neg": 13,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "net.exe": {
+      "all_pos": 93,
+      "all_neg": 100,
+      "train_pos": 60,
+      "t_clean_pos": 13,
+      "t_hard_pos": 0,
+      "t_novel_pos": 20,
+      "train_neg": 48,
+      "t_clean_neg": 9,
+      "t_hard_neg": 27,
+      "t_novel_neg": 16,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "net1.exe": {
+      "all_pos": 93,
+      "all_neg": 91,
+      "train_pos": 60,
+      "t_clean_pos": 13,
+      "t_hard_pos": 0,
+      "t_novel_pos": 20,
+      "train_neg": 46,
+      "t_clean_neg": 9,
+      "t_hard_neg": 20,
+      "t_novel_neg": 16,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "ipconfig.exe": {
+      "all_pos": 40,
+      "all_neg": 187,
+      "train_pos": 23,
+      "t_clean_pos": 7,
+      "t_hard_pos": 0,
+      "t_novel_pos": 10,
+      "train_neg": 103,
+      "t_clean_neg": 31,
+      "t_hard_neg": 23,
+      "t_novel_neg": 30,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "arp.exe": {
+      "all_pos": 65,
+      "all_neg": 196,
+      "train_pos": 35,
+      "t_clean_pos": 12,
+      "t_hard_pos": 0,
+      "t_novel_pos": 18,
+      "train_neg": 105,
+      "t_clean_neg": 33,
+      "t_hard_neg": 28,
+      "t_novel_neg": 30,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "route.exe": {
+      "all_pos": 0,
+      "all_neg": 189,
+      "train_pos": 0,
+      "t_clean_pos": 0,
+      "t_hard_pos": 0,
+      "t_novel_pos": 0,
+      "train_neg": 104,
+      "t_clean_neg": 31,
+      "t_hard_neg": 24,
+      "t_novel_neg": 30,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "netstat.exe": {
+      "all_pos": 0,
+      "all_neg": 193,
+      "train_pos": 0,
+      "t_clean_pos": 0,
+      "t_hard_pos": 0,
+      "t_novel_pos": 0,
+      "train_neg": 106,
+      "t_clean_neg": 33,
+      "t_hard_neg": 24,
+      "t_novel_neg": 30,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "nslookup.exe": {
+      "all_pos": 48,
+      "all_neg": 2,
+      "train_pos": 29,
+      "t_clean_pos": 6,
+      "t_hard_pos": 0,
+      "t_novel_pos": 13,
+      "train_neg": 1,
+      "t_clean_neg": 0,
+      "t_hard_neg": 1,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "nbtstat.exe": {
+      "all_pos": 40,
+      "all_neg": 2,
+      "train_pos": 23,
+      "t_clean_pos": 7,
+      "t_hard_pos": 0,
+      "t_novel_pos": 10,
+      "train_neg": 1,
+      "t_clean_neg": 1,
+      "t_hard_neg": 0,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "netsh.exe": {
+      "all_pos": 42,
+      "all_neg": 2,
+      "train_pos": 24,
+      "t_clean_pos": 8,
+      "t_hard_pos": 0,
+      "t_novel_pos": 10,
+      "train_neg": 1,
+      "t_clean_neg": 1,
+      "t_hard_neg": 0,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "whoami.exe": {
+      "all_pos": 0,
+      "all_neg": 1,
+      "train_pos": 0,
+      "t_clean_pos": 0,
+      "t_hard_pos": 0,
+      "t_novel_pos": 0,
+      "train_neg": 1,
+      "t_clean_neg": 0,
+      "t_hard_neg": 0,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "cmd.exe": {
+      "all_pos": 231,
+      "all_neg": 12,
+      "train_pos": 141,
+      "t_clean_pos": 39,
+      "t_hard_pos": 0,
+      "t_novel_pos": 51,
+      "train_neg": 3,
+      "t_clean_neg": 1,
+      "t_hard_neg": 8,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "powershell.exe": {
+      "all_pos": 63,
+      "all_neg": 9,
+      "train_pos": 43,
+      "t_clean_pos": 13,
+      "t_hard_pos": 0,
+      "t_novel_pos": 7,
+      "train_neg": 1,
+      "t_clean_neg": 0,
+      "t_hard_neg": 2,
+      "t_novel_neg": 6,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "conhost.exe": {
+      "all_pos": 262,
+      "all_neg": 55,
+      "train_pos": 162,
+      "t_clean_pos": 47,
+      "t_hard_pos": 0,
+      "t_novel_pos": 53,
+      "train_neg": 25,
+      "t_clean_neg": 7,
+      "t_hard_neg": 8,
+      "t_novel_neg": 15,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "rundll32.exe": {
+      "all_pos": 36,
+      "all_neg": 8,
+      "train_pos": 25,
+      "t_clean_pos": 10,
+      "t_hard_pos": 0,
+      "t_novel_pos": 1,
+      "train_neg": 6,
+      "t_clean_neg": 2,
+      "t_hard_neg": 0,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "vssvc.exe": {
+      "all_pos": 39,
+      "all_neg": 6,
+      "train_pos": 27,
+      "t_clean_pos": 7,
+      "t_hard_pos": 0,
+      "t_novel_pos": 5,
+      "train_neg": 3,
+      "t_clean_neg": 0,
+      "t_hard_neg": 3,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "wazuh-agent.exe": {
+      "all_pos": 4,
+      "all_neg": 1,
+      "train_pos": 4,
+      "t_clean_pos": 0,
+      "t_hard_pos": 0,
+      "t_novel_pos": 0,
+      "train_neg": 1,
+      "t_clean_neg": 0,
+      "t_hard_neg": 0,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    }
+  },
+  "tools_positive_only_all": [],
+  "tools_positive_only_train": [
+    "ntdsutil.exe"
+  ],
+  "files_sha256": {
+    "all.events.jsonl": "d01991d791818482dbc9539598178613060a29c7be1fe7f593250326a5adbb4f",
+    "windows.jsonl": "6b4f2bfb0449996158fab0482aef876a6fef8006708b9cdc8b34fd5735c36e87",
+    "features.jsonl": "9a6a04be5fd7f726ecbb07544da91359bfd252700eec3f1bc55c6f8641cc67a3",
+    "vocab.json": "7ccfe1208100a4ac1350204102cd34fbd6e9ab2f1d1b5462d28e0c9d412c9882",
+    "splits/train.jsonl": "43aae6e83b0dff8c43e9db655cd72e1ccaed6e9ec3b05c3da54d1790bde2adf8",
+    "splits/t_clean.jsonl": "fc628170e0ba5cfced42b09c22d9137984e8ab7725e8228e3d1ba775a775c461",
+    "splits/t_hard.jsonl": "8229393e67ca08a0b4c94ec5e0d2dabe3ce8dfdf64e17dec45048836d5feaf05",
+    "splits/t_novel.jsonl": "f9cf96199c19e34154ad6ddabcff1d31dda61b40ec53b947f2b1c2b05bd29951"
+  },
+  "acceptance": {
+    "1_run_id_in_gt1_split": [],
+    "2_forbidden_feature_sources": [],
+    "2_non_numeric_feature_values": 0,
+    "2_feature_sources": [
+      "channel",
+      "command_line",
+      "dst_port",
+      "event_id",
+      "has_dns_query",
+      "host_role",
+      "image_name",
+      "integrity_level",
+      "logon_type",
+      "parent_image_name",
+      "ts"
+    ],
+    "3_t_hard_non_hn_windows": 0,
+    "3_t_novel_batches": [
+      "batch05",
+      "ntds2v"
+    ],
+    "3_t_novel_non_novel_batch_windows": 0,
+    "3_novel_batch_outside_t_novel": 0,
+    "5_positive_windows": {
+      "positive": 278,
+      "attack_sessions": 148,
+      "cap": 1184,
+      "mean_pos_per_attack_session": 1.88,
+      "ok": true
+    },
+    "6_leak_scan": {
+      "positive_windows_scanned": 200,
+      "pattern": "atomic|invoke-|\\bT10\\d\\d|\\bT1\\d{3}\\b|vt-?guard",
+      "text_hits": {},
+      "vocab_token_hits": []
+    },
+    "7_train_test_time_overlap": [],
+    "8_vocab_fit_only_train": true
+  },
+  "acceptance_pass": true
+}

@@ -1,8 +1,8 @@
 {
-  "generated": "2026-10-15T16:25:38+07:00",
+  "generated": "2026-10-15T20:30:23+07:00",
   "versions": {
     "normalize": "v0",
-    "label": "v6",
+    "label": "v7",
     "featurizer": "f1"
   },
   "seed": 1337,
@@ -32,6 +32,7 @@
       "batch04",
       "batch05",
       "batch06",
+      "batch07",
       "ntds",
       "ntds2",
       "ntds2v"
@@ -46,6 +47,7 @@
       "batch04": 80,
       "batch05": 80,
       "batch06": 27,
+      "batch07": 30,
       "ntds": 21,
       "ntds2": 15,
       "ntds2v": 6
@@ -53,104 +55,121 @@
     "manifests_by_class": {
       "attack": 151,
       "benign": 164,
-      "hard_negative": 134
+      "hard_negative": 164
     },
     "labeled_inputs_sha256": {
-      "batch01": "95912b10e3abeeb5ed64ca07ca3e9a931b27ec7b55973a503338563fcb668ca3",
-      "batch02": "68edf034825704be7bebbe736b635213d09a510cc10084615f44a468929e1753",
-      "batch03": "b746038853cc146a3b550debeecbf3cec47188829db3b6b7f667dd0f277c0da8",
-      "batch04": "7a9054296306bbd4f7f0f1cdaad2e531c37248e038355338eef5fe19e0929a34",
-      "batch05": "244ef06561da6ccfa93464f49d97e32ccb3e36d749f7b2c4c34bb3574c3a4466",
-      "batch06": "162616bb4d200d8784c223121c6eb329a6cb152922cf9ada494e603add6fbd1e",
-      "ntds": "3f363b5ec0966a78aea72b775fe6ce03c0147ac273e8319e0a1e5f8fcf7626ba",
-      "ntds2": "cdf56ce825077879c6ef50362101fd28842864df264e6ccf3edb3cc0e4f26d0c",
-      "ntds2v": "a67b26e1bb0a133c6ea503b11ffa47890306f62ccbd01a29d103bc12c14736e0"
+      "batch01": "9ed05118d0bd363b2ef5412c0f1b0294129ad8be9a68fde0b7acea8c1c8eaa5b",
+      "batch02": "1697efccee2be34f3907632b9bc2e3d4be9a6edad6c2c1297ab805a7e91d6afc",
+      "batch03": "635d38a3f6db2389b2bd39e10b1c0fd72afa0d45bbb436af9ef0724a48c9913d",
+      "batch04": "450ec2988a4c9cec51e476d18dca53aefa84ae3bb2b4dfce50a490adc53b42c4",
+      "batch05": "83f25d63c199758c580bf8647ad4deee2caadfc11e7e8f27690f365811509d4d",
+      "batch06": "a82d839ecc84172b3b45fff019ea25a979fd80ab75509fb58a8cdfa1f8bee07f",
+      "batch07": "0e05e964724bd45eb2d1748815ef17c886571b9351d71257e17133e4e6ffdbe6",
+      "ntds": "9f14984f62b96f17cc06b0f83b54ff2715053d6c98a3c0643f9a21e6fb540f67",
+      "ntds2": "e19d2068fea26d7765b648c42497f5424a6d546319cf0b164e86e1a253a2f191",
+      "ntds2v": "794961f79f3fce140374c2302e58bdf71af9bbf0510b410c8a052c3077ab9da0"
     }
   },
   "events": {
-    "read": 407920,
-    "kept": 52165,
-    "malicious": 5122,
-    "benign": 47043,
+    "read": 423597,
+    "kept": 61490,
+    "malicious": 5224,
+    "benign": 56266,
     "by_run_class": {
-      "background": 44465,
-      "benign": 1166,
-      "hard_negative": 1412,
-      "attack": 5122
+      "background": 52846,
+      "benign": 1096,
+      "hard_negative": 2324,
+      "attack": 5224
     },
     "by_host": {
-      "WIN10-01": 16920,
-      "DC01": 35245
+      "WIN10-01": 18143,
+      "DC01": 43347
     },
     "malicious_by_ttp": {
       "T1003.003": 338,
-      "T1016": 3157,
-      "T1018": 3478,
-      "T1087.002": 3147,
+      "T1016": 3251,
+      "T1018": 3580,
+      "T1087.002": 3272,
       "T1654": 2518
     },
     "dropped_by_reason": {
-      "operator_console": 2415,
+      "operator_console": 2408,
       "ps_fragment": 683,
-      "orchestrator": 345312,
-      "art_harness": 1518,
-      "harness_upload": 196
+      "orchestrator": 347672,
+      "art_harness": 1462,
+      "orch_child_outside": 225,
+      "harness_upload": 270
     },
     "dropped_by_batch": {
       "batch01": {
         "operator_console": 1706,
         "ps_fragment": 105,
         "orchestrator": 44363,
-        "art_harness": 158
+        "art_harness": 158,
+        "orch_child_outside": 6
       },
       "batch02": {
         "harness_upload": 6,
         "orchestrator": 50287,
         "art_harness": 214,
+        "orch_child_outside": 2,
         "ps_fragment": 110
       },
       "batch03": {
         "orchestrator": 78385,
         "art_harness": 302,
-        "ps_fragment": 175
+        "ps_fragment": 175,
+        "orch_child_outside": 2
       },
       "batch04": {
         "orchestrator": 53784,
         "art_harness": 228,
-        "ps_fragment": 120
+        "ps_fragment": 120,
+        "orch_child_outside": 2
       },
       "batch05": {
         "orchestrator": 73052,
         "ps_fragment": 170,
-        "art_harness": 256
+        "art_harness": 256,
+        "orch_child_outside": 2
       },
       "batch06": {
         "orchestrator": 1195,
         "art_harness": 14,
         "ps_fragment": 3
       },
+      "batch07": {
+        "orch_child_outside": 139,
+        "orchestrator": 2360,
+        "harness_upload": 74,
+        "art_harness": 6
+      },
       "ntds": {
         "orchestrator": 18479,
-        "art_harness": 129,
-        "operator_console": 709,
+        "art_harness": 124,
+        "operator_console": 702,
+        "orch_child_outside": 15,
         "harness_upload": 72
       },
       "ntds2": {
         "orchestrator": 19316,
-        "art_harness": 162,
-        "harness_upload": 88
+        "art_harness": 120,
+        "harness_upload": 88,
+        "orch_child_outside": 42
       },
       "ntds2v": {
         "orchestrator": 6451,
         "harness_upload": 30,
-        "art_harness": 55
+        "orch_child_outside": 15,
+        "art_harness": 40
       }
     },
-    "brief_key_collisions": 7713,
+    "brief_key_collisions": 13661,
+    "events_from_neighbor_file": 8,
     "runs_without_events": {
-      "benign": 47,
-      "hard_negative": 5,
-      "attack": 3
+      "benign": 45,
+      "hard_negative": 7,
+      "attack": 2
     }
   },
   "log_hours_by_batch_host": {
@@ -166,24 +185,26 @@
     "batch05|WIN10-01": 1.98,
     "batch06|DC01": 0.34,
     "batch06|WIN10-01": 0.33,
+    "batch07|DC01": 21.13,
+    "batch07|WIN10-01": 0.88,
     "ntds|DC01": 0.81,
     "ntds|WIN10-01": 0.79,
-    "ntds2|DC01": 1.02,
+    "ntds2|DC01": 1.0,
     "ntds2|WIN10-01": 0.88,
-    "ntds2v|DC01": 0.1,
+    "ntds2v|DC01": 0.11,
     "ntds2v|WIN10-01": 0.06
   },
-  "log_hours_total": 24.63,
+  "log_hours_total": 46.63,
   "session_hours_by_class": {
     "attack": 5.86,
     "benign": 4.8,
-    "hard_negative": 3.08
+    "hard_negative": 3.22
   },
   "windows": {
-    "total": 778,
+    "total": 809,
     "positive": 278,
-    "negative": 500,
-    "before_cap": 849,
+    "negative": 531,
+    "before_cap": 880,
     "sessions_capped": 14,
     "sessions_excluded": [
       [
@@ -212,6 +233,11 @@
         "stream_rong"
       ],
       [
+        "20261014-073330-dc01-h",
+        "hard_negative",
+        "hard_negative_labeled0_khong_co_tien_trinh_con"
+      ],
+      [
         "20261014-073716-dc01-b",
         "benign",
         "stream_rong"
@@ -220,6 +246,11 @@
         "20261014-075105-win10-01-b",
         "benign",
         "stream_rong"
+      ],
+      [
+        "20261014-093702-win10-01-h",
+        "hard_negative",
+        "hard_negative_labeled0_khong_co_tien_trinh_con"
       ],
       [
         "20261014-103113-win10-01-b",
@@ -232,9 +263,14 @@
         "stream_rong"
       ],
       [
+        "20261014-120938-win10-01-h",
+        "hard_negative",
+        "hard_negative_labeled0_khong_co_tien_trinh_con"
+      ],
+      [
         "20261014-122845-dc01-h",
         "hard_negative",
-        "stream_rong"
+        "hard_negative_labeled0_khong_co_tien_trinh_con"
       ],
       [
         "20261014-123155-win10-01-b",
@@ -249,7 +285,7 @@
       [
         "20261014-133522-win10-01-h",
         "hard_negative",
-        "stream_rong"
+        "hard_negative_labeled0_khong_co_tien_trinh_con"
       ],
       [
         "20261014-133825-win10-01-b",
@@ -267,55 +303,60 @@
         "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
       ],
       [
-        "20261015-084801-dc01-a",
-        "attack",
-        "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
+        "20261015-130127-dc01-h",
+        "hard_negative",
+        "hard_negative_labeled0_khong_co_tien_trinh_con"
+      ],
+      [
+        "20261015-130245-dc01-h",
+        "hard_negative",
+        "hard_negative_labeled0_khong_co_tien_trinh_con"
       ]
     ],
     "by_class": {
       "attack": {
-        "sessions": 148,
+        "sessions": 149,
         "windows": 336,
         "pos": 278,
         "neg": 58
       },
       "benign": {
         "sessions": 152,
-        "windows": 256,
+        "windows": 254,
         "pos": 0,
-        "neg": 256
+        "neg": 254
       },
       "hard_negative": {
-        "sessions": 132,
-        "windows": 186,
+        "sessions": 157,
+        "windows": 219,
         "pos": 0,
-        "neg": 186
+        "neg": 219
       }
     },
     "by_batch": {
       "batch01": {
         "sessions": 58,
-        "windows": 93,
+        "windows": 92,
         "pos": 36,
-        "neg": 57
+        "neg": 56
       },
       "batch02": {
-        "sessions": 75,
-        "windows": 129,
+        "sessions": 74,
+        "windows": 126,
         "pos": 31,
-        "neg": 98
+        "neg": 95
       },
       "batch03": {
-        "sessions": 79,
-        "windows": 173,
+        "sessions": 78,
+        "windows": 172,
         "pos": 63,
-        "neg": 110
+        "neg": 109
       },
       "batch04": {
-        "sessions": 77,
-        "windows": 140,
+        "sessions": 76,
+        "windows": 139,
         "pos": 40,
-        "neg": 100
+        "neg": 99
       },
       "batch05": {
         "sessions": 77,
@@ -329,6 +370,12 @@
         "pos": 0,
         "neg": 30
       },
+      "batch07": {
+        "sessions": 28,
+        "windows": 37,
+        "pos": 0,
+        "neg": 37
+      },
       "ntds": {
         "sessions": 20,
         "windows": 32,
@@ -337,22 +384,22 @@
       },
       "ntds2": {
         "sessions": 14,
-        "windows": 30,
-        "pos": 30,
+        "windows": 29,
+        "pos": 29,
         "neg": 0
       },
       "ntds2v": {
-        "sessions": 5,
-        "windows": 5,
-        "pos": 5,
+        "sessions": 6,
+        "windows": 6,
+        "pos": 6,
         "neg": 0
       }
     },
     "full64_rate": {
       "attack+": 0.737,
       "attack-": 1.0,
-      "benign-": 0.535,
-      "hard_negative-": 0.403
+      "benign-": 0.531,
+      "hard_negative-": 0.411
     }
   },
   "features": {
@@ -364,7 +411,7 @@
     },
     "vocab_size": {
       "channel": 8,
-      "event_id": 43,
+      "event_id": 45,
       "image_name": 60,
       "parent_image_name": 17,
       "host_role": 5,
@@ -375,25 +422,25 @@
       "fit": {
         "channel": 0.0,
         "event_id": 0.0002,
-        "image_name": 0.001,
-        "parent_image_name": 0.0003,
+        "image_name": 0.0004,
+        "parent_image_name": 0.0002,
         "host_role": 0.0,
         "integrity_level": 0.0,
         "logon_type": 0.0
       },
       "t_novel": {
         "channel": 0.0,
-        "event_id": 0.0001,
-        "image_name": 0.0191,
-        "parent_image_name": 0.0223,
+        "event_id": 0.0003,
+        "image_name": 0.0187,
+        "parent_image_name": 0.0222,
         "host_role": 0.0,
         "integrity_level": 0.0,
         "logon_type": 0.0
       },
       "other": {
         "channel": 0.0,
-        "event_id": 0.0008,
-        "image_name": 0.0018,
+        "event_id": 0.0005,
+        "image_name": 0.0001,
         "parent_image_name": 0.0,
         "host_role": 0.0,
         "integrity_level": 0.0,
@@ -403,310 +450,314 @@
   },
   "splits": {
     "train": {
-      "sessions": 241,
-      "windows": 413,
-      "positive": 177,
-      "negative": 236,
-      "positive_rate": 0.4286,
+      "sessions": 262,
+      "windows": 479,
+      "positive": 178,
+      "negative": 301,
+      "positive_rate": 0.3716,
       "sessions_by_batch": {
-        "batch01": 53,
-        "batch02": 46,
-        "batch03": 47,
-        "batch04": 62,
-        "batch06": 10,
-        "ntds": 13,
-        "ntds2": 10
+        "batch01": 45,
+        "batch02": 53,
+        "batch03": 50,
+        "batch04": 63,
+        "batch06": 12,
+        "batch07": 13,
+        "ntds": 14,
+        "ntds2": 12
       },
       "windows_by_class": {
-        "attack": 201,
-        "benign": 145,
-        "hard_negative": 67
+        "attack": 212,
+        "benign": 161,
+        "hard_negative": 106
       },
       "windows_by_host": {
-        "DC01": 154,
-        "WIN10-01": 259
+        "DC01": 193,
+        "WIN10-01": 286
       },
       "ttp_windows": {
         "T1003.003": 41,
         "T1016": 87,
         "T1018": 79,
-        "T1087.002": 96,
-        "T1654": 83
+        "T1087.002": 98,
+        "T1654": 84
       },
-      "multi_label_windows": 104,
-      "events": 19755,
-      "sha256": "43aae6e83b0dff8c43e9db655cd72e1ccaed6e9ec3b05c3da54d1790bde2adf8"
+      "multi_label_windows": 106,
+      "events": 24033,
+      "sha256": "22008227ab6af1eeddb12073c6e3aad22475d012b8ed8ee5c97fd815735a493b"
     },
     "t_clean": {
-      "sessions": 62,
-      "windows": 132,
-      "positive": 47,
-      "negative": 85,
-      "positive_rate": 0.3561,
+      "sessions": 52,
+      "windows": 91,
+      "positive": 45,
+      "negative": 46,
+      "positive_rate": 0.4945,
       "sessions_by_batch": {
-        "batch02": 23,
-        "batch03": 21,
+        "batch01": 1,
+        "batch02": 17,
+        "batch03": 16,
         "batch04": 10,
+        "batch07": 2,
         "ntds": 4,
-        "ntds2": 4
+        "ntds2": 2
       },
       "windows_by_class": {
-        "attack": 58,
-        "benign": 54,
-        "hard_negative": 20
+        "attack": 46,
+        "benign": 36,
+        "hard_negative": 9
       },
       "windows_by_host": {
-        "DC01": 33,
-        "WIN10-01": 99
+        "DC01": 26,
+        "WIN10-01": 65
       },
       "ttp_windows": {
-        "T1003.003": 13,
+        "T1003.003": 12,
         "T1016": 24,
         "T1018": 26,
-        "T1087.002": 29,
-        "T1654": 21
+        "T1087.002": 27,
+        "T1654": 20
       },
-      "multi_label_windows": 30,
-      "events": 6909,
-      "sha256": "fc628170e0ba5cfced42b09c22d9137984e8ab7725e8228e3d1ba775a775c461"
+      "multi_label_windows": 28,
+      "events": 4574,
+      "sha256": "7795fe3178094d14a43cacae2d9bbbd28934a9abdc34ec8626326772c32c8f2b"
     },
     "t_hard": {
-      "sessions": 47,
-      "windows": 82,
+      "sessions": 61,
+      "windows": 87,
       "positive": 0,
-      "negative": 82,
+      "negative": 87,
       "positive_rate": 0.0,
       "sessions_by_batch": {
-        "batch01": 5,
-        "batch02": 6,
-        "batch03": 11,
-        "batch04": 5,
-        "batch06": 17,
-        "ntds": 3
+        "batch01": 12,
+        "batch02": 4,
+        "batch03": 12,
+        "batch04": 3,
+        "batch06": 15,
+        "batch07": 13,
+        "ntds": 2
       },
       "windows_by_class": {
-        "hard_negative": 82
+        "hard_negative": 87
       },
       "windows_by_host": {
-        "DC01": 56,
-        "WIN10-01": 26
+        "DC01": 46,
+        "WIN10-01": 41
       },
       "ttp_windows": {},
       "multi_label_windows": 0,
-      "events": 3706,
-      "sha256": "8229393e67ca08a0b4c94ec5e0d2dabe3ce8dfdf64e17dec45048836d5feaf05"
+      "events": 3509,
+      "sha256": "185ae4d09bbc704c0ea621c111299fce7f9ae54e9dcdbadede5820b2e568b2ae"
     },
     "t_novel": {
-      "sessions": 82,
-      "windows": 151,
-      "positive": 54,
+      "sessions": 83,
+      "windows": 152,
+      "positive": 55,
       "negative": 97,
-      "positive_rate": 0.3576,
+      "positive_rate": 0.3618,
       "sessions_by_batch": {
         "batch05": 77,
-        "ntds2v": 5
+        "ntds2v": 6
       },
       "windows_by_class": {
-        "attack": 77,
+        "attack": 78,
         "benign": 57,
         "hard_negative": 17
       },
       "windows_by_host": {
-        "DC01": 59,
+        "DC01": 60,
         "WIN10-01": 92
       },
       "ttp_windows": {
-        "T1003.003": 5,
+        "T1003.003": 6,
         "T1016": 37,
         "T1018": 37,
         "T1087.002": 34,
-        "T1654": 16
+        "T1654": 17
       },
       "multi_label_windows": 41,
-      "events": 7399,
-      "sha256": "f9cf96199c19e34154ad6ddabcff1d31dda61b40ec53b947f2b1c2b05bd29951"
+      "events": 7447,
+      "sha256": "e53b4ff7f366b18a07ba411b64b99d5cee8d7c2fbcea63129597afff905b9478"
     }
   },
   "t1003_003_by_split": {
     "train": {
       "positive": 41,
       "negative_in_t1003_sessions": 2,
-      "negative_dc01": 113,
-      "negative_all": 372,
+      "negative_dc01": 152,
+      "negative_all": 438,
       "sessions": 22,
       "sessions_by_batch": {
-        "ntds": 12,
-        "ntds2": 10
+        "ntds": 10,
+        "ntds2": 12
       }
     },
     "t_clean": {
-      "positive": 13,
+      "positive": 12,
       "negative_in_t1003_sessions": 0,
-      "negative_dc01": 20,
-      "negative_all": 119,
+      "negative_dc01": 14,
+      "negative_all": 79,
       "sessions": 6,
       "sessions_by_batch": {
-        "ntds": 2,
-        "ntds2": 4
+        "ntds": 4,
+        "ntds2": 2
       }
     },
     "t_hard": {
       "positive": 0,
       "negative_in_t1003_sessions": 0,
-      "negative_dc01": 56,
-      "negative_all": 82,
+      "negative_dc01": 46,
+      "negative_all": 87,
       "sessions": 0,
       "sessions_by_batch": {}
     },
     "t_novel": {
-      "positive": 5,
+      "positive": 6,
       "negative_in_t1003_sessions": 0,
       "negative_dc01": 54,
       "negative_all": 146,
-      "sessions": 5,
+      "sessions": 6,
       "sessions_by_batch": {
-        "ntds2v": 5
+        "ntds2v": 6
       }
     }
   },
   "tool_coverage": {
     "ping.exe": {
       "all_pos": 16,
-      "all_neg": 5,
+      "all_neg": 14,
       "train_pos": 16,
       "t_clean_pos": 0,
       "t_hard_pos": 0,
       "t_novel_pos": 0,
-      "train_neg": 1,
-      "t_clean_neg": 0,
-      "t_hard_neg": 4,
+      "train_neg": 8,
+      "t_clean_neg": 1,
+      "t_hard_neg": 5,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "wevtutil.exe": {
-      "all_pos": 38,
+      "all_pos": 40,
       "all_neg": 11,
-      "train_pos": 24,
+      "train_pos": 25,
       "t_clean_pos": 7,
       "t_hard_pos": 0,
-      "t_novel_pos": 7,
-      "train_neg": 4,
+      "t_novel_pos": 8,
+      "train_neg": 5,
       "t_clean_neg": 0,
-      "t_hard_neg": 7,
+      "t_hard_neg": 6,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "ntdsutil.exe": {
-      "all_pos": 51,
-      "all_neg": 5,
+      "all_pos": 50,
+      "all_neg": 15,
       "train_pos": 38,
-      "t_clean_pos": 13,
+      "t_clean_pos": 12,
       "t_hard_pos": 0,
       "t_novel_pos": 0,
-      "train_neg": 0,
-      "t_clean_neg": 0,
-      "t_hard_neg": 5,
+      "train_neg": 8,
+      "t_clean_neg": 1,
+      "t_hard_neg": 6,
       "t_novel_neg": 0,
       "positive_only_all": false,
-      "positive_only_train": true
+      "positive_only_train": false
     },
     "vssadmin.exe": {
-      "all_pos": 10,
-      "all_neg": 15,
+      "all_pos": 9,
+      "all_neg": 27,
       "train_pos": 3,
-      "t_clean_pos": 2,
+      "t_clean_pos": 0,
       "t_hard_pos": 0,
-      "t_novel_pos": 5,
-      "train_neg": 2,
-      "t_clean_neg": 2,
-      "t_hard_neg": 11,
+      "t_novel_pos": 6,
+      "train_neg": 16,
+      "t_clean_neg": 1,
+      "t_hard_neg": 10,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "nltest.exe": {
-      "all_pos": 23,
-      "all_neg": 19,
-      "train_pos": 9,
+      "all_pos": 24,
+      "all_neg": 27,
+      "train_pos": 10,
       "t_clean_pos": 5,
       "t_hard_pos": 0,
       "t_novel_pos": 9,
-      "train_neg": 6,
-      "t_clean_neg": 0,
-      "t_hard_neg": 13,
+      "train_neg": 15,
+      "t_clean_neg": 1,
+      "t_hard_neg": 11,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "net.exe": {
-      "all_pos": 93,
-      "all_neg": 100,
-      "train_pos": 60,
-      "t_clean_pos": 13,
+      "all_pos": 94,
+      "all_neg": 107,
+      "train_pos": 59,
+      "t_clean_pos": 15,
       "t_hard_pos": 0,
       "t_novel_pos": 20,
-      "train_neg": 48,
-      "t_clean_neg": 9,
-      "t_hard_neg": 27,
+      "train_neg": 62,
+      "t_clean_neg": 7,
+      "t_hard_neg": 22,
       "t_novel_neg": 16,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "net1.exe": {
-      "all_pos": 93,
-      "all_neg": 91,
-      "train_pos": 60,
-      "t_clean_pos": 13,
+      "all_pos": 94,
+      "all_neg": 89,
+      "train_pos": 59,
+      "t_clean_pos": 15,
       "t_hard_pos": 0,
       "t_novel_pos": 20,
-      "train_neg": 46,
-      "t_clean_neg": 9,
-      "t_hard_neg": 20,
+      "train_neg": 52,
+      "t_clean_neg": 6,
+      "t_hard_neg": 15,
       "t_novel_neg": 16,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "ipconfig.exe": {
-      "all_pos": 40,
-      "all_neg": 187,
+      "all_pos": 43,
+      "all_neg": 200,
       "train_pos": 23,
-      "t_clean_pos": 7,
+      "t_clean_pos": 9,
       "t_hard_pos": 0,
-      "t_novel_pos": 10,
-      "train_neg": 103,
-      "t_clean_neg": 31,
-      "t_hard_neg": 23,
-      "t_novel_neg": 30,
+      "t_novel_pos": 11,
+      "train_neg": 108,
+      "t_clean_neg": 22,
+      "t_hard_neg": 39,
+      "t_novel_neg": 31,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "arp.exe": {
-      "all_pos": 65,
+      "all_pos": 68,
       "all_neg": 196,
-      "train_pos": 35,
-      "t_clean_pos": 12,
+      "train_pos": 34,
+      "t_clean_pos": 15,
       "t_hard_pos": 0,
-      "t_novel_pos": 18,
-      "train_neg": 105,
-      "t_clean_neg": 33,
-      "t_hard_neg": 28,
-      "t_novel_neg": 30,
+      "t_novel_pos": 19,
+      "train_neg": 107,
+      "t_clean_neg": 22,
+      "t_hard_neg": 36,
+      "t_novel_neg": 31,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "route.exe": {
       "all_pos": 0,
-      "all_neg": 189,
+      "all_neg": 190,
       "train_pos": 0,
       "t_clean_pos": 0,
       "t_hard_pos": 0,
       "t_novel_pos": 0,
-      "train_neg": 104,
-      "t_clean_neg": 31,
-      "t_hard_neg": 24,
-      "t_novel_neg": 30,
+      "train_neg": 103,
+      "t_clean_neg": 22,
+      "t_hard_neg": 34,
+      "t_novel_neg": 31,
       "positive_only_all": false,
       "positive_only_train": false
     },
@@ -718,166 +769,581 @@
       "t_hard_pos": 0,
       "t_novel_pos": 0,
       "train_neg": 106,
-      "t_clean_neg": 33,
-      "t_hard_neg": 24,
-      "t_novel_neg": 30,
+      "t_clean_neg": 22,
+      "t_hard_neg": 34,
+      "t_novel_neg": 31,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "nslookup.exe": {
-      "all_pos": 48,
-      "all_neg": 2,
-      "train_pos": 29,
-      "t_clean_pos": 6,
+      "all_pos": 49,
+      "all_neg": 14,
+      "train_pos": 32,
+      "t_clean_pos": 5,
       "t_hard_pos": 0,
-      "t_novel_pos": 13,
-      "train_neg": 1,
+      "t_novel_pos": 12,
+      "train_neg": 8,
       "t_clean_neg": 0,
-      "t_hard_neg": 1,
+      "t_hard_neg": 6,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "nbtstat.exe": {
-      "all_pos": 40,
-      "all_neg": 2,
+      "all_pos": 43,
+      "all_neg": 11,
       "train_pos": 23,
-      "t_clean_pos": 7,
+      "t_clean_pos": 9,
       "t_hard_pos": 0,
-      "t_novel_pos": 10,
-      "train_neg": 1,
-      "t_clean_neg": 1,
-      "t_hard_neg": 0,
+      "t_novel_pos": 11,
+      "train_neg": 6,
+      "t_clean_neg": 0,
+      "t_hard_neg": 5,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "netsh.exe": {
-      "all_pos": 42,
-      "all_neg": 2,
-      "train_pos": 24,
-      "t_clean_pos": 8,
+      "all_pos": 45,
+      "all_neg": 15,
+      "train_pos": 25,
+      "t_clean_pos": 9,
       "t_hard_pos": 0,
-      "t_novel_pos": 10,
-      "train_neg": 1,
-      "t_clean_neg": 1,
-      "t_hard_neg": 0,
-      "t_novel_neg": 0,
-      "positive_only_all": false,
-      "positive_only_train": false
-    },
-    "whoami.exe": {
-      "all_pos": 0,
-      "all_neg": 1,
-      "train_pos": 0,
-      "t_clean_pos": 0,
-      "t_hard_pos": 0,
-      "t_novel_pos": 0,
-      "train_neg": 1,
+      "t_novel_pos": 11,
+      "train_neg": 7,
       "t_clean_neg": 0,
-      "t_hard_neg": 0,
+      "t_hard_neg": 8,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "cmd.exe": {
       "all_pos": 231,
-      "all_neg": 12,
-      "train_pos": 141,
-      "t_clean_pos": 39,
+      "all_neg": 44,
+      "train_pos": 142,
+      "t_clean_pos": 37,
       "t_hard_pos": 0,
-      "t_novel_pos": 51,
-      "train_neg": 3,
-      "t_clean_neg": 1,
-      "t_hard_neg": 8,
+      "t_novel_pos": 52,
+      "train_neg": 24,
+      "t_clean_neg": 2,
+      "t_hard_neg": 18,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "powershell.exe": {
-      "all_pos": 63,
-      "all_neg": 9,
-      "train_pos": 43,
-      "t_clean_pos": 13,
+      "all_pos": 66,
+      "all_neg": 7,
+      "train_pos": 41,
+      "t_clean_pos": 15,
       "t_hard_pos": 0,
-      "t_novel_pos": 7,
-      "train_neg": 1,
+      "t_novel_pos": 10,
+      "train_neg": 3,
       "t_clean_neg": 0,
-      "t_hard_neg": 2,
-      "t_novel_neg": 6,
+      "t_hard_neg": 0,
+      "t_novel_neg": 4,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "conhost.exe": {
       "all_pos": 262,
-      "all_neg": 55,
-      "train_pos": 162,
-      "t_clean_pos": 47,
+      "all_neg": 51,
+      "train_pos": 163,
+      "t_clean_pos": 45,
       "t_hard_pos": 0,
-      "t_novel_pos": 53,
-      "train_neg": 25,
-      "t_clean_neg": 7,
-      "t_hard_neg": 8,
-      "t_novel_neg": 15,
+      "t_novel_pos": 54,
+      "train_neg": 34,
+      "t_clean_neg": 0,
+      "t_hard_neg": 3,
+      "t_novel_neg": 14,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "rundll32.exe": {
-      "all_pos": 36,
+      "all_pos": 35,
       "all_neg": 8,
-      "train_pos": 25,
+      "train_pos": 24,
       "t_clean_pos": 10,
       "t_hard_pos": 0,
       "t_novel_pos": 1,
-      "train_neg": 6,
+      "train_neg": 5,
       "t_clean_neg": 2,
-      "t_hard_neg": 0,
+      "t_hard_neg": 1,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "vssvc.exe": {
-      "all_pos": 39,
-      "all_neg": 6,
-      "train_pos": 27,
-      "t_clean_pos": 7,
+      "all_pos": 40,
+      "all_neg": 7,
+      "train_pos": 26,
+      "t_clean_pos": 8,
       "t_hard_pos": 0,
-      "t_novel_pos": 5,
-      "train_neg": 3,
+      "t_novel_pos": 6,
+      "train_neg": 4,
       "t_clean_neg": 0,
       "t_hard_neg": 3,
-      "t_novel_neg": 0,
-      "positive_only_all": false,
-      "positive_only_train": false
-    },
-    "wazuh-agent.exe": {
-      "all_pos": 4,
-      "all_neg": 1,
-      "train_pos": 4,
-      "t_clean_pos": 0,
-      "t_hard_pos": 0,
-      "t_novel_pos": 0,
-      "train_neg": 1,
-      "t_clean_neg": 0,
-      "t_hard_neg": 0,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     }
   },
   "tools_positive_only_all": [],
-  "tools_positive_only_train": [
-    "ntdsutil.exe"
-  ],
+  "tools_positive_only_train": [],
+  "tool_rate_before_after_batch07": {
+    "ping.exe": {
+      "before_pos": 16,
+      "before_neg": 5,
+      "before_rate": 0.762,
+      "after_pos": 16,
+      "after_neg": 14,
+      "after_rate": 0.533,
+      "before_train_neg": 1,
+      "after_train_neg": 8
+    },
+    "wevtutil.exe": {
+      "before_pos": 38,
+      "before_neg": 11,
+      "before_rate": 0.776,
+      "after_pos": 40,
+      "after_neg": 11,
+      "after_rate": 0.784,
+      "before_train_neg": 4,
+      "after_train_neg": 5
+    },
+    "ntdsutil.exe": {
+      "before_pos": 51,
+      "before_neg": 5,
+      "before_rate": 0.911,
+      "after_pos": 50,
+      "after_neg": 15,
+      "after_rate": 0.769,
+      "before_train_neg": 0,
+      "after_train_neg": 8
+    },
+    "vssadmin.exe": {
+      "before_pos": 10,
+      "before_neg": 15,
+      "before_rate": 0.4,
+      "after_pos": 9,
+      "after_neg": 27,
+      "after_rate": 0.25,
+      "before_train_neg": 2,
+      "after_train_neg": 16
+    },
+    "nltest.exe": {
+      "before_pos": 23,
+      "before_neg": 19,
+      "before_rate": 0.548,
+      "after_pos": 24,
+      "after_neg": 27,
+      "after_rate": 0.471,
+      "before_train_neg": 6,
+      "after_train_neg": 15
+    },
+    "net.exe": {
+      "before_pos": 93,
+      "before_neg": 100,
+      "before_rate": 0.482,
+      "after_pos": 94,
+      "after_neg": 107,
+      "after_rate": 0.468,
+      "before_train_neg": 48,
+      "after_train_neg": 62
+    },
+    "net1.exe": {
+      "before_pos": 93,
+      "before_neg": 91,
+      "before_rate": 0.505,
+      "after_pos": 94,
+      "after_neg": 89,
+      "after_rate": 0.514,
+      "before_train_neg": 46,
+      "after_train_neg": 52
+    },
+    "ipconfig.exe": {
+      "before_pos": 40,
+      "before_neg": 187,
+      "before_rate": 0.176,
+      "after_pos": 43,
+      "after_neg": 200,
+      "after_rate": 0.177,
+      "before_train_neg": 103,
+      "after_train_neg": 108
+    },
+    "arp.exe": {
+      "before_pos": 65,
+      "before_neg": 196,
+      "before_rate": 0.249,
+      "after_pos": 68,
+      "after_neg": 196,
+      "after_rate": 0.258,
+      "before_train_neg": 105,
+      "after_train_neg": 107
+    },
+    "route.exe": {
+      "before_pos": 0,
+      "before_neg": 189,
+      "before_rate": 0.0,
+      "after_pos": 0,
+      "after_neg": 190,
+      "after_rate": 0.0,
+      "before_train_neg": 104,
+      "after_train_neg": 103
+    },
+    "netstat.exe": {
+      "before_pos": 0,
+      "before_neg": 193,
+      "before_rate": 0.0,
+      "after_pos": 0,
+      "after_neg": 193,
+      "after_rate": 0.0,
+      "before_train_neg": 106,
+      "after_train_neg": 106
+    },
+    "nslookup.exe": {
+      "before_pos": 48,
+      "before_neg": 2,
+      "before_rate": 0.96,
+      "after_pos": 49,
+      "after_neg": 14,
+      "after_rate": 0.778,
+      "before_train_neg": 1,
+      "after_train_neg": 8
+    },
+    "nbtstat.exe": {
+      "before_pos": 40,
+      "before_neg": 2,
+      "before_rate": 0.952,
+      "after_pos": 43,
+      "after_neg": 11,
+      "after_rate": 0.796,
+      "before_train_neg": 1,
+      "after_train_neg": 6
+    },
+    "netsh.exe": {
+      "before_pos": 42,
+      "before_neg": 2,
+      "before_rate": 0.955,
+      "after_pos": 45,
+      "after_neg": 15,
+      "after_rate": 0.75,
+      "before_train_neg": 1,
+      "after_train_neg": 7
+    },
+    "cmd.exe": {
+      "before_pos": 231,
+      "before_neg": 12,
+      "before_rate": 0.951,
+      "after_pos": 231,
+      "after_neg": 44,
+      "after_rate": 0.84,
+      "before_train_neg": 3,
+      "after_train_neg": 24
+    },
+    "powershell.exe": {
+      "before_pos": 63,
+      "before_neg": 9,
+      "before_rate": 0.875,
+      "after_pos": 66,
+      "after_neg": 7,
+      "after_rate": 0.904,
+      "before_train_neg": 1,
+      "after_train_neg": 3
+    },
+    "conhost.exe": {
+      "before_pos": 262,
+      "before_neg": 55,
+      "before_rate": 0.826,
+      "after_pos": 262,
+      "after_neg": 51,
+      "after_rate": 0.837,
+      "before_train_neg": 25,
+      "after_train_neg": 34
+    },
+    "rundll32.exe": {
+      "before_pos": 36,
+      "before_neg": 8,
+      "before_rate": 0.818,
+      "after_pos": 35,
+      "after_neg": 8,
+      "after_rate": 0.814,
+      "before_train_neg": 6,
+      "after_train_neg": 5
+    },
+    "vssvc.exe": {
+      "before_pos": 39,
+      "before_neg": 6,
+      "before_rate": 0.867,
+      "after_pos": 40,
+      "after_neg": 7,
+      "after_rate": 0.851,
+      "before_train_neg": 3,
+      "after_train_neg": 4
+    }
+  },
+  "hn_signature_split": {
+    "arp.exe+ipconfig.exe+netstat.exe+route.exe": {
+      "n": 58,
+      "train": 29,
+      "t_clean": 6,
+      "t_hard": 23,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "arp.exe+ipconfig.exe+net.exe+net1.exe+netstat.exe+route.exe": {
+      "n": 14,
+      "train": 8,
+      "t_clean": 0,
+      "t_hard": 6,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "net.exe+net1.exe": {
+      "n": 13,
+      "train": 7,
+      "t_clean": 1,
+      "t_hard": 5,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "ntdsutil.exe+vssadmin.exe [revert_control]": {
+      "n": 10,
+      "train": 5,
+      "t_clean": 1,
+      "t_hard": 4,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "net.exe+nltest.exe+ping.exe": {
+      "n": 8,
+      "train": 4,
+      "t_clean": 1,
+      "t_hard": 3,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "ipconfig.exe+nbtstat.exe+netsh.exe+nslookup.exe": {
+      "n": 7,
+      "train": 4,
+      "t_clean": 0,
+      "t_hard": 3,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "net.exe+net1.exe+vssadmin.exe": {
+      "n": 6,
+      "train": 4,
+      "t_clean": 0,
+      "t_hard": 2,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "net.exe+net1.exe+nltest.exe": {
+      "n": 5,
+      "train": 3,
+      "t_clean": 0,
+      "t_hard": 2,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "arp.exe+ipconfig.exe+net.exe+netstat.exe+nltest.exe+route.exe": {
+      "n": 3,
+      "train": 2,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "vssadmin.exe+wevtutil.exe": {
+      "n": 2,
+      "train": 1,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "ntdsutil.exe+vssadmin.exe+wevtutil.exe": {
+      "n": 2,
+      "train": 1,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "nltest.exe+vssadmin.exe": {
+      "n": 2,
+      "train": 1,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "arp.exe+net.exe+nltest.exe+ntdsutil.exe+ping.exe+vssadmin.exe": {
+      "n": 2,
+      "train": 1,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "arp.exe+net.exe+nltest.exe+ping.exe+wevtutil.exe": {
+      "n": 2,
+      "train": 1,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "wevtutil.exe": {
+      "n": 2,
+      "train": 1,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "nltest.exe+wevtutil.exe": {
+      "n": 1,
+      "train": 0,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "nbtstat.exe+netsh.exe+nslookup.exe": {
+      "n": 1,
+      "train": 0,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "net.exe+nltest.exe": {
+      "n": 1,
+      "train": 0,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "arp.exe+ipconfig.exe+netstat.exe+route.exe+wevtutil.exe": {
+      "n": 1,
+      "train": 0,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "ipconfig.exe+netsh.exe": {
+      "n": 1,
+      "train": 0,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    },
+    "netsh.exe+nslookup.exe": {
+      "n": 1,
+      "train": 0,
+      "t_clean": 0,
+      "t_hard": 1,
+      "ok_hard_ge1": true,
+      "ok_train_ge50": true
+    }
+  },
+  "excluded_sessions_detail": {
+    "20261014-073330-dc01-h": {
+      "class": "hard_negative",
+      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
+      "batch": "batch02",
+      "tasks": [
+        "benign:log_review"
+      ],
+      "snapshot_before": ""
+    },
+    "20261014-093702-win10-01-h": {
+      "class": "hard_negative",
+      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
+      "batch": "batch03",
+      "tasks": [
+        "benign:log_review"
+      ],
+      "snapshot_before": ""
+    },
+    "20261014-120938-win10-01-h": {
+      "class": "hard_negative",
+      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
+      "batch": "batch04",
+      "tasks": [
+        "benign:log_review"
+      ],
+      "snapshot_before": ""
+    },
+    "20261014-122845-dc01-h": {
+      "class": "hard_negative",
+      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
+      "batch": "batch04",
+      "tasks": [
+        "benign:log_review"
+      ],
+      "snapshot_before": ""
+    },
+    "20261014-133522-win10-01-h": {
+      "class": "hard_negative",
+      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
+      "batch": "batch05",
+      "tasks": [
+        "benign:log_review"
+      ],
+      "snapshot_before": ""
+    },
+    "20261014-164113-dc01-a": {
+      "class": "attack",
+      "why": "attack_labeled0_atomic_khong_sinh_tien_trinh_con",
+      "batch": "ntds",
+      "tasks": [
+        "atomic:T1003.003/3"
+      ],
+      "snapshot_before": "DC01-CLEAN-ART"
+    },
+    "20261015-075708-dc01-a": {
+      "class": "attack",
+      "why": "attack_labeled0_atomic_khong_sinh_tien_trinh_con",
+      "batch": "ntds2",
+      "tasks": [
+        "atomic:T1003.003/3"
+      ],
+      "snapshot_before": "DC01-CLEAN-ART"
+    },
+    "20261015-130127-dc01-h": {
+      "class": "hard_negative",
+      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
+      "batch": "batch07",
+      "tasks": [
+        "benign:dc_db_maint"
+      ],
+      "snapshot_before": "DC01-CLEAN-ART"
+    },
+    "20261015-130245-dc01-h": {
+      "class": "hard_negative",
+      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
+      "batch": "batch07",
+      "tasks": [
+        "benign:dc_db_maint"
+      ],
+      "snapshot_before": "DC01-CLEAN-ART"
+    }
+  },
   "files_sha256": {
-    "all.events.jsonl": "d01991d791818482dbc9539598178613060a29c7be1fe7f593250326a5adbb4f",
-    "windows.jsonl": "6b4f2bfb0449996158fab0482aef876a6fef8006708b9cdc8b34fd5735c36e87",
-    "features.jsonl": "9a6a04be5fd7f726ecbb07544da91359bfd252700eec3f1bc55c6f8641cc67a3",
-    "vocab.json": "7ccfe1208100a4ac1350204102cd34fbd6e9ab2f1d1b5462d28e0c9d412c9882",
-    "splits/train.jsonl": "43aae6e83b0dff8c43e9db655cd72e1ccaed6e9ec3b05c3da54d1790bde2adf8",
-    "splits/t_clean.jsonl": "fc628170e0ba5cfced42b09c22d9137984e8ab7725e8228e3d1ba775a775c461",
-    "splits/t_hard.jsonl": "8229393e67ca08a0b4c94ec5e0d2dabe3ce8dfdf64e17dec45048836d5feaf05",
-    "splits/t_novel.jsonl": "f9cf96199c19e34154ad6ddabcff1d31dda61b40ec53b947f2b1c2b05bd29951"
+    "all.events.jsonl": "65d590db3e3953a1df10cf0b0e30c8c33b722bc971674174e05b56b6e97ae497",
+    "windows.jsonl": "a9b39fab92dc57249ea55b61cdc85349fddde3fa6a6f8df9aea226d22d2b4144",
+    "features.jsonl": "abcda0dde17b57dec726b428296901d17dda9788e202a9462527f25c25a28974",
+    "vocab.json": "f92a0915e442d4884ccf3dd49e16d53b15b6203fa05089c0ecff3ed90d5474bf",
+    "splits/train.jsonl": "22008227ab6af1eeddb12073c6e3aad22475d012b8ed8ee5c97fd815735a493b",
+    "splits/t_clean.jsonl": "7795fe3178094d14a43cacae2d9bbbd28934a9abdc34ec8626326772c32c8f2b",
+    "splits/t_hard.jsonl": "185ae4d09bbc704c0ea621c111299fce7f9ae54e9dcdbadede5820b2e568b2ae",
+    "splits/t_novel.jsonl": "e53b4ff7f366b18a07ba411b64b99d5cee8d7c2fbcea63129597afff905b9478"
   },
   "acceptance": {
     "1_run_id_in_gt1_split": [],
@@ -905,9 +1371,9 @@
     "3_novel_batch_outside_t_novel": 0,
     "5_positive_windows": {
       "positive": 278,
-      "attack_sessions": 148,
-      "cap": 1184,
-      "mean_pos_per_attack_session": 1.88,
+      "attack_sessions": 149,
+      "cap": 1192,
+      "mean_pos_per_attack_session": 1.87,
       "ok": true
     },
     "6_leak_scan": {
@@ -917,7 +1383,142 @@
       "vocab_token_hits": []
     },
     "7_train_test_time_overlap": [],
-    "8_vocab_fit_only_train": true
+    "8_vocab_fit_only_train": true,
+    "9_train_neg_share_per_tool": {
+      "min_neg_share": 0.15,
+      "tools": {
+        "ntdsutil.exe": {
+          "train_pos": 38,
+          "train_neg": 8,
+          "neg_share": 0.174,
+          "ok": true
+        },
+        "vssadmin.exe": {
+          "train_pos": 3,
+          "train_neg": 16,
+          "neg_share": 0.842,
+          "ok": true
+        },
+        "ping.exe": {
+          "train_pos": 16,
+          "train_neg": 8,
+          "neg_share": 0.333,
+          "ok": true
+        },
+        "wevtutil.exe": {
+          "train_pos": 25,
+          "train_neg": 5,
+          "neg_share": 0.167,
+          "ok": true
+        },
+        "nltest.exe": {
+          "train_pos": 10,
+          "train_neg": 15,
+          "neg_share": 0.6,
+          "ok": true
+        },
+        "nslookup.exe": {
+          "train_pos": 32,
+          "train_neg": 8,
+          "neg_share": 0.2,
+          "ok": true
+        },
+        "nbtstat.exe": {
+          "train_pos": 23,
+          "train_neg": 6,
+          "neg_share": 0.207,
+          "ok": true
+        },
+        "netsh.exe": {
+          "train_pos": 25,
+          "train_neg": 7,
+          "neg_share": 0.219,
+          "ok": true
+        },
+        "cmd.exe": {
+          "train_pos": 142,
+          "train_neg": 24,
+          "neg_share": 0.145,
+          "ok": false
+        }
+      },
+      "failed": [
+        "cmd.exe"
+      ]
+    },
+    "10_bg_dist_t1003_vs_revert_control": {
+      "windows": {
+        "t1003_pos": 59,
+        "revert_control": 12
+      },
+      "bg_events": {
+        "t1003_pos": 3127,
+        "revert_control": 432
+      },
+      "total_variation_distance": 0.495,
+      "top10": [
+        {
+          "channel_event": "Microsoft-Windows-Sysmon/Operational:3",
+          "t1003_pos": 0.1896,
+          "revert_control": 0.3981,
+          "diff": -0.2085
+        },
+        {
+          "channel_event": "Application:216",
+          "t1003_pos": 0.1254,
+          "revert_control": 0.0,
+          "diff": 0.1254
+        },
+        {
+          "channel_event": "Security:4624",
+          "t1003_pos": 0.0473,
+          "revert_control": 0.1019,
+          "diff": -0.0545
+        },
+        {
+          "channel_event": "Security:4672",
+          "t1003_pos": 0.0486,
+          "revert_control": 0.1019,
+          "diff": -0.0532
+        },
+        {
+          "channel_event": "Microsoft-Windows-Sysmon/Operational:22",
+          "t1003_pos": 0.0323,
+          "revert_control": 0.0833,
+          "diff": -0.051
+        },
+        {
+          "channel_event": "Application:330",
+          "t1003_pos": 0.0457,
+          "revert_control": 0.0,
+          "diff": 0.0457
+        },
+        {
+          "channel_event": "Security:4634",
+          "t1003_pos": 0.0099,
+          "revert_control": 0.0463,
+          "diff": -0.0364
+        },
+        {
+          "channel_event": "Application:1001",
+          "t1003_pos": 0.0026,
+          "revert_control": 0.037,
+          "diff": -0.0345
+        },
+        {
+          "channel_event": "Microsoft-Windows-Sysmon/Operational:5",
+          "t1003_pos": 0.0131,
+          "revert_control": 0.0463,
+          "diff": -0.0332
+        },
+        {
+          "channel_event": "Application:105",
+          "t1003_pos": 0.0313,
+          "revert_control": 0.0,
+          "diff": 0.0313
+        }
+      ]
+    }
   },
   "acceptance_pass": true
 }

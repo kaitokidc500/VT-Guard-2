@@ -25,7 +25,13 @@ NORMALIZE_VERSION = "v0"
 TOOLS = ["ping.exe", "wevtutil.exe", "ntdsutil.exe", "vssadmin.exe", "nltest.exe", "net.exe", "net1.exe",
          "ipconfig.exe", "arp.exe", "route.exe", "netstat.exe", "nslookup.exe", "nbtstat.exe", "netsh.exe",
          "systeminfo.exe", "whoami.exe", "esentutl.exe", "dsquery.exe", "quser.exe", "cmd.exe", "powershell.exe"]
-EXCLUDE_WHY = {"attack_labeled0_atomic_khong_sinh_tien_trinh_con":
+CHECK9_TOOLS = ["ntdsutil.exe", "vssadmin.exe", "ping.exe", "wevtutil.exe", "nltest.exe", "nslookup.exe",
+                "nbtstat.exe", "netsh.exe", "cmd.exe"]
+CHECK9_MIN_NEG = 0.15
+EXCLUDE_WHY = {"hard_negative_labeled0_khong_co_tien_trinh_con":
+               "không có event tiến trình con trong khung phiên, nghi do agent hoặc đồng hồ sau khi khôi phục snapshot; "
+               "loại hẳn (quy tắc chung: hard_negative labeled=0 bị loại như phiên attack)",
+               "attack_labeled0_atomic_khong_sinh_tien_trinh_con":
                "atomic không sinh tiến trình con nào (labeled=0); loại hẳn, KHÔNG coi là benign",
                "attack_khong_co_event_malicious": "phiên attack không có event malicious trong stream",
                "stream_rong": "không có event nào trong khoảng thời gian phiên"}
@@ -103,8 +109,15 @@ def main():
     hits = Counter(); scanned = 0
     cov = defaultdict(lambda: defaultdict(Counter))   # image -> split|all -> pos/neg
     full = defaultdict(Counter)
+    bgdist = {"t1003_pos": Counter(), "revert_control": Counter()}   # kiem tra #10: event NEN theo (channel, event_id)
+    nwin10 = Counter()
     for l in open(P("data", "processed", "windows.jsonl"), encoding="utf-8"):
         w = json.loads(l)
+        sets = ([("t1003_pos")] if "T1003.003" in w["window_ttps"] else []) + (["revert_control"] if w.get("revert_control") else [])
+        for name in sets:
+            nwin10[name] += 1
+            for e, o in zip(w["events"], w["event_origin"]):
+                if o == "bg": bgdist[name][f"{e['channel']}:{e['event_id']}"] += 1
         s = split_of[w["window_id"]]; lab = "pos" if w["window_malicious"] else "neg"
         for img in {e["image_name"] for e in w["events"] if e["image_name"]}:
             cov[img]["all"][lab] += 1; cov[img][s][lab] += 1
@@ -153,6 +166,39 @@ def main():
     shortcut_all = [t for t, v in coverage.items() if v["positive_only_all"]]
     shortcut_train = [t for t, v in coverage.items() if v["positive_only_train"]]
 
+    # ---- kiem tra #9: Train phai co cua so am >= 15% so cua so chua cong cu (KHONG ep dat) ----
+    c9 = {}
+    for t in CHECK9_TOOLS:
+        c = cov.get(t, {}).get("train", Counter())
+        n = c["pos"] + c["neg"]
+        c9[t] = {"train_pos": c["pos"], "train_neg": c["neg"], "neg_share": round(c["neg"] / n, 3) if n else None,
+                 "ok": bool(n) and c["neg"] / n >= CHECK9_MIN_NEG}
+    acc["9_train_neg_share_per_tool"] = {"min_neg_share": CHECK9_MIN_NEG, "tools": c9,
+                                         "failed": [t for t, v in c9.items() if not v["ok"]]}
+    # ---- kiem tra #10: phan bo event NEN (channel, event_id) cua cua so duong T1003.003 vs revert_control ----
+    tot10 = {k: sum(v.values()) for k, v in bgdist.items()}
+    keys = set(bgdist["t1003_pos"]) | set(bgdist["revert_control"])
+    share = lambda k, x: bgdist[k][x] / tot10[k] if tot10[k] else 0.0
+    diff = sorted(keys, key=lambda x: -abs(share("t1003_pos", x) - share("revert_control", x)))[:10]
+    tvd = round(0.5 * sum(abs(share("t1003_pos", x) - share("revert_control", x)) for x in keys), 3)
+    acc["10_bg_dist_t1003_vs_revert_control"] = {
+        "windows": dict(nwin10), "bg_events": tot10, "total_variation_distance": tvd,
+        "top10": [{"channel_event": x, "t1003_pos": round(share("t1003_pos", x), 4),
+                   "revert_control": round(share("revert_control", x), 4),
+                   "diff": round(share("t1003_pos", x) - share("revert_control", x), 4)} for x in diff]}
+    # ---- truoc/sau batch07: ti le duong cua tung cong cu ----
+    before_after = {}
+    bpath = P("reports", "dataset_stats.pre_batch07.json")
+    if os.path.exists(bpath):
+        bcov = json.load(open(bpath, encoding="utf-8")).get("tool_coverage", {})
+        for t in coverage:
+            b = bcov.get(t); a_ = coverage[t]
+            rate = lambda p, n: round(p / (p + n), 3) if p + n else None
+            before_after[t] = {"before_pos": b["all_pos"] if b else None, "before_neg": b["all_neg"] if b else None,
+                               "before_rate": rate(b["all_pos"], b["all_neg"]) if b else None,
+                               "after_pos": a_["all_pos"], "after_neg": a_["all_neg"], "after_rate": rate(a_["all_pos"], a_["all_neg"]),
+                               "before_train_neg": b["train_neg"] if b else None, "after_train_neg": a_["train_neg"]}
+
     # ---- so lieu ro ri tu file gan nhan ----
     drops = Counter(); drops_by_batch = {}
     for b in BATCHES:
@@ -189,6 +235,7 @@ def main():
                    "malicious_by_ttp": merge["malicious_events_by_ttp"],
                    "dropped_by_reason": dict(drops), "dropped_by_batch": drops_by_batch,
                    "brief_key_collisions": merge["brief_key_collisions"],
+                   "events_from_neighbor_file": merge.get("events_from_neighbor_file", 0),
                    "runs_without_events": merge["runs_without_events"]["by_class"]},
         "log_hours_by_batch_host": log_hours, "log_hours_total": round(sum(log_hours.values()), 2),
         "session_hours_by_class": {k: round(v, 2) for k, v in sorted(man_dur.items())},
@@ -202,6 +249,12 @@ def main():
         "splits": per,
         "t1003_003_by_split": t1003,
         "tool_coverage": coverage, "tools_positive_only_all": shortcut_all, "tools_positive_only_train": shortcut_train,
+        "tool_rate_before_after_batch07": before_after,
+        "hn_signature_split": sst.get("hn_signature_split", {}),
+        "excluded_sessions_detail": {r: {"class": c, "why": why, "batch": man[r]["_batch"],
+                                         "tasks": [x["source"] for x in man[r].get("steps", [])],
+                                         "snapshot_before": man[r].get("snapshot_before") or ""}
+                                     for r, c, why in wst["sessions_excluded"] if c != "benign"},
         "files_sha256": {"all.events.jsonl": merge["output_sha256"],
                          "windows.jsonl": sha256(P("data", "processed", "windows.jsonl")),
                          "features.jsonl": sha256(P("data", "processed", "features.jsonl")),
@@ -224,6 +277,7 @@ def render_card(s):
     T3 = s["t1003_003_by_split"]; cov = s["tool_coverage"]; dr = ev["dropped_by_reason"]
     ttps = ["T1016", "T1018", "T1087.002", "T1654", "T1003.003"]
     tick = lambda ok: "ĐẠT" if ok else "KHÔNG ĐẠT"
+    c9 = s["acceptance"]["9_train_neg_share_per_tool"]; c10 = s["acceptance"]["10_bg_dist_t1003_vs_revert_control"]
     fmt = lambda x: f"{x:,}".replace(",", " ")
     pct = lambda x: f"{x:.0%}"
     novel = " + ".join(s["params"]["t_novel_batches"])
@@ -243,6 +297,8 @@ def render_card(s):
           f"- Đợt dùng: {', '.join(pv['batches'])}. Bỏ: {', '.join(pv['skipped_files'])} (chạy thử, gán nhãn bằng labeler cũ).",
           "  - `batch06`: 27 phiên hard-negative bổ sung (quét mạng quản trị bằng ping, kiểm tra log bằng wevtutil, "
           "bảo trì CSDL AD bằng ntdsutil…) để giảm đường tắt theo tên tiến trình.",
+          "  - `batch07`: 30 phiên hard-negative gọi công cụ qua `cmd.exe /c` (dc_db_maint 12 trên DC01 có khôi phục snapshot "
+          "= phiên đối chứng `revert_control`; admin_net_sweep 8 với ping.exe thật; admin_net_diag 10 với nslookup/nbtstat/netsh/ipconfig).",
           "  - `ntds2`: 15 phiên T1003.003 test 3 (`ntdsutil ifm`); `ntds2v`: 6 phiên T1003.003 test 1 (biến thể vssadmin/shadow copy) — giữ làm biến thể held-out.",
           f"- Manifest: {sum(pv['manifests_by_batch'].values())} phiên — " +
           ", ".join(f"{k} {v}" for k, v in pv["manifests_by_batch"].items()) + "; theo lớp: " +
@@ -269,9 +325,17 @@ def render_card(s):
           f"({wn['positive']} dương, {wn['negative']} âm).",
           f"- `window_malicious` = có ít nhất 1 event malicious; `window_ttps` = hợp TTP của event malicious; `window_class` = lớp phiên.",
           f"- **Phiên bị loại ({len(wn['sessions_excluded'])})**:"]
-    for r, why in excl_attack:
-        L.append(f"  - `{r}` (attack): {EXCLUDE_WHY.get(why, why)}.")
-    L += [f"  - {excl.get('stream_rong', 0)} phiên benign/hard-negative: {EXCLUDE_WHY['stream_rong']}.", "",
+    for r, d in s["excluded_sessions_detail"].items():
+        tasks = ", ".join(x.split(":", 1)[-1] for x in d["tasks"]) or "—"
+        snap = f", snapshot {d['snapshot_before']}" if d["snapshot_before"] else ""
+        why = EXCLUDE_WHY.get(d["why"], d["why"])
+        if d["why"] == "hard_negative_labeled0_khong_co_tien_trinh_con" and not d["snapshot_before"]:
+            why = ("không có event tiến trình con trong khung phiên (task chỉ chạy cmdlet ngay trong tiến trình orchestrator, "
+                   "không có khôi phục snapshot); loại hẳn theo quy tắc chung hard_negative labeled=0")
+        L.append(f"  - `{r}` ({d['class']}, {d['batch']}, {tasks}{snap}): {why}.")
+    L += [f"  - {sum(1 for _, c, why in wn['sessions_excluded'] if c == 'benign')} phiên benign: {EXCLUDE_WHY['stream_rong']}.",
+          "- `revert_control` = phiên hard_negative chạy sau khi khôi phục snapshot (dc_db_maint batch07). Chỉ dùng cho card và kiểm tra #10, "
+          "KHÔNG làm feature (nằm trong mẫu trường cấm của `featurize.py`).", "",
           "## 5. Các tập (chia theo PHIÊN và NHÓM PHIÊN)", "",
           "| Tập | Vai trò | Phiên | Cửa sổ | Dương | Tỉ lệ dương | DC01 / WIN10-01 | " + " | ".join(ttps) + " |",
           "|---|---|---|---|---|---|---|" + "---|" * len(ttps)]
@@ -287,9 +351,16 @@ def render_card(s):
         L.append(f"| {SPLIT_NAME[k]} | " + " | ".join(str(p["sessions_by_batch"].get(b, "")) for b in pv["batches"]) + " |")
     L += ["",
           f"- **T-novel** = toàn bộ phiên {novel}: batch05 là holdout thời gian, ntds2v là biến thể T1003.003 (test 1) không có trong Train. "
-          "**T-hard** = 40% phiên hard_negative còn lại (kể cả batch06), chọn ngẫu nhiên theo nhóm chỉ gồm hard_negative. "
+          "**T-hard** chọn theo **chữ ký công cụ** của phiên hard_negative (tập image_name trong cây tiến trình, bỏ cmd/conhost/powershell; "
+          "phiên revert_control là chữ ký riêng): mỗi chữ ký có ≥1 phiên vào T-hard và ≥50% vào Train (khi có ≥2 phiên), mục tiêu ~40%; "
+          "chỉ nhóm thuần hard_negative mới vào được T-hard. batch07 không vào T-novel. "
           "Phần còn lại (gồm ntds2) chia **Train 80% / T-clean 20%** theo nhóm, phân tầng theo (lớp, host, chữ ký TTP).",
           "- **Nhóm phiên**: các phiên cùng host chồng thời gian (kể cả bắc cầu) dùng chung event nền, nên cả nhóm vào cùng một tập.", "",
+          "Phân bổ hard_negative theo chữ ký công cụ (số phiên):", "",
+          "| Chữ ký | Tổng | Train | T-clean | T-hard | Điều kiện |", "|---|---|---|---|---|---|"]
+    for k, v in s["hn_signature_split"].items():
+        L.append(f"| `{k}` | {v['n']} | {v['train']} | {v['t_clean']} | {v['t_hard']} | {tick(v['ok_hard_ge1'] and v['ok_train_ge50'])} |")
+    L += ["",
           "### 5a. Cửa sổ T1003.003 theo tập", "",
           "| Tập | Phiên T1003.003 (theo đợt) | Cửa sổ dương T1003.003 | Âm trong phiên T1003.003 | Âm trên DC01 | Âm toàn tập |",
           "|---|---|---|---|---|---|"]
@@ -299,12 +370,26 @@ def render_card(s):
     L += ["",
           "### 5b. Coverage theo công cụ (số cửa sổ chứa tiến trình)", "",
           "Mục tiêu: không công cụ nào chỉ xuất hiện ở phía dương, để mô hình không thể phát hiện chỉ nhờ tên tiến trình.", "",
-          "| image_name | Dương (tất cả) | Âm (tất cả) | Train dương / âm | T-clean dương / âm | T-hard âm | T-novel dương / âm | Cảnh báo |",
-          "|---|---|---|---|---|---|---|---|"]
+          "| image_name | Dương (tất cả) | Âm (tất cả) | Train dương / âm | Train % âm | T-clean dương / âm | T-hard âm | T-novel dương / âm | Cảnh báo |",
+          "|---|---|---|---|---|---|---|---|---|"]
     for t, v in cov.items():
         warn = "CHỈ DƯƠNG" if v["positive_only_all"] else ("chỉ dương trong Train" if v["positive_only_train"] else "")
-        L.append(f"| `{t}` | {v['all_pos']} | {v['all_neg']} | {v['train_pos']} / {v['train_neg']} | {v['t_clean_pos']} / {v['t_clean_neg']} | "
-                 f"{v['t_hard_neg']} | {v['t_novel_pos']} / {v['t_novel_neg']} | {warn} |")
+        n = v["train_pos"] + v["train_neg"]
+        share = v["train_neg"] / n if n else 0
+        L.append(f"| `{t}` | {v['all_pos']} | {v['all_neg']} | {v['train_pos']} / {v['train_neg']} | {share:.0%} | "
+                 f"{v['t_clean_pos']} / {v['t_clean_neg']} | {v['t_hard_neg']} | {v['t_novel_pos']} / {v['t_novel_neg']} | {warn} |")
+    ba = s["tool_rate_before_after_batch07"]
+    if ba:
+        L += ["", "**Trước / sau batch07** — tỉ lệ dương = số cửa sổ dương chứa công cụ / tổng số cửa sổ chứa công cụ "
+              "(trước = bản đóng băng commit d1db577, labeler v6; sau = bản này, labeler v7):", "",
+              "| image_name | Trước: dương / âm | Trước: tỉ lệ dương | Sau: dương / âm | Sau: tỉ lệ dương | Train âm trước → sau |",
+              "|---|---|---|---|---|---|"]
+        for t, v in ba.items():
+            br = "—" if v["before_rate"] is None else f"{v['before_rate']:.0%}"
+            ar = "—" if v["after_rate"] is None else f"{v['after_rate']:.0%}"
+            bpn = "—" if v["before_pos"] is None else f"{v['before_pos']} / {v['before_neg']}"
+            btn = "—" if v["before_train_neg"] is None else v["before_train_neg"]
+            L.append(f"| `{t}` | {bpn} | {br} | {v['after_pos']} / {v['after_neg']} | {ar} | {btn} → {v['after_train_neg']} |")
     L += ["",
           f"Công cụ chỉ xuất hiện ở phía dương: **toàn bộ dữ liệu: {', '.join(s['tools_positive_only_all']) or 'không có'}**; "
           f"riêng Train: {', '.join(s['tools_positive_only_train']) or 'không có'}.", "",
@@ -329,6 +414,14 @@ def render_card(s):
           "v5 ghép theo PID ±300 s bằng giờ Wazuh: sau khi khôi phục snapshot, đồng hồ DC01 lệch ~55 phút nên 204 event PowerShell (pid 1112, "
           "nạp module CIM) bị gán nhầm malicious T1003.003 vào phiên ntds2 `20261015-084208-dc01-a`, và 27 event PowerShell khác bị ghép nhầm vào cây scp. "
           "Đối chiếu từng event v5↔v6: chỉ 231 event này đổi, các đợt khác giữ nguyên.",
+          "  - v7: phiên = đúng khung [t_start, t_end] của manifest (±5 s) so bằng `ts_system`; con của orchestrator sinh ngoài mọi khung "
+          f"bị loại (`orch_child_outside`, {fmt(dr.get('orch_child_outside', 0))} event). v4–v6 gán tiến trình vào phiên theo giờ Wazuh (trễ 40–60 s) "
+          "và kéo khung tới lúc phiên kế tiếp bắt đầu, nên (1) 102 event của phiên attack bị gán nhãn benign/hard-negative của phiên chạy ngay sau "
+          "(vd nbtstat/netsh/nslookup của T1016), (2) lệnh người vận hành gõ sau phiên trong cùng cửa sổ PowerShell (w32tm, VMwareToolboxCmd timesync, "
+          "whoami) bị gán vào phiên (batch07 `20261015-122828-dc01-h`: 61 → 45 event). Đối chiếu v6↔v7: 400 event đổi trạng thái hoặc phiên.",
+          "  - v7 cũng nạp manifest của đợt bên cạnh khi khung phiên giao với khung các phiên của đợt đang gán nhãn (±10 phút): "
+          "export cắt theo giờ Wazuh nên tiến trình của `20261015-084801-dc01-a` (ntds2v) nằm trong file ntds2; phiên này nay có "
+          f"{ev.get('events_from_neighbor_file', 0)} event và không còn bị loại.",
           f"- Khử trùng lặp theo `(host, channel, record_id, event_id, ts_system)`: khôi phục snapshot DC01 làm `record_id` quay lui, "
           f"khoá chỉ có `record_id` sẽ xoá nhầm {fmt(ev['brief_key_collisions'])} event thật.",
           "- Chia theo phiên và nhóm phiên: không `run_id`/session nào ở 2 tập, không cặp phiên Train/kiểm thử nào chồng thời gian trên cùng host.",
@@ -346,13 +439,36 @@ def render_card(s):
           f"{tick(not ac['6_leak_scan']['text_hits'] and not ac['6_leak_scan']['vocab_token_hits'])} "
           f"({sum(ac['6_leak_scan']['text_hits'].values()) + len(ac['6_leak_scan']['vocab_token_hits'])} hit) |",
           f"| 7 | Không cặp phiên Train/kiểm thử chồng thời gian | {tick(not ac['7_train_test_time_overlap'])} |",
-          f"| 8 | Vocab chỉ fit trên Train | {tick(ac['8_vocab_fit_only_train'])} |", "",
-          f"**Tổng: {tick(s['acceptance_pass'])}.** Kiểm tra bổ sung (mục 5b): công cụ chỉ ở phía dương trên toàn bộ dữ liệu — "
-          f"{'không có' if not s['tools_positive_only_all'] else ', '.join(s['tools_positive_only_all'])}.", "",
+          f"| 8 | Vocab chỉ fit trên Train | {tick(ac['8_vocab_fit_only_train'])} |",
+          f"| 9 | Train có cửa sổ âm ≥{c9['min_neg_share']:.0%} số cửa sổ chứa từng công cụ ({', '.join(t.replace('.exe', '') for t in c9['tools'])}) | "
+          + tick(not c9["failed"]) + (f" ({', '.join(c9['failed'])})" if c9["failed"] else "") + " |",
+          f"| 10 | So phân bố (channel, event_id) của event nền: cửa sổ dương T1003.003 vs cửa sổ revert_control | "
+          f"đã chạy: khoảng cách biến phân toàn phần (TVD) = {c10['total_variation_distance']} (xem bảng dưới) |", "",
+          f"**Tổng 1–8: {tick(s['acceptance_pass'])}. #9: {tick(not c9['failed'])}. #10: báo cáo (không có ngưỡng).**", "",
+          "Kiểm tra #9 — tỉ lệ cửa sổ âm trong Train theo công cụ (không sửa số liệu để ép đạt):", "",
+          "| Công cụ | Train dương | Train âm | % âm | Kết quả |", "|---|---|---|---|---|"]
+    for t, v in c9["tools"].items():
+        ns = "—" if v["neg_share"] is None else f"{v['neg_share']:.0%}"
+        L.append(f"| `{t}` | {v['train_pos']} | {v['train_neg']} | {ns} | {tick(v['ok'])} |")
+    L += ["",
+          f"Kiểm tra #10 — event nền trong {c10['windows'].get('t1003_pos', 0)} cửa sổ dương T1003.003 ({fmt(c10['bg_events'].get('t1003_pos', 0))} event) "
+          f"so với {c10['windows'].get('revert_control', 0)} cửa sổ revert_control ({fmt(c10['bg_events'].get('revert_control', 0))} event); "
+          "10 cặp (channel, event_id) chênh lệch nhiều nhất (tỉ lệ trên tổng event nền mỗi phía):", "",
+          "| channel:event_id | Dương T1003.003 | revert_control | Chênh |", "|---|---|---|---|"]
+    for x in c10["top10"]:
+        L.append(f"| `{x['channel_event']}` | {x['t1003_pos']:.1%} | {x['revert_control']:.1%} | {x['diff']:+.1%} |")
+    L += ["",
+          "Đọc kết quả #10: phần chênh không hoàn toàn là nhiễu khôi phục snapshot. `Application:216` và `Application:330` (ESENT) chỉ xuất hiện "
+          "ở ntds/ntds2 — ESENT ghi khi `ntdsutil ifm` sao chép CSDL AD, tức tác động phụ thật của kỹ thuật nằm ngoài cây tiến trình "
+          "(vẫn là event nền, nhãn benign). Các mục còn lại (Sysmon 3/22, logon 4624/4672/4634, WER 1001) là hoạt động nền khác nhau "
+          "giữa hai nhóm phiên; revert_control mới có 12 cửa sổ nên ước lượng còn nhiễu.", "",
           "## 9. Hạn chế đã biết"]
     sa, st = s["tools_positive_only_all"], s["tools_positive_only_train"]
     pc = lambda t, k: cov.get(t, {}).get(k, 0)
-    L += [f"- **Đường tắt theo tiến trình**: sau khi thêm batch06, "
+    L += [f"- **Kiểm tra #9**: " + (f"{', '.join(f'`{t}`' for t in c9['failed'])} có ít hơn {c9['min_neg_share']:.0%} cửa sổ âm trong Train "
+          "(không ép đạt bằng cách sửa số liệu; cần thêm phiên hard-negative hoặc chấp nhận và báo cáo ablation)." if c9["failed"]
+          else f"mọi công cụ theo dõi đều có ≥{c9['min_neg_share']:.0%} cửa sổ âm trong Train."),
+          f"- **Đường tắt theo tiến trình**: sau khi thêm batch06–07, "
           + (f"vẫn còn công cụ chỉ ở phía dương: {', '.join(sa)}. " if sa else "không công cụ nào chỉ xuất hiện ở phía dương trên toàn bộ dữ liệu. ")
           + f"Phía âm vẫn mỏng: `ping.exe` dương {pc('ping.exe', 'all_pos')} / âm {pc('ping.exe', 'all_neg')}, "
           f"`wevtutil.exe` {pc('wevtutil.exe', 'all_pos')} / {pc('wevtutil.exe', 'all_neg')}, `ntdsutil.exe` {pc('ntdsutil.exe', 'all_pos')} / {pc('ntdsutil.exe', 'all_neg')} cửa sổ. "
@@ -367,8 +483,10 @@ def render_card(s):
           f"- **T1003.003 ít dữ liệu đánh giá**: T-clean có {T3['t_clean']['positive']} cửa sổ dương, T-novel (ntds2v) {T3['t_novel']['positive']}; "
           "báo cáo kèm khoảng tin cậy. Phiên ntds2/ntds2v rất ngắn (thường 1–2 cửa sổ, toàn cửa sổ dương), nên không có cửa sổ âm bên trong phiên NTDS mới.",
           "- **Khôi phục snapshot ở ntds/ntds2/ntds2v**: phiên attack NTDS có bước khôi phục snapshot DC01, làm đồng hồ lệch tới ~55 phút cho tới khi đồng bộ lại. "
-          "v6 không ghép nhầm event theo PID nữa, nhưng event nền phát ra lúc đồng hồ lệch có `ts_system` sai nên có thể rơi ra ngoài (hoặc vào nhầm) khung thời gian phiên. "
-          "Hệ quả hệ thống của việc khôi phục (dịch vụ khởi động lại) có thể tương quan với lớp.",
+          "Từ v6 không còn ghép nhầm event theo PID, nhưng event nền phát ra lúc đồng hồ lệch có `ts_system` sai nên có thể rơi ra ngoài (hoặc vào nhầm) khung thời gian phiên. "
+          "Hệ quả hệ thống của việc khôi phục (dịch vụ khởi động lại) có thể tương quan với lớp. batch07 thêm phiên đối chứng revert_control "
+          f"(hard_negative có khôi phục snapshot); kiểm tra #10 cho TVD = {c10['total_variation_distance']} giữa event nền của cửa sổ dương T1003.003 "
+          f"và cửa sổ revert_control — chênh lớn nhất ở `{c10['top10'][0]['channel_event']}` ({c10['top10'][0]['diff']:+.1%}).",
           f"- **Độ dài cửa sổ khác nhau theo lớp**: tỉ lệ cửa sổ đủ 64 event — " +
           ", ".join(f"{k} {pct(v)}" for k, v in fr.items()) + ". Không đưa `n_events` vào feature; khi huấn luyện nên cắt ngẫu nhiên độ dài.",
           "- **Phiên chạy song song trên WIN10-01**: tác động phụ của phiên attack (logon mạng, DNS…) không thuộc cây tiến trình có thể nằm trong "
@@ -381,7 +499,7 @@ def render_card(s):
           "- Chỉ 2 host, 2 tài khoản, 1 domain lab; phạm vi là 5 TTP Discovery/Credential Access, chưa có lateral movement hay persistence.", "",
           "## 10. Tái lập",
           "```",
-          "python src/label/label.py data/interim/<b>.norm.jsonl manifests/<b> data/processed/<b>.labeled.jsonl > reports/<b>.stats.json",
+          "python src/label/label.py data/interim/<b>.norm.jsonl manifests/<b>,manifests/<cac dot khac...> data/processed/<b>.labeled.jsonl > reports/<b>.stats.json",
           "python src/dataset/merge.py",
           "python src/dataset/windows.py",
           "python src/dataset/featurize.py",

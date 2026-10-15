@@ -1,20 +1,18 @@
-<#
-.SYNOPSIS
-  VT-Guard orchestrator - dieu phoi MOT phien va ghi manifest.
-  Thuc thi ky thuat ATT&CK duoc UY QUYEN cho Atomic Red Team (Invoke-AtomicTest).
-  Script nay KHONG chua lenh tan cong; no chi dieu phoi, dinh thoi, va ghi su that de gan nhan.
-
-.DESCRIPTION
-  - attack        : goi Invoke-AtomicTest theo <technique>/<test#> lay tu scenarios.json
-  - benign        : goi script trong .\benign\ (hoat dong quan tri hop le)
-  - hard_negative : benign nhung dung DUNG cong cu cua 5 TTP (tap test kho nhat)
-  Ghi manifest JSON (theo manifests/manifest.schema.json) vao -OutDir.
-  Ghi exclude_pids = PID cua chinh orchestrator -> Buoc 4 loai cac event nay (chong ro ri nhan).
-
-.NOTES
-  Yeu cau voi attack: da cai Invoke-AtomicTest (module Atomic Red Team).
-  Voi T1003.003: PHAI chay sau khi da khoi phuc snapshot BASELINE-CLEAN tren DC01 (xem README).
-#>
+# .SYNOPSIS
+#   VT-Guard orchestrator - dieu phoi MOT phien va ghi manifest.
+#   Thuc thi ky thuat ATT&CK duoc UY QUYEN cho Atomic Red Team (Invoke-AtomicTest).
+#   Script nay KHONG chua lenh tan cong; no chi dieu phoi, dinh thoi, va ghi su that de gan nhan.
+#
+# .DESCRIPTION
+#   - attack        : goi Invoke-AtomicTest theo <technique>/<test-number> lay tu scenarios.json
+#   - benign        : goi script trong .\benign\ (hoat dong quan tri hop le)
+#   - hard_negative : benign nhung dung DUNG cong cu cua 5 TTP (tap test kho nhat)
+#   Ghi manifest JSON (theo manifests/manifest.schema.json) vao -OutDir.
+#   Ghi exclude_pids = PID cua chinh orchestrator -> Buoc 4 loai cac event nay (chong ro ri nhan).
+#
+# .NOTES
+#   Yeu cau voi attack: da cai Invoke-AtomicTest (module Atomic Red Team).
+#   Voi T1003.003: PHAI chay sau khi da khoi phuc snapshot BASELINE-CLEAN tren DC01 (xem README).
 [CmdletBinding()]
 param(
   [Parameter(Mandatory)][ValidateSet("attack","benign","hard_negative")] [string]$Class,

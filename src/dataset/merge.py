@@ -17,7 +17,7 @@ Chay: python src/dataset/merge.py [--root .] [--batches batch01,batch02,...]
 import argparse, glob, hashlib, json, os, re, sys
 from collections import Counter, defaultdict
 
-DEFAULT_BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "batch06", "ntds", "ntds2", "ntds2v"]
+DEFAULT_BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "batch06", "batch07", "ntds", "ntds2", "ntds2v"]
 LEAK_RE = re.compile(r"atomic|invoke-|\bT1\d{3}(?:\.\d{3})?\b|vt-?guard", re.I)
 FEATURE_TEXT = ["command_line", "parent_command_line", "image", "parent_image"]
 RAW_SCRIPT = ["script_block_text", "ps_payload"]
@@ -75,7 +75,7 @@ def merge(root, batches):
                     if (o["run_id"], o["label_malicious"], o["label_ttps"]) != (r["run_id"], r["label_malicious"], r["label_ttps"]):
                         label_conflict += 1
                     continue
-                r["batch"] = b
+                r["batch"] = b; r["source_file"] = b
                 kept[k] = r
                 brief_keys[(r["host"], r["record_id"], r["event_id"])] += 1
     # ban sao bi dropped o noi khac -> loai
@@ -142,6 +142,12 @@ def main():
     root, batches = a.root, a.batches.split(",")
     man = load_manifests(root, batches)
     rows, per_batch, st = merge(root, batches)
+    # v7: tien trinh cua phien sat ranh gioi co the nam trong file dot ben canh (export cat theo gio Wazuh,
+    # vd ntds2v 084801 trong file ntds2) -> event thuoc dot cua phien; source_file giu ten file goc
+    for r in rows:
+        m = man.get(r["run_id"]) if r["run_id"] else None
+        if m and m["_batch"] != r["batch"]:
+            r["batch"] = m["_batch"]; st["events_from_neighbor_file"] += 1
     out = os.path.join(root, "data", "processed", "all.events.jsonl")
     with open(out, "w", encoding="utf-8", newline="\n") as w:
         for r in rows: w.write(json.dumps(r, ensure_ascii=False) + "\n")

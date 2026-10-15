@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# VT-Guard labeler v6 (v5 + ghep PID->tien trinh theo vong doi, gio ts_system)
+# VT-Guard labeler v7 (v6 + cat phien dung [t_start, t_end] cua manifest theo ts_system)
 # Gan nhan event da chuan hoa (normalize.py) theo manifest + cay tien trinh Sysmon EID1.
 # Nguyen tac:
 #   - Orchestrator = tien trinh chay Invoke-VTSession/Batch (pid in exclude_pids). Event cua no -> LOAI (chong ro ri NHAN).
@@ -27,13 +27,20 @@
 #       v5 dung `ts` cua Wazuh +-300 s: sau khi khoi phuc snapshot dong ho DC01 lech ~55 phut,
 #       PowerShell pid 1112 (07:47) bi ghep nham vao conhost.exe 1112 cua phien ntds2 084208 (08:42)
 #       -> 204 event malicious T1003.003 sai.
-# Chay: python label.py <norm.jsonl> <manifests_dir> <out.jsonl>
+# Bo sung v7:
+#   - Phien = DUNG khung [t_start, t_end] cua manifest (+-5 s), so bang ts_system (dong ho khach, cung nguon
+#       voi Get-Date cua orchestrator ghi manifest). v6 keo khung toi t_start phien ke tiep cua cung orchestrator
+#       (hoac t_end + 10 phut): lenh nguoi van hanh go sau phien trong CUNG cua so PowerShell (cung PID, vd
+#       w32tm /resync, VMwareToolboxCmd timesync sau khoi phuc snapshot) bi gan nham vao phien (batch07 122828).
+#   - Executor-root (con cua orchestrator) sinh NGOAI moi khung phien -> "orch_child_outside": loai ca cay con.
+#   - Thong ke dropped_orch/dropped_tool/bg cung dung khung moi.
+# Chay: python label.py <norm.jsonl> <manifests_dir_dot>[,<manifests_dir_khac>...] <out.jsonl>
 import json, sys, glob, os, re
 from bisect import bisect_right
 from collections import defaultdict, Counter
 from datetime import datetime, timedelta
 
-LABEL_VERSION = "v6"
+LABEL_VERSION = "v7"
 HARNESS = {"conhost.exe","hostname.exe","whoami.exe","scp.exe","ssh.exe"}
 UPLOAD_RE = re.compile(r"\.manifest\.json|VT-Guard-runs", re.I)
 OPERATOR_RE = re.compile(r"Invoke-AtomicTest|Invoke-VT\w*|AtomicRedTeam|PathToAtomicsFolder|Get-AtomicTechnique|VT-Guard", re.I)
@@ -75,6 +82,7 @@ def subtree(root, children):
     return seen
 
 LIFE_SLACK = timedelta(seconds=2)
+SESSION_SLACK = timedelta(seconds=5)
 
 def build_lifetimes(rows, e1):
     """(host, pid) -> [(start, end|None, guid)] theo ts_system; end = EID5 cung guid, hoac EID1 ke tiep cung PID."""
@@ -143,26 +151,33 @@ def label(rows, manifests):
     for k in man_by_orch: man_by_orch[k].sort(key=lambda m: ts(m["t_start"]))
 
     def find_session(host, t, pid=None):
-        # phien co t_start <= t < t_start phien ke tiep (phien cuoi: den t_end + 10 phut)
+        # v7: phien co t_start-5s <= t <= t_end+5s (t = ts_system); nhieu phien song song -> phien bat dau muon nhat
+        if t is None: return None
         ms=man_by_orch.get((host,pid),[]) if pid is not None else man_by_host.get(host,[])
-        for i,m in enumerate(ms):
-            st=ts(m["t_start"])
-            en=ts(ms[i+1]["t_start"]) if i+1<len(ms) else ts(m["t_end"])+timedelta(seconds=600)
-            if st-timedelta(seconds=5) <= t < en: return m
-        return None
+        best=None
+        for m in ms:
+            if ts(m["t_start"])-SESSION_SLACK <= t <= ts(m["t_end"])+SESSION_SLACK: best=m
+        return best
+    tsys=lambda r: ts(r.get("ts_system")) or ts(r.get("ts"))
 
     # gan moi executor-root (va cay con) vao 1 phien theo thoi diem sinh
     guid_session={}  # guid -> (run_id, kind)  kind in {"exec","harness"}
+    outside_roots=[]
     for r in e1:
         h=r["host"]; pp=r.get("parent_process_id")
         if pp in excl_by_host.get(h,set()):
-            m=find_session(h, ts(r["ts"]), pp)
-            if not m: continue
+            m=find_session(h, tsys(r), pp)
+            if not m: outside_roots.append(r["process_guid"]); continue
             kind="harness" if r["image_name"] in HARNESS else "exec"
             for gg in [r["process_guid"]]+list(subtree(r["process_guid"],children)):
                 # uu tien 'exec' neu da gan; harness khong ghi de exec
                 if gg in guid_session and guid_session[gg][1]=="exec": continue
                 guid_session[gg]=(m["run_id"], kind)
+
+    # v7: con cua orchestrator sinh ngoai moi khung phien (khong ghi de cay phien da gan)
+    outside_guids=set()
+    for g0 in outside_roots:
+        outside_guids |= {gg for gg in [g0]+list(subtree(g0,children)) if gg not in guid_session}
 
     # v5: upload manifest (scp/ssh) o bat ky dau -> cay con bi loai, uu tien hon gan phien
     upload_guids=set()
@@ -183,7 +198,7 @@ def label(rows, manifests):
 
     def drop_tool(r, reason, h, w):
         r.update(dropped=True,drop_reason=reason,label_source="excluded")
-        m=find_session(h,w)
+        m=find_session(h,tsys(r))
         if m: stats[m["run_id"]]["dropped_tool"]+=1
 
     for r in rows:
@@ -195,7 +210,7 @@ def label(rows, manifests):
         g=r.get("process_guid") or (pid_to_guid(life,h,r["process_id"],ts(r.get("ts_system"))) if r["process_id"] is not None else None)
         # 1) event cua chinh orchestrator -> loai (chong ro ri)
         if r["process_id"] in excl_by_host.get(h,set()):
-            m=find_session(h,w,r["process_id"])
+            m=find_session(h,tsys(r),r["process_id"])
             r.update(dropped=True,drop_reason="orchestrator",label_source="excluded")
             if m: stats[m["run_id"]]["dropped_orch"]+=1
             continue
@@ -216,25 +231,50 @@ def label(rows, manifests):
                     r.update(label_malicious=False,label_ttps=[],label_source="tree_benign")
                 stats[rid]["labeled"]+=1
             continue
+        # 2a) v7: cay con cua orchestrator sinh ngoai khung phien -> loai
+        if g in outside_guids:
+            drop_tool(r, "orch_child_outside", h, w); continue
         # 2b) console nguoi van hanh (va cay con truc tiep) -> loai
         pid=r["process_id"]
         if (pid is not None and (h,pid,seg(h,pid,w)) in cons) or g in console_child_guids:
             drop_tool(r, "operator_console", h, w); continue
         # 3) nhieu nen -> gan phien theo thoi gian (chi de thong ke)
-        m=find_session(h,w)
+        m=find_session(h,tsys(r))
         if m: stats[m["run_id"]]["bg"]+=1
     return rows, stats
 
+def load_dir(d):
+    return [m for m in (load_manifest(f) for f in glob.glob(os.path.join(d,"*.manifest.json"))) if m]
+
 def main():
-    norm,mdir,out=sys.argv[1],sys.argv[2],sys.argv[3]
+    # argv[2] = thu muc manifest cua dot (dau tien) + cac dot khac, ngan cach boi dau phay.
+    # v7: export cat theo gio Wazuh nen tien trinh cua phien o sat ranh gioi co the nam trong file dot BEN CANH
+    # (vd ntds2v 084801: vssadmin 08:48:05 nam trong file ntds2). Nap them manifest cua dot khac neu khung phien
+    # giao voi khung cac phien cua dot nay (+-10 phut, cung host). Thong ke chi in cho phien cua dot chinh.
+    norm,mdirs,out=sys.argv[1],sys.argv[2].split(","),sys.argv[3]
     rows=load(norm)
-    manifests=[m for m in (load_manifest(f) for f in glob.glob(os.path.join(mdir,"*.manifest.json"))) if m]
-    print(f"Doc {len(manifests)} manifest hop le.", file=sys.stderr)
+    own=load_dir(mdirs[0]); own_ids={m["run_id"] for m in own}
+    # khoang tham chieu = khung cac phien cua CHINH dot nay theo host (khong dung khoang ts_system cua file:
+    # event phat ra luc dong ho lech sau khoi phuc snapshot keo khoang do ve tan ngay hom truoc)
+    span={}
+    for m in own:
+        lo,hi=span.get(m["host"],(ts(m["t_start"]),ts(m["t_end"])))
+        span[m["host"]]=(min(lo,ts(m["t_start"])),max(hi,ts(m["t_end"])))
+    pad=timedelta(seconds=600); extra=[]
+    for d in mdirs[1:]:
+        for m in load_dir(d):
+            if m["run_id"] in own_ids or m["host"] not in span: continue
+            lo,hi=span[m["host"]]
+            if ts(m["t_start"])<=hi+pad and ts(m["t_end"])>=lo-pad: extra.append(m)
+    manifests=own+extra
+    print(f"Doc {len(own)} manifest hop le (+{len(extra)} manifest dot khac giao khoang thoi gian: "
+          f"{sorted(m['run_id'] for m in extra)[:6]}{'...' if len(extra)>6 else ''}).", file=sys.stderr)
     rows,stats=label(rows,manifests)
     with open(out,"w",encoding="utf-8") as w:
         for r in rows: w.write(json.dumps(r,ensure_ascii=False)+"\n")
     dr=Counter(r["drop_reason"] for r in rows if r["dropped"])
-    print(f"labeler {LABEL_VERSION}: {len(rows)} event, dropped theo ly do: {dict(dr)}", file=sys.stderr)
-    print(json.dumps(stats,ensure_ascii=False,indent=2))
+    xb=Counter(r["run_id"] for r in rows if r["run_id"] and r["run_id"] not in own_ids)
+    print(f"labeler {LABEL_VERSION}: {len(rows)} event, dropped theo ly do: {dict(dr)}; event gan cho phien dot khac: {dict(xb)}", file=sys.stderr)
+    print(json.dumps({k:v for k,v in stats.items() if k in own_ids},ensure_ascii=False,indent=2))
 
 if __name__=="__main__": main()

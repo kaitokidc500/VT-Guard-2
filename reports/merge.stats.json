@@ -1,5 +1,5 @@
 {
-  "n_events": 52165,
+  "n_events": 61490,
   "batches": [
     "batch01",
     "batch02",
@@ -7,6 +7,7 @@
     "batch04",
     "batch05",
     "batch06",
+    "batch07",
     "ntds",
     "ntds2",
     "ntds2v"
@@ -14,36 +15,41 @@
   "per_batch_io": {
     "batch01": {
       "read": 55252,
-      "dropped_label": 46332
+      "dropped_label": 46338
     },
     "batch02": {
       "read": 56181,
-      "dropped_label": 50617
+      "dropped_label": 50619
     },
     "batch03": {
       "read": 88139,
-      "dropped_label": 78862
+      "dropped_label": 78864
     },
     "batch04": {
       "read": 59985,
-      "dropped_label": 54132
+      "dropped_label": 54134
     },
     "batch05": {
       "read": 80789,
-      "dropped_label": 73478
+      "dropped_label": 73480
     },
     "batch06": {
       "read": 3092,
       "dropped_label": 1212
     },
+    "batch07": {
+      "read": 15677,
+      "dropped_label": 2579,
+      "dup": 3443
+    },
     "ntds": {
       "read": 24365,
-      "dropped_label": 19389
+      "dropped_label": 19392
     },
     "ntds2": {
       "read": 30429,
       "dropped_label": 19566,
-      "dup": 4067
+      "dup": 4380
     },
     "ntds2v": {
       "read": 9688,
@@ -52,56 +58,58 @@
     }
   },
   "label_conflict_on_dup": 0,
-  "brief_key_collisions": 7713,
+  "brief_key_collisions": 13661,
+  "events_from_neighbor_file": 8,
   "by_host": {
-    "WIN10-01": 16920,
-    "DC01": 35245
+    "WIN10-01": 18143,
+    "DC01": 43347
   },
   "by_batch": {
-    "batch01": 8920,
-    "batch02": 5564,
-    "batch03": 9277,
-    "batch04": 5853,
-    "batch05": 7311,
-    "ntds": 4976,
+    "batch01": 8914,
+    "batch02": 5562,
+    "batch03": 9275,
+    "batch04": 5851,
+    "batch05": 7309,
+    "ntds": 4973,
     "batch06": 1880,
-    "ntds2": 6796,
-    "ntds2v": 1588
+    "ntds2": 6475,
+    "ntds2v": 1596,
+    "batch07": 9655
   },
-  "malicious": 5122,
-  "benign": 47043,
+  "malicious": 5224,
+  "benign": 56266,
   "events_by_run_class": {
-    "background": 44465,
-    "benign": 1166,
-    "hard_negative": 1412,
-    "attack": 5122
+    "background": 52846,
+    "benign": 1096,
+    "hard_negative": 2324,
+    "attack": 5224
   },
   "events_by_host_class": {
     "DC01|attack": 1233,
-    "DC01|background": 33274,
+    "DC01|background": 40832,
     "DC01|benign": 226,
-    "DC01|hard_negative": 512,
-    "WIN10-01|attack": 3889,
-    "WIN10-01|background": 11191,
-    "WIN10-01|benign": 940,
-    "WIN10-01|hard_negative": 900
+    "DC01|hard_negative": 1056,
+    "WIN10-01|attack": 3991,
+    "WIN10-01|background": 12014,
+    "WIN10-01|benign": 870,
+    "WIN10-01|hard_negative": 1268
   },
   "malicious_events_by_ttp": {
     "T1003.003": 338,
-    "T1016": 3157,
-    "T1018": 3478,
-    "T1087.002": 3147,
+    "T1016": 3251,
+    "T1018": 3580,
+    "T1087.002": 3272,
     "T1654": 2518
   },
   "unique_run_id_by_class": {
-    "attack": 148,
-    "benign": 117,
-    "hard_negative": 129
+    "attack": 149,
+    "benign": 119,
+    "hard_negative": 157
   },
   "manifests_by_class": {
     "attack": 151,
     "benign": 164,
-    "hard_negative": 134
+    "hard_negative": 164
   },
   "manifests_by_batch": {
     "batch01": 60,
@@ -110,16 +118,17 @@
     "batch04": 80,
     "batch05": 80,
     "batch06": 27,
+    "batch07": 30,
     "ntds": 21,
     "ntds2": 15,
     "ntds2v": 6
   },
   "runs_without_events": {
-    "n": 55,
+    "n": 54,
     "by_class": {
-      "benign": 47,
-      "hard_negative": 5,
-      "attack": 3
+      "benign": 45,
+      "hard_negative": 7,
+      "attack": 2
     },
     "run_ids": [
       "20261014-034224-win10-01-b",
@@ -135,7 +144,6 @@
       "20261014-070809-win10-01-b",
       "20261014-071529-win10-01-b",
       "20261014-071816-win10-01-b",
-      "20261014-072654-win10-01-b",
       "20261014-073145-win10-01-b",
       "20261014-073330-dc01-h",
       "20261014-073631-win10-01-b",
@@ -173,10 +181,10 @@
       "20261014-141432-win10-01-b",
       "20261014-141813-dc01-b",
       "20261014-143839-win10-01-b",
-      "20261014-150951-win10-01-b",
       "20261014-164113-dc01-a",
       "20261015-075708-dc01-a",
-      "20261015-084801-dc01-a"
+      "20261015-130127-dc01-h",
+      "20261015-130245-dc01-h"
     ]
   },
   "consistency_errors": {},
@@ -188,16 +196,17 @@
     "smoke6"
   ],
   "inputs_sha256": {
-    "batch01": "95912b10e3abeeb5ed64ca07ca3e9a931b27ec7b55973a503338563fcb668ca3",
-    "batch02": "68edf034825704be7bebbe736b635213d09a510cc10084615f44a468929e1753",
-    "batch03": "b746038853cc146a3b550debeecbf3cec47188829db3b6b7f667dd0f277c0da8",
-    "batch04": "7a9054296306bbd4f7f0f1cdaad2e531c37248e038355338eef5fe19e0929a34",
-    "batch05": "244ef06561da6ccfa93464f49d97e32ccb3e36d749f7b2c4c34bb3574c3a4466",
-    "batch06": "162616bb4d200d8784c223121c6eb329a6cb152922cf9ada494e603add6fbd1e",
-    "ntds": "3f363b5ec0966a78aea72b775fe6ce03c0147ac273e8319e0a1e5f8fcf7626ba",
-    "ntds2": "cdf56ce825077879c6ef50362101fd28842864df264e6ccf3edb3cc0e4f26d0c",
-    "ntds2v": "a67b26e1bb0a133c6ea503b11ffa47890306f62ccbd01a29d103bc12c14736e0"
+    "batch01": "9ed05118d0bd363b2ef5412c0f1b0294129ad8be9a68fde0b7acea8c1c8eaa5b",
+    "batch02": "1697efccee2be34f3907632b9bc2e3d4be9a6edad6c2c1297ab805a7e91d6afc",
+    "batch03": "635d38a3f6db2389b2bd39e10b1c0fd72afa0d45bbb436af9ef0724a48c9913d",
+    "batch04": "450ec2988a4c9cec51e476d18dca53aefa84ae3bb2b4dfce50a490adc53b42c4",
+    "batch05": "83f25d63c199758c580bf8647ad4deee2caadfc11e7e8f27690f365811509d4d",
+    "batch06": "a82d839ecc84172b3b45fff019ea25a979fd80ab75509fb58a8cdfa1f8bee07f",
+    "batch07": "0e05e964724bd45eb2d1748815ef17c886571b9351d71257e17133e4e6ffdbe6",
+    "ntds": "9f14984f62b96f17cc06b0f83b54ff2715053d6c98a3c0643f9a21e6fb540f67",
+    "ntds2": "e19d2068fea26d7765b648c42497f5424a6d546319cf0b164e86e1a253a2f191",
+    "ntds2v": "794961f79f3fce140374c2302e58bdf71af9bbf0510b410c8a052c3077ab9da0"
   },
   "output": "data/processed/all.events.jsonl",
-  "output_sha256": "d01991d791818482dbc9539598178613060a29c7be1fe7f593250326a5adbb4f"
+  "output_sha256": "65d590db3e3953a1df10cf0b0e30c8c33b722bc971674174e05b56b6e97ae497"
 }

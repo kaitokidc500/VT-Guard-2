@@ -49,8 +49,8 @@ VT-Guard/  (= vt-guard-research/)
 | Bước | Nội dung | Thư mục | Trạng thái |
 |------|----------|---------|------------|
 | 1 | Hạ tầng Wazuh (DC01, WIN10-01 → Indexer) | `evidence/` | Hoàn thành |
-| 2 | Bộ điều phối sinh phiên, thu thập 449 phiên (9 đợt) | `orchestrator/`, `manifests/` | Hoàn thành |
-| 3 | Chuẩn hoá & gán nhãn (labeler v6) | `src/normalize/`, `src/label/` | Hoàn thành |
+| 2 | Bộ điều phối sinh phiên, thu thập 479 phiên (10 đợt) | `orchestrator/`, `manifests/` | Hoàn thành |
+| 3 | Chuẩn hoá & gán nhãn (labeler v7) | `src/normalize/`, `src/label/` | Hoàn thành |
 | 4 | Đóng băng dataset: gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
 | 5–6 | Baseline B0–B3; VT-Seq + ablation | `src/models/`, `notebooks/` | Chưa bắt đầu |
 | 7 | Luật | `src/rules/` | Chưa bắt đầu |
@@ -116,12 +116,32 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - Card bổ sung bảng T1003.003 theo tập và coverage theo công cụ: không công cụ nào chỉ ở phía dương trên toàn bộ dữ liệu,
   nhưng trong Train `ntdsutil.exe` vẫn chỉ ở phía dương; `route.exe`/`netstat.exe` chỉ ở phía âm (đường tắt ngược).
 
+### Phiên batch07 — 2026-10-15
+- Orchestrator: `orchestrator/benign/` (admin_net_diag mới; dc_db_maint, admin_net_sweep dựng lại từ log 4104, gọi tool qua
+  `cmd.exe /c`), `Invoke-Batch07.ps1` (Loop + DbMaintSnapshot). Sửa `Invoke-VTSession.ps1`: `<test#>` đóng sớm khối `<# #>`
+  -> đổi sang chú thích `#`, ASCII, CRLF; `.gitattributes` thêm `*.ps1 eol=crlf`. Cả 10 file .ps1 parse không lỗi.
+  Lưu ý: repo có `orchestrator/begin/` (cũ) và `orchestrator/benign/` (mới); bản trên lab có thể khác repo.
+- **Labeler v7**: (1) phiên = đúng [t_start, t_end] manifest ±5 s theo `ts_system`; con orchestrator ngoài khung ->
+  `orch_child_outside`. v4–v6 gán theo giờ Wazuh (trễ 40–60 s) + kéo khung tới phiên kế: 102 event attack bị gán nhãn
+  benign/HN của phiên kế tiếp; lệnh người vận hành (w32tm, VMwareToolboxCmd) bị gán vào phiên (122828-dc01-h: 61 -> 45).
+  (2) nạp manifest đợt bên cạnh khi khung phiên giao ±10 phút: phiên ntds2v 084801 có 8 event nằm trong file ntds2
+  (export cắt theo giờ Wazuh) -> không còn bị loại. Đối chiếu v6↔v7: 400 event đổi. Nhãn v6 ở `data/processed/v6/`.
+  Lệnh gán nhãn: `label.py <norm> manifests/<b>,manifests/<đợt khác>... <out>`.
+- Quy tắc chung: hard_negative labeled=0 bị loại như attack (7 phiên: 2 batch07 dc_db_maint + 5 log_review cũ).
+- `revert_control` (HN có snapshot_before) chỉ là metadata cửa sổ, nằm trong mẫu cấm của featurize.
+- split: T-hard theo chữ ký công cụ (21 chữ ký, mỗi chữ ký ≥1 T-hard, ≥50% Train) — đều đạt.
+- Kết quả: 61 490 event -> 809 cửa sổ (278 dương). Train 479 · T-clean 91 · T-hard 87 · T-novel 152.
+  Kiểm tra 1–8: ĐẠT. #9 KHÔNG ĐẠT ở `cmd.exe` (Train 14,5% âm < 15%), không ép số liệu. #10: TVD 0,495; ESENT 216/330
+  chỉ ở phía dương (tác động phụ thật của ntdsutil ifm, ngoài cây tiến trình).
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
 - [ ] Bước 5: baseline B0 (luật Wazuh từ `wazuh_rule_*`), B1 (TF-IDF+LR), B2 (LightGBM), B3 (GRU thuần) trên các split.
 - [ ] Bước 6: VT-Seq (GRU-Attention đa nhiệm) + ablation; nạp dữ liệu CHỈ từ `cat`/`cmd`/`num`; cắt ngẫu nhiên độ dài
       cửa sổ khi huấn luyện; ablation bỏ `image_name` (đường tắt ping/wevtutil/ntdsutil).
-- [ ] Phía âm của ping/wevtutil/ntdsutil vẫn mỏng (5/11/5 cửa sổ); `ntdsutil.exe` chỉ dương trong Train; route/netstat chỉ âm.
-      Cân nhắc thêm hard-negative/biến thể tấn công để cân bằng, hoặc ép một phần batch06 vào Train.
+- [ ] #9: `cmd.exe` Train chỉ 14,5% cửa sổ âm — thêm phiên benign/hard-negative gọi tool qua `cmd.exe /c`
+      (vd sửa network_check/user_inventory/log_review sang `cmd.exe /c`, cũng giúp 45 phiên benign có event riêng).
+- [ ] route/netstat chỉ ở phía âm (đường tắt ngược); wevtutil Train âm 5 cửa sổ (17%) — sát ngưỡng.
+- [ ] #10: ESENT 216/330 là tín hiệu nền của T1003.003 (ngoài cây tiến trình) — cân nhắc khi diễn giải ablation.
 - [ ] T1003.003: T-clean 13 cửa sổ dương, T-novel (ntds2v) 5 — báo cáo kèm khoảng tin cậy.
 - [ ] Chọn phiên bản Python, tạo `requirements.txt` (Bước 4 chỉ cần stdlib + numpy; Python 3.12).

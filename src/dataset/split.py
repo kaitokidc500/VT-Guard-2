@@ -9,12 +9,13 @@ Quy tac:
     cung NHOM. Phien song song dung chung event nen trong stream (4.2) -> ca nhom vao cung mot phia
     (Train | kiem thu), khong event nen nao vua o Train vua o tap kiem thu.
   - T-novel = moi phien cua NOVEL_BATCHES: batch05 (holdout thoi gian) + ntds2v (bien the T1003.003 held-out).
-  - T-hard  = ~40% phien hard_negative con lai, chon ngau nhien (seed) theo NHOM chi gom hard_negative
-    (nhom tron co phien khac lop khong the dua tron vao T-hard; HN trong nhom tron o lai Train/T-clean).
+  - T-hard  = theo CHU KY CONG CU cua phien hard_negative (tap image_name cua cay phien, tach rieng phien
+    revert_control): moi chu ky >=1 phien vao T-hard va >=50% vao Train (neu >=2 phien), muc tieu ~hard_frac.
+    Chi nhom chi gom hard_negative moi vao T-hard (nhom tron o lai Train/T-clean).
   - Phan con lai: Train 80% / T-clean 20% theo nhom, phan tang tham lam theo (class, host, chu ky TTP).
 Chay: python src/dataset/split.py [--root .] [--seed 1337] [--hard-frac 0.4] [--clean-frac 0.2]
 """
-import argparse, hashlib, json, os, random, subprocess, sys
+import argparse, hashlib, json, math, os, random, subprocess, sys
 from collections import Counter, defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -24,6 +25,13 @@ SPLITS = ["train", "t_clean", "t_hard", "t_novel"]
 
 def sig(m):
     return "attack:" + "+".join(sorted(m["ttps"])) if m["class"] == "attack" else m["class"]
+
+GENERIC_IMG = {"cmd.exe", "conhost.exe", "powershell.exe", "&lt;unknown process&gt;", None}
+
+def hn_signature(m, own_imgs):
+    """(tap image_name dac trung cua cay phien, revert_control)."""
+    s = "+".join(sorted(i for i in own_imgs.get(m["run_id"], ()) if i not in GENERIC_IMG)) or "none"
+    return (s, bool(m.get("snapshot_before")))
 
 def stratum(m):
     return (m["class"], m["host"], sig(m))
@@ -63,6 +71,10 @@ def main():
     for l in open(P("data", "processed", "windows.jsonl"), encoding="utf-8"):
         win_runs[json.loads(l)["run_id"]] += 1
     sessions = [man[r] for r in sorted(win_runs)]          # chi phien co cua so
+    own_imgs = defaultdict(set)
+    for l in open(P("data", "processed", "all.events.jsonl"), encoding="utf-8"):
+        r = json.loads(l)
+        if r["run_id"]: own_imgs[r["run_id"]].add(r["image_name"])
     groups = overlap_groups(sessions)
     gid = {m["run_id"]: i for i, g in enumerate(groups) for m in g}
     # nhom khong duoc tron dot T-novel voi dot thuong (neu khong, phai chon giua ep T-novel va chong ro ri)
@@ -75,17 +87,27 @@ def main():
         if g[0]["_batch"] in NOVEL_BATCHES:
             for m in g: assign[m["run_id"]] = "t_novel"
     rest = [g for g in groups if g[0]["_batch"] not in NOVEL_BATCHES]
-    # 2) T-hard: nhom thuan hard_negative, chon ngau nhien den khi dat ~hard_frac so phien HN
-    n_hn = sum(m["class"] == "hard_negative" for g in rest for m in g)
-    target_hard = round(a.hard_frac * n_hn)
+    # 2) T-hard theo CHU KY CONG CU (tap image_name dac trung cua cay phien, bo cmd/conhost/powershell),
+    #    tach rieng phien revert_control. Moi chu ky: >=1 phien vao T-hard, >=50% vao Train (neu >=2 phien).
+    #    Chi nhom THUAN hard_negative moi vao duoc T-hard (nhom tron phai o phia Train/T-clean).
+    hn = [m for g in rest for m in g if m["class"] == "hard_negative"]
+    n_hn = len(hn)
+    hsig = {m["run_id"]: hn_signature(m, own_imgs) for m in hn}
+    n_sig = Counter(hsig.values())
+    cap_hard = {k: (1 if n == 1 else n - math.ceil(n / 2)) for k, n in n_sig.items()}
+    want_hard = {k: max(1, min(round(a.hard_frac * n), cap_hard[k])) for k, n in n_sig.items()}
     pure = [g for g in rest if all(m["class"] == "hard_negative" for m in g)]
-    rng.shuffle(pure)
-    got = 0
-    for g in pure:
-        if got >= target_hard: break
-        if abs(got + len(g) - target_hard) > abs(got - target_hard) and got > 0: continue
-        for m in g: assign[m["run_id"]] = "t_hard"
-        got += len(g)
+    rng.shuffle(pure); pure.sort(key=len)            # uu tien nhom nho (it keo theo chu ky khac)
+    got = Counter()
+    for k in sorted(n_sig, key=lambda k: (n_sig[k], k)):   # chu ky hiem truoc
+        for g in pure:
+            if got[k] >= want_hard[k]: break
+            if g[0]["run_id"] in assign or k not in {hsig[m["run_id"]] for m in g}: continue
+            add = Counter(hsig[m["run_id"]] for m in g)
+            if any(got[x] + c > cap_hard[x] for x, c in add.items()): continue
+            for m in g: assign[m["run_id"]] = "t_hard"
+            got += add
+    target_hard = sum(want_hard.values())
     # 3) Train / T-clean: phan tang tham lam theo nhom
     rest = [g for g in rest if g[0]["run_id"] not in assign]
     tot = Counter(stratum(m) for g in rest for m in g)
@@ -99,6 +121,22 @@ def main():
         to_clean = d_clean < d_train or (d_clean == d_train and n_clean + len(g) <= a.clean_frac * n_all)
         for m in g: assign[m["run_id"]] = "t_clean" if to_clean else "train"
         if to_clean: cur += add; n_clean += len(g)
+    # 3b) dam bao moi chu ky hard_negative co >= 50% phien o Train: chuyen ca nhom tu T-clean sang Train
+    moved = 0
+    for k in sorted(n_sig):
+        need = math.ceil(n_sig[k] / 2) if n_sig[k] >= 2 else 0
+        for g in [g for g in rest if assign[g[0]["run_id"]] == "t_clean"]:
+            if sum(1 for r, x in hsig.items() if x == k and assign[r] == "train") >= need: break
+            if k in {hsig.get(m["run_id"]) for m in g}:
+                for m in g: assign[m["run_id"]] = "train"
+                moved += 1
+    sig_table = {}
+    for k in sorted(n_sig, key=lambda k: -n_sig[k]):
+        c = Counter(assign[r] for r, x in hsig.items() if x == k)
+        sig_table[f"{k[0]}{' [revert_control]' if k[1] else ''}"] = {
+            "n": n_sig[k], **{s: c.get(s, 0) for s in ("train", "t_clean", "t_hard")},
+            "ok_hard_ge1": c.get("t_hard", 0) >= 1,
+            "ok_train_ge50": n_sig[k] < 2 or c.get("train", 0) >= math.ceil(n_sig[k] / 2)}
 
     os.makedirs(P("data", "processed", "splits"), exist_ok=True)
     train_runs = sorted(r for r, s in assign.items() if s == "train")
@@ -165,7 +203,8 @@ def main():
     stats = {"seed": a.seed, "hard_frac": a.hard_frac, "clean_frac": a.clean_frac,
              "groups_total": len(groups), "group_size_dist": dict(sorted(Counter(len(g) for g in groups).items())),
              "hn_sessions_non_novel": n_hn, "t_hard_target": target_hard,
-             "hn_in_pure_groups": sum(len(g) for g in pure),
+             "hn_in_pure_groups": sum(len(g) for g in pure), "hn_signature_split": sig_table,
+             "hn_groups_moved_to_train": moved,
              "splits": per, "acceptance": chk, "acceptance_pass": ok,
              "vocab_sha256": sha256(P("data", "processed", "vocab.json"))}
     with open(P("reports", "split.stats.json"), "w", encoding="utf-8", newline="\n") as f:

@@ -22,7 +22,7 @@ from bisect import bisect_left, bisect_right
 from collections import Counter, defaultdict
 from datetime import datetime
 
-BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "batch06", "ntds", "ntds2", "ntds2v"]
+BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "batch06", "batch07", "ntds", "ntds2", "ntds2v"]
 # Dot ep TOAN BO vao T-novel: batch05 = holdout thoi gian, ntds2v = bien the T1003.003 held-out
 NOVEL_BATCHES = ["batch05", "ntds2v"]
 # Truong giu lai cho moi event trong cua so: chi nhung gi 4.3 can (khong label_*, wazuh_*, run_id,
@@ -104,6 +104,9 @@ def main():
             n_mal = sum(1 for r in stream if r["label_malicious"])
             if m["class"] == "attack" and not own.get(rid):
                 excluded.append((rid, m["class"], "attack_labeled0_atomic_khong_sinh_tien_trinh_con")); continue
+            if m["class"] == "hard_negative" and not own.get(rid):
+                # quy tac chung (batch07): hard_negative labeled=0 cung loai, khong dung lam benign
+                excluded.append((rid, m["class"], "hard_negative_labeled0_khong_co_tien_trinh_con")); continue
             if not stream:
                 excluded.append((rid, m["class"], "stream_rong")); continue
             if m["class"] == "attack" and n_mal == 0:
@@ -120,7 +123,12 @@ def main():
                     "window_malicious": bool(mal),
                     "window_ttps": sorted({t for r in mal for t in r["label_ttps"]}),
                     "window_class": m["class"],
+                    # revert_control: phien hard_negative chay sau khoi phuc snapshot (doi chung nhieu snapshot).
+                    # CHI dung cho card + kiem tra #10, KHONG lam feature.
+                    "revert_control": m["class"] == "hard_negative" and bool(m.get("snapshot_before")),
                     "events": [slim(r) for r in ev],
+                    # nguon goc event (cay phien / nen) - CHI cho kiem tra #10, khong chep sang features.jsonl
+                    "event_origin": ["own" if r["run_id"] == rid else "bg" for r in ev],
                 })
             kept = cap(wins, a.K, random.Random(f"{a.seed}:{rid}"))
             per_session[rid] = dict(cls=m["class"], batch=m["_batch"], host=h, n_stream=len(stream),

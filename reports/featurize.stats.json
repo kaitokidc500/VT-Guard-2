@@ -9,7 +9,7 @@
   "window_tensor": "[64, 268] (+ mask; cua so ngan duoc pad o buoc model)",
   "vocab_size_incl_special": {
     "channel": 8,
-    "event_id": 43,
+    "event_id": 45,
     "image_name": 60,
     "parent_image_name": 17,
     "host_role": 5,
@@ -17,39 +17,39 @@
     "logon_type": 8
   },
   "vocab_fit": "run_id trong train_runs.txt",
-  "fit_windows": 413,
+  "fit_windows": 479,
   "min_sessions": 2,
-  "windows": 778,
-  "events": 37769,
-  "cmd_events_nonzero": 7649,
-  "cmd_unique_strings": 537,
+  "windows": 809,
+  "events": 39563,
+  "cmd_events_nonzero": 8359,
+  "cmd_unique_strings": 583,
   "cmd_nnz_per_event": {
-    "median": 83,
+    "median": 82,
     "max": 236
   },
   "unk_rate": {
     "fit": {
       "channel": 0.0,
       "event_id": 0.0002,
-      "image_name": 0.001,
-      "parent_image_name": 0.0003,
+      "image_name": 0.0004,
+      "parent_image_name": 0.0002,
       "host_role": 0.0,
       "integrity_level": 0.0,
       "logon_type": 0.0
     },
     "t_novel": {
       "channel": 0.0,
-      "event_id": 0.0001,
-      "image_name": 0.0191,
-      "parent_image_name": 0.0223,
+      "event_id": 0.0003,
+      "image_name": 0.0187,
+      "parent_image_name": 0.0222,
       "host_role": 0.0,
       "integrity_level": 0.0,
       "logon_type": 0.0
     },
     "other": {
       "channel": 0.0,
-      "event_id": 0.0008,
-      "image_name": 0.0018,
+      "event_id": 0.0005,
+      "image_name": 0.0001,
       "parent_image_name": 0.0,
       "host_role": 0.0,
       "integrity_level": 0.0,
@@ -69,5 +69,5 @@
     "parent_image_name",
     "ts"
   ],
-  "forbidden_pattern": "^(wazuh_rule_|label_)|^(run_id|event_uid|process_guid|parent_process_guid|script_block_text|ps_payload|image|parent_image|n_events)$"
+  "forbidden_pattern": "^(wazuh_rule_|label_)|^(run_id|event_uid|process_guid|parent_process_guid|script_block_text|ps_payload|image|parent_image|n_events|revert_control|snapshot_before|event_origin)$"
 }

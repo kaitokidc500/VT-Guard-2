@@ -6,11 +6,11 @@
     "seed": 1337,
     "time_field": "ts_system"
   },
-  "windows": 778,
+  "windows": 809,
   "positive": 278,
-  "negative": 500,
-  "positive_rate": 0.3573,
-  "sessions_with_windows": 432,
+  "negative": 531,
+  "positive_rate": 0.3436,
+  "sessions_with_windows": 458,
   "sessions_excluded": [
     [
       "20261014-041841-win10-01-b",
@@ -38,6 +38,11 @@
       "stream_rong"
     ],
     [
+      "20261014-073330-dc01-h",
+      "hard_negative",
+      "hard_negative_labeled0_khong_co_tien_trinh_con"
+    ],
+    [
       "20261014-073716-dc01-b",
       "benign",
       "stream_rong"
@@ -46,6 +51,11 @@
       "20261014-075105-win10-01-b",
       "benign",
       "stream_rong"
+    ],
+    [
+      "20261014-093702-win10-01-h",
+      "hard_negative",
+      "hard_negative_labeled0_khong_co_tien_trinh_con"
     ],
     [
       "20261014-103113-win10-01-b",
@@ -58,9 +68,14 @@
       "stream_rong"
     ],
     [
+      "20261014-120938-win10-01-h",
+      "hard_negative",
+      "hard_negative_labeled0_khong_co_tien_trinh_con"
+    ],
+    [
       "20261014-122845-dc01-h",
       "hard_negative",
-      "stream_rong"
+      "hard_negative_labeled0_khong_co_tien_trinh_con"
     ],
     [
       "20261014-123155-win10-01-b",
@@ -75,7 +90,7 @@
     [
       "20261014-133522-win10-01-h",
       "hard_negative",
-      "stream_rong"
+      "hard_negative_labeled0_khong_co_tien_trinh_con"
     ],
     [
       "20261014-133825-win10-01-b",
@@ -93,48 +108,53 @@
       "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
     ],
     [
-      "20261015-084801-dc01-a",
-      "attack",
-      "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
+      "20261015-130127-dc01-h",
+      "hard_negative",
+      "hard_negative_labeled0_khong_co_tien_trinh_con"
+    ],
+    [
+      "20261015-130245-dc01-h",
+      "hard_negative",
+      "hard_negative_labeled0_khong_co_tien_trinh_con"
     ]
   ],
   "by_class": {
     "attack": {
-      "sessions": 148,
+      "sessions": 149,
       "windows": 336,
       "pos": 278,
       "neg": 58
     },
     "benign": {
       "sessions": 152,
-      "windows": 256,
+      "windows": 254,
       "pos": 0,
-      "neg": 256
+      "neg": 254
     },
     "hard_negative": {
-      "sessions": 132,
-      "windows": 186,
+      "sessions": 157,
+      "windows": 219,
       "pos": 0,
-      "neg": 186
+      "neg": 219
     }
   },
   "by_host": {
     "DC01": {
-      "sessions": 132,
-      "windows": 302,
+      "sessions": 151,
+      "windows": 325,
       "pos": 120,
-      "neg": 182
+      "neg": 205
     },
     "WIN10-01": {
-      "sessions": 300,
-      "windows": 476,
+      "sessions": 307,
+      "windows": 484,
       "pos": 158,
-      "neg": 318
+      "neg": 326
     }
   },
   "by_host_class": {
     "DC01|attack": {
-      "sessions": 60,
+      "sessions": 61,
       "windows": 150,
       "pos": 120,
       "neg": 30
@@ -146,10 +166,10 @@
       "neg": 73
     },
     "DC01|hard_negative": {
-      "sessions": 41,
-      "windows": 79,
+      "sessions": 59,
+      "windows": 102,
       "pos": 0,
-      "neg": 79
+      "neg": 102
     },
     "WIN10-01|attack": {
       "sessions": 88,
@@ -159,41 +179,41 @@
     },
     "WIN10-01|benign": {
       "sessions": 121,
-      "windows": 183,
+      "windows": 181,
       "pos": 0,
-      "neg": 183
+      "neg": 181
     },
     "WIN10-01|hard_negative": {
-      "sessions": 91,
-      "windows": 107,
+      "sessions": 98,
+      "windows": 117,
       "pos": 0,
-      "neg": 107
+      "neg": 117
     }
   },
   "by_batch": {
     "batch01": {
       "sessions": 58,
-      "windows": 93,
+      "windows": 92,
       "pos": 36,
-      "neg": 57
+      "neg": 56
     },
     "batch02": {
-      "sessions": 75,
-      "windows": 129,
+      "sessions": 74,
+      "windows": 126,
       "pos": 31,
-      "neg": 98
+      "neg": 95
     },
     "batch03": {
-      "sessions": 79,
-      "windows": 173,
+      "sessions": 78,
+      "windows": 172,
       "pos": 63,
-      "neg": 110
+      "neg": 109
     },
     "batch04": {
-      "sessions": 77,
-      "windows": 140,
+      "sessions": 76,
+      "windows": 139,
       "pos": 40,
-      "neg": 100
+      "neg": 99
     },
     "batch05": {
       "sessions": 77,
@@ -207,6 +227,12 @@
       "pos": 0,
       "neg": 30
     },
+    "batch07": {
+      "sessions": 28,
+      "windows": 37,
+      "pos": 0,
+      "neg": 37
+    },
     "ntds": {
       "sessions": 20,
       "windows": 32,
@@ -215,34 +241,34 @@
     },
     "ntds2": {
       "sessions": 14,
-      "windows": 30,
-      "pos": 30,
+      "windows": 29,
+      "pos": 29,
       "neg": 0
     },
     "ntds2v": {
-      "sessions": 5,
-      "windows": 5,
-      "pos": 5,
+      "sessions": 6,
+      "windows": 6,
+      "pos": 6,
       "neg": 0
     }
   },
   "sessions_capped": 14,
-  "windows_before_cap": 849,
-  "short_sessions_lt_W": 303,
+  "windows_before_cap": 880,
+  "short_sessions_lt_W": 321,
   "stream_len": {
     "min": 1,
-    "max": 910,
-    "median": 33
+    "max": 907,
+    "median": 36
   },
   "attack_neg_windows": 58,
   "nonattack_pos_windows": 0,
-  "bg_events_shared_by_overlapping_sessions": 2349,
+  "bg_events_shared_by_overlapping_sessions": 2302,
   "ttp_windows": {
     "T1003.003": 59,
     "T1016": 148,
     "T1018": 142,
     "T1087.002": 159,
-    "T1654": 120
+    "T1654": 121
   },
   "per_session": {
     "20261014-033025-win10-01-b": {
@@ -348,7 +374,7 @@
       "cls": "attack",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 910,
+      "n_stream": 907,
       "n_own": 798,
       "n_mal": 798,
       "n_win_full": 28,
@@ -458,9 +484,9 @@
       "cls": "attack",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 26,
-      "n_own": 17,
-      "n_mal": 17,
+      "n_stream": 34,
+      "n_own": 25,
+      "n_mal": 25,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -469,8 +495,8 @@
       "cls": "hard_negative",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 16,
-      "n_own": 16,
+      "n_stream": 8,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -557,7 +583,7 @@
       "cls": "hard_negative",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 33,
+      "n_stream": 31,
       "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
@@ -579,9 +605,9 @@
       "cls": "attack",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 22,
-      "n_own": 16,
-      "n_mal": 16,
+      "n_stream": 45,
+      "n_own": 39,
+      "n_mal": 39,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -590,11 +616,11 @@
       "cls": "benign",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 208,
-      "n_own": 31,
+      "n_stream": 185,
+      "n_own": 8,
       "n_mal": 0,
-      "n_win_full": 6,
-      "n_win": 6,
+      "n_win_full": 5,
+      "n_win": 5,
       "n_pos": 0
     },
     "20261014-051024-win10-01-b": {
@@ -656,9 +682,9 @@
       "cls": "attack",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 35,
-      "n_own": 25,
-      "n_mal": 25,
+      "n_stream": 47,
+      "n_own": 37,
+      "n_mal": 37,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -667,8 +693,8 @@
       "cls": "benign",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 27,
-      "n_own": 20,
+      "n_stream": 15,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -700,9 +726,9 @@
       "cls": "attack",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 33,
-      "n_own": 28,
-      "n_mal": 28,
+      "n_stream": 45,
+      "n_own": 40,
+      "n_mal": 40,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -711,8 +737,8 @@
       "cls": "hard_negative",
       "batch": "batch01",
       "host": "WIN10-01",
-      "n_stream": 24,
-      "n_own": 20,
+      "n_stream": 12,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -887,7 +913,7 @@
       "cls": "attack",
       "batch": "batch02",
       "host": "WIN10-01",
-      "n_stream": 95,
+      "n_stream": 94,
       "n_own": 70,
       "n_mal": 70,
       "n_win_full": 2,
@@ -1085,8 +1111,8 @@
       "cls": "benign",
       "batch": "batch02",
       "host": "WIN10-01",
-      "n_stream": 44,
-      "n_own": 16,
+      "n_stream": 36,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -1118,8 +1144,8 @@
       "cls": "benign",
       "batch": "batch02",
       "host": "WIN10-01",
-      "n_stream": 21,
-      "n_own": 0,
+      "n_stream": 29,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -1233,17 +1259,6 @@
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
-      "n_pos": 0
-    },
-    "20261014-073330-dc01-h": {
-      "cls": "hard_negative",
-      "batch": "batch02",
-      "host": "DC01",
-      "n_stream": 95,
-      "n_own": 0,
-      "n_mal": 0,
-      "n_win_full": 2,
-      "n_win": 2,
       "n_pos": 0
     },
     "20261014-073631-win10-01-b": {
@@ -1514,9 +1529,9 @@
       "cls": "attack",
       "batch": "batch02",
       "host": "WIN10-01",
-      "n_stream": 27,
-      "n_own": 24,
-      "n_mal": 24,
+      "n_stream": 50,
+      "n_own": 47,
+      "n_mal": 47,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -1536,11 +1551,11 @@
       "cls": "benign",
       "batch": "batch02",
       "host": "WIN10-01",
-      "n_stream": 207,
-      "n_own": 31,
+      "n_stream": 184,
+      "n_own": 8,
       "n_mal": 0,
-      "n_win_full": 6,
-      "n_win": 6,
+      "n_win_full": 5,
+      "n_win": 5,
       "n_pos": 0
     },
     "20261014-080520-win10-01-b": {
@@ -1646,9 +1661,9 @@
       "cls": "attack",
       "batch": "batch02",
       "host": "WIN10-01",
-      "n_stream": 45,
-      "n_own": 37,
-      "n_mal": 37,
+      "n_stream": 56,
+      "n_own": 48,
+      "n_mal": 48,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -1657,9 +1672,9 @@
       "cls": "attack",
       "batch": "batch02",
       "host": "WIN10-01",
-      "n_stream": 94,
-      "n_own": 31,
-      "n_mal": 31,
+      "n_stream": 83,
+      "n_own": 20,
+      "n_mal": 20,
       "n_win_full": 2,
       "n_win": 2,
       "n_pos": 2
@@ -1712,7 +1727,7 @@
       "cls": "hard_negative",
       "batch": "batch03",
       "host": "WIN10-01",
-      "n_stream": 29,
+      "n_stream": 27,
       "n_own": 18,
       "n_mal": 0,
       "n_win_full": 1,
@@ -2143,17 +2158,6 @@
       "host": "WIN10-01",
       "n_stream": 8,
       "n_own": 8,
-      "n_mal": 0,
-      "n_win_full": 1,
-      "n_win": 1,
-      "n_pos": 0
-    },
-    "20261014-093702-win10-01-h": {
-      "cls": "hard_negative",
-      "batch": "batch03",
-      "host": "WIN10-01",
-      "n_stream": 34,
-      "n_own": 0,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -2680,8 +2684,8 @@
       "cls": "benign",
       "batch": "batch04",
       "host": "WIN10-01",
-      "n_stream": 13,
-      "n_own": 12,
+      "n_stream": 9,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -2702,8 +2706,8 @@
       "cls": "benign",
       "batch": "batch04",
       "host": "WIN10-01",
-      "n_stream": 5,
-      "n_own": 4,
+      "n_stream": 9,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -2724,9 +2728,9 @@
       "cls": "attack",
       "batch": "batch04",
       "host": "WIN10-01",
-      "n_stream": 32,
-      "n_own": 19,
-      "n_mal": 19,
+      "n_stream": 44,
+      "n_own": 31,
+      "n_mal": 31,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -2746,9 +2750,9 @@
       "cls": "attack",
       "batch": "batch04",
       "host": "WIN10-01",
-      "n_stream": 44,
-      "n_own": 34,
-      "n_mal": 34,
+      "n_stream": 32,
+      "n_own": 22,
+      "n_mal": 22,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -2840,17 +2844,6 @@
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
-    },
-    "20261014-120938-win10-01-h": {
-      "cls": "hard_negative",
-      "batch": "batch04",
-      "host": "WIN10-01",
-      "n_stream": 13,
-      "n_own": 0,
-      "n_mal": 0,
-      "n_win_full": 1,
-      "n_win": 1,
-      "n_pos": 0
     },
     "20261014-120942-dc01-b": {
       "cls": "benign",
@@ -3494,12 +3487,12 @@
       "cls": "attack",
       "batch": "batch05",
       "host": "WIN10-01",
-      "n_stream": 55,
-      "n_own": 42,
-      "n_mal": 42,
-      "n_win_full": 1,
-      "n_win": 1,
-      "n_pos": 1
+      "n_stream": 67,
+      "n_own": 54,
+      "n_mal": 54,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
     },
     "20261014-133904-win10-01-h": {
       "cls": "hard_negative",
@@ -3527,8 +3520,8 @@
       "cls": "hard_negative",
       "batch": "batch05",
       "host": "WIN10-01",
-      "n_stream": 55,
-      "n_own": 22,
+      "n_stream": 43,
+      "n_own": 10,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -3791,9 +3784,9 @@
       "cls": "attack",
       "batch": "batch05",
       "host": "WIN10-01",
-      "n_stream": 22,
-      "n_own": 8,
-      "n_mal": 8,
+      "n_stream": 34,
+      "n_own": 20,
+      "n_mal": 20,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -3802,8 +3795,8 @@
       "cls": "benign",
       "batch": "batch05",
       "host": "WIN10-01",
-      "n_stream": 21,
-      "n_own": 20,
+      "n_stream": 9,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -4231,8 +4224,8 @@
       "cls": "benign",
       "batch": "batch05",
       "host": "WIN10-01",
-      "n_stream": 41,
-      "n_own": 16,
+      "n_stream": 33,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 1,
       "n_win": 1,
@@ -4242,8 +4235,8 @@
       "cls": "benign",
       "batch": "batch05",
       "host": "WIN10-01",
-      "n_stream": 68,
-      "n_own": 0,
+      "n_stream": 76,
+      "n_own": 8,
       "n_mal": 0,
       "n_win_full": 2,
       "n_win": 2,
@@ -4253,9 +4246,9 @@
       "cls": "attack",
       "batch": "batch05",
       "host": "WIN10-01",
-      "n_stream": 35,
-      "n_own": 31,
-      "n_mal": 31,
+      "n_stream": 52,
+      "n_own": 48,
+      "n_mal": 48,
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
@@ -4264,12 +4257,12 @@
       "cls": "attack",
       "batch": "batch05",
       "host": "WIN10-01",
-      "n_stream": 163,
-      "n_own": 53,
-      "n_mal": 53,
-      "n_win_full": 5,
-      "n_win": 5,
-      "n_pos": 5
+      "n_stream": 146,
+      "n_own": 36,
+      "n_mal": 36,
+      "n_win_full": 4,
+      "n_win": 4,
+      "n_pos": 4
     },
     "20261014-161400-dc01-a": {
       "cls": "attack",
@@ -4935,12 +4928,23 @@
       "cls": "attack",
       "batch": "ntds2",
       "host": "DC01",
-      "n_stream": 100,
-      "n_own": 19,
-      "n_mal": 19,
-      "n_win_full": 3,
-      "n_win": 3,
-      "n_pos": 3
+      "n_stream": 92,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-084801-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2v",
+      "host": "DC01",
+      "n_stream": 42,
+      "n_own": 8,
+      "n_mal": 8,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 1
     },
     "20261015-085019-dc01-a": {
       "cls": "attack",
@@ -4996,6 +5000,314 @@
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 1
+    },
+    "20261015-121820-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "WIN10-01",
+      "n_stream": 48,
+      "n_own": 44,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-121854-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 59,
+      "n_own": 37,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-121926-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "WIN10-01",
+      "n_stream": 71,
+      "n_own": 28,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-122040-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 89,
+      "n_own": 45,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-122050-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "WIN10-01",
+      "n_stream": 69,
+      "n_own": 51,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-122153-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 57,
+      "n_own": 33,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-122154-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "WIN10-01",
+      "n_stream": 52,
+      "n_own": 45,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-122234-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 51,
+      "n_own": 45,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-122257-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "WIN10-01",
+      "n_stream": 47,
+      "n_own": 45,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-122308-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 52,
+      "n_own": 45,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-122426-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 110,
+      "n_own": 51,
+      "n_mal": 0,
+      "n_win_full": 3,
+      "n_win": 3,
+      "n_pos": 0
+    },
+    "20261015-122427-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "WIN10-01",
+      "n_stream": 49,
+      "n_own": 45,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-122522-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "WIN10-01",
+      "n_stream": 46,
+      "n_own": 45,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-122553-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 67,
+      "n_own": 34,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-122652-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 43,
+      "n_own": 29,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-122705-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "WIN10-01",
+      "n_stream": 69,
+      "n_own": 68,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-122757-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "WIN10-01",
+      "n_stream": 29,
+      "n_own": 29,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-122828-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 61,
+      "n_own": 45,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-125057-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 53,
+      "n_own": 15,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-125317-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 42,
+      "n_own": 20,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-125553-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 44,
+      "n_own": 15,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-125849-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 48,
+      "n_own": 20,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-130014-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 63,
+      "n_own": 20,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-130414-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 69,
+      "n_own": 20,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-130546-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 82,
+      "n_own": 20,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-130716-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 34,
+      "n_own": 15,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-130852-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 46,
+      "n_own": 15,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-130958-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch07",
+      "host": "DC01",
+      "n_stream": 48,
+      "n_own": 20,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
     }
   }
 }
