@@ -208,14 +208,31 @@ def main():
             if r["dropped"]: c[r["drop_reason"]] += 1
         drops_by_batch[b] = dict(c); drops += c
 
-    # ---- gio log uoc luong ----
+    # ---- gio log ----
+    # SO CHINH: tong thoi luong phien theo manifest (t_end - t_start; dong ho khach cua orchestrator).
+    # KHONG dung min/max ts_system: sau khoi phuc snapshot dong ho DC01 lech (vd batch07|DC01 ra 21 h vi
+    # event mang gio snapshot 14/10). Kem: hop khung phien theo host (khong dem trung phien song song) va
+    # khoang export theo gio Wazuh `ts` (dong ho manager, khong bi snapshot lam lech) - chi de doi chieu.
+    man_dur = Counter(); dur_bh = Counter(); ivs = defaultdict(list)
+    for m in man.values():
+        d = max(0.0, (m["_t1"] - m["_t0"]).total_seconds()) / 3600
+        man_dur[m["class"]] += d; dur_bh[f"{m['_batch']}|{m['host']}"] += d
+        ivs[m["host"]].append((m["_t0"], m["_t1"]))
+    union_h = {}
+    for h, v in ivs.items():
+        tot = 0.0; cur = None
+        for a0, a1 in sorted(v):
+            if cur and a0 <= cur[1]: cur = (cur[0], max(cur[1], a1))
+            else:
+                if cur: tot += (cur[1] - cur[0]).total_seconds()
+                cur = (a0, a1)
+        if cur: tot += (cur[1] - cur[0]).total_seconds()
+        union_h[h] = round(tot / 3600, 2)
     span = {}
     for l in open(P("data", "processed", "all.events.jsonl"), encoding="utf-8"):
-        r = json.loads(l); t = ts(r["ts_system"]); k = (r["batch"], r["host"])
+        r = json.loads(l); t = ts(r["ts"]); k = (r.get("source_file", r["batch"]), r["host"])
         lo, hi = span.get(k, (t, t)); span[k] = (min(lo, t), max(hi, t))
-    log_hours = {f"{b}|{h}": round((hi - lo).total_seconds() / 3600, 2) for (b, h), (lo, hi) in sorted(span.items())}
-    man_dur = Counter()
-    for m in man.values(): man_dur[m["class"]] += (m["_t1"] - m["_t0"]).total_seconds() / 3600
+    export_h = {f"{b}|{h}": round((hi - lo).total_seconds() / 3600, 2) for (b, h), (lo, hi) in sorted(span.items())}
 
     shutil.copyfile(P("data", "processed", "vocab.json"), P("reports", "vocab.json"))
     stats = {
@@ -237,7 +254,11 @@ def main():
                    "brief_key_collisions": merge["brief_key_collisions"],
                    "events_from_neighbor_file": merge.get("events_from_neighbor_file", 0),
                    "runs_without_events": merge["runs_without_events"]["by_class"]},
-        "log_hours_by_batch_host": log_hours, "log_hours_total": round(sum(log_hours.values()), 2),
+        "log_hours_method": "tong thoi luong phien theo manifest (t_end - t_start); khong dung min/max ts_system",
+        "log_hours_total": round(sum(man_dur.values()), 2),
+        "log_hours_by_batch_host": {k: round(v, 2) for k, v in sorted(dur_bh.items())},
+        "session_hours_union_by_host": union_h,
+        "export_hours_by_file_host_wazuh_ts": export_h, "export_hours_total": round(sum(export_h.values()), 2),
         "session_hours_by_class": {k: round(v, 2) for k, v in sorted(man_dur.items())},
         "windows": {"total": wst["windows"], "positive": wst["positive"], "negative": wst["negative"],
                     "before_cap": wst["windows_before_cap"], "sessions_capped": wst["sessions_capped"],
@@ -287,6 +308,9 @@ def render_card(s):
     L = []
     L += ["# VT-Guard — Dataset card (Bước 4, bản đóng băng)", "",
           f"Sinh tự động bởi `src/dataset/card.py` lúc {s['generated']}. Số liệu chi tiết: `reports/dataset_stats.json`.", "",
+          "> **Phiên bản `dataset-v1.0` — ĐÓNG BĂNG.** Split (`data/processed/splits/*.jsonl`), `vocab.json` và checksum ở mục 10 "
+          "là cố định: mọi mô hình ở Bước 5–8 phải dùng đúng các file này. Trước khi huấn luyện/đánh giá, kiểm tra sha256 khớp bảng mục 10. "
+          "Muốn đổi dữ liệu → tạo phiên bản mới (dataset-v1.1…), không sửa tại chỗ.", "",
           "## 1. Mục đích",
           "Phát hiện hành vi APT kiểu **Volt Typhoon** (living-off-the-land) trên log Windows thu bằng Wazuh. "
           "Đơn vị phát hiện là **cửa sổ phiên** (chuỗi tối đa 64 event), nhãn **đa nhãn** ở mức cửa sổ: "
@@ -308,8 +332,13 @@ def render_card(s):
           f"- Event: đọc {fmt(ev['read'])}, giữ {fmt(ev['kept'])} (malicious {fmt(ev['malicious'])}, benign {fmt(ev['benign'])}; "
           f"trong đó nền {fmt(ev['by_run_class'].get('background', 0))}). DC01 {fmt(ev['by_host']['DC01'])} · WIN10-01 {fmt(ev['by_host']['WIN10-01'])}.",
           "- Event malicious theo TTP: " + ", ".join(f"{k} {fmt(v)}" for k, v in ev["malicious_by_ttp"].items()) + ".",
-          f"- Log ước lượng: **{s['log_hours_total']} giờ** (cộng khoảng thời gian log theo đợt × host); "
-          "thời lượng phiên theo manifest: " + ", ".join(f"{k} {v} h" for k, v in s["session_hours_by_class"].items()) + ".", "",
+          f"- Thời lượng log: **{s['log_hours_total']} giờ** = tổng thời lượng phiên theo manifest (t_end − t_start, đồng hồ của orchestrator); "
+          "theo lớp: " + ", ".join(f"{k} {v} h" for k, v in s["session_hours_by_class"].items()) + ". "
+          "Hợp các khung phiên theo host (không đếm trùng phiên chạy song song): " +
+          ", ".join(f"{h} {v} h" for h, v in s["session_hours_union_by_host"].items()) + ". "
+          f"Đối chiếu: khoảng export theo giờ Wazuh (`ts`, đồng hồ manager) cộng theo file × host = {s['export_hours_total']} giờ, "
+          "gồm cả thời gian nghỉ giữa phiên. Không dùng min/max `ts_system` vì sau khi khôi phục snapshot đồng hồ DC01 lệch "
+          "(bản trước tính ra 21,1 giờ cho batch07|DC01).", "",
           "## 3. Lớp và TTP",
           "| TTP | Kỹ thuật |", "|---|---|",
           "| T1016 | System Network Configuration Discovery |", "| T1018 | Remote System Discovery |",

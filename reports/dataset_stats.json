@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-15T20:30:23+07:00",
+  "generated": "2026-10-15T20:38:01+07:00",
   "versions": {
     "normalize": "v0",
     "label": "v7",
@@ -172,7 +172,31 @@
       "attack": 2
     }
   },
+  "log_hours_method": "tong thoi luong phien theo manifest (t_end - t_start); khong dung min/max ts_system",
+  "log_hours_total": 13.88,
   "log_hours_by_batch_host": {
+    "batch01|WIN10-01": 1.67,
+    "batch02|DC01": 0.81,
+    "batch02|WIN10-01": 1.94,
+    "batch03|DC01": 0.79,
+    "batch03|WIN10-01": 2.32,
+    "batch04|DC01": 1.0,
+    "batch04|WIN10-01": 1.8,
+    "batch05|DC01": 0.84,
+    "batch05|WIN10-01": 2.25,
+    "batch06|DC01": 0.08,
+    "batch06|WIN10-01": 0.07,
+    "batch07|DC01": 0.1,
+    "batch07|WIN10-01": 0.04,
+    "ntds2v|DC01": 0.02,
+    "ntds2|DC01": 0.07,
+    "ntds|DC01": 0.08
+  },
+  "session_hours_union_by_host": {
+    "WIN10-01": 7.97,
+    "DC01": 3.79
+  },
+  "export_hours_by_file_host_wazuh_ts": {
     "batch01|DC01": 2.57,
     "batch01|WIN10-01": 2.57,
     "batch02|DC01": 1.59,
@@ -185,16 +209,16 @@
     "batch05|WIN10-01": 1.98,
     "batch06|DC01": 0.34,
     "batch06|WIN10-01": 0.33,
-    "batch07|DC01": 21.13,
+    "batch07|DC01": 0.88,
     "batch07|WIN10-01": 0.88,
     "ntds|DC01": 0.81,
     "ntds|WIN10-01": 0.79,
-    "ntds2|DC01": 1.0,
+    "ntds2|DC01": 0.89,
     "ntds2|WIN10-01": 0.88,
-    "ntds2v|DC01": 0.11,
+    "ntds2v|DC01": 0.1,
     "ntds2v|WIN10-01": 0.06
   },
-  "log_hours_total": 46.63,
+  "export_hours_total": 26.26,
   "session_hours_by_class": {
     "attack": 5.86,
     "benign": 4.8,
@@ -1512,7 +1536,7 @@
           "diff": -0.0332
         },
         {
-          "channel_event": "Application:105",
+          "channel_event": "Application:102",
           "t1003_pos": 0.0313,
           "revert_control": 0.0,
           "diff": 0.0313

@@ -1,6 +1,8 @@
 # VT-Guard — Dataset card (Bước 4, bản đóng băng)
 
-Sinh tự động bởi `src/dataset/card.py` lúc 2026-10-15T20:30:23+07:00. Số liệu chi tiết: `reports/dataset_stats.json`.
+Sinh tự động bởi `src/dataset/card.py` lúc 2026-10-15T20:38:01+07:00. Số liệu chi tiết: `reports/dataset_stats.json`.
+
+> **Phiên bản `dataset-v1.0` — ĐÓNG BĂNG.** Split (`data/processed/splits/*.jsonl`), `vocab.json` và checksum ở mục 10 là cố định: mọi mô hình ở Bước 5–8 phải dùng đúng các file này. Trước khi huấn luyện/đánh giá, kiểm tra sha256 khớp bảng mục 10. Muốn đổi dữ liệu → tạo phiên bản mới (dataset-v1.1…), không sửa tại chỗ.
 
 ## 1. Mục đích
 Phát hiện hành vi APT kiểu **Volt Typhoon** (living-off-the-land) trên log Windows thu bằng Wazuh. Đơn vị phát hiện là **cửa sổ phiên** (chuỗi tối đa 64 event), nhãn **đa nhãn** ở mức cửa sổ: `window_malicious` (nhị phân) và `window_ttps` (tập TTP).
@@ -16,7 +18,7 @@ Phát hiện hành vi APT kiểu **Volt Typhoon** (living-off-the-land) trên lo
 - Pipeline: `normalize.py` (v0) → `label.py` (labeler v7) → `merge.py` → `windows.py` → `featurize.py` (f1) → `split.py`. Seed cố định 1337.
 - Event: đọc 423 597, giữ 61 490 (malicious 5 224, benign 56 266; trong đó nền 52 846). DC01 43 347 · WIN10-01 18 143.
 - Event malicious theo TTP: T1003.003 338, T1016 3 251, T1018 3 580, T1087.002 3 272, T1654 2 518.
-- Log ước lượng: **46.63 giờ** (cộng khoảng thời gian log theo đợt × host); thời lượng phiên theo manifest: attack 5.86 h, benign 4.8 h, hard_negative 3.22 h.
+- Thời lượng log: **13.88 giờ** = tổng thời lượng phiên theo manifest (t_end − t_start, đồng hồ của orchestrator); theo lớp: attack 5.86 h, benign 4.8 h, hard_negative 3.22 h. Hợp các khung phiên theo host (không đếm trùng phiên chạy song song): WIN10-01 7.97 h, DC01 3.79 h. Đối chiếu: khoảng export theo giờ Wazuh (`ts`, đồng hồ manager) cộng theo file × host = 26.26 giờ, gồm cả thời gian nghỉ giữa phiên. Không dùng min/max `ts_system` vì sau khi khôi phục snapshot đồng hồ DC01 lệch (bản trước tính ra 21,1 giờ cho batch07|DC01).
 
 ## 3. Lớp và TTP
 | TTP | Kỹ thuật |
@@ -215,7 +217,7 @@ Kiểm tra #10 — event nền trong 59 cửa sổ dương T1003.003 (3 127 even
 | `Security:4634` | 1.0% | 4.6% | -3.6% |
 | `Application:1001` | 0.3% | 3.7% | -3.5% |
 | `Microsoft-Windows-Sysmon/Operational:5` | 1.3% | 4.6% | -3.3% |
-| `Application:105` | 3.1% | 0.0% | +3.1% |
+| `Application:102` | 3.1% | 0.0% | +3.1% |
 
 Đọc kết quả #10: phần chênh không hoàn toàn là nhiễu khôi phục snapshot. `Application:216` và `Application:330` (ESENT) chỉ xuất hiện ở ntds/ntds2 — ESENT ghi khi `ntdsutil ifm` sao chép CSDL AD, tức tác động phụ thật của kỹ thuật nằm ngoài cây tiến trình (vẫn là event nền, nhãn benign). Các mục còn lại (Sysmon 3/22, logon 4624/4672/4634, WER 1001) là hoạt động nền khác nhau giữa hai nhóm phiên; revert_control mới có 12 cửa sổ nên ước lượng còn nhiễu.
 

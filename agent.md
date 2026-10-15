@@ -51,7 +51,7 @@ VT-Guard/  (= vt-guard-research/)
 | 1 | Hạ tầng Wazuh (DC01, WIN10-01 → Indexer) | `evidence/` | Hoàn thành |
 | 2 | Bộ điều phối sinh phiên, thu thập 479 phiên (10 đợt) | `orchestrator/`, `manifests/` | Hoàn thành |
 | 3 | Chuẩn hoá & gán nhãn (labeler v7) | `src/normalize/`, `src/label/` | Hoàn thành |
-| 4 | Đóng băng dataset: gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
+| 4 | Đóng băng dataset (tag `dataset-v1.0`): gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
 | 5–6 | Baseline B0–B3; VT-Seq + ablation | `src/models/`, `notebooks/` | Chưa bắt đầu |
 | 7 | Luật | `src/rules/` | Chưa bắt đầu |
 | 8 | Fusion | `src/fusion/` | Chưa bắt đầu |
@@ -67,6 +67,9 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - Mỗi phiên chạy của orchestrator ghi một bản kê vào `manifests/` (schema sẽ chốt ở Bước 2).
 - Notebook Colab import code từ `src/` thay vì chép code vào notebook.
 - Không commit secrets: `.env`, thông tin đăng nhập Indexer, token.
+- **Dataset đóng băng `dataset-v1.0` (git tag):** Bước 5–8 dùng ĐÚNG `data/processed/splits/{train,t_clean,t_hard,t_novel}.jsonl`,
+  `data/processed/vocab.json` (bản sao `reports/vocab.json`); trước khi chạy, so sha256 với `reports/dataset_card.md` mục 10.
+  Không chạy lại split/featurize/label trên bản này; muốn đổi dữ liệu thì tạo phiên bản mới (dataset-v1.1…).
 
 ## 5. Quy trình mỗi phiên làm việc
 
@@ -133,6 +136,13 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - Kết quả: 61 490 event -> 809 cửa sổ (278 dương). Train 479 · T-clean 91 · T-hard 87 · T-novel 152.
   Kiểm tra 1–8: ĐẠT. #9 KHÔNG ĐẠT ở `cmd.exe` (Train 14,5% âm < 15%), không ép số liệu. #10: TVD 0,495; ESENT 216/330
   chỉ ở phía dương (tác động phụ thật của ntdsutil ifm, ngoài cây tiến trình).
+
+### Đóng băng dataset-v1.0 — 2026-10-15
+- Sửa cách tính giờ log trong card: tổng thời lượng phiên theo manifest = 13,88 giờ (hợp khung theo host: WIN10-01 7,97 h,
+  DC01 3,79 h; khoảng export theo giờ Wazuh 26,26 h để đối chiếu). Bản trước dùng min/max ts_system ra 46,6 h (batch07|DC01
+  21,1 h do đồng hồ snapshot). Không chạy lại split: checksum split/vocab không đổi.
+- Xác nhận `orchestrator/Invoke-VTSession.ps1` ở HEAD parse 0 lỗi.
+- Gắn tag `dataset-v1.0`. sha256: train 22008227…, t_clean 7795fe31…, t_hard 185ae4d0…, t_novel e53b4ff7…, vocab f92a0915…
 
 ## 7. Việc tiếp theo / câu hỏi mở
 
