@@ -8,7 +8,7 @@ Quy tac:
   - Nhom phien: cac phien cung host co khoang [t_start, t_end] chong nhau (noi bac cau) thuoc
     cung NHOM. Phien song song dung chung event nen trong stream (4.2) -> ca nhom vao cung mot phia
     (Train | kiem thu), khong event nen nao vua o Train vua o tap kiem thu.
-  - T-novel = moi phien batch05 (holdout thoi gian).
+  - T-novel = moi phien cua NOVEL_BATCHES: batch05 (holdout thoi gian) + ntds2v (bien the T1003.003 held-out).
   - T-hard  = ~40% phien hard_negative con lai, chon ngau nhien (seed) theo NHOM chi gom hard_negative
     (nhom tron co phien khac lop khong the dua tron vao T-hard; HN trong nhom tron o lai Train/T-clean).
   - Phan con lai: Train 80% / T-clean 20% theo nhom, phan tang tham lam theo (class, host, chu ky TTP).
@@ -18,7 +18,7 @@ import argparse, hashlib, json, os, random, subprocess, sys
 from collections import Counter, defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from windows import load_manifests
+from windows import load_manifests, NOVEL_BATCHES
 
 SPLITS = ["train", "t_clean", "t_hard", "t_novel"]
 
@@ -65,15 +65,16 @@ def main():
     sessions = [man[r] for r in sorted(win_runs)]          # chi phien co cua so
     groups = overlap_groups(sessions)
     gid = {m["run_id"]: i for i, g in enumerate(groups) for m in g}
-    cross_batch = [i for i, g in enumerate(groups) if len({m["_batch"] for m in g}) > 1]
-    assert not cross_batch, f"nhom phien vat qua 2 batch: {cross_batch}"
+    # nhom khong duoc tron dot T-novel voi dot thuong (neu khong, phai chon giua ep T-novel va chong ro ri)
+    mixed = [g[0]["run_id"] for g in groups if len({m["_batch"] in NOVEL_BATCHES for m in g}) > 1]
+    assert not mixed, f"nhom phien tron dot T-novel va dot thuong: {mixed}"
 
     assign = {}
     # 1) T-novel
     for g in groups:
-        if g[0]["_batch"] == "batch05":
+        if g[0]["_batch"] in NOVEL_BATCHES:
             for m in g: assign[m["run_id"]] = "t_novel"
-    rest = [g for g in groups if g[0]["_batch"] != "batch05"]
+    rest = [g for g in groups if g[0]["_batch"] not in NOVEL_BATCHES]
     # 2) T-hard: nhom thuan hard_negative, chon ngau nhien den khi dat ~hard_frac so phien HN
     n_hn = sum(m["class"] == "hard_negative" for g in rest for m in g)
     target_hard = round(a.hard_frac * n_hn)
@@ -127,8 +128,8 @@ def main():
         for w in ws: where[w["run_id"]].add(s)
     chk["run_id_in_gt1_split"] = sorted(r for r, ss in where.items() if len(ss) > 1)
     chk["t_hard_non_hn_windows"] = sum(w["window_class"] != "hard_negative" for w in W["t_hard"])
-    chk["t_novel_non_batch05_windows"] = sum(w["batch"] != "batch05" for w in W["t_novel"])
-    chk["batch05_outside_t_novel"] = sum(w["batch"] == "batch05" for s in SPLITS if s != "t_novel" for w in W[s])
+    chk["t_novel_non_novel_batch_windows"] = sum(w["batch"] not in NOVEL_BATCHES for w in W["t_novel"])
+    chk["novel_batch_outside_t_novel"] = sum(w["batch"] in NOVEL_BATCHES for s in SPLITS if s != "t_novel" for w in W[s])
     leak_pairs = []
     for g in groups:
         ss = {assign[m["run_id"]] for m in g}
@@ -145,8 +146,8 @@ def main():
     n_pos = sum(w["window_malicious"] for ws in W.values() for w in ws)
     n_attack = sum(1 for m in sessions if m["class"] == "attack")
     chk["positive_windows_le_attack_x8"] = f"{n_pos} <= {n_attack}x8={n_attack * 8}: {n_pos <= n_attack * 8}"
-    ok = (not chk["run_id_in_gt1_split"] and not chk["t_hard_non_hn_windows"] and not chk["t_novel_non_batch05_windows"]
-          and not chk["batch05_outside_t_novel"] and not leak_pairs and chk["vocab_fit_sessions_eq_train"] and n_pos <= n_attack * 8)
+    ok = (not chk["run_id_in_gt1_split"] and not chk["t_hard_non_hn_windows"] and not chk["t_novel_non_novel_batch_windows"]
+          and not chk["novel_batch_outside_t_novel"] and not leak_pairs and chk["vocab_fit_sessions_eq_train"] and n_pos <= n_attack * 8)
 
     per = {}
     for s in SPLITS:
@@ -163,7 +164,7 @@ def main():
         }
     stats = {"seed": a.seed, "hard_frac": a.hard_frac, "clean_frac": a.clean_frac,
              "groups_total": len(groups), "group_size_dist": dict(sorted(Counter(len(g) for g in groups).items())),
-             "hn_sessions_non_batch05": n_hn, "t_hard_target": target_hard,
+             "hn_sessions_non_novel": n_hn, "t_hard_target": target_hard,
              "hn_in_pure_groups": sum(len(g) for g in pure),
              "splits": per, "acceptance": chk, "acceptance_pass": ok,
              "vocab_sha256": sha256(P("data", "processed", "vocab.json"))}

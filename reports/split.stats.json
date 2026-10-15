@@ -2,9 +2,9 @@
   "seed": 1337,
   "hard_frac": 0.4,
   "clean_frac": 0.2,
-  "groups_total": 242,
+  "groups_total": 288,
   "group_size_dist": {
-    "1": 204,
+    "1": 250,
     "2": 6,
     "3": 11,
     "4": 7,
@@ -16,125 +16,126 @@
     "13": 1,
     "16": 1
   },
-  "hn_sessions_non_batch05": 90,
-  "t_hard_target": 36,
-  "hn_in_pure_groups": 56,
+  "hn_sessions_non_novel": 117,
+  "t_hard_target": 47,
+  "hn_in_pure_groups": 83,
   "splits": {
     "train": {
-      "sessions": 219,
-      "groups": 154,
-      "windows": 396,
-      "positive": 156,
-      "positive_rate": 0.3939,
+      "sessions": 241,
+      "groups": 177,
+      "windows": 413,
+      "positive": 177,
+      "positive_rate": 0.4286,
       "sessions_by_class": {
-        "attack": 85,
+        "attack": 94,
         "benign": 91,
-        "hard_negative": 43
+        "hard_negative": 56
       },
       "windows_by_class": {
-        "attack": 186,
-        "benign": 147,
-        "hard_negative": 63
+        "attack": 201,
+        "benign": 145,
+        "hard_negative": 67
       },
       "windows_by_host": {
-        "DC01": 141,
-        "WIN10-01": 255
+        "DC01": 154,
+        "WIN10-01": 259
       },
       "ttp_windows": {
-        "T1003.003": 19,
+        "T1003.003": 41,
         "T1016": 87,
-        "T1018": 80,
-        "T1087.002": 97,
-        "T1654": 82
+        "T1018": 79,
+        "T1087.002": 96,
+        "T1654": 83
       },
-      "sha256": "604e987fe10b566b36ced28eb883d941fa290e00d257b93a10ba416dddbd960c"
+      "sha256": "43aae6e83b0dff8c43e9db655cd72e1ccaed6e9ec3b05c3da54d1790bde2adf8"
     },
     "t_clean": {
-      "sessions": 54,
-      "groups": 15,
-      "windows": 108,
-      "positive": 38,
-      "positive_rate": 0.3519,
+      "sessions": 62,
+      "groups": 20,
+      "windows": 132,
+      "positive": 47,
+      "positive_rate": 0.3561,
       "sessions_by_class": {
-        "attack": 18,
+        "attack": 23,
         "benign": 25,
-        "hard_negative": 11
+        "hard_negative": 14
       },
       "windows_by_class": {
-        "attack": 43,
-        "benign": 52,
-        "hard_negative": 13
+        "attack": 58,
+        "benign": 54,
+        "hard_negative": 20
       },
       "windows_by_host": {
-        "DC01": 18,
-        "WIN10-01": 90
+        "DC01": 33,
+        "WIN10-01": 99
       },
       "ttp_windows": {
-        "T1003.003": 5,
+        "T1003.003": 13,
         "T1016": 24,
-        "T1018": 25,
-        "T1087.002": 28,
-        "T1654": 22
+        "T1018": 26,
+        "T1087.002": 29,
+        "T1654": 21
       },
-      "sha256": "59e490aa54825fd47a0adc2c43c2eebc1984fa3337f2899b6f2bf884abebf5c0"
+      "sha256": "fc628170e0ba5cfced42b09c22d9137984e8ab7725e8228e3d1ba775a775c461"
     },
     "t_hard": {
-      "sessions": 36,
-      "groups": 32,
-      "windows": 63,
+      "sessions": 47,
+      "groups": 45,
+      "windows": 82,
       "positive": 0,
       "positive_rate": 0.0,
       "sessions_by_class": {
-        "hard_negative": 36
+        "hard_negative": 47
       },
       "windows_by_class": {
-        "hard_negative": 63
+        "hard_negative": 82
       },
       "windows_by_host": {
-        "DC01": 36,
-        "WIN10-01": 27
+        "DC01": 56,
+        "WIN10-01": 26
       },
       "ttp_windows": {},
-      "sha256": "c59a35bb7c54ea7b77c11041b9c4c04e870cf87bc384b75fcef24860a911e6f0"
+      "sha256": "8229393e67ca08a0b4c94ec5e0d2dabe3ce8dfdf64e17dec45048836d5feaf05"
     },
     "t_novel": {
-      "sessions": 77,
-      "groups": 41,
-      "windows": 146,
-      "positive": 49,
-      "positive_rate": 0.3356,
+      "sessions": 82,
+      "groups": 46,
+      "windows": 151,
+      "positive": 54,
+      "positive_rate": 0.3576,
       "sessions_by_class": {
-        "attack": 26,
+        "attack": 31,
         "benign": 36,
         "hard_negative": 15
       },
       "windows_by_class": {
-        "attack": 72,
+        "attack": 77,
         "benign": 57,
         "hard_negative": 17
       },
       "windows_by_host": {
-        "DC01": 54,
+        "DC01": 59,
         "WIN10-01": 92
       },
       "ttp_windows": {
+        "T1003.003": 5,
         "T1016": 37,
         "T1018": 37,
         "T1087.002": 34,
         "T1654": 16
       },
-      "sha256": "cf5d0a09c032659055f57307ccbfa0045987e4d037cd0e978225b2d6010ad9f0"
+      "sha256": "f9cf96199c19e34154ad6ddabcff1d31dda61b40ec53b947f2b1c2b05bd29951"
     }
   },
   "acceptance": {
     "run_id_in_gt1_split": [],
     "t_hard_non_hn_windows": 0,
-    "t_novel_non_batch05_windows": 0,
-    "batch05_outside_t_novel": 0,
+    "t_novel_non_novel_batch_windows": 0,
+    "novel_batch_outside_t_novel": 0,
     "train_test_time_overlap": [],
     "vocab_fit_sessions_eq_train": true,
-    "positive_windows_le_attack_x8": "243 <= 129x8=1032: True"
+    "positive_windows_le_attack_x8": "278 <= 148x8=1184: True"
   },
   "acceptance_pass": true,
-  "vocab_sha256": "10ec93d4b7121999ceb34c9759212885bb31180512657b540e5b462d3cdb38ad"
+  "vocab_sha256": "7ccfe1208100a4ac1350204102cd34fbd6e9ab2f1d1b5462d28e0c9d412c9882"
 }

@@ -49,8 +49,8 @@ VT-Guard/  (= vt-guard-research/)
 | Bước | Nội dung | Thư mục | Trạng thái |
 |------|----------|---------|------------|
 | 1 | Hạ tầng Wazuh (DC01, WIN10-01 → Indexer) | `evidence/` | Hoàn thành |
-| 2 | Bộ điều phối sinh phiên, thu thập 401 phiên | `orchestrator/`, `manifests/` | Hoàn thành |
-| 3 | Chuẩn hoá & gán nhãn (labeler v5) | `src/normalize/`, `src/label/` | Hoàn thành |
+| 2 | Bộ điều phối sinh phiên, thu thập 449 phiên (9 đợt) | `orchestrator/`, `manifests/` | Hoàn thành |
+| 3 | Chuẩn hoá & gán nhãn (labeler v6) | `src/normalize/`, `src/label/` | Hoàn thành |
 | 4 | Đóng băng dataset: gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
 | 5–6 | Baseline B0–B3; VT-Seq + ablation | `src/models/`, `notebooks/` | Chưa bắt đầu |
 | 7 | Luật | `src/rules/` | Chưa bắt đầu |
@@ -103,11 +103,25 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   Kiểm thử chấp nhận cuối: ĐẠT (xem `reports/dataset_card.md` mục 8).
 - Tồn đọng: xem mục 7 và mục "Hạn chế" của dataset card.
 
+### Phiên Bước 4 (chạy lại) — 2026-10-15
+- Thêm 3 đợt: `batch06` (27 hard-negative: ping/wevtutil/ntdsutil hợp lệ), `ntds2` (15 phiên T1003.003 test 3),
+  `ntds2v` (6 phiên T1003.003 test 1, vssadmin shadow copy).
+- **Labeler v6**: event không có `process_guid` chỉ ghép vào tiến trình khi `ts_system` nằm trong vòng đời [EID1, EID5].
+  Lý do: khôi phục snapshot làm đồng hồ DC01 lệch ~55 phút; v5 (PID ±300 s theo giờ Wazuh) gán nhầm 204 event PowerShell
+  (pid 1112, nạp module CIM) thành malicious T1003.003 ở phiên `20261015-084208-dc01-a`. Đối chiếu v5↔v6: chỉ 231 event ở ntds2 đổi.
+  Nhãn v5 giữ ở `data/processed/v5/`.
+- Loại 3 phiên attack labeled=0 (atomic không sinh tiến trình con): `20261014-164113`, `20261015-075708`, `20261015-084801` (dc01-a), không coi là benign.
+- T-novel = batch05 + ntds2v (`NOVEL_BATCHES` trong `src/dataset/windows.py`); ntds2 chia Train/T-clean; batch06 theo quy tắc T-hard.
+- Kết quả: 52 165 event → 778 cửa sổ (278 dương). Train 413 · T-clean 132 · T-hard 82 · T-novel 151. 8 kiểm tra chấp nhận: ĐẠT.
+- Card bổ sung bảng T1003.003 theo tập và coverage theo công cụ: không công cụ nào chỉ ở phía dương trên toàn bộ dữ liệu,
+  nhưng trong Train `ntdsutil.exe` vẫn chỉ ở phía dương; `route.exe`/`netstat.exe` chỉ ở phía âm (đường tắt ngược).
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
 - [ ] Bước 5: baseline B0 (luật Wazuh từ `wazuh_rule_*`), B1 (TF-IDF+LR), B2 (LightGBM), B3 (GRU thuần) trên các split.
 - [ ] Bước 6: VT-Seq (GRU-Attention đa nhiệm) + ablation; nạp dữ liệu CHỈ từ `cat`/`cmd`/`num`; cắt ngẫu nhiên độ dài
       cửa sổ khi huấn luyện; ablation bỏ `image_name` (đường tắt ping/wevtutil/ntdsutil).
-- [ ] Cân nhắc thu thêm phiên hard-negative dùng ping/wevtutil hợp lệ (T-hard hiện chưa thử thách T1018/T1654).
-- [ ] T1003.003 chỉ có 5 cửa sổ ở T-clean — báo cáo kèm khoảng tin cậy.
+- [ ] Phía âm của ping/wevtutil/ntdsutil vẫn mỏng (5/11/5 cửa sổ); `ntdsutil.exe` chỉ dương trong Train; route/netstat chỉ âm.
+      Cân nhắc thêm hard-negative/biến thể tấn công để cân bằng, hoặc ép một phần batch06 vào Train.
+- [ ] T1003.003: T-clean 13 cửa sổ dương, T-novel (ntds2v) 5 — báo cáo kèm khoảng tin cậy.
 - [ ] Chọn phiên bản Python, tạo `requirements.txt` (Bước 4 chỉ cần stdlib + numpy; Python 3.12).

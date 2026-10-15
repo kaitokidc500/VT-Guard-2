@@ -16,13 +16,16 @@ Vector moi event (268 cot tho):
 KHONG dung (muc 3 brief): wazuh_rule_*, label_*, run_id, event_uid, process_guid,
 script_block_text, ps_payload, duong dan day du (image/parent_image), n_events.
 
-Vocab duoc FIT tren mot tap con: mac dinh moi cua so tru batch05 (T-novel chac chan khong lot vao
+Vocab duoc FIT tren mot tap con: mac dinh moi cua so tru cac dot T-novel (chac chan khong lot vao
 vocab). O 4.4, split.py fit lai tren Train (--fit-runs) de vocab chi thay du lieu huan luyen.
 Chay: python src/dataset/featurize.py [--root .] [--fit-runs runs.txt] [--min-sessions 2]
 """
-import argparse, hashlib, json, math, os, re
+import argparse, hashlib, json, math, os, re, sys
 from collections import Counter, defaultdict
 from datetime import datetime
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from windows import NOVEL_BATCHES
 
 CAT_FIELDS = ["channel", "event_id", "image_name", "parent_image_name", "host_role",
               "integrity_level", "logon_type"]
@@ -109,7 +112,7 @@ META = ["window_id", "run_id", "batch", "host", "user_role", "tempo", "variant",
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--fit-runs", help="file chua run_id (moi dong 1) dung de fit vocab; mac dinh: moi phien tru batch05")
+    ap.add_argument("--fit-runs", help="file chua run_id (moi dong 1) dung de fit vocab; mac dinh: moi phien tru cac dot T-novel")
     ap.add_argument("--min-sessions", type=int, default=2)
     a = ap.parse_args()
     P = lambda *p: os.path.join(a.root, *p)
@@ -123,8 +126,8 @@ def main():
         fit_runs = {l.strip() for l in open(a.fit_runs, encoding="utf-8") if l.strip()}
         fit_desc = f"run_id trong {os.path.basename(a.fit_runs)}"
     else:
-        fit_runs = {w["run_id"] for w in windows if w["batch"] != "batch05"}
-        fit_desc = "moi phien tru batch05 (tam thoi, fit lai tren Train o 4.4)"
+        fit_runs = {w["run_id"] for w in windows if w["batch"] not in NOVEL_BATCHES}
+        fit_desc = "moi phien tru T-novel (tam thoi, fit lai tren Train o 4.4)"
     fit = [w for w in windows if w["run_id"] in fit_runs]
     vocab = build_vocab(fit, a.min_sessions)
     vocab["_meta"] = {"featurizer_version": FEATURIZER_VERSION, "cat_fields": CAT_FIELDS,
@@ -137,12 +140,12 @@ def main():
     with open(P("data", "processed", "vocab.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(vocab, f, ensure_ascii=False, indent=1)
 
-    unk = {s: Counter() for s in ("fit", "batch05", "other")}
+    unk = {s: Counter() for s in ("fit", "t_novel", "other")}
     n_ev = 0; nnz = []
     with open(P("data", "processed", "features.jsonl"), "w", encoding="utf-8", newline="\n") as out:
         for w in windows:
             cat, cmd, num = featurize_window(w, vocab)
-            grp = "fit" if w["run_id"] in fit_runs else ("batch05" if w["batch"] == "batch05" else "other")
+            grp = "fit" if w["run_id"] in fit_runs else ("t_novel" if w["batch"] in NOVEL_BATCHES else "other")
             for row in cat:
                 unk[grp]["events"] += 1
                 for f, i in zip(CAT_FIELDS, row): unk[grp][f] += i == 1

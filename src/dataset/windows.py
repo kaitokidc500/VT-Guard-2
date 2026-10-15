@@ -13,7 +13,8 @@ Thoi gian = ts_system (gio that cua event); `ts` cua Wazuh tre toi ~85 s nen kho
 Cua so: bat dau 0, 32, 64, ... va them 1 cua so cuoi de phu duoi stream; stream < W -> 1 cua so ngan.
 Gioi han K: lay mau ngau nhien (seed + run_id) PHAN TANG theo cua so duong/am, giu it nhat
 1 cua so duong neu phien co.
-Phien attack khong co event malicious nao trong stream -> loai (khong sinh cua so attack am gia).
+Phien attack khong co event malicious nao trong stream -> loai, KHONG coi la benign (khong sinh cua so
+attack am gia). Truong hop labeled=0 (atomic khong sinh tien trinh con nao) ghi ly do rieng.
 Chay: python src/dataset/windows.py [--root .] [--W 64] [--stride 32] [--K 8] [--seed 1337]
 """
 import argparse, glob, json, os, random, sys
@@ -21,7 +22,9 @@ from bisect import bisect_left, bisect_right
 from collections import Counter, defaultdict
 from datetime import datetime
 
-BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "ntds"]
+BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "batch06", "ntds", "ntds2", "ntds2v"]
+# Dot ep TOAN BO vao T-novel: batch05 = holdout thoi gian, ntds2v = bien the T1003.003 held-out
+NOVEL_BATCHES = ["batch05", "ntds2v"]
 # Truong giu lai cho moi event trong cua so: chi nhung gi 4.3 can (khong label_*, wazuh_*, run_id,
 # event_uid, process_guid, script_block_text, ps_payload).
 EVENT_FIELDS = ["channel", "event_id", "image_name", "parent_image_name", "host_role",
@@ -99,6 +102,8 @@ def main():
             seg = bg.get(h, [])[lo:hi]
             stream = sorted(own.get(rid, []) + seg, key=key)
             n_mal = sum(1 for r in stream if r["label_malicious"])
+            if m["class"] == "attack" and not own.get(rid):
+                excluded.append((rid, m["class"], "attack_labeled0_atomic_khong_sinh_tien_trinh_con")); continue
             if not stream:
                 excluded.append((rid, m["class"], "stream_rong")); continue
             if m["class"] == "attack" and n_mal == 0:

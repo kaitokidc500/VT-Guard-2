@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """VT-Guard Buoc 4.1 - gop dataset.
-Doc data/processed/<batch>.labeled.jsonl (batch01-05 + ntds), gan truong `batch`,
+Doc data/processed/<batch>.labeled.jsonl (batch01-06 + ntds, ntds2, ntds2v), gan truong `batch`,
 chi giu event dropped=False, khu trung lap, ghi data/processed/all.events.jsonl
 va reports/merge.stats.json (thong ke + sha256 de dung cho dataset card).
 
@@ -17,7 +17,7 @@ Chay: python src/dataset/merge.py [--root .] [--batches batch01,batch02,...]
 import argparse, glob, hashlib, json, os, re, sys
 from collections import Counter, defaultdict
 
-DEFAULT_BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "ntds"]
+DEFAULT_BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "batch06", "ntds", "ntds2", "ntds2v"]
 LEAK_RE = re.compile(r"atomic|invoke-|\bT1\d{3}(?:\.\d{3})?\b|vt-?guard", re.I)
 FEATURE_TEXT = ["command_line", "parent_command_line", "image", "parent_image"]
 RAW_SCRIPT = ["script_block_text", "ps_payload"]

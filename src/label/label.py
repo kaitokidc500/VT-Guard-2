@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# VT-Guard labeler v5 (v4 + chan 3 nguon ro ri phat hien o Buoc 4.1)
+# VT-Guard labeler v6 (v5 + ghep PID->tien trinh theo vong doi, gio ts_system)
 # Gan nhan event da chuan hoa (normalize.py) theo manifest + cay tien trinh Sysmon EID1.
 # Nguyen tac:
 #   - Orchestrator = tien trinh chay Invoke-VTSession/Batch (pid in exclude_pids). Event cua no -> LOAI (chong ro ri NHAN).
@@ -20,13 +20,20 @@
 #       (runas, w32tm...). Vong doi tien trinh = giua 2 lan EID1 cung PID; KHONG dung EID5 lam
 #       moc ket thuc vi khoi phuc snapshot (ntds) lam tien trinh "song lai" ma khong co EID1.
 #       Event thuoc cay phien (exec) van uu tien hon quy tac nay.
+# Bo sung v6:
+#   - Event khong co process_guid (PowerShell 4103/4104, Security...) ghep vao tien trinh theo
+#       (host, PID) va ts_system (gio that cua event), CHI khi event nam trong vong doi tien trinh:
+#       [EID1, EID5] cua guid do (+-2 s); thieu EID5 -> den EID1 ke tiep cung PID (hoac mo).
+#       v5 dung `ts` cua Wazuh +-300 s: sau khi khoi phuc snapshot dong ho DC01 lech ~55 phut,
+#       PowerShell pid 1112 (07:47) bi ghep nham vao conhost.exe 1112 cua phien ntds2 084208 (08:42)
+#       -> 204 event malicious T1003.003 sai.
 # Chay: python label.py <norm.jsonl> <manifests_dir> <out.jsonl>
 import json, sys, glob, os, re
 from bisect import bisect_right
 from collections import defaultdict, Counter
 from datetime import datetime, timedelta
 
-LABEL_VERSION = "v5"
+LABEL_VERSION = "v6"
 HARNESS = {"conhost.exe","hostname.exe","whoami.exe","scp.exe","ssh.exe"}
 UPLOAD_RE = re.compile(r"\.manifest\.json|VT-Guard-runs", re.I)
 OPERATOR_RE = re.compile(r"Invoke-AtomicTest|Invoke-VT\w*|AtomicRedTeam|PathToAtomicsFolder|Get-AtomicTechnique|VT-Guard", re.I)
@@ -67,14 +74,31 @@ def subtree(root, children):
         seen.add(g); stack+=children.get(g,[])
     return seen
 
-def pid_to_guid(e1, host, pid, when, tol=300):
-    best=None; bd=None
+LIFE_SLACK = timedelta(seconds=2)
+
+def build_lifetimes(rows, e1):
+    """(host, pid) -> [(start, end|None, guid)] theo ts_system; end = EID5 cung guid, hoac EID1 ke tiep cung PID."""
+    end_by_guid={}
+    for r in rows:
+        if r["event_id"]==5 and r.get("process_guid"):
+            t=ts(r.get("ts_system"))
+            if t: end_by_guid[r["process_guid"]]=t
+    life=defaultdict(list)
     for r in e1:
-        if r["host"]==host and r["process_id"]==pid:
-            st=ts(r["ts"])
-            if st is None: continue
-            dt=abs((when-st).total_seconds())
-            if dt<=tol and (bd is None or dt<bd): best=r["process_guid"]; bd=dt
+        t=ts(r.get("ts_system"))
+        if t: life[(r["host"],r["process_id"])].append([t,end_by_guid.get(r["process_guid"]),r["process_guid"]])
+    for k,v in life.items():
+        v.sort(key=lambda x: x[0])
+        for i,x in enumerate(v):
+            if x[1] is None and i+1<len(v): x[1]=v[i+1][0]
+    return life
+
+def pid_to_guid(life, host, pid, when):
+    """Tien trinh (host, pid) dang song tai `when` (ts_system); None neu khong co."""
+    if when is None: return None
+    best=None
+    for st,en,g in life.get((host,pid),[]):
+        if st-LIFE_SLACK<=when and (en is None or when<=en+LIFE_SLACK): best=g   # lay tien trinh moi nhat
     return best
 
 def is_fragment(r):
@@ -99,6 +123,7 @@ def console_segments(rows, excl_by_host):
 
 def label(rows, manifests):
     by_guid, children, e1 = build_tree(rows)
+    life = build_lifetimes(rows, e1)
     for r in rows:
         r.update(label_malicious=False,label_ttps=[],label_source=None,run_id=None,dropped=False,drop_reason=None,
                  label_version=LABEL_VERSION)
@@ -167,7 +192,7 @@ def label(rows, manifests):
         # 0) manh vo 4103 khong co dinh danh -> loai
         if is_fragment(r):
             drop_tool(r, "ps_fragment", h, w); continue
-        g=r.get("process_guid") or (pid_to_guid(e1,h,r["process_id"],w) if r["process_id"] is not None else None)
+        g=r.get("process_guid") or (pid_to_guid(life,h,r["process_id"],ts(r.get("ts_system"))) if r["process_id"] is not None else None)
         # 1) event cua chinh orchestrator -> loai (chong ro ri)
         if r["process_id"] in excl_by_host.get(h,set()):
             m=find_session(h,w,r["process_id"])

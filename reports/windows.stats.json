@@ -6,11 +6,11 @@
     "seed": 1337,
     "time_field": "ts_system"
   },
-  "windows": 713,
-  "positive": 243,
-  "negative": 470,
-  "positive_rate": 0.3408,
-  "sessions_with_windows": 386,
+  "windows": 778,
+  "positive": 278,
+  "negative": 500,
+  "positive_rate": 0.3573,
+  "sessions_with_windows": 432,
   "sessions_excluded": [
     [
       "20261014-041841-win10-01-b",
@@ -85,14 +85,24 @@
     [
       "20261014-164113-dc01-a",
       "attack",
-      "attack_khong_co_event_malicious"
+      "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
+    ],
+    [
+      "20261015-075708-dc01-a",
+      "attack",
+      "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
+    ],
+    [
+      "20261015-084801-dc01-a",
+      "attack",
+      "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
     ]
   ],
   "by_class": {
     "attack": {
-      "sessions": 129,
-      "windows": 301,
-      "pos": 243,
+      "sessions": 148,
+      "windows": 336,
+      "pos": 278,
       "neg": 58
     },
     "benign": {
@@ -102,31 +112,31 @@
       "neg": 256
     },
     "hard_negative": {
-      "sessions": 105,
-      "windows": 156,
+      "sessions": 132,
+      "windows": 186,
       "pos": 0,
-      "neg": 156
+      "neg": 186
     }
   },
   "by_host": {
     "DC01": {
-      "sessions": 98,
-      "windows": 249,
-      "pos": 85,
-      "neg": 164
+      "sessions": 132,
+      "windows": 302,
+      "pos": 120,
+      "neg": 182
     },
     "WIN10-01": {
-      "sessions": 288,
-      "windows": 464,
+      "sessions": 300,
+      "windows": 476,
       "pos": 158,
-      "neg": 306
+      "neg": 318
     }
   },
   "by_host_class": {
     "DC01|attack": {
-      "sessions": 41,
-      "windows": 115,
-      "pos": 85,
+      "sessions": 60,
+      "windows": 150,
+      "pos": 120,
       "neg": 30
     },
     "DC01|benign": {
@@ -136,10 +146,10 @@
       "neg": 73
     },
     "DC01|hard_negative": {
-      "sessions": 26,
-      "windows": 61,
+      "sessions": 41,
+      "windows": 79,
       "pos": 0,
-      "neg": 61
+      "neg": 79
     },
     "WIN10-01|attack": {
       "sessions": 88,
@@ -154,10 +164,10 @@
       "neg": 183
     },
     "WIN10-01|hard_negative": {
-      "sessions": 79,
-      "windows": 95,
+      "sessions": 91,
+      "windows": 107,
       "pos": 0,
-      "neg": 95
+      "neg": 107
     }
   },
   "by_batch": {
@@ -191,26 +201,44 @@
       "pos": 49,
       "neg": 97
     },
+    "batch06": {
+      "sessions": 27,
+      "windows": 30,
+      "pos": 0,
+      "neg": 30
+    },
     "ntds": {
       "sessions": 20,
       "windows": 32,
       "pos": 24,
       "neg": 8
+    },
+    "ntds2": {
+      "sessions": 14,
+      "windows": 30,
+      "pos": 30,
+      "neg": 0
+    },
+    "ntds2v": {
+      "sessions": 5,
+      "windows": 5,
+      "pos": 5,
+      "neg": 0
     }
   },
   "sessions_capped": 14,
-  "windows_before_cap": 784,
-  "short_sessions_lt_W": 274,
+  "windows_before_cap": 849,
+  "short_sessions_lt_W": 303,
   "stream_len": {
     "min": 1,
     "max": 910,
-    "median": 32
+    "median": 33
   },
   "attack_neg_windows": 58,
   "nonattack_pos_windows": 0,
   "bg_events_shared_by_overlapping_sessions": 2349,
   "ttp_windows": {
-    "T1003.003": 24,
+    "T1003.003": 59,
     "T1016": 148,
     "T1018": 142,
     "T1087.002": 159,
@@ -4462,6 +4490,512 @@
       "n_win_full": 1,
       "n_win": 1,
       "n_pos": 0
+    },
+    "20261015-071019-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 14,
+      "n_own": 8,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071051-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 34,
+      "n_own": 14,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071109-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 23,
+      "n_own": 6,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071200-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 25,
+      "n_own": 6,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071209-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 5,
+      "n_own": 4,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071301-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 25,
+      "n_own": 18,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071315-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 15,
+      "n_own": 14,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071352-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 19,
+      "n_own": 14,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071427-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 8,
+      "n_own": 6,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071500-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 24,
+      "n_own": 14,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071531-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 38,
+      "n_own": 8,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071601-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 28,
+      "n_own": 8,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071647-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 75,
+      "n_own": 12,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-071652-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 27,
+      "n_own": 18,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071753-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 29,
+      "n_own": 6,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071800-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 16,
+      "n_own": 12,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071857-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 4,
+      "n_own": 4,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071919-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 34,
+      "n_own": 6,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-071956-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 18,
+      "n_own": 16,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-072017-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 82,
+      "n_own": 14,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-072111-win10-01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "WIN10-01",
+      "n_stream": 27,
+      "n_own": 14,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-072155-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 20,
+      "n_own": 14,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-072433-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 65,
+      "n_own": 34,
+      "n_mal": 0,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 0
+    },
+    "20261015-072516-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 37,
+      "n_own": 12,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-072630-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 43,
+      "n_own": 34,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-072735-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 30,
+      "n_own": 30,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-072841-dc01-h": {
+      "cls": "hard_negative",
+      "batch": "batch06",
+      "host": "DC01",
+      "n_stream": 30,
+      "n_own": 30,
+      "n_mal": 0,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 0
+    },
+    "20261015-075554-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 99,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 3,
+      "n_win": 3,
+      "n_pos": 3
+    },
+    "20261015-075801-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 79,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-075851-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 84,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-075946-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 83,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-080034-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 89,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-080143-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 81,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-080318-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 85,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-080400-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 86,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-084028-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 76,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-084116-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 82,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-084208-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 86,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-084247-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 82,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-084350-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 85,
+      "n_own": 11,
+      "n_mal": 11,
+      "n_win_full": 2,
+      "n_win": 2,
+      "n_pos": 2
+    },
+    "20261015-084451-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2",
+      "host": "DC01",
+      "n_stream": 100,
+      "n_own": 19,
+      "n_mal": 19,
+      "n_win_full": 3,
+      "n_win": 3,
+      "n_pos": 3
+    },
+    "20261015-085019-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2v",
+      "host": "DC01",
+      "n_stream": 40,
+      "n_own": 8,
+      "n_mal": 8,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 1
+    },
+    "20261015-085107-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2v",
+      "host": "DC01",
+      "n_stream": 44,
+      "n_own": 8,
+      "n_mal": 8,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 1
+    },
+    "20261015-085224-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2v",
+      "host": "DC01",
+      "n_stream": 24,
+      "n_own": 8,
+      "n_mal": 8,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 1
+    },
+    "20261015-085320-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2v",
+      "host": "DC01",
+      "n_stream": 37,
+      "n_own": 8,
+      "n_mal": 8,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 1
+    },
+    "20261015-085404-dc01-a": {
+      "cls": "attack",
+      "batch": "ntds2v",
+      "host": "DC01",
+      "n_stream": 52,
+      "n_own": 8,
+      "n_mal": 8,
+      "n_win_full": 1,
+      "n_win": 1,
+      "n_pos": 1
     }
   }
 }

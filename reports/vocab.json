@@ -187,8 +187,8 @@
   },
   "min_sessions": 2,
   "fit": "run_id trong train_runs.txt",
-  "fit_sessions": 219,
-  "fit_windows": 396,
+  "fit_sessions": 241,
+  "fit_windows": 413,
   "cmd": {
    "dim": 256,
    "ngram": [

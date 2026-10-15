@@ -1,0 +1,182 @@
+{
+  "20261015-075554-dc01-a": {
+    "run": "20261015-075554-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1267,
+    "dropped_harness": 8,
+    "dropped_tool": 4,
+    "labeled": 11,
+    "bg": 123
+  },
+  "20261015-075708-dc01-a": {
+    "run": "20261015-075708-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 82,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 0,
+    "bg": 428
+  },
+  "20261015-075801-dc01-a": {
+    "run": "20261015-075801-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1252,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 532
+  },
+  "20261015-075851-dc01-a": {
+    "run": "20261015-075851-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1327,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 616
+  },
+  "20261015-075946-dc01-a": {
+    "run": "20261015-075946-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1289,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 615
+  },
+  "20261015-080034-dc01-a": {
+    "run": "20261015-080034-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1286,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 662
+  },
+  "20261015-080143-dc01-a": {
+    "run": "20261015-080143-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1286,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 634
+  },
+  "20261015-080318-dc01-a": {
+    "run": "20261015-080318-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1206,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 199
+  },
+  "20261015-080400-dc01-a": {
+    "run": "20261015-080400-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1365,
+    "dropped_harness": 50,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 2325
+  },
+  "20261015-084028-dc01-a": {
+    "run": "20261015-084028-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1225,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 456
+  },
+  "20261015-084116-dc01-a": {
+    "run": "20261015-084116-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1324,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 708
+  },
+  "20261015-084208-dc01-a": {
+    "run": "20261015-084208-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1244,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 160
+  },
+  "20261015-084247-dc01-a": {
+    "run": "20261015-084247-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1369,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 1009
+  },
+  "20261015-084350-dc01-a": {
+    "run": "20261015-084350-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1293,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 11,
+    "bg": 589
+  },
+  "20261015-084451-dc01-a": {
+    "run": "20261015-084451-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 2495,
+    "dropped_harness": 16,
+    "dropped_tool": 12,
+    "labeled": 19,
+    "bg": 907
+  }
+}

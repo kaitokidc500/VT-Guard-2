@@ -1,0 +1,74 @@
+{
+  "20261015-084801-dc01-a": {
+    "run": "20261015-084801-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 82,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 0,
+    "bg": 565
+  },
+  "20261015-085019-dc01-a": {
+    "run": "20261015-085019-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1231,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 8,
+    "bg": 527
+  },
+  "20261015-085107-dc01-a": {
+    "run": "20261015-085107-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1354,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 8,
+    "bg": 740
+  },
+  "20261015-085224-dc01-a": {
+    "run": "20261015-085224-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1286,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 8,
+    "bg": 552
+  },
+  "20261015-085320-dc01-a": {
+    "run": "20261015-085320-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1295,
+    "dropped_harness": 23,
+    "dropped_tool": 6,
+    "labeled": 8,
+    "bg": 534
+  },
+  "20261015-085404-dc01-a": {
+    "run": "20261015-085404-dc01-a",
+    "cls": "attack",
+    "ttps": [
+      "T1003.003"
+    ],
+    "dropped_orch": 1203,
+    "dropped_harness": 8,
+    "dropped_tool": 6,
+    "labeled": 8,
+    "bg": 124
+  }
+}

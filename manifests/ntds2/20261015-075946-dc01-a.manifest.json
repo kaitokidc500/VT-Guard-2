@@ -1,0 +1,30 @@
+﻿{
+    "run_id":  "20261015-075946-dc01-a",
+    "class":  "attack",
+    "host":  "DC01",
+    "user":  "VTLAB\\admin01",
+    "user_role":  "admin",
+    "ttps":  [
+                 "T1003.003"
+             ],
+    "steps":  [
+                  {
+                      "ttp":  "T1003.003",
+                      "source":  "atomic:T1003.003/3",
+                      "t0":  "2026-10-15T07:59:48.5396305Z",
+                      "t1":  "2026-10-15T07:59:59.1646830Z",
+                      "ok":  true
+                  }
+              ],
+    "tempo":  "burst",
+    "variant":  "mixed",
+    "snapshot_before":  "DC01-CLEAN-ART",
+    "exclude_pids":  [
+                         5268
+                     ],
+    "tool_versions":  {
+                          "powershell":  "5.1.20348.558"
+                      },
+    "t_start":  "2026-10-15T07:59:48.5080649Z",
+    "t_end":  "2026-10-15T08:00:03.1958308Z"
+}

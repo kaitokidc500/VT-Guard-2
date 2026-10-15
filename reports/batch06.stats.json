@@ -1,0 +1,272 @@
+{
+  "20261015-071019-win10-01-h": {
+    "run": "20261015-071019-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 56,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 8,
+    "bg": 24
+  },
+  "20261015-071051-dc01-h": {
+    "run": "20261015-071051-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 67,
+    "dropped_harness": 2,
+    "dropped_tool": 0,
+    "labeled": 14,
+    "bg": 41
+  },
+  "20261015-071109-win10-01-h": {
+    "run": "20261015-071109-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 39,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 6,
+    "bg": 22
+  },
+  "20261015-071200-dc01-h": {
+    "run": "20261015-071200-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 37,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 6,
+    "bg": 34
+  },
+  "20261015-071209-win10-01-h": {
+    "run": "20261015-071209-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 30,
+    "dropped_harness": 0,
+    "dropped_tool": 1,
+    "labeled": 4,
+    "bg": 3
+  },
+  "20261015-071301-win10-01-h": {
+    "run": "20261015-071301-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 40,
+    "dropped_harness": 2,
+    "dropped_tool": 0,
+    "labeled": 18,
+    "bg": 10
+  },
+  "20261015-071315-dc01-h": {
+    "run": "20261015-071315-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 43,
+    "dropped_harness": 2,
+    "dropped_tool": 0,
+    "labeled": 14,
+    "bg": 20
+  },
+  "20261015-071352-win10-01-h": {
+    "run": "20261015-071352-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 46,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 14,
+    "bg": 64
+  },
+  "20261015-071427-dc01-h": {
+    "run": "20261015-071427-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 35,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 6,
+    "bg": 74
+  },
+  "20261015-071500-win10-01-h": {
+    "run": "20261015-071500-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 46,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 14,
+    "bg": 18
+  },
+  "20261015-071531-dc01-h": {
+    "run": "20261015-071531-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 43,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 8,
+    "bg": 84
+  },
+  "20261015-071601-win10-01-h": {
+    "run": "20261015-071601-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 33,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 8,
+    "bg": 86
+  },
+  "20261015-071647-dc01-h": {
+    "run": "20261015-071647-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 39,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 12,
+    "bg": 86
+  },
+  "20261015-071652-win10-01-h": {
+    "run": "20261015-071652-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 39,
+    "dropped_harness": 2,
+    "dropped_tool": 0,
+    "labeled": 18,
+    "bg": 48
+  },
+  "20261015-071753-dc01-h": {
+    "run": "20261015-071753-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 42,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 6,
+    "bg": 32
+  },
+  "20261015-071800-win10-01-h": {
+    "run": "20261015-071800-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 38,
+    "dropped_harness": 0,
+    "dropped_tool": 1,
+    "labeled": 12,
+    "bg": 13
+  },
+  "20261015-071857-win10-01-h": {
+    "run": "20261015-071857-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 29,
+    "dropped_harness": 0,
+    "dropped_tool": 1,
+    "labeled": 4,
+    "bg": 3
+  },
+  "20261015-071919-dc01-h": {
+    "run": "20261015-071919-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 42,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 6,
+    "bg": 74
+  },
+  "20261015-071956-win10-01-h": {
+    "run": "20261015-071956-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 44,
+    "dropped_harness": 2,
+    "dropped_tool": 0,
+    "labeled": 16,
+    "bg": 68
+  },
+  "20261015-072017-dc01-h": {
+    "run": "20261015-072017-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 43,
+    "dropped_harness": 2,
+    "dropped_tool": 0,
+    "labeled": 14,
+    "bg": 126
+  },
+  "20261015-072111-win10-01-h": {
+    "run": "20261015-072111-win10-01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 50,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 14,
+    "bg": 129
+  },
+  "20261015-072155-dc01-h": {
+    "run": "20261015-072155-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 53,
+    "dropped_harness": 2,
+    "dropped_tool": 0,
+    "labeled": 14,
+    "bg": 41
+  },
+  "20261015-072433-dc01-h": {
+    "run": "20261015-072433-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 51,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 34,
+    "bg": 152
+  },
+  "20261015-072516-dc01-h": {
+    "run": "20261015-072516-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 38,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 12,
+    "bg": 59
+  },
+  "20261015-072630-dc01-h": {
+    "run": "20261015-072630-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 47,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 34,
+    "bg": 20
+  },
+  "20261015-072735-dc01-h": {
+    "run": "20261015-072735-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 45,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 30,
+    "bg": 9
+  },
+  "20261015-072841-dc01-h": {
+    "run": "20261015-072841-dc01-h",
+    "cls": "hard_negative",
+    "ttps": [],
+    "dropped_orch": 50,
+    "dropped_harness": 0,
+    "dropped_tool": 0,
+    "labeled": 30,
+    "bg": 38
+  }
+}
