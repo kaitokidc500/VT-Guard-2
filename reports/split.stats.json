@@ -1,0 +1,140 @@
+{
+  "seed": 1337,
+  "hard_frac": 0.4,
+  "clean_frac": 0.2,
+  "groups_total": 242,
+  "group_size_dist": {
+    "1": 204,
+    "2": 6,
+    "3": 11,
+    "4": 7,
+    "5": 3,
+    "6": 3,
+    "7": 2,
+    "8": 3,
+    "9": 1,
+    "13": 1,
+    "16": 1
+  },
+  "hn_sessions_non_batch05": 90,
+  "t_hard_target": 36,
+  "hn_in_pure_groups": 56,
+  "splits": {
+    "train": {
+      "sessions": 219,
+      "groups": 154,
+      "windows": 396,
+      "positive": 156,
+      "positive_rate": 0.3939,
+      "sessions_by_class": {
+        "attack": 85,
+        "benign": 91,
+        "hard_negative": 43
+      },
+      "windows_by_class": {
+        "attack": 186,
+        "benign": 147,
+        "hard_negative": 63
+      },
+      "windows_by_host": {
+        "DC01": 141,
+        "WIN10-01": 255
+      },
+      "ttp_windows": {
+        "T1003.003": 19,
+        "T1016": 87,
+        "T1018": 80,
+        "T1087.002": 97,
+        "T1654": 82
+      },
+      "sha256": "604e987fe10b566b36ced28eb883d941fa290e00d257b93a10ba416dddbd960c"
+    },
+    "t_clean": {
+      "sessions": 54,
+      "groups": 15,
+      "windows": 108,
+      "positive": 38,
+      "positive_rate": 0.3519,
+      "sessions_by_class": {
+        "attack": 18,
+        "benign": 25,
+        "hard_negative": 11
+      },
+      "windows_by_class": {
+        "attack": 43,
+        "benign": 52,
+        "hard_negative": 13
+      },
+      "windows_by_host": {
+        "DC01": 18,
+        "WIN10-01": 90
+      },
+      "ttp_windows": {
+        "T1003.003": 5,
+        "T1016": 24,
+        "T1018": 25,
+        "T1087.002": 28,
+        "T1654": 22
+      },
+      "sha256": "59e490aa54825fd47a0adc2c43c2eebc1984fa3337f2899b6f2bf884abebf5c0"
+    },
+    "t_hard": {
+      "sessions": 36,
+      "groups": 32,
+      "windows": 63,
+      "positive": 0,
+      "positive_rate": 0.0,
+      "sessions_by_class": {
+        "hard_negative": 36
+      },
+      "windows_by_class": {
+        "hard_negative": 63
+      },
+      "windows_by_host": {
+        "DC01": 36,
+        "WIN10-01": 27
+      },
+      "ttp_windows": {},
+      "sha256": "c59a35bb7c54ea7b77c11041b9c4c04e870cf87bc384b75fcef24860a911e6f0"
+    },
+    "t_novel": {
+      "sessions": 77,
+      "groups": 41,
+      "windows": 146,
+      "positive": 49,
+      "positive_rate": 0.3356,
+      "sessions_by_class": {
+        "attack": 26,
+        "benign": 36,
+        "hard_negative": 15
+      },
+      "windows_by_class": {
+        "attack": 72,
+        "benign": 57,
+        "hard_negative": 17
+      },
+      "windows_by_host": {
+        "DC01": 54,
+        "WIN10-01": 92
+      },
+      "ttp_windows": {
+        "T1016": 37,
+        "T1018": 37,
+        "T1087.002": 34,
+        "T1654": 16
+      },
+      "sha256": "cf5d0a09c032659055f57307ccbfa0045987e4d037cd0e978225b2d6010ad9f0"
+    }
+  },
+  "acceptance": {
+    "run_id_in_gt1_split": [],
+    "t_hard_non_hn_windows": 0,
+    "t_novel_non_batch05_windows": 0,
+    "batch05_outside_t_novel": 0,
+    "train_test_time_overlap": [],
+    "vocab_fit_sessions_eq_train": true,
+    "positive_windows_le_attack_x8": "243 <= 129x8=1032: True"
+  },
+  "acceptance_pass": true,
+  "vocab_sha256": "10ec93d4b7121999ceb34c9759212885bb31180512657b540e5b462d3cdb38ad"
+}

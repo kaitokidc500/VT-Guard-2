@@ -1,0 +1,175 @@
+{
+  "n_events": 41901,
+  "batches": [
+    "batch01",
+    "batch02",
+    "batch03",
+    "batch04",
+    "batch05",
+    "ntds"
+  ],
+  "per_batch_io": {
+    "batch01": {
+      "read": 55252,
+      "dropped_label": 46332
+    },
+    "batch02": {
+      "read": 56181,
+      "dropped_label": 50617
+    },
+    "batch03": {
+      "read": 88139,
+      "dropped_label": 78862
+    },
+    "batch04": {
+      "read": 59985,
+      "dropped_label": 54132
+    },
+    "batch05": {
+      "read": 80789,
+      "dropped_label": 73478
+    },
+    "ntds": {
+      "read": 24365,
+      "dropped_label": 19389
+    }
+  },
+  "label_conflict_on_dup": 0,
+  "brief_key_collisions": 2912,
+  "by_host": {
+    "WIN10-01": 15521,
+    "DC01": 26380
+  },
+  "by_batch": {
+    "batch01": 8920,
+    "batch02": 5564,
+    "batch03": 9277,
+    "batch04": 5853,
+    "batch05": 7311,
+    "ntds": 4976
+  },
+  "malicious": 4920,
+  "benign": 36981,
+  "events_by_run_class": {
+    "background": 34779,
+    "benign": 1166,
+    "hard_negative": 1036,
+    "attack": 4920
+  },
+  "events_by_host_class": {
+    "DC01|attack": 1031,
+    "DC01|background": 24851,
+    "DC01|benign": 226,
+    "DC01|hard_negative": 272,
+    "WIN10-01|attack": 3889,
+    "WIN10-01|background": 9928,
+    "WIN10-01|benign": 940,
+    "WIN10-01|hard_negative": 764
+  },
+  "malicious_events_by_ttp": {
+    "T1003.003": 136,
+    "T1016": 3157,
+    "T1018": 3478,
+    "T1087.002": 3147,
+    "T1654": 2518
+  },
+  "unique_run_id_by_class": {
+    "attack": 129,
+    "benign": 117,
+    "hard_negative": 102
+  },
+  "manifests_by_class": {
+    "attack": 130,
+    "benign": 164,
+    "hard_negative": 107
+  },
+  "manifests_by_batch": {
+    "batch01": 60,
+    "batch02": 80,
+    "batch03": 80,
+    "batch04": 80,
+    "batch05": 80,
+    "ntds": 21
+  },
+  "runs_without_events": {
+    "n": 53,
+    "by_class": {
+      "benign": 47,
+      "hard_negative": 5,
+      "attack": 1
+    },
+    "run_ids": [
+      "20261014-034224-win10-01-b",
+      "20261014-034726-win10-01-b",
+      "20261014-040740-win10-01-b",
+      "20261014-041756-win10-01-b",
+      "20261014-041841-win10-01-b",
+      "20261014-042442-win10-01-b",
+      "20261014-043956-win10-01-b",
+      "20261014-052317-win10-01-b",
+      "20261014-070451-win10-01-b",
+      "20261014-070642-win10-01-b",
+      "20261014-070809-win10-01-b",
+      "20261014-071529-win10-01-b",
+      "20261014-071816-win10-01-b",
+      "20261014-072654-win10-01-b",
+      "20261014-073145-win10-01-b",
+      "20261014-073330-dc01-h",
+      "20261014-073631-win10-01-b",
+      "20261014-073716-dc01-b",
+      "20261014-075105-win10-01-b",
+      "20261014-075204-win10-01-b",
+      "20261014-080136-dc01-b",
+      "20261014-081302-dc01-b",
+      "20261014-081635-win10-01-b",
+      "20261014-083351-win10-01-b",
+      "20261014-090735-dc01-b",
+      "20261014-090830-dc01-b",
+      "20261014-091627-win10-01-b",
+      "20261014-091732-win10-01-b",
+      "20261014-093702-win10-01-h",
+      "20261014-103113-win10-01-b",
+      "20261014-115131-dc01-b",
+      "20261014-120322-win10-01-b",
+      "20261014-120938-win10-01-h",
+      "20261014-121404-win10-01-b",
+      "20261014-122230-win10-01-b",
+      "20261014-122800-win10-01-b",
+      "20261014-122845-dc01-h",
+      "20261014-123155-win10-01-b",
+      "20261014-124604-win10-01-b",
+      "20261014-130033-win10-01-b",
+      "20261014-131831-win10-01-b",
+      "20261014-133343-win10-01-b",
+      "20261014-133509-win10-01-b",
+      "20261014-133522-win10-01-h",
+      "20261014-133825-win10-01-b",
+      "20261014-134639-win10-01-b",
+      "20261014-140603-dc01-b",
+      "20261014-140846-win10-01-b",
+      "20261014-141432-win10-01-b",
+      "20261014-141813-dc01-b",
+      "20261014-143839-win10-01-b",
+      "20261014-150951-win10-01-b",
+      "20261014-164113-dc01-a"
+    ]
+  },
+  "consistency_errors": {},
+  "leak_marker_hits": {
+    "ps_payload|benign": 1,
+    "script_block_text|benign": 1
+  },
+  "skipped_files": [
+    "smoke6"
+  ],
+  "inputs_sha256": {
+    "batch01": "2e1b48bbfa40dd2b2bdf009f8b82e044da4da1bfc66e75b58e0fd2f1f3f08635",
+    "batch02": "cff993600d021ccbf9fb0ebe66c5854a2cda9848b73c96f9b3cfb0b6bbb9dda6",
+    "batch03": "963774e6488e3ca92f5d303e7165b0d4b4c4163b43a9b62ba8d27371f48ba583",
+    "batch04": "d7907ddfe12a3d60d79835dbbe64586429eeb88389547f645a63a8e9ca377dd4",
+    "batch05": "21982279eea3dedfee0e3c9d39d23f4eefff0378b0eea7f0e5eed0a2290b311a",
+    "ntds": "8424914a31d3e9e2203f52869c739171c828c7a064e0fe3d2ef39d0940d3fbf7"
+  },
+  "output": "data/processed/all.events.jsonl",
+  "output_sha256": "1f93737ea39952e53206656c535f70c49d0da875390c687a762c0c2cf1d34c9c"
+}

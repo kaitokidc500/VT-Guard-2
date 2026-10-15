@@ -1,0 +1,73 @@
+{
+  "featurizer_version": "f1",
+  "event_vector": {
+    "categorical_ids": 7,
+    "cmd_hash_dim": 256,
+    "numeric": 5,
+    "total_raw_columns": 268
+  },
+  "window_tensor": "[64, 268] (+ mask; cua so ngan duoc pad o buoc model)",
+  "vocab_size_incl_special": {
+    "channel": 8,
+    "event_id": 43,
+    "image_name": 60,
+    "parent_image_name": 17,
+    "host_role": 5,
+    "integrity_level": 8,
+    "logon_type": 8
+  },
+  "vocab_fit": "run_id trong train_runs.txt",
+  "fit_windows": 396,
+  "min_sessions": 2,
+  "windows": 713,
+  "events": 34695,
+  "cmd_events_nonzero": 7031,
+  "cmd_unique_strings": 512,
+  "cmd_nnz_per_event": {
+    "median": 83,
+    "max": 236
+  },
+  "unk_rate": {
+    "fit": {
+      "channel": 0.0,
+      "event_id": 0.0002,
+      "image_name": 0.001,
+      "parent_image_name": 0.0003,
+      "host_role": 0.0,
+      "integrity_level": 0.0,
+      "logon_type": 0.0
+    },
+    "batch05": {
+      "channel": 0.0,
+      "event_id": 0.0001,
+      "image_name": 0.0196,
+      "parent_image_name": 0.0229,
+      "host_role": 0.0,
+      "integrity_level": 0.0,
+      "logon_type": 0.0
+    },
+    "other": {
+      "channel": 0.0,
+      "event_id": 0.0005,
+      "image_name": 0.0023,
+      "parent_image_name": 0.0,
+      "host_role": 0.0,
+      "integrity_level": 0.0,
+      "logon_type": 0.0
+    }
+  },
+  "feature_sources": [
+    "channel",
+    "command_line",
+    "dst_port",
+    "event_id",
+    "has_dns_query",
+    "host_role",
+    "image_name",
+    "integrity_level",
+    "logon_type",
+    "parent_image_name",
+    "ts"
+  ],
+  "forbidden_pattern": "^(wazuh_rule_|label_)|^(run_id|event_uid|process_guid|parent_process_guid|script_block_text|ps_payload|image|parent_image|n_events)$"
+}
