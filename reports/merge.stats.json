@@ -1,5 +1,5 @@
 {
-  "n_events": 61490,
+  "n_events": 62917,
   "batches": [
     "batch01",
     "batch02",
@@ -15,94 +15,94 @@
   "per_batch_io": {
     "batch01": {
       "read": 55252,
-      "dropped_label": 46338
+      "dropped_label": 46168
     },
     "batch02": {
       "read": 56181,
-      "dropped_label": 50619
+      "dropped_label": 50412
     },
     "batch03": {
       "read": 88139,
-      "dropped_label": 78864
+      "dropped_label": 78613
     },
     "batch04": {
       "read": 59985,
-      "dropped_label": 54134
+      "dropped_label": 53910
     },
     "batch05": {
       "read": 80789,
-      "dropped_label": 73480
+      "dropped_label": 73270
     },
     "batch06": {
       "read": 3092,
-      "dropped_label": 1212
+      "dropped_label": 1069
     },
     "batch07": {
       "read": 15677,
-      "dropped_label": 2579,
-      "dup": 3443
+      "dropped_label": 2418,
+      "dup": 3432
     },
     "ntds": {
       "read": 24365,
-      "dropped_label": 19392
+      "dropped_label": 19362
     },
     "ntds2": {
       "read": 30429,
-      "dropped_label": 19566,
-      "dup": 4380
+      "dropped_label": 19565,
+      "dup": 4366
     },
     "ntds2v": {
       "read": 9688,
       "dropped_label": 6536,
-      "dup": 1564
+      "dup": 1559
     }
   },
   "label_conflict_on_dup": 0,
-  "brief_key_collisions": 13661,
-  "events_from_neighbor_file": 8,
+  "brief_key_collisions": 13729,
+  "events_from_neighbor_file": 9,
   "by_host": {
-    "WIN10-01": 18143,
-    "DC01": 43347
+    "WIN10-01": 19129,
+    "DC01": 43788
   },
   "by_batch": {
-    "batch01": 8914,
-    "batch02": 5562,
-    "batch03": 9275,
-    "batch04": 5851,
-    "batch05": 7309,
-    "ntds": 4973,
-    "batch06": 1880,
-    "ntds2": 6475,
-    "ntds2v": 1596,
-    "batch07": 9655
+    "batch01": 9084,
+    "batch02": 5769,
+    "batch03": 9526,
+    "batch04": 6075,
+    "batch05": 7519,
+    "ntds": 5003,
+    "batch06": 2023,
+    "ntds2": 6489,
+    "ntds2v": 1602,
+    "batch07": 9827
   },
-  "malicious": 5224,
-  "benign": 56266,
+  "malicious": 5509,
+  "benign": 57408,
   "events_by_run_class": {
-    "background": 52846,
-    "benign": 1096,
-    "hard_negative": 2324,
-    "attack": 5224
+    "background": 52837,
+    "benign": 1536,
+    "hard_negative": 3035,
+    "attack": 5509
   },
   "events_by_host_class": {
-    "DC01|attack": 1233,
-    "DC01|background": 40832,
-    "DC01|benign": 226,
-    "DC01|hard_negative": 1056,
-    "WIN10-01|attack": 3991,
-    "WIN10-01|background": 12014,
-    "WIN10-01|benign": 870,
-    "WIN10-01|hard_negative": 1268
+    "DC01|attack": 1336,
+    "DC01|background": 40827,
+    "DC01|benign": 300,
+    "DC01|hard_negative": 1325,
+    "WIN10-01|attack": 4173,
+    "WIN10-01|background": 12010,
+    "WIN10-01|benign": 1236,
+    "WIN10-01|hard_negative": 1710
   },
   "malicious_events_by_ttp": {
-    "T1003.003": 338,
-    "T1016": 3251,
-    "T1018": 3580,
-    "T1087.002": 3272,
-    "T1654": 2518
+    "T1003.003": 373,
+    "T1016": 3432,
+    "T1018": 3745,
+    "T1087.002": 3458,
+    "T1654": 2652
   },
   "unique_run_id_by_class": {
-    "attack": 149,
+    "attack": 150,
     "benign": 119,
     "hard_negative": 157
   },
@@ -124,11 +124,11 @@
     "ntds2v": 6
   },
   "runs_without_events": {
-    "n": 54,
+    "n": 53,
     "by_class": {
       "benign": 45,
       "hard_negative": 7,
-      "attack": 2
+      "attack": 1
     },
     "run_ids": [
       "20261014-034224-win10-01-b",
@@ -181,7 +181,6 @@
       "20261014-141432-win10-01-b",
       "20261014-141813-dc01-b",
       "20261014-143839-win10-01-b",
-      "20261014-164113-dc01-a",
       "20261015-075708-dc01-a",
       "20261015-130127-dc01-h",
       "20261015-130245-dc01-h"
@@ -196,17 +195,17 @@
     "smoke6"
   ],
   "inputs_sha256": {
-    "batch01": "9ed05118d0bd363b2ef5412c0f1b0294129ad8be9a68fde0b7acea8c1c8eaa5b",
-    "batch02": "1697efccee2be34f3907632b9bc2e3d4be9a6edad6c2c1297ab805a7e91d6afc",
-    "batch03": "635d38a3f6db2389b2bd39e10b1c0fd72afa0d45bbb436af9ef0724a48c9913d",
-    "batch04": "450ec2988a4c9cec51e476d18dca53aefa84ae3bb2b4dfce50a490adc53b42c4",
-    "batch05": "83f25d63c199758c580bf8647ad4deee2caadfc11e7e8f27690f365811509d4d",
-    "batch06": "a82d839ecc84172b3b45fff019ea25a979fd80ab75509fb58a8cdfa1f8bee07f",
-    "batch07": "0e05e964724bd45eb2d1748815ef17c886571b9351d71257e17133e4e6ffdbe6",
-    "ntds": "9f14984f62b96f17cc06b0f83b54ff2715053d6c98a3c0643f9a21e6fb540f67",
-    "ntds2": "e19d2068fea26d7765b648c42497f5424a6d546319cf0b164e86e1a253a2f191",
-    "ntds2v": "794961f79f3fce140374c2302e58bdf71af9bbf0510b410c8a052c3077ab9da0"
+    "batch01": "ff4f650e9122348abb3085ff2f750e3834bbdaa1cc202ad8f09ea8203ab29882",
+    "batch02": "b8700cface417ff26a39fd0013abd72740256d611e1fbadfd0bf51bbae4cbf2c",
+    "batch03": "b84329f3e4fca634327621d0fa249694f035cdaa1642cc1af2c43316cfa52ab8",
+    "batch04": "63101cfef3fef89c69883907d60497cf80328005eaedf2e6e7dc5f2a83308894",
+    "batch05": "c4146b3932760c8224dce3a18abfd61d03750a747f88ab794cdf9aa7c17c20f3",
+    "batch06": "f922cde3a8d327621a9723313f310b2c08cf0d64461cab8d6f7757e53916b59a",
+    "batch07": "f8d9f2fc56090b2c43070bf56b1b430660f37d07f8312091058b029b64d4ef95",
+    "ntds": "d4377c53d18bedcfc4539f7d1ee8ba5c8fa643e30c570ef1875abcd97b0de4ee",
+    "ntds2": "4a6633c662469e5fcb62f1736c6dbb53f80c8a031e01c31ba859e5f56a426cbe",
+    "ntds2v": "1b9bf08151d87cc85ce108745344bedf9e4c9f7c4a00c494bf453dd18c97a363"
   },
   "output": "data/processed/all.events.jsonl",
-  "output_sha256": "65d590db3e3953a1df10cf0b0e30c8c33b722bc971674174e05b56b6e97ae497"
+  "output_sha256": "5675fc147323a7bdaee26026a9411a8461fa391e5a874fd25c37caf0c9fdd703"
 }

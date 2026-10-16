@@ -1,0 +1,89 @@
+{
+ "total": {
+  "DROP:orchestrator -> DROP:art_harness": 733,
+  "DROP:orchestrator -> MAL": 286,
+  "DROP:orchestrator -> SESS": 1152,
+  "DROP:orchestrator -> DROP:orch_child_outside": 118,
+  "BG -> DROP:orchestrator": 40,
+  "DROP:orchestrator -> DROP:harness_upload": 46,
+  "SESS -> DROP:orchestrator": 1,
+  "DROP:operator_console -> DROP:orchestrator": 14,
+  "DROP:operator_console -> BG": 2,
+  "BG -> DROP:operator_console": 1,
+  "MAL -> DROP:orchestrator": 1
+ },
+ "by_batch": {
+  "batch01": {
+   "DROP:orchestrator -> DROP:art_harness": 79,
+   "DROP:orchestrator -> MAL": 34,
+   "DROP:orchestrator -> SESS": 138,
+   "DROP:orchestrator -> DROP:orch_child_outside": 4,
+   "BG -> DROP:orchestrator": 2
+  },
+  "batch02": {
+   "DROP:orchestrator -> DROP:harness_upload": 1,
+   "DROP:orchestrator -> SESS": 166,
+   "DROP:orchestrator -> DROP:art_harness": 107,
+   "DROP:orchestrator -> MAL": 43,
+   "BG -> DROP:orchestrator": 2,
+   "DROP:orchestrator -> DROP:orch_child_outside": 2
+  },
+  "batch03": {
+   "DROP:orchestrator -> MAL": 67,
+   "DROP:orchestrator -> DROP:art_harness": 151,
+   "DROP:orchestrator -> SESS": 184,
+   "DROP:orchestrator -> DROP:orch_child_outside": 1
+  },
+  "batch04": {
+   "DROP:orchestrator -> SESS": 174,
+   "DROP:orchestrator -> DROP:art_harness": 114,
+   "DROP:orchestrator -> MAL": 50,
+   "DROP:orchestrator -> DROP:orch_child_outside": 1
+  },
+  "batch05": {
+   "DROP:orchestrator -> DROP:art_harness": 128,
+   "DROP:orchestrator -> MAL": 56,
+   "DROP:orchestrator -> SESS": 154,
+   "DROP:orchestrator -> DROP:orch_child_outside": 1
+  },
+  "batch06": {
+   "DROP:orchestrator -> SESS": 143,
+   "DROP:orchestrator -> DROP:art_harness": 7
+  },
+  "batch07": {
+   "DROP:orchestrator -> SESS": 175,
+   "DROP:orchestrator -> DROP:art_harness": 1,
+   "DROP:orchestrator -> DROP:orch_child_outside": 56,
+   "BG -> DROP:orchestrator": 13,
+   "DROP:orchestrator -> DROP:harness_upload": 13,
+   "SESS -> DROP:orchestrator": 1
+  },
+  "ntds": {
+   "DROP:orchestrator -> SESS": 18,
+   "DROP:orchestrator -> DROP:art_harness": 66,
+   "DROP:operator_console -> DROP:orchestrator": 14,
+   "DROP:orchestrator -> DROP:orch_child_outside": 15,
+   "DROP:orchestrator -> MAL": 16,
+   "DROP:orchestrator -> DROP:harness_upload": 12,
+   "DROP:operator_console -> BG": 2,
+   "BG -> DROP:operator_console": 1,
+   "BG -> DROP:orchestrator": 4,
+   "MAL -> DROP:orchestrator": 1
+  },
+  "ntds2": {
+   "DROP:orchestrator -> DROP:orch_child_outside": 28,
+   "DROP:orchestrator -> MAL": 15,
+   "DROP:orchestrator -> DROP:harness_upload": 15,
+   "BG -> DROP:orchestrator": 14,
+   "DROP:orchestrator -> DROP:art_harness": 60
+  },
+  "ntds2v": {
+   "BG -> DROP:orchestrator": 5,
+   "DROP:orchestrator -> DROP:orch_child_outside": 10,
+   "DROP:orchestrator -> MAL": 5,
+   "DROP:orchestrator -> DROP:art_harness": 20,
+   "DROP:orchestrator -> DROP:harness_upload": 5
+  }
+ },
+ "non_4688_changes": 0
+}

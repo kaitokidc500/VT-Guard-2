@@ -17,10 +17,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1262,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 8,
+    "dropped_orch": 1256,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 9,
     "bg": 56
   },
   "20261015-085107-dc01-a": {
@@ -29,10 +29,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1262,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 8,
+    "dropped_orch": 1256,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 9,
     "bg": 45
   },
   "20261015-085224-dc01-a": {
@@ -41,10 +41,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1261,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 8,
+    "dropped_orch": 1255,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 9,
     "bg": 42
   },
   "20261015-085320-dc01-a": {
@@ -53,10 +53,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1265,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 8,
+    "dropped_orch": 1259,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 9,
     "bg": 50
   },
   "20261015-085404-dc01-a": {
@@ -65,10 +65,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1262,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 8,
+    "dropped_orch": 1256,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 9,
     "bg": 56
   }
 }

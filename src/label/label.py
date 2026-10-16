@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# VT-Guard labeler v7 (v6 + cat phien dung [t_start, t_end] cua manifest theo ts_system)
+# VT-Guard labeler v8 (v7 + 4688 khong khop EID1 ke thua theo tien trinh tao; can normalize v1)
 # Gan nhan event da chuan hoa (normalize.py) theo manifest + cay tien trinh Sysmon EID1.
 # Nguyen tac:
 #   - Orchestrator = tien trinh chay Invoke-VTSession/Batch (pid in exclude_pids). Event cua no -> LOAI (chong ro ri NHAN).
@@ -34,13 +34,19 @@
 #       w32tm /resync, VMwareToolboxCmd timesync sau khoi phuc snapshot) bi gan nham vao phien (batch07 122828).
 #   - Executor-root (con cua orchestrator) sinh NGOAI moi khung phien -> "orch_child_outside": loai ca cay con.
 #   - Thong ke dropped_orch/dropped_tool/bg cung dung khung moi.
+# Bo sung v8 (dataset-v1.2, di cung normalize v1: 4688 process_id = tien trinh DUOC TAO, parent = creator):
+#   - 4688 ghep vao tien trinh duoc tao qua (host, PID, ts_system) nhu moi event khong co guid.
+#   - Neu tien trinh duoc tao KHONG khop EID1 nao: ke thua theo tien trinh tao (parent_process_id):
+#       cha la orchestrator -> nhu executor-root: phien cua orchestrator tai thoi diem tao (HARNESS -> art_harness,
+#       dong lenh upload -> harness_upload), ngoai moi khung -> orch_child_outside;
+#       cha la tien trinh khac -> cung cay voi cha (guid cua cha).
 # Chay: python label.py <norm.jsonl> <manifests_dir_dot>[,<manifests_dir_khac>...] <out.jsonl>
 import json, sys, glob, os, re
 from bisect import bisect_right
 from collections import defaultdict, Counter
 from datetime import datetime, timedelta
 
-LABEL_VERSION = "v7"
+LABEL_VERSION = "v8"
 HARNESS = {"conhost.exe","hostname.exe","whoami.exe","scp.exe","ssh.exe"}
 UPLOAD_RE = re.compile(r"\.manifest\.json|VT-Guard-runs", re.I)
 OPERATOR_RE = re.compile(r"Invoke-AtomicTest|Invoke-VT\w*|AtomicRedTeam|PathToAtomicsFolder|Get-AtomicTechnique|VT-Guard", re.I)
@@ -208,11 +214,29 @@ def label(rows, manifests):
         if is_fragment(r):
             drop_tool(r, "ps_fragment", h, w); continue
         g=r.get("process_guid") or (pid_to_guid(life,h,r["process_id"],ts(r.get("ts_system"))) if r["process_id"] is not None else None)
+        # v8: 4688 cua tien trinh khong khop EID1 -> ke thua theo tien trinh tao (parent_process_id)
+        orch4688=None
+        if g is None and r["event_id"]==4688 and r.get("parent_process_id") is not None:
+            pp=r["parent_process_id"]
+            if pp in excl_by_host.get(h,set()): orch4688=(find_session(h,tsys(r),pp),)
+            else: g=pid_to_guid(life,h,pp,ts(r.get("ts_system")))
         # 1) event cua chinh orchestrator -> loai (chong ro ri)
         if r["process_id"] in excl_by_host.get(h,set()):
             m=find_session(h,tsys(r),r["process_id"])
             r.update(dropped=True,drop_reason="orchestrator",label_source="excluded")
             if m: stats[m["run_id"]]["dropped_orch"]+=1
+            continue
+        # 1a) v8: con truc tiep cua orchestrator (4688) khong khop EID1
+        if orch4688 is not None:
+            m=orch4688[0]
+            if UPLOAD_RE.search(r.get("command_line") or ""): drop_tool(r, "harness_upload", h, w); continue
+            if m is None: drop_tool(r, "orch_child_outside", h, w); continue
+            if (r.get("image_name") or "") in HARNESS:
+                r.update(dropped=True,drop_reason="art_harness",label_source="excluded"); stats[m["run_id"]]["dropped_harness"]+=1; continue
+            r["run_id"]=m["run_id"]
+            if m["class"]=="attack": r.update(label_malicious=True,label_ttps=list(m["ttps"]),label_source="tree_attack_4688")
+            else: r.update(label_malicious=False,label_ttps=[],label_source="tree_benign_4688")
+            stats[m["run_id"]]["labeled"]+=1
             continue
         # 1b) upload manifest (scp/ssh) -> loai
         if g in upload_guids:

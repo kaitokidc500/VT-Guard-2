@@ -6,7 +6,8 @@ Don vi = cua so. Nhom duong = cua so window_malicious=1 (attack); nhom am = cua 
 Moi dac trung -> diem cua so = TI LE event trong cua so mang gia tri do (khong phu thuoc do dai).
 Muc tach = max(AUC, 1-AUC) cua diem do giua hai nhom (AUC = P(diem attack > diem HN), hoa = 0.5).
 Kem ti le cua so CO chua gia tri o tung nhom, va so phien co chua.
-Ho dac trung: image_name, parent_image_name, cap cha->con, event_id, channel, integrity_level, logon_type,
+Ho dac trung: image_name, parent_image_name, cap cha->con, event_id, bigram event_id lien tiep (v1.2),
+channel (= ti le event theo kenh), integrity_level, logon_type,
 token dong lenh (featurize.norm_cmd; tuy chon --canon de qua chuan hoa lenh truoc), 4 co nhi phan.
 Chay: python src/dataset/scaffold_scan.py [--canon] [--min-sep 0.9] [--top 60] [--json out.json]
 """
@@ -58,6 +59,10 @@ def scan(root=".", canon=False, min_sep=0.9, min_windows=3):
             for e in w["events"]:
                 for f in event_feats(e, canon_fn): c[f] += 1
             for f, k in c.items(): frac[f][w["window_id"]] = k / n
+            # #11 mo rong (dataset-v1.2): bigram event_id lien tiep (ti le tren n-1 cap)
+            if n > 1:
+                c2 = Counter(f"eidbg={x['event_id']}>{y['event_id']}" for x, y in zip(w["events"], w["events"][1:]))
+                for f, k in c2.items(): frac[f][w["window_id"]] = k / (n - 1)
     A = [wid for wid, _ in wins["attack"]]; H = [wid for wid, _ in wins["hn"]]
     run = {wid: rid for g in wins.values() for wid, rid in g}
     y = np.r_[np.ones(len(A), bool), np.zeros(len(H), bool)]

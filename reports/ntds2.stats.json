@@ -5,10 +5,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1261,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1255,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 96
   },
   "20261015-075708-dc01-a": {
@@ -29,10 +29,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1268,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1262,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 79
   },
   "20261015-075851-dc01-a": {
@@ -41,10 +41,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1269,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1263,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 73
   },
   "20261015-075946-dc01-a": {
@@ -53,10 +53,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1266,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1260,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 75
   },
   "20261015-080034-dc01-a": {
@@ -65,10 +65,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1267,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1261,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 89
   },
   "20261015-080143-dc01-a": {
@@ -77,10 +77,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1266,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1260,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 82
   },
   "20261015-080318-dc01-a": {
@@ -89,10 +89,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1264,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1258,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 79
   },
   "20261015-080400-dc01-a": {
@@ -101,10 +101,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1265,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1259,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 177
   },
   "20261015-084028-dc01-a": {
@@ -113,10 +113,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1269,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1263,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 79
   },
   "20261015-084116-dc01-a": {
@@ -125,10 +125,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1272,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1266,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 170
   },
   "20261015-084208-dc01-a": {
@@ -137,10 +137,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1268,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1262,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 85
   },
   "20261015-084247-dc01-a": {
@@ -149,10 +149,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1267,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1261,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 199
   },
   "20261015-084350-dc01-a": {
@@ -161,10 +161,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1268,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1262,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 89
   },
   "20261015-084451-dc01-a": {
@@ -173,10 +173,10 @@
     "ttps": [
       "T1003.003"
     ],
-    "dropped_orch": 1269,
-    "dropped_harness": 8,
-    "dropped_tool": 4,
-    "labeled": 11,
+    "dropped_orch": 1263,
+    "dropped_harness": 12,
+    "dropped_tool": 5,
+    "labeled": 12,
     "bg": 100
   }
 }

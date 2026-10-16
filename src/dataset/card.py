@@ -18,12 +18,14 @@ from label import LABEL_VERSION
 from split import SPLITS
 from windows import BATCHES, NOVEL_BATCHES, load_manifests, DATASET_VERSION, SCAFFOLD_DROP_IMAGES, LAUNCHERS, LAUNCHER_TOKEN
 from scaffold_scan import scan as scaffold_scan
+from audit import ratio_4688_eid1, excluded_audit, pid_reuse
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "eval"))
 from evaluate import fci
 
 LEAK_RE = re.compile(r"atomic|invoke-|\bT10\d\d|\bT1\d{3}\b|vt-?guard", re.I)
 SPLIT_NAME = {"train": "Train", "t_clean": "T-clean", "t_hard": "T-hard", "t_novel": "T-novel"}
-NORMALIZE_VERSION = "v0"
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "normalize"))
+from normalize import NORMALIZE_VERSION
 # Cong cu can theo doi coverage (them tu dong moi image co >= 80% cua so chua no la duong)
 TOOLS = ["ping.exe", "wevtutil.exe", "ntdsutil.exe", "vssadmin.exe", "nltest.exe", "net.exe", "net1.exe",
          "ipconfig.exe", "arp.exe", "route.exe", "netstat.exe", "nslookup.exe", "nbtstat.exe", "netsh.exe",
@@ -32,11 +34,33 @@ CHECK9_TOOLS = ["ntdsutil.exe", "vssadmin.exe", "ping.exe", "wevtutil.exe", "nlt
                 "nbtstat.exe", "netsh.exe", "cmd.exe"]
 CHECK9_MIN_NEG = 0.15
 SEP11 = 0.98
+NTDS_EIDS = {98, 102, 103, 105, 216, 300, 301, 302, 325, 326, 327, 330, 2001, 2002, 2003, 2004, 2005, 2006}
+PS_EIDS = {4103, 4104, 40961, 40962, 53504}
 _BENIGN_SCEN = re.compile(r"(route|netstat|ipconfig|print|-ano|admins|list|shadows|/dsgetdc|/sc_query)", re.I)
+
+def excluded_why(d):
+    """Cau ly do loai phien theo bang chung telemetry (audit.excluded_audit)."""
+    code, snap = d["why_code"], d["snapshot_before"]
+    if code == "no_telemetry":
+        return ("không có event nào trong khung phiên, kể cả event của orchestrator → mất telemetry"
+                + (" (nghi agent hoặc đồng hồ sau khôi phục snapshot)" if snap else ""))
+    if code == "snapshot_no_process_creation":
+        return (f"orchestrator có {d['orchestrator_events']} event nhưng không có event tạo tiến trình nào (cả EID1 lẫn 4688) trong khung phiên; "
+                "không xác định được nguyên nhân (nghi lệch đồng hồ sau khôi phục snapshot)")
+    if code == "cmdlet_in_orchestrator":
+        why = (f"task chạy cmdlet ngay trong tiến trình orchestrator ({', '.join(d['tasks'])}): orchestrator có {d['orchestrator_events']} event, "
+               "không có event tạo tiến trình nào (cả EID1 lẫn 4688)")
+        return why + ("; không có event nền trong khung → stream rỗng" if d["code"] == "stream_rong" else "")
+    return f"còn {d['own_events']} event cây phiên / {d['child_process_creation']} event tạo tiến trình — cần xem lại"
 
 def categorize11(feature, side):
     """Phan loai so bo dac trung mot-phia (de nguoi duyet): scaffold con sot / kich ban benign / tac dong phu
     NTDS / hanh vi tan cong."""
+    if feature.startswith("eidbg="):
+        ids = {int(x) for x in feature[6:].split(">") if x.isdigit()}
+        if ids & NTDS_EIDS: return "tac dong phu NTDS (ESENT/Directory Service)"
+        if ids & PS_EIDS: return "gioi han co chu y (ART chay test PowerShell trong tien trinh con)"
+        return "bigram event_id khac (chua ro)"
     if feature.startswith("eid="): return "tac dong phu NTDS (ESENT/Directory Service)" if side == "attack" else "kich ban benign"
     if "shcreatelocalserverrundll" in feature or "shell0.dll" in feature: return "tac dong phu nen (svchost->rundll32 COM, ngoai cay tien trinh)"
     if re.match(r"^cmdtok=[a-z0-9_-]+\.exe$", feature) and side == "hard_negative": return "scaffold con sot (.exe cua lenh goi tu PowerShell)"
@@ -158,6 +182,17 @@ def main():
                         or (r["pct_windows_attack"] <= 0.01 and r["pct_windows_hn"] >= 0.10 and r["sessions_attack"] == 0)],
                        key=lambda r: -max(r["pct_windows_attack"], r["pct_windows_hn"]))
     for r in one_sided: r["category"] = categorize11(r["feature"], r["side"])
+    acc["12_ratio_4688_eid1"] = ratio_4688_eid1(a.root, man)
+    excl_audit = excluded_audit(a.root, wst["sessions_excluded"], man)
+    pidr = pid_reuse(a.root, man)
+    v11 = {}
+    fp11 = P("data", "processed", "v1.1", "dataset_stats.v1.1.json")
+    if os.path.exists(fp11):
+        o = json.load(open(fp11, encoding="utf-8"))
+        v11 = {"windows": o["windows"]["total"], "positive": o["windows"]["positive"], "events": o["events"]["kept"],
+               "malicious": o["events"]["malicious"],
+               "splits": {k: {"windows": v["windows"], "positive": v["positive"], "sessions": v["sessions"], "events": v["events"]} for k, v in o["splits"].items()}}
+    lab78 = json.load(open(P("reports", "label_v7_v8_diff.json"), encoding="utf-8")) if os.path.exists(P("reports", "label_v7_v8_diff.json")) else {}
     acc["11_single_feature_separation"] = {
         "threshold": SEP11, "unit": "cua so attack duong vs cua so hard_negative; diem = ti le event mang gia tri",
         "max_separation": rows11[0]["separation"] if rows11 else None, "max_feature": rows11[0]["feature"] if rows11 else None,
@@ -230,7 +265,7 @@ def main():
     tot10 = {k: sum(v.values()) for k, v in bgdist.items()}
     keys = set(bgdist["t1003_pos"]) | set(bgdist["revert_control"])
     share = lambda k, x: bgdist[k][x] / tot10[k] if tot10[k] else 0.0
-    diff = sorted(keys, key=lambda x: -abs(share("t1003_pos", x) - share("revert_control", x)))[:10]
+    diff = sorted(keys, key=lambda x: (-round(abs(share("t1003_pos", x) - share("revert_control", x)), 12), x))[:10]   # tat dinh
     tvd = round(0.5 * sum(abs(share("t1003_pos", x) - share("revert_control", x)) for x in keys), 3)
     acc["10_bg_dist_t1003_vs_revert_control"] = {
         "windows": dict(nwin10), "bg_events": tot10, "total_variation_distance": tvd,
@@ -325,10 +360,10 @@ def main():
         "tool_coverage": coverage, "tools_positive_only_all": shortcut_all, "tools_positive_only_train": shortcut_train,
         "tool_rate_before_after_batch07": before_after,
         "hn_signature_split": sst.get("hn_signature_split", {}),
-        "excluded_sessions_detail": {r: {"class": c, "why": why, "batch": man[r]["_batch"],
-                                         "tasks": [x["source"] for x in man[r].get("steps", [])],
-                                         "snapshot_before": man[r].get("snapshot_before") or ""}
-                                     for r, c, why in wst["sessions_excluded"] if c != "benign"},
+        "excluded_sessions_detail": excl_audit,
+        "pid_reuse": pidr, "v1.1": v11, "label_v7_v8_diff": lab78,
+        "split_pin": {"pinned_from": sst.get("pinned_from"), "new_sessions": sst.get("pin_new_sessions", []),
+                      "dropped_sessions": sst.get("pin_dropped_sessions", [])},
         "files_sha256": {"all.events.jsonl": merge["output_sha256"],
                          "windows.jsonl": sha256(P("data", "processed", "windows.jsonl")),
                          "features.jsonl": sha256(P("data", "processed", "features.jsonl")),
@@ -345,6 +380,7 @@ def main():
     print("T1003.003:", {SPLIT_NAME[s]: (v["positive"], v["negative_in_t1003_sessions"], v["negative_dc01"]) for s, v in t1003.items()})
     print("Cong cu chi o phia duong: toan bo =", shortcut_all, "| trong Train =", shortcut_train)
     print("ACCEPTANCE (8 kiem tra):", "DAT" if passed else "KHONG DAT")
+    print("#12:", acc["12_ratio_4688_eid1"]["ok"], {k: v["ratio"] for k, v in acc["12_ratio_4688_eid1"]["cells"].items()})
     c11 = acc["11_single_feature_separation"]
     print("#11: max tach", c11["max_separation"], c11["max_feature"], "| >= 0.98:", [r["feature"] for r in c11["over_threshold"]],
           "| mot phia:", len(c11["one_sided"]), dict(Counter(r["category"] for r in c11["one_sided"])))
@@ -365,9 +401,10 @@ def render_card(s):
     sc = s["scaffold"]; c11 = ac["11_single_feature_separation"]; v10 = sc.get("v1.0", {})
     L += [f"# VT-Guard — Dataset card ({s['dataset_version'].replace('v', 'dataset-v')}, bản đóng băng)", "",
           f"Sinh tự động bởi `src/dataset/card.py` lúc {s['generated']}. Số liệu chi tiết: `reports/dataset_stats.json`.", "",
-          f"> **Phiên bản `dataset-{s['dataset_version']}` — ĐÓNG BĂNG, thay thế dataset-v1.0.** Split (`data/processed/splits/*.jsonl`), "
+          f"> **Phiên bản `dataset-{s['dataset_version']}` — ĐÓNG BĂNG, thay thế dataset-v1.1 (và v1.0).** Split (`data/processed/splits/*.jsonl`), "
           "`vocab.json` và checksum ở mục 10 là cố định: mọi mô hình ở Bước 5–8 phải dùng đúng các file này; trước khi chạy, so sha256 với mục 10. "
-          "v1.1 trung hoà dấu vết bộ sinh dữ liệu (mục 7a); thành viên các tập (run_id) giữ nguyên so với v1.0. "
+          "v1.1 trung hoà dấu vết bộ sinh dữ liệu (mục 7a); v1.2 gán event 4688 theo tiến trình được tạo (mục 7b). Thành viên các tập "
+          "giữ nguyên từ v1.0, v1.2 thêm đúng 1 phiên được khôi phục vào Train. "
           "Muốn đổi dữ liệu → tạo phiên bản mới, không sửa tại chỗ.", "",
           "## 1. Mục đích",
           "Phát hiện hành vi APT kiểu **Volt Typhoon** (living-off-the-land) trên log Windows thu bằng Wazuh. "
@@ -412,15 +449,15 @@ def render_card(s):
           f"({wn['positive']} dương, {wn['negative']} âm).",
           f"- `window_malicious` = có ít nhất 1 event malicious; `window_ttps` = hợp TTP của event malicious; `window_class` = lớp phiên.",
           f"- **Phiên bị loại ({len(wn['sessions_excluded'])})**:"]
-    for r, d in s["excluded_sessions_detail"].items():
-        tasks = ", ".join(x.split(":", 1)[-1] for x in d["tasks"]) or "—"
-        snap = f", snapshot {d['snapshot_before']}" if d["snapshot_before"] else ""
-        why = EXCLUDE_WHY.get(d["why"], d["why"])
-        if d["why"] == "hard_negative_labeled0_khong_co_tien_trinh_con" and not d["snapshot_before"]:
-            why = ("không có event tiến trình con trong khung phiên (task chỉ chạy cmdlet ngay trong tiến trình orchestrator, "
-                   "không có khôi phục snapshot); loại hẳn theo quy tắc chung hard_negative labeled=0")
-        L.append(f"  - `{r}` ({d['class']}, {d['batch']}, {tasks}{snap}): {why}.")
-    L += [f"  - {sum(1 for _, c, why in wn['sessions_excluded'] if c == 'benign')} phiên benign: {EXCLUDE_WHY['stream_rong']}.",
+    L += ["", "Mọi phiên bị loại đã được rà lại với labeler v8 (normalize v1): không phiên nào có thêm event cây phiên, và không phiên "
+          "nào có event tạo tiến trình (EID1 hoặc 4688) con của orchestrator trong khung phiên. Lý do dưới đây theo đúng bằng chứng "
+          "telemetry (không suy diễn \"atomic không sinh tiến trình con\"). Phiên attack/hard_negative bị loại hẳn, không coi là benign.", "",
+          "| Phiên | Lớp | Đợt | Task | Snapshot | Event cây | Event orchestrator | Tạo tiến trình con | Nền trong khung | Lý do |",
+          "|---|---|---|---|---|---|---|---|---|---|"]
+    for r, d in sorted(s["excluded_sessions_detail"].items(), key=lambda x: (x[1]["class"], x[0])):
+        L.append(f"| `{r}` | {d['class']} | {d['batch']} | {', '.join(d['tasks']) or '—'} | {d['snapshot_before'] or '—'} | {d['own_events']} | "
+                 f"{d['orchestrator_events']} | {d['child_process_creation']} | {d['background_in_window']} | {excluded_why(d)} |")
+    L += ["",
           "- `revert_control` = phiên hard_negative chạy sau khi khôi phục snapshot (dc_db_maint batch07). Chỉ dùng cho card và kiểm tra #10, "
           "KHÔNG làm feature (nằm trong mẫu trường cấm của `featurize.py`).", "",
           "## 5. Các tập (chia theo PHIÊN và NHÓM PHIÊN)", "",
@@ -553,8 +590,34 @@ def render_card(s):
         L.append(f"| {SPLIT_NAME[k]} | {p_['sessions']} | {o.get('windows', '?')} → {p_['windows']} | {o.get('positive', '?')} → {p_['positive']} |")
     L += ["",
           f"**Quét đặc trưng đơn lẻ trước/sau** (`src/dataset/scaffold_scan.py`): mức tách cao nhất {s10.get('max', '?')} (`image=conhost.exe`, v1.0) → "
-          f"{c11['max_separation']} (`{c11['max_feature']}`, v1.1); số đặc trưng một-phía {s10.get('n_one_sided', '?')} → {len(c11['one_sided'])}. "
-          "Danh sách đầy đủ: `reports/step5/scaffold_scan_v1.0.json`, `scaffold_scan_v1.1.json`.", "",
+          f"{c11['max_separation']} (`{c11['max_feature']}`, {s['dataset_version']}; từ v1.2 quét thêm bigram event_id); số đặc trưng một-phía {s10.get('n_one_sided', '?')} → {len(c11['one_sided'])}. "
+          "Danh sách đầy đủ: `reports/step5/scaffold_scan_v1.0.json`, `scaffold_scan_v1.1.json`, `scaffold_scan_v1.2.json`.", "",
+          "### 7b. dataset-v1.2: gán event 4688 theo tiến trình được tạo",
+          "- **Lỗi gốc**: normalize v0 lấy `process_id` của Security 4688 = PID tiến trình **tạo ra** (`processId`), trong khi `image_name` là "
+          "tiến trình **được tạo** (`newProcessName`). Labeler loại mọi event có `process_id` thuộc orchestrator ⇒ mất 4688 của mọi con trực tiếp "
+          "của orchestrator. Script benign/hard-negative cũ gọi tool trực tiếp (mất 4688), ART và batch07 gọi qua `cmd` trung gian (giữ 4688) "
+          "⇒ tỉ lệ 4688/EID1 lệch theo lớp (dấu vết bộ sinh dạng mới, lộ ra ở trọng số `eid=5 eid=4688` của B1).",
+          f"- **Sửa (normalize {s['versions']['normalize']}, labeler {s['versions']['label']})**: 4688 có `process_id = newProcessId`, "
+          "`parent_process_id = processId` (cùng ngữ nghĩa với Sysmon EID1); 4688 ghép vào tiến trình được tạo như mọi event không có guid. "
+          "Quy tắc dự phòng v8: nếu tiến trình được tạo không khớp EID1 nào thì kế thừa theo tiến trình tạo — cha là orchestrator → như "
+          "executor-root (phiên của orchestrator tại thời điểm tạo; harness/upload loại; ngoài mọi khung → `orch_child_outside`), cha khác → cùng cây với cha. "
+          "Không loại 4688 ở bất kỳ lớp nào.",
+          f"- **Đối chiếu từng event v7↔v8 trên 10 đợt**: chỉ event 4688 đổi ({sum(s['label_v7_v8_diff'].get('total', {}).values())} event; "
+          f"event khác đổi: {s['label_v7_v8_diff'].get('non_4688_changes', '?')}). Chuyển trạng thái: " +
+          ", ".join(f"{k} {v}" for k, v in sorted(s['label_v7_v8_diff'].get('total', {}).items(), key=lambda x: -x[1])) + ".",
+          "- **Phiên `20261014-164113-dc01-a` (ntds, T1003.003) bị loại sai ở v1.1** với lý do \"atomic không sinh tiến trình con\": "
+          "thực ra có 4688 của `cmd.exe /c mkdir … & ntdsutil \"ac i ntds\" \"ifm\" …` nhưng thiếu Sysmon EID1; v8 khôi phục được.",
+          "- **Thành viên các tập cố định theo v1.1** (`split.py --pin-assignment`): mọi phiên cũ giữ nguyên tập; phiên mới xếp theo quy tắc "
+          "nhóm phiên — " + "; ".join(f"`{x['run_id']}` → {x['split']} ({x['why']})" for x in s["split_pin"]["new_sessions"]) + ".", "",
+          "| Tập | Phiên v1.1 → v1.2 | Cửa sổ v1.1 → v1.2 | Dương v1.1 → v1.2 | Event v1.1 → v1.2 |", "|---|---|---|---|---|"]
+    v11 = s.get("v1.1", {})
+    for k, p_ in P.items():
+        o = v11.get("splits", {}).get(k, {})
+        L.append(f"| {SPLIT_NAME[k]} | {o.get('sessions', '?')} → {p_['sessions']} | {o.get('windows', '?')} → {p_['windows']} | "
+                 f"{o.get('positive', '?')} → {p_['positive']} | {fmt(o.get('events', 0))} → {fmt(p_['events'])} |")
+    L += ["", f"Tổng: {v11.get('windows', '?')} → {wn['total']} cửa sổ, {v11.get('positive', '?')} → {wn['positive']} dương; event giữ lại "
+          f"{fmt(v11.get('events', 0))} → {fmt(ev['kept'])} (malicious {fmt(v11.get('malicious', 0))} → {fmt(ev['malicious'])}). "
+          "Số cửa sổ tăng vì event 4688 được giữ lại làm stream dài thêm.", "",
           "## 8. Kiểm thử chấp nhận (chạy lại trên file split)", "",
           "| # | Kiểm tra | Kết quả |", "|---|---|---|",
           f"| 1 | Không session/run_id ở >1 tập | {tick(not ac['1_run_id_in_gt1_split'])} ({len(ac['1_run_id_in_gt1_split'])} vi phạm) |",
@@ -574,8 +637,16 @@ def render_card(s):
           f"| 10 | So phân bố (channel, event_id) của event nền: cửa sổ dương T1003.003 vs cửa sổ revert_control | "
           f"đã chạy: khoảng cách biến phân toàn phần (TVD) = {c10['total_variation_distance']} (xem bảng dưới) |",
           f"| 11 | Không đặc trưng đơn lẻ nào tách attack/hard_negative với mức tách ≥ {c11['threshold']} (thường trực) | "
-          f"{tick(c11['ok'])}: cao nhất {c11['max_separation']} (`{c11['max_feature']}`) |", "",
-          f"**Tổng 1–8: {tick(s['acceptance_pass'])}. #9: {tick(not c9['failed'])}. #10: báo cáo (không có ngưỡng). #11: {tick(c11['ok'])}.**", "",
+          f"{tick(c11['ok'])}: cao nhất {c11['max_separation']} (`{c11['max_feature']}`) |",
+          f"| 12 | Tỉ lệ 4688/EID1 của tiến trình trong cây phiên, mỗi host × lớp, nằm trong [{ac['12_ratio_4688_eid1']['band'][0]}, {ac['12_ratio_4688_eid1']['band'][1]}] | "
+          f"{tick(ac['12_ratio_4688_eid1']['ok'])} (bảng dưới) |", "",
+          f"**Tổng 1–8: {tick(s['acceptance_pass'])}. #9: {tick(not c9['failed'])}. #10: báo cáo (không có ngưỡng). #11: {tick(c11['ok'])}. #12: {tick(ac['12_ratio_4688_eid1']['ok'])}.**", "",
+          "Kiểm tra #12 — Security 4688 / Sysmon EID1 của tiến trình trong cây phiên (bỏ conhost như khi dựng cửa sổ):", "",
+          "| Host | Lớp | EID1 | 4688 | Tỉ lệ | Kết quả |", "|---|---|---|---|---|---|"]
+    for k, v in ac["12_ratio_4688_eid1"]["cells"].items():
+        h, cl = k.split("|")
+        L.append(f"| {h} | {cl} | {v['eid1']} | {v['e4688']} | {v['ratio']} | {tick(v['ok'])} |")
+    L += ["",
           "Kiểm tra #9 — tỉ lệ cửa sổ âm trong Train theo công cụ (không sửa số liệu để ép đạt):", "",
           "| Công cụ | Train dương | Train âm | % âm | Kết quả |", "|---|---|---|---|---|"]
     for t, v in c9["tools"].items():
@@ -648,6 +719,14 @@ def render_card(s):
           "- **Tác động phụ nền chỉ có ở phiên attack**: `svchost.exe→rundll32.exe shell32.dll,SHCreateLocalServerRunDll` (COM local server, "
           "26 event nền ở 25 phiên attack, ngoài cây tiến trình, nhãn benign) và các event ESENT/Directory Service của `ntdsutil ifm` — "
           "mô hình có thể dựa vào event nền này; đo bằng ablation (c) (chỉ cây tiến trình).",
+          f"- **Trùng PID với orchestrator (lỗi có sẵn, không sửa)**: quy tắc loại orchestrator dựa trên PID và không giới hạn thời gian, nên tiến trình "
+          f"khác trùng PID với một orchestrator trên cùng host bị loại nhầm — {s['pid_reuse']['distinct_processes']} tiến trình, "
+          f"{s['pid_reuse']['events_dropped']} event (theo event_id: " + ", ".join(f"{k}: {v}" for k, v in s['pid_reuse']['events_by_eid'].items()) + "; "
+          "ảnh: " + ", ".join(f"{k} {v}" for k, v in s['pid_reuse']['by_image'].items()) + "). Chủ yếu ở ntds (PID lặp lại sau mỗi lần khôi phục "
+          "snapshot), gồm 1 tiến trình `ntdsutil.exe` của phiên attack (malicious) và `netsh.exe` pid 8112 (batch07). Từ v1.2, 4688 của các tiến trình này "
+          "nhất quán với EID1 (cùng bị loại).",
+          "- **Bigram event_id và PowerShell**: chuỗi vòng đời PowerShell (40961→53504→40962→4104) có ở ~22% cửa sổ attack, ~1% hard-negative — "
+          "đi cùng giới hạn `<launcher>→powershell.exe` (ART chạy test PowerShell trong tiến trình con).",
           "- Chỉ 2 host, 2 tài khoản, 1 domain lab; phạm vi là 5 TTP Discovery/Credential Access, chưa có lateral movement hay persistence.", "",
           "## 10. Tái lập",
           "```",

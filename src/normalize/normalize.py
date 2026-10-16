@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""VT-Guard normalizer v0.
+"""VT-Guard normalizer v1.
+v1 (dataset-v1.2): Security 4688 thuoc tien trinh DUOC TAO (giong Sysmon EID1): process_id = newProcessId,
+parent_process_id = processId (creator). v0 lay process_id = creator nen 4688 mang PID cha nhung ten con.
 Doc moi event tho (archives JSON tu Wazuh Indexer) -> 1 dong schema phang.
 Chay: python normalize.py <input.json | input_dir> <output.jsonl>
 Ho tro: file _search cua Indexer (hits.hits) HOAC file JSONL moi dong 1 _source.
 """
 import json, sys, glob, os, re, hashlib
 
+NORMALIZE_VERSION = "v1"
 HOST_ROLE = {"DC01": "domain_controller", "WIN10-01": "workstation"}
 
 def to_int(v):
@@ -52,6 +55,11 @@ def normalize(s):
     host = s.get("agent", {}).get("name")
     eid = to_int(sysd.get("eventID"))
 
+    # v1: 4688 thuoc tien trinh DUOC TAO (newProcessId); creator (processId) la cha
+    if eid == 4688:
+        pid, ppid = to_int(ed.get("newProcessId")), to_int(ed.get("processId"))
+    else:
+        pid, ppid = to_int(ed.get("processId") or ed.get("newProcessId") or sysd.get("processID")), to_int(ed.get("parentProcessId"))
     img = ed.get("image") or ed.get("newProcessName")
     pimg = ed.get("parentImage") or ed.get("parentProcessName")
     row = {
@@ -69,8 +77,8 @@ def normalize(s):
         # --- tien trinh (xuong song de gan nhan theo cay) ---
         "process_guid": ed.get("processGuid"),
         "parent_process_guid": ed.get("parentProcessGuid"),
-        "process_id": to_int(ed.get("processId") or ed.get("newProcessId") or sysd.get("processID")),
-        "parent_process_id": to_int(ed.get("parentProcessId")),
+        "process_id": pid,
+        "parent_process_id": ppid,
         "image": img,
         "image_name": img.split("\\")[-1].lower() if img else None,
         "parent_image": pimg,

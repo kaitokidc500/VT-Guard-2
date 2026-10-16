@@ -62,6 +62,7 @@ def main():
     ap.add_argument("--seed", type=int, default=1337)
     ap.add_argument("--hard-frac", type=float, default=0.4)
     ap.add_argument("--clean-frac", type=float, default=0.2)
+    ap.add_argument("--pin-assignment", help="assignment.json cua ban truoc: giu nguyen tap cua phien cu, chi xep phien moi")
     a = ap.parse_args()
     P = lambda *p: os.path.join(a.root, *p)
     rng = random.Random(a.seed)
@@ -82,14 +83,7 @@ def main():
     assert not mixed, f"nhom phien tron dot T-novel va dot thuong: {mixed}"
 
     assign = {}
-    # 1) T-novel
-    for g in groups:
-        if g[0]["_batch"] in NOVEL_BATCHES:
-            for m in g: assign[m["run_id"]] = "t_novel"
     rest = [g for g in groups if g[0]["_batch"] not in NOVEL_BATCHES]
-    # 2) T-hard theo CHU KY CONG CU (tap image_name dac trung cua cay phien, bo cmd/conhost/powershell),
-    #    tach rieng phien revert_control. Moi chu ky: >=1 phien vao T-hard, >=50% vao Train (neu >=2 phien).
-    #    Chi nhom THUAN hard_negative moi vao duoc T-hard (nhom tron phai o phia Train/T-clean).
     hn = [m for g in rest for m in g if m["class"] == "hard_negative"]
     n_hn = len(hn)
     hsig = {m["run_id"]: hn_signature(m, own_imgs) for m in hn}
@@ -98,38 +92,89 @@ def main():
     want_hard = {k: max(1, min(round(a.hard_frac * n), cap_hard[k])) for k, n in n_sig.items()}
     pure = [g for g in rest if all(m["class"] == "hard_negative" for m in g)]
     rng.shuffle(pure); pure.sort(key=len)            # uu tien nhom nho (it keo theo chu ky khac)
-    got = Counter()
-    for k in sorted(n_sig, key=lambda k: (n_sig[k], k)):   # chu ky hiem truoc
-        for g in pure:
-            if got[k] >= want_hard[k]: break
-            if g[0]["run_id"] in assign or k not in {hsig[m["run_id"]] for m in g}: continue
-            add = Counter(hsig[m["run_id"]] for m in g)
-            if any(got[x] + c > cap_hard[x] for x, c in add.items()): continue
-            for m in g: assign[m["run_id"]] = "t_hard"
-            got += add
-    target_hard = sum(want_hard.values())
-    # 3) Train / T-clean: phan tang tham lam theo nhom
-    rest = [g for g in rest if g[0]["run_id"] not in assign]
-    tot = Counter(stratum(m) for g in rest for m in g)
-    target = {k: a.clean_frac * v for k, v in tot.items()}
-    cur = Counter(); n_clean = 0; n_all = sum(tot.values())
-    order = rest[:]; rng.shuffle(order); order.sort(key=len, reverse=True)
-    for g in order:
-        add = Counter(stratum(m) for m in g)
-        dev = lambda c: sum(abs(c[k] - target[k]) for k in add)
-        d_clean = dev(cur + add); d_train = dev(cur)
-        to_clean = d_clean < d_train or (d_clean == d_train and n_clean + len(g) <= a.clean_frac * n_all)
-        for m in g: assign[m["run_id"]] = "t_clean" if to_clean else "train"
-        if to_clean: cur += add; n_clean += len(g)
-    # 3b) dam bao moi chu ky hard_negative co >= 50% phien o Train: chuyen ca nhom tu T-clean sang Train
-    moved = 0
-    for k in sorted(n_sig):
-        need = math.ceil(n_sig[k] / 2) if n_sig[k] >= 2 else 0
-        for g in [g for g in rest if assign[g[0]["run_id"]] == "t_clean"]:
-            if sum(1 for r, x in hsig.items() if x == k and assign[r] == "train") >= need: break
-            if k in {hsig.get(m["run_id"]) for m in g}:
-                for m in g: assign[m["run_id"]] = "train"
-                moved += 1
+    pin_log, pin_dropped = [], []
+    if a.pin_assignment:
+        # Giu co dinh thanh vien cac tap cua mot ban truoc (vd dataset-v1.1): phien cu lay nguyen tap da gan;
+        # phien MOI xep theo dung quy tac nhom phien: chong thoi gian voi nhom da co tap -> theo tap do;
+        # nhom don/moi -> dot T-novel -> t_novel; thuan hard_negative -> T-hard neu chu ky chua du chi tieu;
+        # con lai -> Train/T-clean phan tang tham lam theo so dem hien tai.
+        pinned = {r: v["split"] for r, v in json.load(open(a.pin_assignment, encoding="utf-8")).items()}
+        cur_split = lambda: Counter(assign.values())
+        moved, target_hard = 0, sum(want_hard.values())
+        for g in groups:
+            for m in g:
+                if m["run_id"] in pinned: assign[m["run_id"]] = pinned[m["run_id"]]
+        for g in groups:
+            new = [m for m in g if m["run_id"] not in pinned]
+            if not new: continue
+            ps = {pinned[m["run_id"]] for m in g if m["run_id"] in pinned}
+            if len(ps) > 1: sys.exit(f"LOI: nhom {g[0]['run_id']} co phien cu o nhieu tap {ps}")
+            if ps:
+                sp = ps.pop(); why = f"chong thoi gian voi nhom da co tap ({[m['run_id'] for m in g if m['run_id'] in pinned]}) -> {sp}"
+            elif g[0]["_batch"] in NOVEL_BATCHES:
+                sp = "t_novel"; why = "nhom don thuoc dot T-novel"
+            elif all(m["class"] == "hard_negative" for m in g):
+                ks = {hsig[m["run_id"]] for m in g}
+                have = {k: sum(1 for r, x in hsig.items() if x == k and assign.get(r) == "t_hard") for k in ks}
+                sp = "t_hard" if any(have[k] < want_hard[k] for k in ks) else "train"
+                why = f"nhom thuan hard_negative, chu ky {sorted(ks)}: T-hard hien co {have} / chi tieu {[want_hard[k] for k in ks]} -> {sp}"
+            else:
+                pool = [m for gg in groups for m in gg if assign.get(m["run_id"]) in ("train", "t_clean")] + new
+                tot = Counter(stratum(m) for m in pool)
+                curc = Counter(stratum(m) for m in pool if assign.get(m["run_id"]) == "t_clean")
+                add = Counter(stratum(m) for m in new)
+                dev = lambda c: sum(abs(c[k] - a.clean_frac * tot[k]) for k in add)
+                sp = "t_clean" if dev(curc + add) < dev(curc) else "train"
+                why = (f"nhom don (khong chong thoi gian voi phien co tap), phan tang {dict(add)}: "
+                       f"T-clean hien co {dict((k, curc[k]) for k in add)} / muc tieu {dict((k, round(a.clean_frac * tot[k], 2)) for k in add)} "
+                       f"-> lech neu vao T-clean {round(dev(curc + add), 2)} vs Train {round(dev(curc), 2)} -> {sp}")
+            for m in new:
+                assign[m["run_id"]] = sp
+                pin_log.append({"run_id": m["run_id"], "class": m["class"], "batch": m["_batch"], "host": m["host"], "split": sp, "why": why})
+        pin_dropped = sorted(r for r in pinned if r not in assign)
+        pure = [g for g in rest if all(m["class"] == "hard_negative" for m in g)]
+        for x in pin_log: print("[pin] phien moi", x["run_id"], "->", x["split"], "|", x["why"])
+        if pin_dropped: print("[pin] phien co trong assignment cu nhung khong con cua so:", pin_dropped)
+    else:
+        # 1) T-novel
+        for g in groups:
+            if g[0]["_batch"] in NOVEL_BATCHES:
+                for m in g: assign[m["run_id"]] = "t_novel"
+        # 2) T-hard theo CHU KY CONG CU (tap image_name dac trung cua cay phien, bo cmd/conhost/powershell),
+        #    tach rieng phien revert_control. Moi chu ky: >=1 phien vao T-hard, >=50% vao Train (neu >=2 phien).
+        #    Chi nhom THUAN hard_negative moi vao duoc T-hard (nhom tron phai o phia Train/T-clean).
+        got = Counter()
+        for k in sorted(n_sig, key=lambda k: (n_sig[k], k)):   # chu ky hiem truoc
+            for g in pure:
+                if got[k] >= want_hard[k]: break
+                if g[0]["run_id"] in assign or k not in {hsig[m["run_id"]] for m in g}: continue
+                add = Counter(hsig[m["run_id"]] for m in g)
+                if any(got[x] + c > cap_hard[x] for x, c in add.items()): continue
+                for m in g: assign[m["run_id"]] = "t_hard"
+                got += add
+        target_hard = sum(want_hard.values())
+        # 3) Train / T-clean: phan tang tham lam theo nhom
+        rest = [g for g in rest if g[0]["run_id"] not in assign]
+        tot = Counter(stratum(m) for g in rest for m in g)
+        target = {k: a.clean_frac * v for k, v in tot.items()}
+        cur = Counter(); n_clean = 0; n_all = sum(tot.values())
+        order = rest[:]; rng.shuffle(order); order.sort(key=len, reverse=True)
+        for g in order:
+            add = Counter(stratum(m) for m in g)
+            dev = lambda c: sum(abs(c[k] - target[k]) for k in add)
+            d_clean = dev(cur + add); d_train = dev(cur)
+            to_clean = d_clean < d_train or (d_clean == d_train and n_clean + len(g) <= a.clean_frac * n_all)
+            for m in g: assign[m["run_id"]] = "t_clean" if to_clean else "train"
+            if to_clean: cur += add; n_clean += len(g)
+        # 3b) dam bao moi chu ky hard_negative co >= 50% phien o Train: chuyen ca nhom tu T-clean sang Train
+        moved = 0
+        for k in sorted(n_sig):
+            need = math.ceil(n_sig[k] / 2) if n_sig[k] >= 2 else 0
+            for g in [g for g in rest if assign[g[0]["run_id"]] == "t_clean"]:
+                if sum(1 for r, x in hsig.items() if x == k and assign[r] == "train") >= need: break
+                if k in {hsig.get(m["run_id"]) for m in g}:
+                    for m in g: assign[m["run_id"]] = "train"
+                    moved += 1
     sig_table = {}
     for k in sorted(n_sig, key=lambda k: -n_sig[k]):
         c = Counter(assign[r] for r, x in hsig.items() if x == k)
@@ -204,6 +249,7 @@ def main():
              "groups_total": len(groups), "group_size_dist": dict(sorted(Counter(len(g) for g in groups).items())),
              "hn_sessions_non_novel": n_hn, "t_hard_target": target_hard,
              "hn_in_pure_groups": sum(len(g) for g in pure), "hn_signature_split": sig_table,
+             "pinned_from": a.pin_assignment, "pin_new_sessions": pin_log, "pin_dropped_sessions": pin_dropped,
              "hn_groups_moved_to_train": moved,
              "splits": per, "acceptance": chk, "acceptance_pass": ok,
              "vocab_sha256": sha256(P("data", "processed", "vocab.json"))}

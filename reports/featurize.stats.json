@@ -17,22 +17,22 @@
     "logon_type": 8
   },
   "vocab_fit": "run_id trong train_runs.txt",
-  "fit_windows": 471,
+  "fit_windows": 483,
   "min_sessions": 2,
-  "windows": 793,
-  "events": 38114,
-  "cmd_events_nonzero": 7415,
-  "cmd_unique_strings": 590,
+  "windows": 809,
+  "events": 40136,
+  "cmd_events_nonzero": 9154,
+  "cmd_unique_strings": 592,
   "cmd_nnz_per_event": {
-    "median": 46,
+    "median": 45,
     "max": 234
   },
   "unk_rate": {
     "fit": {
       "channel": 0.0,
       "event_id": 0.0002,
-      "image_name": 0.0003,
-      "parent_image_name": 0.0002,
+      "image_name": 0.0004,
+      "parent_image_name": 0.0001,
       "host_role": 0.0,
       "integrity_level": 0.0,
       "logon_type": 0.0
@@ -40,8 +40,8 @@
     "t_novel": {
       "channel": 0.0,
       "event_id": 0.0003,
-      "image_name": 0.0312,
-      "parent_image_name": 0.0219,
+      "image_name": 0.0301,
+      "parent_image_name": 0.0211,
       "host_role": 0.0,
       "integrity_level": 0.0,
       "logon_type": 0.0

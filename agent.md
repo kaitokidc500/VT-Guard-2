@@ -50,8 +50,8 @@ VT-Guard/  (= vt-guard-research/)
 |------|----------|---------|------------|
 | 1 | Hạ tầng Wazuh (DC01, WIN10-01 → Indexer) | `evidence/` | Hoàn thành |
 | 2 | Bộ điều phối sinh phiên, thu thập 479 phiên (10 đợt) | `orchestrator/`, `manifests/` | Hoàn thành |
-| 3 | Chuẩn hoá & gán nhãn (labeler v7) | `src/normalize/`, `src/label/` | Hoàn thành |
-| 4 | Đóng băng dataset (tag `dataset-v1.1`, thay v1.0): gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
+| 3 | Chuẩn hoá & gán nhãn (normalize v1, labeler v8) | `src/normalize/`, `src/label/` | Hoàn thành |
+| 4 | Đóng băng dataset (tag `dataset-v1.2`, thay v1.1/v1.0 — bản sửa dataset CUỐI): gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
 | 5–6 | Khung đánh giá (`src/eval/`), baseline B0–B3 (`src/baselines/`); VT-Seq + ablation | `src/eval/`, `src/baselines/`, `src/models/`, `notebooks/` | Đang làm |
 | 7 | Luật | `src/rules/` | Chưa bắt đầu |
 | 8 | Fusion | `src/fusion/` | Chưa bắt đầu |
@@ -67,10 +67,11 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - Mỗi phiên chạy của orchestrator ghi một bản kê vào `manifests/` (schema sẽ chốt ở Bước 2).
 - Notebook Colab import code từ `src/` thay vì chép code vào notebook.
 - Không commit secrets: `.env`, thông tin đăng nhập Indexer, token.
-- **Dataset đóng băng `dataset-v1.1` (git tag, thay v1.0):** Bước 5–8 dùng ĐÚNG `data/processed/splits/{train,t_clean,t_hard,t_novel}.jsonl`,
+- **Dataset đóng băng `dataset-v1.2` (git tag, thay v1.1/v1.0; bản sửa dataset CUỐI — bất đối xứng mới chỉ ghi hạn chế + ablation):** Bước 5–8 dùng ĐÚNG `data/processed/splits/{train,t_clean,t_hard,t_novel}.jsonl`,
   `data/processed/vocab.json` (bản sao `reports/vocab.json`); trước khi chạy, so sha256 với `reports/dataset_card.md` mục 10
   (`src/eval/evaluate.py: check_dataset` tự so). Không chạy lại split/featurize/label trên bản này; muốn đổi dữ liệu thì tạo
-  phiên bản mới (dataset-v1.2…). Bản v1.0 lưu cục bộ ở `data/processed/v1.0/`.
+  phiên bản mới. Bản cũ lưu cục bộ ở `data/processed/v1.0/`, `data/processed/v1.1/` (nhãn v7: `data/processed/v7/`, normalize v0: `data/interim/v0/`).
+- KHÔNG dời/force-push tag dataset đã đẩy; cần sửa thì tạo tag mới.
 
 ## 5. Quy trình mỗi phiên làm việc
 
@@ -162,10 +163,25 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - Sửa trình bày card (7a đánh số 1–4 theo thứ tự thao tác, #11 nối vào bảng mục 8, bỏ gạch đầu #9 ở mục 9 vì đã đạt);
   `scaffold_scan` sắp xếp tất định (tie-break theo tên). Dữ liệu/checksum KHÔNG đổi; tag `dataset-v1.1` dời sang commit này.
 
+### dataset-v1.2 — 2026-10-16
+- B1 trên v1.1 lộ bất đối xứng 4688/EID1 (trọng số `eid=5 eid=4688`): normalize v0 lấy process_id của 4688 = creator
+  trong khi image = tiến trình được tạo; labeler loại event có process_id thuộc orchestrator ⇒ mất 4688 của con trực tiếp
+  orchestrator (script benign/HN gọi tool trực tiếp; ART/batch07 qua cmd) ⇒ tỉ lệ 4688/EID1 lệch theo lớp (0.11–0.82).
+- **normalize v1**: 4688 process_id = newProcessId, parent = processId. **labeler v8**: 4688 không khớp EID1 kế thừa theo
+  tiến trình tạo (cha orchestrator → phiên tại thời điểm tạo / harness / upload / orch_child_outside; cha khác → cùng cây).
+  Đối chiếu v7↔v8 10 đợt: chỉ 2 394 event 4688 đổi, 0 event khác (`reports/label_v7_v8_diff.json`).
+- #12 mới (4688/EID1 theo host × lớp, [0.9, 1.1]): mọi ô ≈ 1.00 — ĐẠT. #11 mở rộng (bigram event_id): max 0.735, ĐẠT.
+- Phiên `20261014-164113-dc01-a` (ntds) bị loại sai ở v1.1 (thiếu EID1, có 4688) → khôi phục. `split.py --pin-assignment`
+  giữ nguyên thành viên v1.1, phiên mới → Train (nhóm đơn, phân tầng). 793 → 809 cửa sổ (272 dương).
+- Rà 20 phiên bị loại (`src/dataset/audit.py`): không phiên nào có event tạo tiến trình con của orchestrator; lý do trong card
+  theo bằng chứng (mất telemetry / cmdlet trong orchestrator / không xác định sau snapshot).
+- Lỗi trùng PID của quy tắc loại orchestrator (không giới hạn thời gian): 7 tiến trình / 23 event (gồm ntdsutil malicious) — ghi hạn chế.
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
-- [ ] Bước 5 mốc C: FPR phân tầng theo độ dài (đủ 64 vs ngắn) + Spearman điểm–độ dài trong evaluate.py (không tuyên bố B1-raw học độ dài).
-- [ ] Bước 5 mốc D: chạy B0, B1, B2, B3 trên dataset-v1.1 + ablation (a) đủ, (b) bỏ image_name+parent, (c) chỉ cây tiến trình;
+- [x] Bước 5 mốc C: FPR phân tầng theo độ dài + Spearman điểm–độ dài trong evaluate.py.
+- [ ] Bước 5 mốc D: chạy B0, B1, B2, B3 trên dataset-v1.2 + ablation (a) đủ, (b) bỏ image_name+parent, (c) chỉ cây tiến trình
+      (CHỈ báo T-hard, rò nhãn theo cấu trúc), (c') che event nền một-phía đã biết;
       tổng hợp `reports/step5_report.md`, `step5_results.json`, `reports/preds/`. Cần cài lightgbm, torch (CPU) — đã được phép.
 - [ ] Bước 6: VT-Seq (GRU-Attention đa nhiệm) + ablation; nạp dữ liệu CHỈ từ `cat`/`cmd`/`num`; cắt ngẫu nhiên độ dài
       cửa sổ khi huấn luyện; ablation bỏ `image_name` (đường tắt ping/wevtutil/ntdsutil).

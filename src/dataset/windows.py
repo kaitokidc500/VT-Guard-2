@@ -31,7 +31,7 @@ from datetime import datetime
 BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "batch06", "batch07", "ntds", "ntds2", "ntds2v"]
 # Dot ep TOAN BO vao T-novel: batch05 = holdout thoi gian, ntds2v = bien the T1003.003 held-out
 NOVEL_BATCHES = ["batch05", "ntds2v"]
-DATASET_VERSION = "v1.1"
+DATASET_VERSION = "v1.2"
 # Trung hoa scaffold (dataset-v1.1), ap dong nhat moi lop
 SCAFFOLD_DROP_IMAGES = {"conhost.exe"}
 LAUNCHERS = {"powershell.exe", "cmd.exe"}
@@ -124,10 +124,10 @@ def main():
             stream = sorted(own.get(rid, []) + seg, key=key)
             n_mal = sum(1 for r in stream if r["label_malicious"])
             if m["class"] == "attack" and not own.get(rid):
-                excluded.append((rid, m["class"], "attack_labeled0_atomic_khong_sinh_tien_trinh_con")); continue
+                excluded.append((rid, m["class"], "attack_khong_co_event_cay_tien_trinh")); continue
             if m["class"] == "hard_negative" and not own.get(rid):
                 # quy tac chung (batch07): hard_negative labeled=0 cung loai, khong dung lam benign
-                excluded.append((rid, m["class"], "hard_negative_labeled0_khong_co_tien_trinh_con")); continue
+                excluded.append((rid, m["class"], "hard_negative_khong_co_event_cay_tien_trinh")); continue
             if not stream:
                 excluded.append((rid, m["class"], "stream_rong")); continue
             if m["class"] == "attack" and n_mal == 0:

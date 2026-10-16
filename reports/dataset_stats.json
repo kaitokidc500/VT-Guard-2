@@ -1,9 +1,9 @@
 {
-  "generated": "2026-10-16T13:37:50+07:00",
-  "dataset_version": "v1.1",
+  "generated": "2026-10-16T14:17:04+07:00",
+  "dataset_version": "v1.2",
   "versions": {
-    "normalize": "v0",
-    "label": "v7",
+    "normalize": "v1",
+    "label": "v8",
     "featurizer": "f3"
   },
   "scaffold": {
@@ -17,9 +17,9 @@
     "launcher_token": "<launcher>",
     "dropped_events": {
       "bg|benign": 934,
-      "own|malicious": 851
+      "own|malicious": 852
     },
-    "dropped_total": 1785,
+    "dropped_total": 1786,
     "evidence_mocA_v1.0": {
       "b1_tfidf_lr": {
         "t_clean_f1": {
@@ -445,118 +445,118 @@
       "hard_negative": 164
     },
     "labeled_inputs_sha256": {
-      "batch01": "9ed05118d0bd363b2ef5412c0f1b0294129ad8be9a68fde0b7acea8c1c8eaa5b",
-      "batch02": "1697efccee2be34f3907632b9bc2e3d4be9a6edad6c2c1297ab805a7e91d6afc",
-      "batch03": "635d38a3f6db2389b2bd39e10b1c0fd72afa0d45bbb436af9ef0724a48c9913d",
-      "batch04": "450ec2988a4c9cec51e476d18dca53aefa84ae3bb2b4dfce50a490adc53b42c4",
-      "batch05": "83f25d63c199758c580bf8647ad4deee2caadfc11e7e8f27690f365811509d4d",
-      "batch06": "a82d839ecc84172b3b45fff019ea25a979fd80ab75509fb58a8cdfa1f8bee07f",
-      "batch07": "0e05e964724bd45eb2d1748815ef17c886571b9351d71257e17133e4e6ffdbe6",
-      "ntds": "9f14984f62b96f17cc06b0f83b54ff2715053d6c98a3c0643f9a21e6fb540f67",
-      "ntds2": "e19d2068fea26d7765b648c42497f5424a6d546319cf0b164e86e1a253a2f191",
-      "ntds2v": "794961f79f3fce140374c2302e58bdf71af9bbf0510b410c8a052c3077ab9da0"
+      "batch01": "ff4f650e9122348abb3085ff2f750e3834bbdaa1cc202ad8f09ea8203ab29882",
+      "batch02": "b8700cface417ff26a39fd0013abd72740256d611e1fbadfd0bf51bbae4cbf2c",
+      "batch03": "b84329f3e4fca634327621d0fa249694f035cdaa1642cc1af2c43316cfa52ab8",
+      "batch04": "63101cfef3fef89c69883907d60497cf80328005eaedf2e6e7dc5f2a83308894",
+      "batch05": "c4146b3932760c8224dce3a18abfd61d03750a747f88ab794cdf9aa7c17c20f3",
+      "batch06": "f922cde3a8d327621a9723313f310b2c08cf0d64461cab8d6f7757e53916b59a",
+      "batch07": "f8d9f2fc56090b2c43070bf56b1b430660f37d07f8312091058b029b64d4ef95",
+      "ntds": "d4377c53d18bedcfc4539f7d1ee8ba5c8fa643e30c570ef1875abcd97b0de4ee",
+      "ntds2": "4a6633c662469e5fcb62f1736c6dbb53f80c8a031e01c31ba859e5f56a426cbe",
+      "ntds2v": "1b9bf08151d87cc85ce108745344bedf9e4c9f7c4a00c494bf453dd18c97a363"
     }
   },
   "events": {
     "read": 423597,
-    "kept": 61490,
-    "malicious": 5224,
-    "benign": 56266,
+    "kept": 62917,
+    "malicious": 5509,
+    "benign": 57408,
     "by_run_class": {
-      "background": 52846,
-      "benign": 1096,
-      "hard_negative": 2324,
-      "attack": 5224
+      "background": 52837,
+      "benign": 1536,
+      "hard_negative": 3035,
+      "attack": 5509
     },
     "by_host": {
-      "WIN10-01": 18143,
-      "DC01": 43347
+      "WIN10-01": 19129,
+      "DC01": 43788
     },
     "malicious_by_ttp": {
-      "T1003.003": 338,
-      "T1016": 3251,
-      "T1018": 3580,
-      "T1087.002": 3272,
-      "T1654": 2518
+      "T1003.003": 373,
+      "T1016": 3432,
+      "T1018": 3745,
+      "T1087.002": 3458,
+      "T1654": 2652
     },
     "dropped_by_reason": {
-      "operator_console": 2408,
+      "operator_console": 2393,
       "ps_fragment": 683,
-      "orchestrator": 347672,
-      "art_harness": 1462,
-      "orch_child_outside": 225,
-      "harness_upload": 270
+      "orchestrator": 345393,
+      "art_harness": 2195,
+      "orch_child_outside": 343,
+      "harness_upload": 316
     },
     "dropped_by_batch": {
       "batch01": {
         "operator_console": 1706,
         "ps_fragment": 105,
-        "orchestrator": 44363,
-        "art_harness": 158,
-        "orch_child_outside": 6
+        "orchestrator": 44110,
+        "art_harness": 237,
+        "orch_child_outside": 10
       },
       "batch02": {
-        "harness_upload": 6,
-        "orchestrator": 50287,
-        "art_harness": 214,
-        "orch_child_outside": 2,
+        "harness_upload": 7,
+        "orchestrator": 49970,
+        "art_harness": 321,
+        "orch_child_outside": 4,
         "ps_fragment": 110
       },
       "batch03": {
-        "orchestrator": 78385,
-        "art_harness": 302,
+        "orchestrator": 77982,
+        "art_harness": 453,
         "ps_fragment": 175,
-        "orch_child_outside": 2
+        "orch_child_outside": 3
       },
       "batch04": {
-        "orchestrator": 53784,
-        "art_harness": 228,
+        "orchestrator": 53445,
+        "art_harness": 342,
         "ps_fragment": 120,
-        "orch_child_outside": 2
+        "orch_child_outside": 3
       },
       "batch05": {
-        "orchestrator": 73052,
+        "orchestrator": 72713,
+        "art_harness": 384,
         "ps_fragment": 170,
-        "art_harness": 256,
-        "orch_child_outside": 2
+        "orch_child_outside": 3
       },
       "batch06": {
-        "orchestrator": 1195,
-        "art_harness": 14,
+        "orchestrator": 1045,
+        "art_harness": 21,
         "ps_fragment": 3
       },
       "batch07": {
-        "orch_child_outside": 139,
-        "orchestrator": 2360,
-        "harness_upload": 74,
-        "art_harness": 6
+        "orch_child_outside": 195,
+        "orchestrator": 2129,
+        "harness_upload": 87,
+        "art_harness": 7
       },
       "ntds": {
-        "orchestrator": 18479,
-        "art_harness": 124,
-        "operator_console": 702,
-        "orch_child_outside": 15,
-        "harness_upload": 72
+        "orchestrator": 18371,
+        "art_harness": 190,
+        "operator_console": 687,
+        "orch_child_outside": 30,
+        "harness_upload": 84
       },
       "ntds2": {
-        "orchestrator": 19316,
-        "art_harness": 120,
-        "harness_upload": 88,
-        "orch_child_outside": 42
+        "orchestrator": 19212,
+        "orch_child_outside": 70,
+        "art_harness": 180,
+        "harness_upload": 103
       },
       "ntds2v": {
-        "orchestrator": 6451,
-        "harness_upload": 30,
-        "orch_child_outside": 15,
-        "art_harness": 40
+        "orchestrator": 6416,
+        "harness_upload": 35,
+        "orch_child_outside": 25,
+        "art_harness": 60
       }
     },
-    "brief_key_collisions": 13661,
-    "events_from_neighbor_file": 8,
+    "brief_key_collisions": 13729,
+    "events_from_neighbor_file": 9,
     "runs_without_events": {
       "benign": 45,
       "hard_negative": 7,
-      "attack": 2
+      "attack": 1
     }
   },
   "log_hours_method": "tong thoi luong phien theo manifest (t_end - t_start); khong dung min/max ts_system",
@@ -612,10 +612,10 @@
     "hard_negative": 3.22
   },
   "windows": {
-    "total": 793,
-    "positive": 265,
-    "negative": 528,
-    "before_cap": 858,
+    "total": 809,
+    "positive": 272,
+    "negative": 537,
+    "before_cap": 874,
     "sessions_capped": 14,
     "sessions_excluded": [
       [
@@ -646,7 +646,7 @@
       [
         "20261014-073330-dc01-h",
         "hard_negative",
-        "hard_negative_labeled0_khong_co_tien_trinh_con"
+        "hard_negative_khong_co_event_cay_tien_trinh"
       ],
       [
         "20261014-073716-dc01-b",
@@ -661,7 +661,7 @@
       [
         "20261014-093702-win10-01-h",
         "hard_negative",
-        "hard_negative_labeled0_khong_co_tien_trinh_con"
+        "hard_negative_khong_co_event_cay_tien_trinh"
       ],
       [
         "20261014-103113-win10-01-b",
@@ -676,12 +676,12 @@
       [
         "20261014-120938-win10-01-h",
         "hard_negative",
-        "hard_negative_labeled0_khong_co_tien_trinh_con"
+        "hard_negative_khong_co_event_cay_tien_trinh"
       ],
       [
         "20261014-122845-dc01-h",
         "hard_negative",
-        "hard_negative_labeled0_khong_co_tien_trinh_con"
+        "hard_negative_khong_co_event_cay_tien_trinh"
       ],
       [
         "20261014-123155-win10-01-b",
@@ -696,7 +696,7 @@
       [
         "20261014-133522-win10-01-h",
         "hard_negative",
-        "hard_negative_labeled0_khong_co_tien_trinh_con"
+        "hard_negative_khong_co_event_cay_tien_trinh"
       ],
       [
         "20261014-133825-win10-01-b",
@@ -704,75 +704,70 @@
         "stream_rong"
       ],
       [
-        "20261014-164113-dc01-a",
-        "attack",
-        "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
-      ],
-      [
         "20261015-075708-dc01-a",
         "attack",
-        "attack_labeled0_atomic_khong_sinh_tien_trinh_con"
+        "attack_khong_co_event_cay_tien_trinh"
       ],
       [
         "20261015-130127-dc01-h",
         "hard_negative",
-        "hard_negative_labeled0_khong_co_tien_trinh_con"
+        "hard_negative_khong_co_event_cay_tien_trinh"
       ],
       [
         "20261015-130245-dc01-h",
         "hard_negative",
-        "hard_negative_labeled0_khong_co_tien_trinh_con"
+        "hard_negative_khong_co_event_cay_tien_trinh"
       ]
     ],
     "by_class": {
       "attack": {
-        "sessions": 149,
-        "windows": 322,
-        "pos": 265,
+        "sessions": 150,
+        "windows": 329,
+        "pos": 272,
         "neg": 57
       },
       "benign": {
         "sessions": 152,
-        "windows": 252,
+        "windows": 256,
         "pos": 0,
-        "neg": 252
+        "neg": 256
       },
       "hard_negative": {
         "sessions": 157,
-        "windows": 219,
+        "windows": 224,
         "pos": 0,
-        "neg": 219
+        "neg": 224
       }
     },
     "by_batch": {
       "batch01": {
         "sessions": 58,
-        "windows": 89,
+        "windows": 91,
         "pos": 35,
-        "neg": 54
+        "neg": 56
       },
       "batch02": {
         "sessions": 74,
-        "windows": 125,
-        "pos": 30,
-        "neg": 95
+        "windows": 127,
+        "pos": 31,
+        "neg": 96
       },
       "batch03": {
         "sessions": 78,
-        "windows": 165,
-        "pos": 56,
-        "neg": 109
+        "windows": 169,
+        "pos": 59,
+        "neg": 110
       },
       "batch04": {
         "sessions": 76,
-        "windows": 139,
+        "windows": 140,
         "pos": 39,
-        "neg": 100
+        "neg": 101
       },
       "batch05": {
         "sessions": 77,
-        "windows": 142,
-        "pos": 47,
+        "windows": 143,
+        "pos": 48,
         "neg": 95
       },
       "batch06": {
@@ -783,20 +778,20 @@
       },
       "batch07": {
         "sessions": 28,
-        "windows": 37,
+        "windows": 41,
         "pos": 0,
-        "neg": 37
+        "neg": 41
       },
       "ntds": {
-        "sessions": 20,
-        "windows": 32,
-        "pos": 24,
+        "sessions": 21,
+        "windows": 33,
+        "pos": 25,
         "neg": 8
       },
       "ntds2": {
         "sessions": 14,
-        "windows": 28,
-        "pos": 28,
+        "windows": 29,
+        "pos": 29,
         "neg": 0
       },
       "ntds2v": {
@@ -807,10 +802,10 @@
       }
     },
     "full64_rate": {
-      "attack+": 0.709,
+      "attack+": 0.717,
       "attack-": 1.0,
-      "benign-": 0.524,
-      "hard_negative-": 0.411
+      "benign-": 0.543,
+      "hard_negative-": 0.438
     }
   },
   "features": {
@@ -833,8 +828,8 @@
       "fit": {
         "channel": 0.0,
         "event_id": 0.0002,
-        "image_name": 0.0003,
-        "parent_image_name": 0.0002,
+        "image_name": 0.0004,
+        "parent_image_name": 0.0001,
         "host_role": 0.0,
         "integrity_level": 0.0,
         "logon_type": 0.0
@@ -842,8 +837,8 @@
       "t_novel": {
         "channel": 0.0,
         "event_id": 0.0003,
-        "image_name": 0.0312,
-        "parent_image_name": 0.0219,
+        "image_name": 0.0301,
+        "parent_image_name": 0.0211,
         "host_role": 0.0,
         "integrity_level": 0.0,
         "logon_type": 0.0
@@ -861,11 +856,11 @@
   },
   "splits": {
     "train": {
-      "sessions": 262,
-      "windows": 471,
-      "positive": 171,
-      "negative": 300,
-      "positive_rate": 0.3631,
+      "sessions": 263,
+      "windows": 483,
+      "positive": 176,
+      "negative": 307,
+      "positive_rate": 0.3644,
       "sessions_by_batch": {
         "batch01": 45,
         "batch02": 53,
@@ -873,35 +868,35 @@
         "batch04": 63,
         "batch06": 12,
         "batch07": 13,
-        "ntds": 14,
+        "ntds": 15,
         "ntds2": 12
       },
       "windows_by_class": {
-        "attack": 206,
-        "benign": 159,
-        "hard_negative": 106
+        "attack": 211,
+        "benign": 163,
+        "hard_negative": 109
       },
       "windows_by_host": {
-        "DC01": 192,
-        "WIN10-01": 279
+        "DC01": 197,
+        "WIN10-01": 286
       },
       "ttp_windows": {
-        "T1003.003": 40,
-        "T1016": 82,
-        "T1018": 76,
-        "T1087.002": 93,
-        "T1654": 80
+        "T1003.003": 42,
+        "T1016": 85,
+        "T1018": 78,
+        "T1087.002": 95,
+        "T1654": 83
       },
-      "multi_label_windows": 100,
-      "events": 23253,
-      "sha256": "2d09b061630b271cf84e1cbe130e6accea2329b009ef58338cb7118220f0331a"
+      "multi_label_windows": 103,
+      "events": 24512,
+      "sha256": "b69928bd22f505744c8fdc8a64712068e03099757b588957a025aa8176a25604"
     },
     "t_clean": {
       "sessions": 52,
-      "windows": 87,
-      "positive": 41,
-      "negative": 46,
-      "positive_rate": 0.4713,
+      "windows": 89,
+      "positive": 42,
+      "negative": 47,
+      "positive_rate": 0.4719,
       "sessions_by_batch": {
         "batch01": 1,
         "batch02": 17,
@@ -912,30 +907,30 @@
         "ntds2": 2
       },
       "windows_by_class": {
-        "attack": 42,
+        "attack": 43,
         "benign": 36,
-        "hard_negative": 9
+        "hard_negative": 10
       },
       "windows_by_host": {
-        "DC01": 25,
-        "WIN10-01": 62
+        "DC01": 26,
+        "WIN10-01": 63
       },
       "ttp_windows": {
         "T1003.003": 12,
         "T1016": 21,
-        "T1018": 22,
-        "T1087.002": 23,
-        "T1654": 16
+        "T1018": 23,
+        "T1087.002": 24,
+        "T1654": 17
       },
-      "multi_label_windows": 24,
-      "events": 4270,
-      "sha256": "287da04add3e796f46aea6ceba3abe5a2ed79dbef028805ae214e6ccc8f5f348"
+      "multi_label_windows": 25,
+      "events": 4496,
+      "sha256": "0e34a0865421661b681f8a34837057f0bd8a2de176fec661efbb8fd82e46992a"
     },
     "t_hard": {
       "sessions": 61,
-      "windows": 87,
+      "windows": 88,
       "positive": 0,
-      "negative": 87,
+      "negative": 88,
       "positive_rate": 0.0,
       "sessions_by_batch": {
         "batch01": 12,
@@ -947,65 +942,65 @@
         "ntds": 2
       },
       "windows_by_class": {
-        "hard_negative": 87
+        "hard_negative": 88
       },
       "windows_by_host": {
-        "DC01": 46,
+        "DC01": 47,
         "WIN10-01": 41
       },
       "ttp_windows": {},
       "multi_label_windows": 0,
-      "events": 3508,
-      "sha256": "234a18e63678e112735658a39d5901601df07d88a45ba167aeb894a26e917d1c"
+      "events": 3815,
+      "sha256": "8ebbcd79e98701665e6afe5e7c7f42b69e2ee3ad29f3f8ea157d79470ecb8190"
     },
     "t_novel": {
       "sessions": 83,
-      "windows": 148,
-      "positive": 53,
+      "windows": 149,
+      "positive": 54,
       "negative": 95,
-      "positive_rate": 0.3581,
+      "positive_rate": 0.3624,
       "sessions_by_batch": {
         "batch05": 77,
         "ntds2v": 6
       },
       "windows_by_class": {
-        "attack": 74,
+        "attack": 75,
         "benign": 57,
         "hard_negative": 17
       },
       "windows_by_host": {
         "DC01": 59,
-        "WIN10-01": 89
+        "WIN10-01": 90
       },
       "ttp_windows": {
         "T1003.003": 6,
-        "T1016": 36,
-        "T1018": 35,
-        "T1087.002": 32,
+        "T1016": 37,
+        "T1018": 36,
+        "T1087.002": 33,
         "T1654": 16
       },
-      "multi_label_windows": 39,
-      "events": 7083,
-      "sha256": "007f7c15b4e3bc359e81f6d1be5c72aeda67966e8c3c907a3fad42c983706680"
+      "multi_label_windows": 40,
+      "events": 7313,
+      "sha256": "788691cc50a559769c24c6e6726a52adf3282f185974f2c4aff992f7b55998f4"
     }
   },
   "t1003_003_by_split": {
     "train": {
-      "positive": 40,
+      "positive": 42,
       "negative_in_t1003_sessions": 2,
-      "negative_dc01": 152,
-      "negative_all": 431,
-      "sessions": 22,
+      "negative_dc01": 155,
+      "negative_all": 441,
+      "sessions": 23,
       "sessions_by_batch": {
-        "ntds": 10,
+        "ntds": 11,
         "ntds2": 12
       }
     },
     "t_clean": {
       "positive": 12,
       "negative_in_t1003_sessions": 0,
-      "negative_dc01": 13,
-      "negative_all": 75,
+      "negative_dc01": 14,
+      "negative_all": 77,
       "sessions": 6,
       "sessions_by_batch": {
         "ntds": 4,
@@ -1015,8 +1010,8 @@
     "t_hard": {
       "positive": 0,
       "negative_in_t1003_sessions": 0,
-      "negative_dc01": 46,
-      "negative_all": 87,
+      "negative_dc01": 47,
+      "negative_all": 88,
       "sessions": 0,
       "sessions_by_batch": {}
     },
@@ -1024,7 +1019,7 @@
       "positive": 6,
       "negative_in_t1003_sessions": 0,
       "negative_dc01": 53,
-      "negative_all": 142,
+      "negative_all": 143,
       "sessions": 6,
       "sessions_by_batch": {
         "ntds2v": 6
@@ -1034,25 +1029,25 @@
   "tool_coverage": {
     "ping.exe": {
       "all_pos": 16,
-      "all_neg": 14,
+      "all_neg": 16,
       "train_pos": 16,
       "t_clean_pos": 0,
       "t_hard_pos": 0,
       "t_novel_pos": 0,
-      "train_neg": 8,
-      "t_clean_neg": 1,
+      "train_neg": 9,
+      "t_clean_neg": 2,
       "t_hard_neg": 5,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "wevtutil.exe": {
-      "all_pos": 38,
+      "all_pos": 36,
       "all_neg": 11,
-      "train_pos": 25,
-      "t_clean_pos": 5,
+      "train_pos": 23,
+      "t_clean_pos": 6,
       "t_hard_pos": 0,
-      "t_novel_pos": 8,
+      "t_novel_pos": 7,
       "train_neg": 5,
       "t_clean_neg": 0,
       "t_hard_neg": 6,
@@ -1061,9 +1056,9 @@
       "positive_only_train": false
     },
     "ntdsutil.exe": {
-      "all_pos": 49,
+      "all_pos": 50,
       "all_neg": 16,
-      "train_pos": 37,
+      "train_pos": 38,
       "t_clean_pos": 12,
       "t_hard_pos": 0,
       "t_novel_pos": 0,
@@ -1076,12 +1071,12 @@
     },
     "vssadmin.exe": {
       "all_pos": 9,
-      "all_neg": 28,
+      "all_neg": 29,
       "train_pos": 3,
       "t_clean_pos": 0,
       "t_hard_pos": 0,
       "t_novel_pos": 6,
-      "train_neg": 17,
+      "train_neg": 18,
       "t_clean_neg": 1,
       "t_hard_neg": 10,
       "t_novel_neg": 0,
@@ -1090,13 +1085,13 @@
     },
     "nltest.exe": {
       "all_pos": 24,
-      "all_neg": 27,
+      "all_neg": 29,
       "train_pos": 10,
       "t_clean_pos": 5,
       "t_hard_pos": 0,
       "t_novel_pos": 9,
-      "train_neg": 15,
-      "t_clean_neg": 1,
+      "train_neg": 16,
+      "t_clean_neg": 2,
       "t_hard_neg": 11,
       "t_novel_neg": 0,
       "positive_only_all": false,
@@ -1104,26 +1099,26 @@
     },
     "net.exe": {
       "all_pos": 91,
-      "all_neg": 107,
-      "train_pos": 59,
-      "t_clean_pos": 13,
+      "all_neg": 109,
+      "train_pos": 58,
+      "t_clean_pos": 14,
       "t_hard_pos": 0,
       "t_novel_pos": 19,
-      "train_neg": 61,
-      "t_clean_neg": 7,
+      "train_neg": 62,
+      "t_clean_neg": 8,
       "t_hard_neg": 22,
       "t_novel_neg": 17,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "net1.exe": {
-      "all_pos": 88,
-      "all_neg": 89,
-      "train_pos": 56,
-      "t_clean_pos": 13,
+      "all_pos": 90,
+      "all_neg": 90,
+      "train_pos": 57,
+      "t_clean_pos": 14,
       "t_hard_pos": 0,
       "t_novel_pos": 19,
-      "train_neg": 51,
+      "train_neg": 52,
       "t_clean_neg": 6,
       "t_hard_neg": 15,
       "t_novel_neg": 17,
@@ -1131,27 +1126,27 @@
       "positive_only_train": false
     },
     "ipconfig.exe": {
-      "all_pos": 42,
-      "all_neg": 199,
-      "train_pos": 22,
+      "all_pos": 43,
+      "all_neg": 203,
+      "train_pos": 23,
       "t_clean_pos": 9,
       "t_hard_pos": 0,
       "t_novel_pos": 11,
-      "train_neg": 107,
+      "train_neg": 109,
       "t_clean_neg": 22,
-      "t_hard_neg": 39,
+      "t_hard_neg": 41,
       "t_novel_neg": 31,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "arp.exe": {
-      "all_pos": 63,
-      "all_neg": 195,
-      "train_pos": 33,
-      "t_clean_pos": 12,
+      "all_pos": 65,
+      "all_neg": 197,
+      "train_pos": 34,
+      "t_clean_pos": 13,
       "t_hard_pos": 0,
       "t_novel_pos": 18,
-      "train_neg": 106,
+      "train_neg": 108,
       "t_clean_neg": 22,
       "t_hard_neg": 36,
       "t_novel_neg": 31,
@@ -1174,12 +1169,12 @@
     },
     "netstat.exe": {
       "all_pos": 0,
-      "all_neg": 192,
+      "all_neg": 193,
       "train_pos": 0,
       "t_clean_pos": 0,
       "t_hard_pos": 0,
       "t_novel_pos": 0,
-      "train_neg": 105,
+      "train_neg": 106,
       "t_clean_neg": 22,
       "t_hard_neg": 34,
       "t_novel_neg": 31,
@@ -1187,66 +1182,66 @@
       "positive_only_train": false
     },
     "nslookup.exe": {
-      "all_pos": 47,
-      "all_neg": 14,
-      "train_pos": 30,
+      "all_pos": 48,
+      "all_neg": 15,
+      "train_pos": 31,
       "t_clean_pos": 5,
       "t_hard_pos": 0,
       "t_novel_pos": 12,
       "train_neg": 8,
+      "t_clean_neg": 0,
+      "t_hard_neg": 7,
+      "t_novel_neg": 0,
+      "positive_only_all": false,
+      "positive_only_train": false
+    },
+    "nbtstat.exe": {
+      "all_pos": 44,
+      "all_neg": 12,
+      "train_pos": 24,
+      "t_clean_pos": 9,
+      "t_hard_pos": 0,
+      "t_novel_pos": 11,
+      "train_neg": 6,
       "t_clean_neg": 0,
       "t_hard_neg": 6,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
-    "nbtstat.exe": {
-      "all_pos": 41,
-      "all_neg": 11,
-      "train_pos": 22,
-      "t_clean_pos": 8,
-      "t_hard_pos": 0,
-      "t_novel_pos": 11,
-      "train_neg": 6,
-      "t_clean_neg": 0,
-      "t_hard_neg": 5,
-      "t_novel_neg": 0,
-      "positive_only_all": false,
-      "positive_only_train": false
-    },
     "netsh.exe": {
-      "all_pos": 42,
-      "all_neg": 15,
-      "train_pos": 22,
+      "all_pos": 43,
+      "all_neg": 16,
+      "train_pos": 23,
       "t_clean_pos": 9,
       "t_hard_pos": 0,
       "t_novel_pos": 11,
       "train_neg": 7,
       "t_clean_neg": 0,
-      "t_hard_neg": 8,
+      "t_hard_neg": 9,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "cmd.exe": {
-      "all_pos": 217,
-      "all_neg": 44,
-      "train_pos": 135,
-      "t_clean_pos": 33,
+      "all_pos": 225,
+      "all_neg": 48,
+      "train_pos": 140,
+      "t_clean_pos": 35,
       "t_hard_pos": 0,
-      "t_novel_pos": 49,
-      "train_neg": 24,
-      "t_clean_neg": 2,
-      "t_hard_neg": 18,
+      "t_novel_pos": 50,
+      "train_neg": 26,
+      "t_clean_neg": 3,
+      "t_hard_neg": 19,
       "t_novel_neg": 0,
       "positive_only_all": false,
       "positive_only_train": false
     },
     "powershell.exe": {
-      "all_pos": 63,
+      "all_pos": 65,
       "all_neg": 7,
-      "train_pos": 39,
-      "t_clean_pos": 14,
+      "train_pos": 40,
+      "t_clean_pos": 15,
       "t_hard_pos": 0,
       "t_novel_pos": 10,
       "train_neg": 3,
@@ -1259,8 +1254,8 @@
     "rundll32.exe": {
       "all_pos": 39,
       "all_neg": 8,
-      "train_pos": 25,
-      "t_clean_pos": 13,
+      "train_pos": 26,
+      "t_clean_pos": 12,
       "t_hard_pos": 0,
       "t_novel_pos": 1,
       "train_neg": 5,
@@ -1271,9 +1266,9 @@
       "positive_only_train": false
     },
     "vssvc.exe": {
-      "all_pos": 42,
+      "all_pos": 43,
       "all_neg": 7,
-      "train_pos": 28,
+      "train_pos": 29,
       "t_clean_pos": 8,
       "t_hard_pos": 0,
       "t_novel_pos": 6,
@@ -1293,18 +1288,18 @@
       "before_neg": 5,
       "before_rate": 0.762,
       "after_pos": 16,
-      "after_neg": 14,
-      "after_rate": 0.533,
+      "after_neg": 16,
+      "after_rate": 0.5,
       "before_train_neg": 1,
-      "after_train_neg": 8
+      "after_train_neg": 9
     },
     "wevtutil.exe": {
       "before_pos": 38,
       "before_neg": 11,
       "before_rate": 0.776,
-      "after_pos": 38,
+      "after_pos": 36,
       "after_neg": 11,
-      "after_rate": 0.776,
+      "after_rate": 0.766,
       "before_train_neg": 4,
       "after_train_neg": 5
     },
@@ -1312,9 +1307,9 @@
       "before_pos": 51,
       "before_neg": 5,
       "before_rate": 0.911,
-      "after_pos": 49,
+      "after_pos": 50,
       "after_neg": 16,
-      "after_rate": 0.754,
+      "after_rate": 0.758,
       "before_train_neg": 0,
       "after_train_neg": 9
     },
@@ -1323,60 +1318,60 @@
       "before_neg": 15,
       "before_rate": 0.4,
       "after_pos": 9,
-      "after_neg": 28,
-      "after_rate": 0.243,
+      "after_neg": 29,
+      "after_rate": 0.237,
       "before_train_neg": 2,
-      "after_train_neg": 17
+      "after_train_neg": 18
     },
     "nltest.exe": {
       "before_pos": 23,
       "before_neg": 19,
       "before_rate": 0.548,
       "after_pos": 24,
-      "after_neg": 27,
-      "after_rate": 0.471,
+      "after_neg": 29,
+      "after_rate": 0.453,
       "before_train_neg": 6,
-      "after_train_neg": 15
+      "after_train_neg": 16
     },
     "net.exe": {
       "before_pos": 93,
       "before_neg": 100,
       "before_rate": 0.482,
       "after_pos": 91,
-      "after_neg": 107,
-      "after_rate": 0.46,
+      "after_neg": 109,
+      "after_rate": 0.455,
       "before_train_neg": 48,
-      "after_train_neg": 61
+      "after_train_neg": 62
     },
     "net1.exe": {
       "before_pos": 93,
       "before_neg": 91,
       "before_rate": 0.505,
-      "after_pos": 88,
-      "after_neg": 89,
-      "after_rate": 0.497,
+      "after_pos": 90,
+      "after_neg": 90,
+      "after_rate": 0.5,
       "before_train_neg": 46,
-      "after_train_neg": 51
+      "after_train_neg": 52
     },
     "ipconfig.exe": {
       "before_pos": 40,
       "before_neg": 187,
       "before_rate": 0.176,
-      "after_pos": 42,
-      "after_neg": 199,
-      "after_rate": 0.174,
+      "after_pos": 43,
+      "after_neg": 203,
+      "after_rate": 0.175,
       "before_train_neg": 103,
-      "after_train_neg": 107
+      "after_train_neg": 109
     },
     "arp.exe": {
       "before_pos": 65,
       "before_neg": 196,
       "before_rate": 0.249,
-      "after_pos": 63,
-      "after_neg": 195,
-      "after_rate": 0.244,
+      "after_pos": 65,
+      "after_neg": 197,
+      "after_rate": 0.248,
       "before_train_neg": 105,
-      "after_train_neg": 106
+      "after_train_neg": 108
     },
     "route.exe": {
       "before_pos": 0,
@@ -1393,18 +1388,18 @@
       "before_neg": 193,
       "before_rate": 0.0,
       "after_pos": 0,
-      "after_neg": 192,
+      "after_neg": 193,
       "after_rate": 0.0,
       "before_train_neg": 106,
-      "after_train_neg": 105
+      "after_train_neg": 106
     },
     "nslookup.exe": {
       "before_pos": 48,
       "before_neg": 2,
       "before_rate": 0.96,
-      "after_pos": 47,
-      "after_neg": 14,
-      "after_rate": 0.77,
+      "after_pos": 48,
+      "after_neg": 15,
+      "after_rate": 0.762,
       "before_train_neg": 1,
       "after_train_neg": 8
     },
@@ -1412,9 +1407,9 @@
       "before_pos": 40,
       "before_neg": 2,
       "before_rate": 0.952,
-      "after_pos": 41,
-      "after_neg": 11,
-      "after_rate": 0.788,
+      "after_pos": 44,
+      "after_neg": 12,
+      "after_rate": 0.786,
       "before_train_neg": 1,
       "after_train_neg": 6
     },
@@ -1422,9 +1417,9 @@
       "before_pos": 42,
       "before_neg": 2,
       "before_rate": 0.955,
-      "after_pos": 42,
-      "after_neg": 15,
-      "after_rate": 0.737,
+      "after_pos": 43,
+      "after_neg": 16,
+      "after_rate": 0.729,
       "before_train_neg": 1,
       "after_train_neg": 7
     },
@@ -1432,19 +1427,19 @@
       "before_pos": 231,
       "before_neg": 12,
       "before_rate": 0.951,
-      "after_pos": 217,
-      "after_neg": 44,
-      "after_rate": 0.831,
+      "after_pos": 225,
+      "after_neg": 48,
+      "after_rate": 0.824,
       "before_train_neg": 3,
-      "after_train_neg": 24
+      "after_train_neg": 26
     },
     "powershell.exe": {
       "before_pos": 63,
       "before_neg": 9,
       "before_rate": 0.875,
-      "after_pos": 63,
+      "after_pos": 65,
       "after_neg": 7,
-      "after_rate": 0.9,
+      "after_rate": 0.903,
       "before_train_neg": 1,
       "after_train_neg": 3
     },
@@ -1462,9 +1457,9 @@
       "before_pos": 39,
       "before_neg": 6,
       "before_rate": 0.867,
-      "after_pos": 42,
+      "after_pos": 43,
       "after_neg": 7,
-      "after_rate": 0.857,
+      "after_rate": 0.86,
       "before_train_neg": 3,
       "after_train_neg": 4
     }
@@ -1640,97 +1635,578 @@
     }
   },
   "excluded_sessions_detail": {
-    "20261014-073330-dc01-h": {
-      "class": "hard_negative",
-      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
+    "20261014-041841-win10-01-b": {
+      "class": "benign",
+      "batch": "batch01",
+      "tasks": [
+        "log_review"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 18,
+      "child_process_creation": 0,
+      "background_in_window": 0,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-052317-win10-01-b": {
+      "class": "benign",
+      "batch": "batch01",
+      "tasks": [
+        "daily_work"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 22,
+      "child_process_creation": 0,
+      "background_in_window": 0,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-070642-win10-01-b": {
+      "class": "benign",
       "batch": "batch02",
       "tasks": [
-        "benign:log_review"
+        "daily_work"
       ],
-      "snapshot_before": ""
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 23,
+      "child_process_creation": 0,
+      "background_in_window": 0,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-071529-win10-01-b": {
+      "class": "benign",
+      "batch": "batch02",
+      "tasks": [
+        "daily_work"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 23,
+      "child_process_creation": 0,
+      "background_in_window": 0,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-073145-win10-01-b": {
+      "class": "benign",
+      "batch": "batch02",
+      "tasks": [
+        "daily_work"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 22,
+      "child_process_creation": 0,
+      "background_in_window": 0,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-073330-dc01-h": {
+      "class": "hard_negative",
+      "batch": "batch02",
+      "tasks": [
+        "log_review"
+      ],
+      "snapshot_before": "",
+      "code": "hard_negative_khong_co_event_cay_tien_trinh",
+      "own_events": 0,
+      "orchestrator_events": 18,
+      "child_process_creation": 0,
+      "background_in_window": 100,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-073716-dc01-b": {
+      "class": "benign",
+      "batch": "batch02",
+      "tasks": [
+        "daily_work"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 22,
+      "child_process_creation": 0,
+      "background_in_window": 6,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-075105-win10-01-b": {
+      "class": "benign",
+      "batch": "batch02",
+      "tasks": [
+        "daily_work"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 22,
+      "child_process_creation": 0,
+      "background_in_window": 0,
+      "why_code": "cmdlet_in_orchestrator"
     },
     "20261014-093702-win10-01-h": {
       "class": "hard_negative",
-      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
       "batch": "batch03",
       "tasks": [
-        "benign:log_review"
+        "log_review"
       ],
-      "snapshot_before": ""
+      "snapshot_before": "",
+      "code": "hard_negative_khong_co_event_cay_tien_trinh",
+      "own_events": 0,
+      "orchestrator_events": 18,
+      "child_process_creation": 0,
+      "background_in_window": 35,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-103113-win10-01-b": {
+      "class": "benign",
+      "batch": "batch03",
+      "tasks": [
+        "daily_work"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 22,
+      "child_process_creation": 0,
+      "background_in_window": 0,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-120322-win10-01-b": {
+      "class": "benign",
+      "batch": "batch04",
+      "tasks": [
+        "daily_work"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 22,
+      "child_process_creation": 0,
+      "background_in_window": 1,
+      "why_code": "cmdlet_in_orchestrator"
     },
     "20261014-120938-win10-01-h": {
       "class": "hard_negative",
-      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
       "batch": "batch04",
       "tasks": [
-        "benign:log_review"
+        "log_review"
       ],
-      "snapshot_before": ""
+      "snapshot_before": "",
+      "code": "hard_negative_khong_co_event_cay_tien_trinh",
+      "own_events": 0,
+      "orchestrator_events": 18,
+      "child_process_creation": 0,
+      "background_in_window": 15,
+      "why_code": "cmdlet_in_orchestrator"
     },
     "20261014-122845-dc01-h": {
       "class": "hard_negative",
-      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
       "batch": "batch04",
       "tasks": [
-        "benign:log_review"
+        "log_review"
       ],
-      "snapshot_before": ""
+      "snapshot_before": "",
+      "code": "hard_negative_khong_co_event_cay_tien_trinh",
+      "own_events": 0,
+      "orchestrator_events": 18,
+      "child_process_creation": 0,
+      "background_in_window": 6,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-123155-win10-01-b": {
+      "class": "benign",
+      "batch": "batch04",
+      "tasks": [
+        "daily_work"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 22,
+      "child_process_creation": 0,
+      "background_in_window": 2,
+      "why_code": "cmdlet_in_orchestrator"
+    },
+    "20261014-133343-win10-01-b": {
+      "class": "benign",
+      "batch": "batch05",
+      "tasks": [
+        "daily_work"
+      ],
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 39,
+      "child_process_creation": 0,
+      "background_in_window": 1,
+      "why_code": "cmdlet_in_orchestrator"
     },
     "20261014-133522-win10-01-h": {
       "class": "hard_negative",
-      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
       "batch": "batch05",
       "tasks": [
-        "benign:log_review"
+        "log_review"
       ],
-      "snapshot_before": ""
+      "snapshot_before": "",
+      "code": "hard_negative_khong_co_event_cay_tien_trinh",
+      "own_events": 0,
+      "orchestrator_events": 18,
+      "child_process_creation": 0,
+      "background_in_window": 1,
+      "why_code": "cmdlet_in_orchestrator"
     },
-    "20261014-164113-dc01-a": {
-      "class": "attack",
-      "why": "attack_labeled0_atomic_khong_sinh_tien_trinh_con",
-      "batch": "ntds",
+    "20261014-133825-win10-01-b": {
+      "class": "benign",
+      "batch": "batch05",
       "tasks": [
-        "atomic:T1003.003/3"
+        "daily_work"
       ],
-      "snapshot_before": "DC01-CLEAN-ART"
+      "snapshot_before": "",
+      "code": "stream_rong",
+      "own_events": 0,
+      "orchestrator_events": 22,
+      "child_process_creation": 0,
+      "background_in_window": 1,
+      "why_code": "cmdlet_in_orchestrator"
     },
     "20261015-075708-dc01-a": {
       "class": "attack",
-      "why": "attack_labeled0_atomic_khong_sinh_tien_trinh_con",
       "batch": "ntds2",
       "tasks": [
-        "atomic:T1003.003/3"
+        "T1003.003/3"
       ],
-      "snapshot_before": "DC01-CLEAN-ART"
+      "snapshot_before": "DC01-CLEAN-ART",
+      "code": "attack_khong_co_event_cay_tien_trinh",
+      "own_events": 0,
+      "orchestrator_events": 0,
+      "child_process_creation": 0,
+      "background_in_window": 0,
+      "why_code": "no_telemetry"
     },
     "20261015-130127-dc01-h": {
       "class": "hard_negative",
-      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
       "batch": "batch07",
       "tasks": [
-        "benign:dc_db_maint"
+        "dc_db_maint"
       ],
-      "snapshot_before": "DC01-CLEAN-ART"
+      "snapshot_before": "DC01-CLEAN-ART",
+      "code": "hard_negative_khong_co_event_cay_tien_trinh",
+      "own_events": 0,
+      "orchestrator_events": 41,
+      "child_process_creation": 0,
+      "background_in_window": 8,
+      "why_code": "snapshot_no_process_creation"
     },
     "20261015-130245-dc01-h": {
       "class": "hard_negative",
-      "why": "hard_negative_labeled0_khong_co_tien_trinh_con",
       "batch": "batch07",
       "tasks": [
-        "benign:dc_db_maint"
+        "dc_db_maint"
       ],
-      "snapshot_before": "DC01-CLEAN-ART"
+      "snapshot_before": "DC01-CLEAN-ART",
+      "code": "hard_negative_khong_co_event_cay_tien_trinh",
+      "own_events": 0,
+      "orchestrator_events": 0,
+      "child_process_creation": 0,
+      "background_in_window": 0,
+      "why_code": "no_telemetry"
     }
   },
+  "pid_reuse": {
+    "process_records": 14,
+    "distinct_processes": 7,
+    "events_dropped": 23,
+    "events_by_eid": {
+      "1": 7,
+      "5": 4,
+      "22": 4,
+      "3": 1,
+      "4688": 7
+    },
+    "by_image": {
+      "conhost.exe": 4,
+      "netsh.exe": 2,
+      "ntdsutil.exe": 2,
+      "cmd.exe": 2,
+      "whoami.exe": 2,
+      "svchost.exe": 2
+    },
+    "by_parent": {
+      "powershell.exe": 8,
+      "cmd.exe": 4,
+      "services.exe": 2
+    },
+    "examples": [
+      {
+        "batch": "batch07",
+        "host": "WIN10-01",
+        "pid": 8112,
+        "event_id": 1,
+        "image": "netsh.exe",
+        "parent_image": "cmd.exe",
+        "ts": "2026-10-15T12:19:30.1278682Z",
+        "process_guid": "{67638819-c4d2-6ad0-b203-000000001800}"
+      },
+      {
+        "batch": "batch07",
+        "host": "WIN10-01",
+        "pid": 8112,
+        "event_id": 4688,
+        "image": "netsh.exe",
+        "parent_image": "cmd.exe",
+        "ts": "2026-10-15T12:19:30.1240580Z",
+        "process_guid": null
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 6976,
+        "event_id": 1,
+        "image": "ntdsutil.exe",
+        "parent_image": "cmd.exe",
+        "ts": "2026-10-14T16:25:13.8743360Z",
+        "process_guid": "{369dcd7c-ace9-6acf-6106-000000000b00}"
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 6908,
+        "event_id": 1,
+        "image": "conhost.exe",
+        "parent_image": "powershell.exe",
+        "ts": "2026-10-14T16:43:14.9199716Z",
+        "process_guid": "{369dcd7c-b122-6acf-5c06-000000000b00}"
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 6908,
+        "event_id": 4688,
+        "image": "conhost.exe",
+        "parent_image": "powershell.exe",
+        "ts": "2026-10-14T16:43:14.9185932Z",
+        "process_guid": null
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 1756,
+        "event_id": 4688,
+        "image": "conhost.exe",
+        "parent_image": "powershell.exe",
+        "ts": "2026-10-14T16:43:03.6242698Z",
+        "process_guid": null
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 1756,
+        "event_id": 1,
+        "image": "conhost.exe",
+        "parent_image": "powershell.exe",
+        "ts": "2026-10-14T16:43:03.6255164Z",
+        "process_guid": "{369dcd7c-b117-6acf-5706-000000000b00}"
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 332,
+        "event_id": 1,
+        "image": "cmd.exe",
+        "parent_image": "powershell.exe",
+        "ts": "2026-10-14T16:19:56.1160816Z",
+        "process_guid": "{369dcd7c-abac-6acf-6106-000000000b00}"
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 6908,
+        "event_id": 4688,
+        "image": "whoami.exe",
+        "parent_image": "powershell.exe",
+        "ts": "2026-10-14T16:10:59.9468055Z",
+        "process_guid": null
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 6908,
+        "event_id": 1,
+        "image": "whoami.exe",
+        "parent_image": "powershell.exe",
+        "ts": "2026-10-14T16:10:59.9482882Z",
+        "process_guid": "{369dcd7c-a993-6acf-6a06-000000000b00}"
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 332,
+        "event_id": 4688,
+        "image": "cmd.exe",
+        "parent_image": "powershell.exe",
+        "ts": "2026-10-14T16:19:56.1145195Z",
+        "process_guid": null
+      },
+      {
+        "batch": "ntds",
+        "host": "DC01",
+        "pid": 332,
+        "event_id": 1,
+        "image": "svchost.exe",
+        "parent_image": "services.exe",
+        "ts": "2026-10-14T16:17:28.9505250Z",
+        "process_guid": "{369dcd7c-ab18-6acf-5e06-000000000b00}"
+      }
+    ]
+  },
+  "v1.1": {
+    "windows": 793,
+    "positive": 265,
+    "events": 61490,
+    "malicious": 5224,
+    "splits": {
+      "train": {
+        "windows": 471,
+        "positive": 171,
+        "sessions": 262,
+        "events": 23253
+      },
+      "t_clean": {
+        "windows": 87,
+        "positive": 41,
+        "sessions": 52,
+        "events": 4270
+      },
+      "t_hard": {
+        "windows": 87,
+        "positive": 0,
+        "sessions": 61,
+        "events": 3508
+      },
+      "t_novel": {
+        "windows": 148,
+        "positive": 53,
+        "sessions": 83,
+        "events": 7083
+      }
+    }
+  },
+  "label_v7_v8_diff": {
+    "total": {
+      "DROP:orchestrator -> DROP:art_harness": 733,
+      "DROP:orchestrator -> MAL": 286,
+      "DROP:orchestrator -> SESS": 1152,
+      "DROP:orchestrator -> DROP:orch_child_outside": 118,
+      "BG -> DROP:orchestrator": 40,
+      "DROP:orchestrator -> DROP:harness_upload": 46,
+      "SESS -> DROP:orchestrator": 1,
+      "DROP:operator_console -> DROP:orchestrator": 14,
+      "DROP:operator_console -> BG": 2,
+      "BG -> DROP:operator_console": 1,
+      "MAL -> DROP:orchestrator": 1
+    },
+    "by_batch": {
+      "batch01": {
+        "DROP:orchestrator -> DROP:art_harness": 79,
+        "DROP:orchestrator -> MAL": 34,
+        "DROP:orchestrator -> SESS": 138,
+        "DROP:orchestrator -> DROP:orch_child_outside": 4,
+        "BG -> DROP:orchestrator": 2
+      },
+      "batch02": {
+        "DROP:orchestrator -> DROP:harness_upload": 1,
+        "DROP:orchestrator -> SESS": 166,
+        "DROP:orchestrator -> DROP:art_harness": 107,
+        "DROP:orchestrator -> MAL": 43,
+        "BG -> DROP:orchestrator": 2,
+        "DROP:orchestrator -> DROP:orch_child_outside": 2
+      },
+      "batch03": {
+        "DROP:orchestrator -> MAL": 67,
+        "DROP:orchestrator -> DROP:art_harness": 151,
+        "DROP:orchestrator -> SESS": 184,
+        "DROP:orchestrator -> DROP:orch_child_outside": 1
+      },
+      "batch04": {
+        "DROP:orchestrator -> SESS": 174,
+        "DROP:orchestrator -> DROP:art_harness": 114,
+        "DROP:orchestrator -> MAL": 50,
+        "DROP:orchestrator -> DROP:orch_child_outside": 1
+      },
+      "batch05": {
+        "DROP:orchestrator -> DROP:art_harness": 128,
+        "DROP:orchestrator -> MAL": 56,
+        "DROP:orchestrator -> SESS": 154,
+        "DROP:orchestrator -> DROP:orch_child_outside": 1
+      },
+      "batch06": {
+        "DROP:orchestrator -> SESS": 143,
+        "DROP:orchestrator -> DROP:art_harness": 7
+      },
+      "batch07": {
+        "DROP:orchestrator -> SESS": 175,
+        "DROP:orchestrator -> DROP:art_harness": 1,
+        "DROP:orchestrator -> DROP:orch_child_outside": 56,
+        "BG -> DROP:orchestrator": 13,
+        "DROP:orchestrator -> DROP:harness_upload": 13,
+        "SESS -> DROP:orchestrator": 1
+      },
+      "ntds": {
+        "DROP:orchestrator -> SESS": 18,
+        "DROP:orchestrator -> DROP:art_harness": 66,
+        "DROP:operator_console -> DROP:orchestrator": 14,
+        "DROP:orchestrator -> DROP:orch_child_outside": 15,
+        "DROP:orchestrator -> MAL": 16,
+        "DROP:orchestrator -> DROP:harness_upload": 12,
+        "DROP:operator_console -> BG": 2,
+        "BG -> DROP:operator_console": 1,
+        "BG -> DROP:orchestrator": 4,
+        "MAL -> DROP:orchestrator": 1
+      },
+      "ntds2": {
+        "DROP:orchestrator -> DROP:orch_child_outside": 28,
+        "DROP:orchestrator -> MAL": 15,
+        "DROP:orchestrator -> DROP:harness_upload": 15,
+        "BG -> DROP:orchestrator": 14,
+        "DROP:orchestrator -> DROP:art_harness": 60
+      },
+      "ntds2v": {
+        "BG -> DROP:orchestrator": 5,
+        "DROP:orchestrator -> DROP:orch_child_outside": 10,
+        "DROP:orchestrator -> MAL": 5,
+        "DROP:orchestrator -> DROP:art_harness": 20,
+        "DROP:orchestrator -> DROP:harness_upload": 5
+      }
+    },
+    "non_4688_changes": 0
+  },
+  "split_pin": {
+    "pinned_from": "data/processed/v1.1/splits/assignment.json",
+    "new_sessions": [
+      {
+        "run_id": "20261014-164113-dc01-a",
+        "class": "attack",
+        "batch": "ntds",
+        "host": "DC01",
+        "split": "train",
+        "why": "nhom don (khong chong thoi gian voi phien co tap), phan tang {('attack', 'DC01', 'attack:T1003.003'): 1}: T-clean hien co {('attack', 'DC01', 'attack:T1003.003'): 6} / muc tieu {('attack', 'DC01', 'attack:T1003.003'): 5.8} -> lech neu vao T-clean 1.2 vs Train 0.2 -> train"
+      }
+    ],
+    "dropped_sessions": []
+  },
   "files_sha256": {
-    "all.events.jsonl": "65d590db3e3953a1df10cf0b0e30c8c33b722bc971674174e05b56b6e97ae497",
-    "windows.jsonl": "69825f18e9eb393de01c3bdf70550e33bbb1d9471e1c8483493a25dd7a473f0e",
-    "features.jsonl": "830ff6f64f05ff47013d0caf1f0817989c1dd3b8152ac1dc03a7738340376673",
-    "vocab.json": "d4a9351e334fe1445ed9b47333aae72b7cfee2ad1ae33f55b35f90651b7c3ff9",
-    "splits/train.jsonl": "2d09b061630b271cf84e1cbe130e6accea2329b009ef58338cb7118220f0331a",
-    "splits/t_clean.jsonl": "287da04add3e796f46aea6ceba3abe5a2ed79dbef028805ae214e6ccc8f5f348",
-    "splits/t_hard.jsonl": "234a18e63678e112735658a39d5901601df07d88a45ba167aeb894a26e917d1c",
-    "splits/t_novel.jsonl": "007f7c15b4e3bc359e81f6d1be5c72aeda67966e8c3c907a3fad42c983706680"
+    "all.events.jsonl": "5675fc147323a7bdaee26026a9411a8461fa391e5a874fd25c37caf0c9fdd703",
+    "windows.jsonl": "ec2fb7460d1e897f0032dd91435885d382a86382cb5b6048439edd8cd7ed1f68",
+    "features.jsonl": "262dc14ff8e74fa30d64c5847ed5c8c210af5071204656623a164af14345c9b2",
+    "vocab.json": "9886ee564f6613bf83290656e7480184b25b21a1b1d5bb6b5954b3d865aa5fb1",
+    "splits/train.jsonl": "b69928bd22f505744c8fdc8a64712068e03099757b588957a025aa8176a25604",
+    "splits/t_clean.jsonl": "0e34a0865421661b681f8a34837057f0bd8a2de176fec661efbb8fd82e46992a",
+    "splits/t_hard.jsonl": "8ebbcd79e98701665e6afe5e7c7f42b69e2ee3ad29f3f8ea157d79470ecb8190",
+    "splits/t_novel.jsonl": "788691cc50a559769c24c6e6726a52adf3282f185974f2c4aff992f7b55998f4"
   },
   "acceptance": {
     "1_run_id_in_gt1_split": [],
@@ -1757,10 +2233,10 @@
     "3_t_novel_non_novel_batch_windows": 0,
     "3_novel_batch_outside_t_novel": 0,
     "5_positive_windows": {
-      "positive": 265,
-      "attack_sessions": 149,
-      "cap": 1192,
-      "mean_pos_per_attack_session": 1.78,
+      "positive": 272,
+      "attack_sessions": 150,
+      "cap": 1200,
+      "mean_pos_per_attack_session": 1.81,
       "ok": true
     },
     "6_leak_scan": {
@@ -1771,235 +2247,280 @@
     },
     "7_train_test_time_overlap": [],
     "8_vocab_fit_only_train": true,
+    "12_ratio_4688_eid1": {
+      "band": [
+        0.9,
+        1.1
+      ],
+      "cells": {
+        "DC01|attack": {
+          "eid1": 272,
+          "e4688": 273,
+          "ratio": 1.004,
+          "ok": true
+        },
+        "DC01|benign": {
+          "eid1": 100,
+          "e4688": 100,
+          "ratio": 1.0,
+          "ok": true
+        },
+        "DC01|hard_negative": {
+          "eid1": 432,
+          "e4688": 432,
+          "ratio": 1.0,
+          "ok": true
+        },
+        "WIN10-01|attack": {
+          "eid1": 1039,
+          "e4688": 1039,
+          "ratio": 1.0,
+          "ok": true
+        },
+        "WIN10-01|benign": {
+          "eid1": 412,
+          "e4688": 412,
+          "ratio": 1.0,
+          "ok": true
+        },
+        "WIN10-01|hard_negative": {
+          "eid1": 556,
+          "e4688": 556,
+          "ratio": 1.0,
+          "ok": true
+        }
+      },
+      "ok": true
+    },
     "11_single_feature_separation": {
       "threshold": 0.98,
       "unit": "cua so attack duong vs cua so hard_negative; diem = ti le event mang gia tri",
-      "max_separation": 0.7779,
-      "max_feature": "channel=Microsoft-Windows-Sysmon/Operational",
+      "max_separation": 0.7346,
+      "max_feature": "image=cmd.exe",
       "over_threshold": [],
       "top10": [
         {
-          "feature": "channel=Microsoft-Windows-Sysmon/Operational",
-          "auc_attack_gt_hn": 0.2221,
-          "separation": 0.7779,
-          "side": "hard_negative",
-          "pct_windows_attack": 1.0,
-          "pct_windows_hn": 1.0,
-          "sessions_attack": 149,
-          "sessions_hn": 157
-        },
-        {
-          "feature": "pair=<launcher>->cmd.exe",
-          "auc_attack_gt_hn": 0.7623,
-          "separation": 0.7623,
-          "side": "attack",
-          "pct_windows_attack": 0.657,
-          "pct_windows_hn": 0.087,
-          "sessions_attack": 110,
-          "sessions_hn": 15
-        },
-        {
           "feature": "image=cmd.exe",
-          "auc_attack_gt_hn": 0.7425,
-          "separation": 0.7425,
+          "auc_attack_gt_hn": 0.7346,
+          "separation": 0.7346,
           "side": "attack",
-          "pct_windows_attack": 0.819,
-          "pct_windows_hn": 0.201,
-          "sessions_attack": 131,
+          "pct_windows_attack": 0.827,
+          "pct_windows_hn": 0.214,
+          "sessions_attack": 132,
           "sessions_hn": 34
         },
         {
           "feature": "cmdtok=c",
-          "auc_attack_gt_hn": 0.7178,
-          "separation": 0.7178,
+          "auc_attack_gt_hn": 0.7253,
+          "separation": 0.7253,
           "side": "attack",
-          "pct_windows_attack": 0.487,
-          "pct_windows_hn": 0.041,
-          "sessions_attack": 77,
+          "pct_windows_attack": 0.496,
+          "pct_windows_hn": 0.04,
+          "sessions_attack": 78,
           "sessions_hn": 9
         },
         {
-          "feature": "pair=None->cmd.exe",
-          "auc_attack_gt_hn": 0.7112,
-          "separation": 0.7112,
-          "side": "attack",
-          "pct_windows_attack": 0.758,
-          "pct_windows_hn": 0.201,
-          "sessions_attack": 130,
-          "sessions_hn": 34
+          "feature": "eidbg=1>5",
+          "auc_attack_gt_hn": 0.2803,
+          "separation": 0.7197,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.772,
+          "pct_windows_hn": 0.875,
+          "sessions_attack": 131,
+          "sessions_hn": 157
         },
         {
-          "feature": "cmdtok=cmd",
-          "auc_attack_gt_hn": 0.7103,
-          "separation": 0.7103,
+          "feature": "pair=<launcher>->cmd.exe",
+          "auc_attack_gt_hn": 0.7162,
+          "separation": 0.7162,
           "side": "attack",
           "pct_windows_attack": 0.732,
-          "pct_windows_hn": 0.201,
-          "sessions_attack": 130,
+          "pct_windows_hn": 0.214,
+          "sessions_attack": 131,
           "sessions_hn": 34
         },
         {
-          "feature": "cmdtok=-ano",
+          "feature": "eidbg=5>4688",
           "auc_attack_gt_hn": 0.29,
           "separation": 0.71,
           "side": "hard_negative",
+          "pct_windows_attack": 0.504,
+          "pct_windows_hn": 0.804,
+          "sessions_attack": 79,
+          "sessions_hn": 154
+        },
+        {
+          "feature": "cmdtok=-ano",
+          "auc_attack_gt_hn": 0.2946,
+          "separation": 0.7054,
+          "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
+          "pct_windows_hn": 0.411,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "cmdtok=netstat",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
+          "auc_attack_gt_hn": 0.2946,
+          "separation": 0.7054,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
+          "pct_windows_hn": 0.411,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "image=netstat.exe",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
+          "auc_attack_gt_hn": 0.2946,
+          "separation": 0.7054,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
+          "pct_windows_hn": 0.411,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "pair=<launcher>->netstat.exe",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
+          "auc_attack_gt_hn": 0.2946,
+          "separation": 0.7054,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
+          "pct_windows_hn": 0.411,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "pair=None->cmd.exe",
+          "auc_attack_gt_hn": 0.7033,
+          "separation": 0.7033,
+          "side": "attack",
+          "pct_windows_attack": 0.768,
+          "pct_windows_hn": 0.214,
+          "sessions_attack": 130,
+          "sessions_hn": 34
         }
       ],
       "one_sided": [
         {
           "feature": "cmdtok=-ano",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
+          "auc_attack_gt_hn": 0.2946,
+          "separation": 0.7054,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
+          "pct_windows_hn": 0.411,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "cmdtok=netstat",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
+          "auc_attack_gt_hn": 0.2946,
+          "separation": 0.7054,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
+          "pct_windows_hn": 0.411,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "image=netstat.exe",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
+          "auc_attack_gt_hn": 0.2946,
+          "separation": 0.7054,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
+          "pct_windows_hn": 0.411,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "pair=<launcher>->netstat.exe",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
+          "auc_attack_gt_hn": 0.2946,
+          "separation": 0.7054,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
+          "pct_windows_hn": 0.411,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "cmdtok=print",
-          "auc_attack_gt_hn": 0.2922,
-          "separation": 0.7078,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.416,
-          "sessions_attack": 0,
-          "sessions_hn": 87,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
-          "feature": "cmdtok=route",
-          "auc_attack_gt_hn": 0.2922,
-          "separation": 0.7078,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.416,
-          "sessions_attack": 0,
-          "sessions_hn": 87,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
-          "feature": "image=route.exe",
-          "auc_attack_gt_hn": 0.2922,
-          "separation": 0.7078,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.416,
-          "sessions_attack": 0,
-          "sessions_hn": 87,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
-          "feature": "pair=<launcher>->route.exe",
-          "auc_attack_gt_hn": 0.2922,
-          "separation": 0.7078,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.416,
-          "sessions_attack": 0,
-          "sessions_hn": 87,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
-          "feature": "pair=None->route.exe",
-          "auc_attack_gt_hn": 0.2922,
-          "separation": 0.7078,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.416,
-          "sessions_attack": 0,
-          "sessions_hn": 87,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
-          "feature": "pair=None->netstat.exe",
           "auc_attack_gt_hn": 0.2991,
           "separation": 0.7009,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
           "pct_windows_hn": 0.402,
           "sessions_attack": 0,
+          "sessions_hn": 87,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "cmdtok=route",
+          "auc_attack_gt_hn": 0.2991,
+          "separation": 0.7009,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.402,
+          "sessions_attack": 0,
+          "sessions_hn": 87,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "image=route.exe",
+          "auc_attack_gt_hn": 0.2991,
+          "separation": 0.7009,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.402,
+          "sessions_attack": 0,
+          "sessions_hn": 87,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "pair=<launcher>->route.exe",
+          "auc_attack_gt_hn": 0.2991,
+          "separation": 0.7009,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.402,
+          "sessions_attack": 0,
+          "sessions_hn": 87,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "pair=None->route.exe",
+          "auc_attack_gt_hn": 0.2991,
+          "separation": 0.7009,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.402,
+          "sessions_attack": 0,
+          "sessions_hn": 87,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "pair=None->netstat.exe",
+          "auc_attack_gt_hn": 0.3036,
+          "separation": 0.6964,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.393,
+          "sessions_attack": 0,
           "sessions_hn": 83,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "cmdtok=userdnsdomain",
-          "auc_attack_gt_hn": 0.617,
-          "separation": 0.617,
+          "auc_attack_gt_hn": 0.6158,
+          "separation": 0.6158,
           "side": "attack",
-          "pct_windows_attack": 0.234,
+          "pct_windows_attack": 0.232,
           "pct_windows_hn": 0.0,
           "sessions_attack": 44,
           "sessions_hn": 0,
@@ -2007,10 +2528,10 @@
         },
         {
           "feature": "pair=<launcher>->powershell.exe",
-          "auc_attack_gt_hn": 0.6113,
-          "separation": 0.6113,
+          "auc_attack_gt_hn": 0.6121,
+          "separation": 0.6121,
           "side": "attack",
-          "pct_windows_attack": 0.223,
+          "pct_windows_attack": 0.224,
           "pct_windows_hn": 0.0,
           "sessions_attack": 43,
           "sessions_hn": 0,
@@ -2018,10 +2539,10 @@
         },
         {
           "feature": "cmdtok=dsmsvc",
-          "auc_attack_gt_hn": 0.6038,
-          "separation": 0.6038,
+          "auc_attack_gt_hn": 0.6011,
+          "separation": 0.6011,
           "side": "attack",
-          "pct_windows_attack": 0.208,
+          "pct_windows_attack": 0.202,
           "pct_windows_hn": 0.0,
           "sessions_attack": 34,
           "sessions_hn": 0,
@@ -2029,175 +2550,318 @@
         },
         {
           "feature": "cmdtok=admins",
-          "auc_attack_gt_hn": 0.3973,
-          "separation": 0.6027,
+          "auc_attack_gt_hn": 0.4018,
+          "separation": 0.5982,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.205,
+          "pct_windows_hn": 0.196,
           "sessions_attack": 0,
           "sessions_hn": 43,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "eid=98",
-          "auc_attack_gt_hn": 0.5925,
-          "separation": 0.5925,
+          "auc_attack_gt_hn": 0.5938,
+          "separation": 0.5938,
           "side": "attack",
-          "pct_windows_attack": 0.185,
+          "pct_windows_attack": 0.188,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 26,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eid=102",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
           "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
-          "feature": "eid=102",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
-          "side": "attack",
-          "pct_windows_attack": 0.181,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
-          "sessions_hn": 0,
-          "category": "tac dong phu NTDS (ESENT/Directory Service)"
-        },
-        {
           "feature": "eid=103",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=105",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=2001",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=2003",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=2005",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=2006",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=216",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=300",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=301",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=302",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=326",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
           "feature": "eid=330",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
           "side": "attack",
-          "pct_windows_attack": 0.181,
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=102>105",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=105>103",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=105>326",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=2003>2006",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=216>216",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=216>330",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=300>216",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=301>302",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=302>105",
+          "auc_attack_gt_hn": 0.5919,
+          "separation": 0.5919,
+          "side": "attack",
+          "pct_windows_attack": 0.184,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eid=325",
+          "auc_attack_gt_hn": 0.5901,
+          "separation": 0.5901,
+          "side": "attack",
+          "pct_windows_attack": 0.18,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=325>330",
+          "auc_attack_gt_hn": 0.5901,
+          "separation": 0.5901,
+          "side": "attack",
+          "pct_windows_attack": 0.18,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=330>325",
+          "auc_attack_gt_hn": 0.5901,
+          "separation": 0.5901,
+          "side": "attack",
+          "pct_windows_attack": 0.18,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=102>300",
+          "auc_attack_gt_hn": 0.5882,
+          "separation": 0.5882,
+          "side": "attack",
+          "pct_windows_attack": 0.176,
           "pct_windows_hn": 0.0,
           "sessions_attack": 24,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
-          "feature": "eid=325",
-          "auc_attack_gt_hn": 0.5887,
-          "separation": 0.5887,
+          "feature": "eidbg=330>301",
+          "auc_attack_gt_hn": 0.5882,
+          "separation": 0.5882,
           "side": "attack",
-          "pct_windows_attack": 0.177,
+          "pct_windows_attack": 0.176,
           "pct_windows_hn": 0.0,
           "sessions_attack": 24,
           "sessions_hn": 0,
@@ -2205,10 +2869,10 @@
         },
         {
           "feature": "cmdtok=-querytype",
-          "auc_attack_gt_hn": 0.5849,
-          "separation": 0.5849,
+          "auc_attack_gt_hn": 0.5846,
+          "separation": 0.5846,
           "side": "attack",
-          "pct_windows_attack": 0.17,
+          "pct_windows_attack": 0.169,
           "pct_windows_hn": 0.0,
           "sessions_attack": 32,
           "sessions_hn": 0,
@@ -2216,21 +2880,32 @@
         },
         {
           "feature": "cmdtok=-timeout",
-          "auc_attack_gt_hn": 0.5849,
-          "separation": 0.5849,
+          "auc_attack_gt_hn": 0.5846,
+          "separation": 0.5846,
           "side": "attack",
-          "pct_windows_attack": 0.17,
+          "pct_windows_attack": 0.169,
           "pct_windows_hn": 0.0,
           "sessions_attack": 32,
           "sessions_hn": 0,
           "category": "hanh vi tan cong"
         },
         {
-          "feature": "cmdtok=_ldap._tcp.dc._msdcs.",
-          "auc_attack_gt_hn": 0.583,
-          "separation": 0.583,
+          "feature": "eidbg=2005>2001",
+          "auc_attack_gt_hn": 0.5846,
+          "separation": 0.5846,
           "side": "attack",
-          "pct_windows_attack": 0.166,
+          "pct_windows_attack": 0.169,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 23,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "cmdtok=_ldap._tcp.dc._msdcs.",
+          "auc_attack_gt_hn": 0.5827,
+          "separation": 0.5827,
+          "side": "attack",
+          "pct_windows_attack": 0.165,
           "pct_windows_hn": 0.0,
           "sessions_attack": 32,
           "sessions_hn": 0,
@@ -2238,32 +2913,87 @@
         },
         {
           "feature": "cmdtok=config",
-          "auc_attack_gt_hn": 0.583,
-          "separation": 0.583,
+          "auc_attack_gt_hn": 0.5827,
+          "separation": 0.5827,
           "side": "attack",
-          "pct_windows_attack": 0.166,
+          "pct_windows_attack": 0.165,
           "pct_windows_hn": 0.0,
           "sessions_attack": 33,
           "sessions_hn": 0,
           "category": "hanh vi tan cong"
         },
         {
-          "feature": "eid=327",
-          "auc_attack_gt_hn": 0.5792,
-          "separation": 0.5792,
+          "feature": "eidbg=98>102",
+          "auc_attack_gt_hn": 0.5809,
+          "separation": 0.5809,
           "side": "attack",
-          "pct_windows_attack": 0.158,
+          "pct_windows_attack": 0.162,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 22,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=326>330",
+          "auc_attack_gt_hn": 0.5754,
+          "separation": 0.5754,
+          "side": "attack",
+          "pct_windows_attack": 0.151,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 21,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=7036>2005",
+          "auc_attack_gt_hn": 0.5754,
+          "separation": 0.5754,
+          "side": "attack",
+          "pct_windows_attack": 0.151,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 21,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "cmdtok=create",
+          "auc_attack_gt_hn": 0.5735,
+          "separation": 0.5735,
+          "side": "attack",
+          "pct_windows_attack": 0.147,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 35,
+          "sessions_hn": 0,
+          "category": "hanh vi tan cong"
+        },
+        {
+          "feature": "eid=327",
+          "auc_attack_gt_hn": 0.5735,
+          "separation": 0.5735,
+          "side": "attack",
+          "pct_windows_attack": 0.147,
           "pct_windows_hn": 0.0,
           "sessions_attack": 24,
           "sessions_hn": 0,
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
-          "feature": "cmdtok=.findall",
-          "auc_attack_gt_hn": 0.5736,
-          "separation": 0.5736,
+          "feature": "eidbg=2006>98",
+          "auc_attack_gt_hn": 0.5717,
+          "separation": 0.5717,
           "side": "attack",
-          "pct_windows_attack": 0.147,
+          "pct_windows_attack": 0.143,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 20,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "cmdtok=.findall",
+          "auc_attack_gt_hn": 0.5699,
+          "separation": 0.5699,
+          "side": "attack",
+          "pct_windows_attack": 0.14,
           "pct_windows_hn": 0.0,
           "sessions_attack": 30,
           "sessions_hn": 0,
@@ -2271,10 +3001,10 @@
         },
         {
           "feature": "cmdtok=.findone",
-          "auc_attack_gt_hn": 0.5736,
-          "separation": 0.5736,
+          "auc_attack_gt_hn": 0.5699,
+          "separation": 0.5699,
           "side": "attack",
-          "pct_windows_attack": 0.147,
+          "pct_windows_attack": 0.14,
           "pct_windows_hn": 0.0,
           "sessions_attack": 30,
           "sessions_hn": 0,
@@ -2282,32 +3012,10 @@
         },
         {
           "feature": "cmdtok=adsisearcher",
-          "auc_attack_gt_hn": 0.5736,
-          "separation": 0.5736,
+          "auc_attack_gt_hn": 0.5699,
+          "separation": 0.5699,
           "side": "attack",
-          "pct_windows_attack": 0.147,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 30,
-          "sessions_hn": 0,
-          "category": "hanh vi tan cong"
-        },
-        {
-          "feature": "cmdtok=create",
-          "auc_attack_gt_hn": 0.5736,
-          "separation": 0.5736,
-          "side": "attack",
-          "pct_windows_attack": 0.147,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 34,
-          "sessions_hn": 0,
-          "category": "hanh vi tan cong"
-        },
-        {
-          "feature": "cmdtok=objectcategory",
-          "auc_attack_gt_hn": 0.5736,
-          "separation": 0.5736,
-          "side": "attack",
-          "pct_windows_attack": 0.147,
+          "pct_windows_attack": 0.14,
           "pct_windows_hn": 0.0,
           "sessions_attack": 30,
           "sessions_hn": 0,
@@ -2315,8 +3023,8 @@
         },
         {
           "feature": "cmdtok=enum-logs",
-          "auc_attack_gt_hn": 0.5698,
-          "separation": 0.5698,
+          "auc_attack_gt_hn": 0.5699,
+          "separation": 0.5699,
           "side": "attack",
           "pct_windows_attack": 0.14,
           "pct_windows_hn": 0.0,
@@ -2325,11 +3033,66 @@
           "category": "hanh vi tan cong"
         },
         {
-          "feature": "cmdtok=\\windows\\system0\\shell0.dll",
-          "auc_attack_gt_hn": 0.5642,
-          "separation": 0.5642,
+          "feature": "cmdtok=objectcategory",
+          "auc_attack_gt_hn": 0.5699,
+          "separation": 0.5699,
           "side": "attack",
-          "pct_windows_attack": 0.128,
+          "pct_windows_attack": 0.14,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 30,
+          "sessions_hn": 0,
+          "category": "hanh vi tan cong"
+        },
+        {
+          "feature": "cmdtok=/dsgetdc",
+          "auc_attack_gt_hn": 0.4353,
+          "separation": 0.5647,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.129,
+          "sessions_attack": 0,
+          "sessions_hn": 24,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "cmdtok=list",
+          "auc_attack_gt_hn": 0.4353,
+          "separation": 0.5647,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.129,
+          "sessions_attack": 0,
+          "sessions_hn": 24,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "eidbg=327>103",
+          "auc_attack_gt_hn": 0.5643,
+          "separation": 0.5643,
+          "side": "attack",
+          "pct_windows_attack": 0.129,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 24,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=327>327",
+          "auc_attack_gt_hn": 0.5643,
+          "separation": 0.5643,
+          "side": "attack",
+          "pct_windows_attack": 0.129,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 24,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "cmdtok=\\windows\\system0\\shell0.dll",
+          "auc_attack_gt_hn": 0.5607,
+          "separation": 0.5607,
+          "side": "attack",
+          "pct_windows_attack": 0.121,
           "pct_windows_hn": 0.0,
           "sessions_attack": 25,
           "sessions_hn": 0,
@@ -2337,98 +3100,142 @@
         },
         {
           "feature": "cmdtok=shcreatelocalserverrundll",
-          "auc_attack_gt_hn": 0.5642,
-          "separation": 0.5642,
+          "auc_attack_gt_hn": 0.5607,
+          "separation": 0.5607,
           "side": "attack",
-          "pct_windows_attack": 0.128,
+          "pct_windows_attack": 0.121,
           "pct_windows_hn": 0.0,
           "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "tac dong phu nen (svchost->rundll32 COM, ngoai cay tien trinh)"
         },
         {
-          "feature": "cmdtok=list",
-          "auc_attack_gt_hn": 0.4361,
-          "separation": 0.5639,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.128,
-          "sessions_attack": 0,
-          "sessions_hn": 24,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
-          "feature": "cmdtok=/dsgetdc",
-          "auc_attack_gt_hn": 0.4384,
-          "separation": 0.5616,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.123,
-          "sessions_attack": 0,
-          "sessions_hn": 24,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
           "feature": "cmdtok=shadows",
-          "auc_attack_gt_hn": 0.4384,
-          "separation": 0.5616,
+          "auc_attack_gt_hn": 0.4397,
+          "separation": 0.5603,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.123,
+          "pct_windows_hn": 0.121,
           "sessions_attack": 0,
           "sessions_hn": 24,
           "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "eidbg=16>4624",
+          "auc_attack_gt_hn": 0.5588,
+          "separation": 0.5588,
+          "side": "attack",
+          "pct_windows_attack": 0.118,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 22,
+          "sessions_hn": 0,
+          "category": "bigram event_id khac (chua ro)"
         },
         {
           "feature": "cmdtok=\\windows\\temp\\ntds_t0",
-          "auc_attack_gt_hn": 0.5566,
-          "separation": 0.5566,
+          "auc_attack_gt_hn": 0.557,
+          "separation": 0.557,
           "side": "attack",
-          "pct_windows_attack": 0.113,
+          "pct_windows_attack": 0.114,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 25,
+          "sessions_attack": 26,
           "sessions_hn": 0,
           "category": "hanh vi tan cong"
         },
         {
           "feature": "cmdtok=full",
-          "auc_attack_gt_hn": 0.5566,
-          "separation": 0.5566,
+          "auc_attack_gt_hn": 0.557,
+          "separation": 0.557,
           "side": "attack",
-          "pct_windows_attack": 0.113,
+          "pct_windows_attack": 0.114,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 25,
+          "sessions_attack": 26,
           "sessions_hn": 0,
           "category": "hanh vi tan cong"
         },
         {
           "feature": "cmdtok=ifm",
-          "auc_attack_gt_hn": 0.5566,
-          "separation": 0.5566,
+          "auc_attack_gt_hn": 0.557,
+          "separation": 0.557,
           "side": "attack",
-          "pct_windows_attack": 0.113,
+          "pct_windows_attack": 0.114,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 25,
+          "sessions_attack": 26,
           "sessions_hn": 0,
           "category": "hanh vi tan cong"
         },
         {
           "feature": "cmdtok=q",
-          "auc_attack_gt_hn": 0.5566,
-          "separation": 0.5566,
+          "auc_attack_gt_hn": 0.557,
+          "separation": 0.557,
           "side": "attack",
-          "pct_windows_attack": 0.113,
+          "pct_windows_attack": 0.114,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 25,
+          "sessions_attack": 26,
           "sessions_hn": 0,
           "category": "hanh vi tan cong"
         },
         {
-          "feature": "cmdtok=administrator",
-          "auc_attack_gt_hn": 0.5528,
-          "separation": 0.5528,
+          "feature": "eidbg=103>4688",
+          "auc_attack_gt_hn": 0.557,
+          "separation": 0.557,
           "side": "attack",
-          "pct_windows_attack": 0.106,
+          "pct_windows_attack": 0.114,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 21,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "cmdtok=/sc_query",
+          "auc_attack_gt_hn": 0.4464,
+          "separation": 0.5536,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.107,
+          "sessions_attack": 0,
+          "sessions_hn": 20,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "cmdtok=system",
+          "auc_attack_gt_hn": 0.5533,
+          "separation": 0.5533,
+          "side": "attack",
+          "pct_windows_attack": 0.107,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 20,
+          "sessions_hn": 0,
+          "category": "hanh vi tan cong"
+        },
+        {
+          "feature": "eidbg=3>2003",
+          "auc_attack_gt_hn": 0.5533,
+          "separation": 0.5533,
+          "side": "attack",
+          "pct_windows_attack": 0.107,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 14,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eidbg=4104>4688",
+          "auc_attack_gt_hn": 0.5533,
+          "separation": 0.5533,
+          "side": "attack",
+          "pct_windows_attack": 0.107,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 20,
+          "sessions_hn": 0,
+          "category": "gioi han co chu y (ART chay test PowerShell trong tien trinh con)"
+        },
+        {
+          "feature": "cmdtok=administrator",
+          "auc_attack_gt_hn": 0.5515,
+          "separation": 0.5515,
+          "side": "attack",
+          "pct_windows_attack": 0.103,
           "pct_windows_hn": 0.0,
           "sessions_attack": 22,
           "sessions_hn": 0,
@@ -2436,31 +3243,20 @@
         },
         {
           "feature": "cmdtok=mkdir",
-          "auc_attack_gt_hn": 0.5509,
-          "separation": 0.5509,
+          "auc_attack_gt_hn": 0.5515,
+          "separation": 0.5515,
           "side": "attack",
-          "pct_windows_attack": 0.102,
+          "pct_windows_attack": 0.103,
           "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
+          "sessions_attack": 25,
           "sessions_hn": 0,
           "category": "hanh vi tan cong"
-        },
-        {
-          "feature": "cmdtok=/sc_query",
-          "auc_attack_gt_hn": 0.4498,
-          "separation": 0.5502,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.1,
-          "sessions_attack": 0,
-          "sessions_hn": 20,
-          "category": "kich ban benign (coverage attack thieu)"
         }
       ],
       "meta": {
-        "n_attack_windows": 265,
-        "n_hn_windows": 219,
-        "n_attack_sessions": 149,
+        "n_attack_windows": 272,
+        "n_hn_windows": 224,
+        "n_attack_sessions": 150,
         "n_hn_sessions": 157,
         "canon": false,
         "min_sep": 0.5
@@ -2471,57 +3267,57 @@
       "min_neg_share": 0.15,
       "tools": {
         "ntdsutil.exe": {
-          "train_pos": 37,
+          "train_pos": 38,
           "train_neg": 9,
-          "neg_share": 0.196,
+          "neg_share": 0.191,
           "ok": true
         },
         "vssadmin.exe": {
           "train_pos": 3,
-          "train_neg": 17,
-          "neg_share": 0.85,
+          "train_neg": 18,
+          "neg_share": 0.857,
           "ok": true
         },
         "ping.exe": {
           "train_pos": 16,
-          "train_neg": 8,
-          "neg_share": 0.333,
+          "train_neg": 9,
+          "neg_share": 0.36,
           "ok": true
         },
         "wevtutil.exe": {
-          "train_pos": 25,
+          "train_pos": 23,
           "train_neg": 5,
-          "neg_share": 0.167,
+          "neg_share": 0.179,
           "ok": true
         },
         "nltest.exe": {
           "train_pos": 10,
-          "train_neg": 15,
-          "neg_share": 0.6,
+          "train_neg": 16,
+          "neg_share": 0.615,
           "ok": true
         },
         "nslookup.exe": {
-          "train_pos": 30,
+          "train_pos": 31,
           "train_neg": 8,
-          "neg_share": 0.211,
+          "neg_share": 0.205,
           "ok": true
         },
         "nbtstat.exe": {
-          "train_pos": 22,
+          "train_pos": 24,
           "train_neg": 6,
-          "neg_share": 0.214,
+          "neg_share": 0.2,
           "ok": true
         },
         "netsh.exe": {
-          "train_pos": 22,
+          "train_pos": 23,
           "train_neg": 7,
-          "neg_share": 0.241,
+          "neg_share": 0.233,
           "ok": true
         },
         "cmd.exe": {
-          "train_pos": 135,
-          "train_neg": 24,
-          "neg_share": 0.151,
+          "train_pos": 140,
+          "train_neg": 26,
+          "neg_share": 0.157,
           "ok": true
         }
       },
@@ -2529,74 +3325,74 @@
     },
     "10_bg_dist_t1003_vs_revert_control": {
       "windows": {
-        "t1003_pos": 58,
-        "revert_control": 12
+        "t1003_pos": 60,
+        "revert_control": 13
       },
       "bg_events": {
-        "t1003_pos": 3141,
-        "revert_control": 432
+        "t1003_pos": 3211,
+        "revert_control": 463
       },
-      "total_variation_distance": 0.495,
+      "total_variation_distance": 0.482,
       "top10": [
         {
           "channel_event": "Microsoft-Windows-Sysmon/Operational:3",
-          "t1003_pos": 0.1862,
-          "revert_control": 0.3981,
-          "diff": -0.2119
+          "t1003_pos": 0.1881,
+          "revert_control": 0.3823,
+          "diff": -0.1942
         },
         {
           "channel_event": "Application:216",
-          "t1003_pos": 0.1223,
+          "t1003_pos": 0.1246,
           "revert_control": 0.0,
-          "diff": 0.1223
+          "diff": 0.1246
         },
         {
           "channel_event": "Security:4624",
-          "t1003_pos": 0.0487,
-          "revert_control": 0.1019,
-          "diff": -0.0531
+          "t1003_pos": 0.0483,
+          "revert_control": 0.1015,
+          "diff": -0.0532
         },
         {
           "channel_event": "Security:4672",
-          "t1003_pos": 0.049,
-          "revert_control": 0.1019,
-          "diff": -0.0528
+          "t1003_pos": 0.0483,
+          "revert_control": 0.1015,
+          "diff": -0.0532
         },
         {
           "channel_event": "Microsoft-Windows-Sysmon/Operational:22",
-          "t1003_pos": 0.0325,
-          "revert_control": 0.0833,
-          "diff": -0.0509
+          "t1003_pos": 0.0315,
+          "revert_control": 0.0842,
+          "diff": -0.0528
         },
         {
           "channel_event": "Application:330",
-          "t1003_pos": 0.0455,
+          "t1003_pos": 0.0461,
           "revert_control": 0.0,
-          "diff": 0.0455
-        },
-        {
-          "channel_event": "Security:4634",
-          "t1003_pos": 0.0102,
-          "revert_control": 0.0463,
-          "diff": -0.0361
+          "diff": 0.0461
         },
         {
           "channel_event": "Application:1001",
-          "t1003_pos": 0.0029,
-          "revert_control": 0.037,
-          "diff": -0.0342
+          "t1003_pos": 0.0028,
+          "revert_control": 0.0389,
+          "diff": -0.0361
+        },
+        {
+          "channel_event": "Security:4634",
+          "t1003_pos": 0.01,
+          "revert_control": 0.0454,
+          "diff": -0.0354
         },
         {
           "channel_event": "Microsoft-Windows-Sysmon/Operational:5",
-          "t1003_pos": 0.0131,
-          "revert_control": 0.0463,
-          "diff": -0.0332
+          "t1003_pos": 0.0128,
+          "revert_control": 0.0454,
+          "diff": -0.0326
         },
         {
           "channel_event": "Application:102",
-          "t1003_pos": 0.0306,
+          "t1003_pos": 0.0311,
           "revert_control": 0.0,
-          "diff": 0.0306
+          "diff": 0.0311
         }
       ]
     }

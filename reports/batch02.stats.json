@@ -8,20 +8,20 @@
       "T1654",
       "T1087.002"
     ],
-    "dropped_orch": 4559,
-    "dropped_harness": 20,
-    "dropped_tool": 6,
-    "labeled": 70,
-    "bg": 24
+    "dropped_orch": 4545,
+    "dropped_harness": 30,
+    "dropped_tool": 7,
+    "labeled": 74,
+    "bg": 23
   },
   "20261014-070351-win10-01-h": {
     "run": "20261014-070351-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 52,
+    "dropped_orch": 48,
     "dropped_harness": 0,
     "dropped_tool": 5,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 8
   },
   "20261014-070451-win10-01-b": {
@@ -60,40 +60,40 @@
     "ttps": [
       "T1087.002"
     ],
-    "dropped_orch": 1875,
-    "dropped_harness": 4,
+    "dropped_orch": 1872,
+    "dropped_harness": 6,
     "dropped_tool": 2,
-    "labeled": 12,
+    "labeled": 13,
     "bg": 42
   },
   "20261014-070850-win10-01-h": {
     "run": "20261014-070850-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 3,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 98
   },
   "20261014-071006-dc01-h": {
     "run": "20261014-071006-dc01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 39,
+    "dropped_orch": 35,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 112
   },
   "20261014-071032-win10-01-h": {
     "run": "20261014-071032-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 35,
+    "dropped_orch": 31,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 58
   },
   "20261014-071258-win10-01-a": {
@@ -103,20 +103,20 @@
       "T1018",
       "T1016"
     ],
-    "dropped_orch": 2492,
-    "dropped_harness": 12,
+    "dropped_orch": 2484,
+    "dropped_harness": 18,
     "dropped_tool": 5,
-    "labeled": 31,
+    "labeled": 33,
     "bg": 3
   },
   "20261014-071440-win10-01-b": {
     "run": "20261014-071440-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 11
   },
   "20261014-071510-dc01-a": {
@@ -125,10 +125,10 @@
     "ttps": [
       "T1087.002"
     ],
-    "dropped_orch": 2092,
-    "dropped_harness": 8,
+    "dropped_orch": 2087,
+    "dropped_harness": 12,
     "dropped_tool": 2,
-    "labeled": 17,
+    "labeled": 18,
     "bg": 15
   },
   "20261014-071529-win10-01-b": {
@@ -145,10 +145,10 @@
     "run": "20261014-071551-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 41,
-    "dropped_harness": 2,
+    "dropped_orch": 34,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 18,
+    "labeled": 24,
     "bg": 26
   },
   "20261014-071625-dc01-a": {
@@ -160,20 +160,20 @@
       "T1016",
       "T1654"
     ],
-    "dropped_orch": 4324,
-    "dropped_harness": 16,
+    "dropped_orch": 4312,
+    "dropped_harness": 24,
     "dropped_tool": 10,
-    "labeled": 53,
+    "labeled": 57,
     "bg": 397
   },
   "20261014-071653-win10-01-h": {
     "run": "20261014-071653-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 26,
+    "dropped_orch": 22,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 0
   },
   "20261014-071816-win10-01-b": {
@@ -190,20 +190,20 @@
     "run": "20261014-071900-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 1
   },
   "20261014-071939-win10-01-b": {
     "run": "20261014-071939-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 13
   },
   "20261014-072131-win10-01-a": {
@@ -212,30 +212,30 @@
     "ttps": [
       "T1087.002"
     ],
-    "dropped_orch": 1875,
-    "dropped_harness": 4,
+    "dropped_orch": 1872,
+    "dropped_harness": 6,
     "dropped_tool": 2,
-    "labeled": 11,
+    "labeled": 12,
     "bg": 5
   },
   "20261014-072153-win10-01-b": {
     "run": "20261014-072153-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 38,
+    "dropped_orch": 34,
     "dropped_harness": 0,
     "dropped_tool": 3,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 12
   },
   "20261014-072307-win10-01-h": {
     "run": "20261014-072307-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 24,
-    "dropped_harness": 2,
+    "dropped_orch": 21,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 2
   },
   "20261014-072440-win10-01-a": {
@@ -244,50 +244,50 @@
     "ttps": [
       "T1654"
     ],
-    "dropped_orch": 200,
-    "dropped_harness": 4,
+    "dropped_orch": 197,
+    "dropped_harness": 6,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 9,
     "bg": 20
   },
   "20261014-072654-win10-01-b": {
     "run": "20261014-072654-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 14
   },
   "20261014-072747-dc01-h": {
     "run": "20261014-072747-dc01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 34,
+    "dropped_orch": 30,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 0
   },
   "20261014-072915-dc01-h": {
     "run": "20261014-072915-dc01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 25,
-    "dropped_harness": 2,
+    "dropped_orch": 22,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 23
   },
   "20261014-072933-win10-01-b": {
     "run": "20261014-072933-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 40,
-    "dropped_harness": 2,
+    "dropped_orch": 33,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 18,
+    "labeled": 24,
     "bg": 12
   },
   "20261014-072946-dc01-a": {
@@ -297,40 +297,40 @@
       "T1654",
       "T1016"
     ],
-    "dropped_orch": 888,
-    "dropped_harness": 8,
+    "dropped_orch": 882,
+    "dropped_harness": 12,
     "dropped_tool": 0,
-    "labeled": 20,
+    "labeled": 22,
     "bg": 17
   },
   "20261014-073100-win10-01-h": {
     "run": "20261014-073100-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 24,
-    "dropped_harness": 2,
+    "dropped_orch": 21,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 1
   },
   "20261014-073114-win10-01-b": {
     "run": "20261014-073114-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 38,
+    "dropped_orch": 34,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 0
   },
   "20261014-073134-dc01-b": {
     "run": "20261014-073134-dc01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 36,
-    "dropped_harness": 2,
+    "dropped_orch": 33,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 5
   },
   "20261014-073145-win10-01-b": {
@@ -347,30 +347,30 @@
     "run": "20261014-073230-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 31,
-    "dropped_harness": 2,
+    "dropped_orch": 28,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 4
   },
   "20261014-073231-dc01-b": {
     "run": "20261014-073231-dc01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 35,
-    "dropped_harness": 2,
+    "dropped_orch": 32,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 5
   },
   "20261014-073313-win10-01-b": {
     "run": "20261014-073313-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 24
   },
   "20261014-073330-dc01-h": {
@@ -397,10 +397,10 @@
     "run": "20261014-073635-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 26,
+    "dropped_orch": 22,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 11
   },
   "20261014-073716-dc01-b": {
@@ -421,60 +421,60 @@
       "T1654",
       "T1087.002"
     ],
-    "dropped_orch": 2749,
-    "dropped_harness": 12,
+    "dropped_orch": 2740,
+    "dropped_harness": 18,
     "dropped_tool": 2,
-    "labeled": 48,
+    "labeled": 51,
     "bg": 9
   },
   "20261014-073814-win10-01-h": {
     "run": "20261014-073814-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 26,
+    "dropped_orch": 22,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 1
   },
   "20261014-073858-win10-01-b": {
     "run": "20261014-073858-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 2
   },
   "20261014-073910-dc01-h": {
     "run": "20261014-073910-dc01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 31,
-    "dropped_harness": 2,
+    "dropped_orch": 28,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 174
   },
   "20261014-073940-win10-01-b": {
     "run": "20261014-073940-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 38,
+    "dropped_orch": 34,
     "dropped_harness": 0,
     "dropped_tool": 8,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 44
   },
   "20261014-074123-win10-01-h": {
     "run": "20261014-074123-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 40,
-    "dropped_harness": 2,
+    "dropped_orch": 33,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 18,
+    "labeled": 24,
     "bg": 3
   },
   "20261014-074240-win10-01-a": {
@@ -485,80 +485,80 @@
       "T1016",
       "T1087.002"
     ],
-    "dropped_orch": 4135,
-    "dropped_harness": 12,
+    "dropped_orch": 4126,
+    "dropped_harness": 18,
     "dropped_tool": 2,
-    "labeled": 45,
+    "labeled": 48,
     "bg": 6
   },
   "20261014-074339-dc01-b": {
     "run": "20261014-074339-dc01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 33,
+    "dropped_orch": 29,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 128
   },
   "20261014-074417-win10-01-b": {
     "run": "20261014-074417-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 24,
-    "dropped_harness": 2,
+    "dropped_orch": 21,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 1
   },
   "20261014-074509-win10-01-h": {
     "run": "20261014-074509-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 6
   },
   "20261014-074529-win10-01-h": {
     "run": "20261014-074529-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 12
   },
   "20261014-074844-win10-01-b": {
     "run": "20261014-074844-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 24,
-    "dropped_harness": 2,
+    "dropped_orch": 21,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 0
   },
   "20261014-074850-win10-01-h": {
     "run": "20261014-074850-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 26,
+    "dropped_orch": 22,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 21
   },
   "20261014-075009-dc01-b": {
     "run": "20261014-075009-dc01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 33,
+    "dropped_orch": 29,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 77
   },
   "20261014-075105-win10-01-b": {
@@ -587,10 +587,10 @@
     "ttps": [
       "T1018"
     ],
-    "dropped_orch": 1589,
-    "dropped_harness": 4,
+    "dropped_orch": 1586,
+    "dropped_harness": 6,
     "dropped_tool": 2,
-    "labeled": 8,
+    "labeled": 9,
     "bg": 6
   },
   "20261014-075451-win10-01-a": {
@@ -599,20 +599,20 @@
     "ttps": [
       "T1087.002"
     ],
-    "dropped_orch": 1875,
-    "dropped_harness": 4,
+    "dropped_orch": 1872,
+    "dropped_harness": 6,
     "dropped_tool": 5,
-    "labeled": 11,
+    "labeled": 12,
     "bg": 12
   },
   "20261014-075514-dc01-h": {
     "run": "20261014-075514-dc01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 33,
+    "dropped_orch": 29,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 104
   },
   "20261014-075537-win10-01-a": {
@@ -623,30 +623,30 @@
       "T1654",
       "T1018"
     ],
-    "dropped_orch": 3636,
-    "dropped_harness": 12,
+    "dropped_orch": 3627,
+    "dropped_harness": 18,
     "dropped_tool": 8,
-    "labeled": 49,
+    "labeled": 52,
     "bg": 16
   },
   "20261014-075652-win10-01-h": {
     "run": "20261014-075652-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 11
   },
   "20261014-075830-win10-01-h": {
     "run": "20261014-075830-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 26,
+    "dropped_orch": 22,
     "dropped_harness": 0,
     "dropped_tool": 2,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 22
   },
   "20261014-080136-dc01-b": {
@@ -667,60 +667,60 @@
       "T1087.002",
       "T1016"
     ],
-    "dropped_orch": 4137,
-    "dropped_harness": 12,
+    "dropped_orch": 4128,
+    "dropped_harness": 18,
     "dropped_tool": 7,
-    "labeled": 47,
+    "labeled": 50,
     "bg": 4
   },
   "20261014-080239-dc01-b": {
     "run": "20261014-080239-dc01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 33,
+    "dropped_orch": 29,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 113
   },
   "20261014-080256-win10-01-b": {
     "run": "20261014-080256-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 38,
+    "dropped_orch": 34,
     "dropped_harness": 0,
     "dropped_tool": 3,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 12
   },
   "20261014-080520-win10-01-b": {
     "run": "20261014-080520-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 38,
+    "dropped_orch": 34,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 232
   },
   "20261014-080717-dc01-h": {
     "run": "20261014-080717-dc01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 31,
-    "dropped_harness": 2,
+    "dropped_orch": 28,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 319
   },
   "20261014-080931-win10-01-h": {
     "run": "20261014-080931-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 27,
+    "dropped_orch": 23,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 20
   },
   "20261014-081005-win10-01-a": {
@@ -731,20 +731,20 @@
       "T1018",
       "T1087.002"
     ],
-    "dropped_orch": 4135,
-    "dropped_harness": 12,
+    "dropped_orch": 4126,
+    "dropped_harness": 18,
     "dropped_tool": 0,
-    "labeled": 47,
+    "labeled": 50,
     "bg": 36
   },
   "20261014-081113-win10-01-b": {
     "run": "20261014-081113-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 31,
-    "dropped_harness": 2,
+    "dropped_orch": 28,
+    "dropped_harness": 3,
     "dropped_tool": 10,
-    "labeled": 10,
+    "labeled": 12,
     "bg": 72
   },
   "20261014-081302-dc01-b": {
@@ -763,10 +763,10 @@
     "ttps": [
       "T1654"
     ],
-    "dropped_orch": 208,
-    "dropped_harness": 4,
+    "dropped_orch": 205,
+    "dropped_harness": 6,
     "dropped_tool": 0,
-    "labeled": 22,
+    "labeled": 23,
     "bg": 41
   },
   "20261014-081635-win10-01-b": {
@@ -783,10 +783,10 @@
     "run": "20261014-081812-win10-01-b",
     "cls": "benign",
     "ttps": [],
-    "dropped_orch": 32,
+    "dropped_orch": 28,
     "dropped_harness": 0,
     "dropped_tool": 0,
-    "labeled": 8,
+    "labeled": 12,
     "bg": 32
   },
   "20261014-082135-win10-01-a": {
@@ -798,10 +798,10 @@
       "T1087.002",
       "T1018"
     ],
-    "dropped_orch": 4321,
-    "dropped_harness": 16,
+    "dropped_orch": 4309,
+    "dropped_harness": 24,
     "dropped_tool": 2,
-    "labeled": 48,
+    "labeled": 52,
     "bg": 10
   },
   "20261014-082233-win10-01-a": {
@@ -811,20 +811,20 @@
       "T1016",
       "T1654"
     ],
-    "dropped_orch": 888,
-    "dropped_harness": 8,
+    "dropped_orch": 882,
+    "dropped_harness": 12,
     "dropped_tool": 8,
-    "labeled": 20,
+    "labeled": 22,
     "bg": 65
   },
   "20261014-082819-win10-01-h": {
     "run": "20261014-082819-win10-01-h",
     "cls": "hard_negative",
     "ttps": [],
-    "dropped_orch": 40,
-    "dropped_harness": 2,
+    "dropped_orch": 33,
+    "dropped_harness": 3,
     "dropped_tool": 0,
-    "labeled": 18,
+    "labeled": 24,
     "bg": 3
   },
   "20261014-082917-win10-01-a": {
@@ -833,10 +833,10 @@
     "ttps": [
       "T1018"
     ],
-    "dropped_orch": 1586,
-    "dropped_harness": 4,
+    "dropped_orch": 1583,
+    "dropped_harness": 6,
     "dropped_tool": 5,
-    "labeled": 11,
+    "labeled": 12,
     "bg": 50
   },
   "20261014-083215-win10-01-a": {
@@ -846,10 +846,10 @@
       "T1016",
       "T1654"
     ],
-    "dropped_orch": 888,
-    "dropped_harness": 8,
+    "dropped_orch": 882,
+    "dropped_harness": 12,
     "dropped_tool": 0,
-    "labeled": 20,
+    "labeled": 22,
     "bg": 11
   },
   "20261014-083351-win10-01-b": {
