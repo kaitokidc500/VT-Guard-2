@@ -61,6 +61,29 @@ def tables(root, models, weights=(), thard_only=()):
         f_ = lambda o, k: f"{o['tuned']['fpr_by_length'][k]['fp']}/{o['tuned']['fpr_by_length'][k]['n_neg']}"
         L.append(f"| {m} | {f_(c, 'full64')} | {f_(c, 'short')} | {short(c.get('spearman_score_len_neg'), 2)} | "
                  f"{f_(n, 'full64')} | {f_(n, 'short')} | {short(n.get('spearman_score_len_neg'), 2)} |")
+    TT = ["T1016", "T1018", "T1087.002", "T1654", "T1003.003"]
+    for sp, nm in (("t_clean", "T-clean"), ("t_novel", "T-novel")):
+        rr = {m: r for m, r in R.items() if m not in thard_only and "ttp_tuned" in r["splits"][sp]}
+        if not rr: continue
+        sup = next(iter(rr.values()))["splits"][sp]["ttp_tuned"]["per_ttp"]
+        L += ["", f"**(5) F1 theo TTP - {nm}** (nguong theo TTP khoa tren Train OOF; support = so cua so mang nhan)", "",
+              "| Mo hinh | " + " | ".join(f"{t} (n={sup[t]['n_pos']})" for t in TT) + " | macro-F1 |", "|---|" + "---|" * (len(TT) + 1)]
+        for m, r in rr.items():
+            b = r["splits"][sp]["ttp_tuned"]
+            L.append(f"| {m} | " + " | ".join(short(b["per_ttp"][t]["f1"], 2) if b["per_ttp"][t]["n_pos"] else "-" for t in TT)
+                     + f" | {short(b['macro_f1'], 2)} |")
+    re_ = {m: r for m, r in R.items() if m not in thard_only and r.get("early")}
+    if re_:
+        ks = [str(k) for k in next(iter(re_.values()))["early_ks"]]
+        L += ["", "**(6) Phat hien som** - recall cua so duong khi chi giu k event dau tu event malicious dau tien (nguong khoa, khong chon lai)", "",
+              "| Mo hinh | " + " | ".join(f"T-clean k={k}" for k in ks) + " | T-clean du | " + " | ".join(f"T-novel k={k}" for k in ks)
+              + " | T-novel du | T1003 phien T-novel k=" + "/".join(ks) + "/du |", "|---|" + "---|" * (2 * len(ks) + 3)]
+        for m, r in re_.items():
+            e = r["early"]; S = r["splits"]
+            cells = [short(e["t_clean"][k]["recall"], 2) for k in ks] + [short(S["t_clean"]["tuned"]["recall"], 2)]
+            cells += [short(e["t_novel"][k]["recall"], 2) for k in ks] + [short(S["t_novel"]["tuned"]["recall"], 2)]
+            nt = "/".join(str(e["t_novel"][k]["ntds_sessions"]["detected"]) for k in ks) + f"/{S['t_novel']['tuned']['ntds_session_recall']['binary']['detected']} (cua 6)"
+            L.append(f"| {m} | " + " | ".join(cells) + f" | {nt} |")
     for m in weights:
         r = R.get(m)
         if not r or "top_pos_features" not in r: continue

@@ -2514,6 +2514,258 @@
    "n_neg_short": 41
   }
  },
+ "early": {
+  "t_clean": {
+   "4": {
+    "n_pos": 42,
+    "detected": 29,
+    "recall": {
+     "point": 0.6905,
+     "lo": 0.5476,
+     "hi": 0.8333,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 42
+    },
+    "ntds_sessions": {
+     "detected": 3,
+     "of": 6,
+     "recall": {
+      "point": 0.5,
+      "lo": 0.1667,
+      "hi": 0.8333,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 3,
+      "n": 6,
+      "lo": 0.1876,
+      "hi": 0.8124
+     }
+    }
+   },
+   "8": {
+    "n_pos": 42,
+    "detected": 30,
+    "recall": {
+     "point": 0.7143,
+     "lo": 0.5714,
+     "hi": 0.8571,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 42
+    },
+    "ntds_sessions": {
+     "detected": 4,
+     "of": 6,
+     "recall": {
+      "point": 0.6667,
+      "lo": 0.3333,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 4,
+      "n": 6,
+      "lo": 0.3,
+      "hi": 0.9032
+     }
+    }
+   },
+   "16": {
+    "n_pos": 42,
+    "detected": 32,
+    "recall": {
+     "point": 0.7619,
+     "lo": 0.6429,
+     "hi": 0.881,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 42
+    },
+    "ntds_sessions": {
+     "detected": 5,
+     "of": 6,
+     "recall": {
+      "point": 0.8333,
+      "lo": 0.5,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 5,
+      "n": 6,
+      "lo": 0.4365,
+      "hi": 0.9699
+     }
+    }
+   },
+   "32": {
+    "n_pos": 42,
+    "detected": 40,
+    "recall": {
+     "point": 0.9524,
+     "lo": 0.881,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 42
+    },
+    "ntds_sessions": {
+     "detected": 6,
+     "of": 6,
+     "recall": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 6,
+      "n": 6,
+      "lo": 0.6097,
+      "hi": 1.0
+     }
+    }
+   }
+  },
+  "t_novel": {
+   "4": {
+    "n_pos": 54,
+    "detected": 47,
+    "recall": {
+     "point": 0.8704,
+     "lo": 0.7778,
+     "hi": 0.9444,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 54
+    },
+    "ntds_sessions": {
+     "detected": 0,
+     "of": 6,
+     "recall": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 0,
+      "n": 6,
+      "lo": 0.0,
+      "hi": 0.3903
+     }
+    }
+   },
+   "8": {
+    "n_pos": 54,
+    "detected": 47,
+    "recall": {
+     "point": 0.8704,
+     "lo": 0.7778,
+     "hi": 0.9444,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 54
+    },
+    "ntds_sessions": {
+     "detected": 0,
+     "of": 6,
+     "recall": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 0,
+      "n": 6,
+      "lo": 0.0,
+      "hi": 0.3903
+     }
+    }
+   },
+   "16": {
+    "n_pos": 54,
+    "detected": 47,
+    "recall": {
+     "point": 0.8704,
+     "lo": 0.7778,
+     "hi": 0.9444,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 54
+    },
+    "ntds_sessions": {
+     "detected": 0,
+     "of": 6,
+     "recall": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 0,
+      "n": 6,
+      "lo": 0.0,
+      "hi": 0.3903
+     }
+    }
+   },
+   "32": {
+    "n_pos": 54,
+    "detected": 51,
+    "recall": {
+     "point": 0.9444,
+     "lo": 0.8884,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 54
+    },
+    "ntds_sessions": {
+     "detected": 3,
+     "of": 6,
+     "recall": {
+      "point": 0.5,
+      "lo": 0.1667,
+      "hi": 0.8333,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 3,
+      "n": 6,
+      "lo": 0.1876,
+      "hi": 0.8124
+     }
+    }
+   }
+  }
+ },
+ "early_ks": [
+  4,
+  8,
+  16,
+  32
+ ],
  "level_sweep_train": [
   {
    "L": 3,

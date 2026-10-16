@@ -20,7 +20,7 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, "..", "eval"))
 from common import full_window_events
-from evaluate import (check_dataset, load_all_meta, evaluate, render_markdown, write_preds, check_predictions,
+from evaluate import (check_dataset, load_all_meta, evaluate, render_markdown, write_preds, check_predictions, early_starts, EARLY_KS,
                       TTPS, SPLITS, TEST_SPLITS)
 from bootstrap import f1, precision, recall, fpr
 
@@ -70,7 +70,10 @@ def main(root="."):
     thresholds = {"binary": L / 15.0, "binary_train_oof_f1": best["f1"], "binary_L": L,
                   "ttp": {t: 0.5 for t in TTPS}, "ttp_train_oof_f1": ttp_train_f1,
                   "note": "B0 khong hoc: L chon truc tiep tren Train (khong CV); nguong TTP co dinh 0.5 tren chi bao 0/1"}
-    res = evaluate(MODEL, meta, {s: preds[s] for s in TEST_SPLITS}, thresholds, root=root)
+    starts = early_starts(root, meta)       # phat hien som: cat k event tu event malicious dau tien
+    early = {s: {k: {wid: max([e["wazuh_rule_level"] or 0 for e in ev[wid][i0:i0 + k]] + [0]) / 15.0 for wid, (i0, _) in st.items()}
+                 for k in EARLY_KS} for s, st in starts.items()}
+    res = evaluate(MODEL, meta, {s: preds[s] for s in TEST_SPLITS}, thresholds, root=root, early=early)
     res["level_sweep_train"] = sweep
     res["mitre_tags_seen_windows"] = dict(mitre_seen.most_common())
     res["ttp_mapping"] = {t: sorted(m for m in mitre_seen if mitre_to_ttp(m, t)) for t in TTPS}

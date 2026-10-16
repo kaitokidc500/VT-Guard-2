@@ -2512,6 +2512,258 @@
    "n_neg_short": 41
   }
  },
+ "early": {
+  "t_clean": {
+   "4": {
+    "n_pos": 42,
+    "detected": 35,
+    "recall": {
+     "point": 0.8333,
+     "lo": 0.7143,
+     "hi": 0.9286,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 42
+    },
+    "ntds_sessions": {
+     "detected": 6,
+     "of": 6,
+     "recall": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 6,
+      "n": 6,
+      "lo": 0.6097,
+      "hi": 1.0
+     }
+    }
+   },
+   "8": {
+    "n_pos": 42,
+    "detected": 37,
+    "recall": {
+     "point": 0.881,
+     "lo": 0.7857,
+     "hi": 0.9762,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 42
+    },
+    "ntds_sessions": {
+     "detected": 6,
+     "of": 6,
+     "recall": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 6,
+      "n": 6,
+      "lo": 0.6097,
+      "hi": 1.0
+     }
+    }
+   },
+   "16": {
+    "n_pos": 42,
+    "detected": 38,
+    "recall": {
+     "point": 0.9048,
+     "lo": 0.8095,
+     "hi": 0.9762,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 42
+    },
+    "ntds_sessions": {
+     "detected": 6,
+     "of": 6,
+     "recall": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 6,
+      "n": 6,
+      "lo": 0.6097,
+      "hi": 1.0
+     }
+    }
+   },
+   "32": {
+    "n_pos": 42,
+    "detected": 40,
+    "recall": {
+     "point": 0.9524,
+     "lo": 0.881,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 42
+    },
+    "ntds_sessions": {
+     "detected": 6,
+     "of": 6,
+     "recall": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 6,
+      "n": 6,
+      "lo": 0.6097,
+      "hi": 1.0
+     }
+    }
+   }
+  },
+  "t_novel": {
+   "4": {
+    "n_pos": 54,
+    "detected": 54,
+    "recall": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 54
+    },
+    "ntds_sessions": {
+     "detected": 6,
+     "of": 6,
+     "recall": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 6,
+      "n": 6,
+      "lo": 0.6097,
+      "hi": 1.0
+     }
+    }
+   },
+   "8": {
+    "n_pos": 54,
+    "detected": 54,
+    "recall": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 54
+    },
+    "ntds_sessions": {
+     "detected": 6,
+     "of": 6,
+     "recall": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 6,
+      "n": 6,
+      "lo": 0.6097,
+      "hi": 1.0
+     }
+    }
+   },
+   "16": {
+    "n_pos": 54,
+    "detected": 54,
+    "recall": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 54
+    },
+    "ntds_sessions": {
+     "detected": 6,
+     "of": 6,
+     "recall": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 6,
+      "n": 6,
+      "lo": 0.6097,
+      "hi": 1.0
+     }
+    }
+   },
+   "32": {
+    "n_pos": 54,
+    "detected": 54,
+    "recall": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 54
+    },
+    "ntds_sessions": {
+     "detected": 6,
+     "of": 6,
+     "recall": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_valid": 1000,
+      "n_boot": 1000,
+      "n_units": 6
+     },
+     "wilson": {
+      "k": 6,
+      "n": 6,
+      "lo": 0.6097,
+      "hi": 1.0
+     }
+    }
+   }
+  }
+ },
+ "early_ks": [
+  4,
+  8,
+  16,
+  32
+ ],
  "variant": "raw",
  "ablation": "b",
  "ablation_desc": "bo image_name + parent_image_name",

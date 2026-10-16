@@ -64,6 +64,21 @@ Nguong nhi phan chon tren Train OOF: **0.4765** (F1 OOF 0.992). CI bootstrap 95%
 | T-clean | 0.809 [0.667, 0.920] (n=21) | 0.756 [0.596, 0.875] (n=23) | 0.889 [0.791, 0.967] (n=24) | 0.686 [0.480, 0.850] (n=17) | 1.000 [1.000, 1.000] (n=12) | 0.828 [0.765, 0.876] |
 | T-novel | 0.761 [0.632, 0.861] (n=37) | 0.831 [0.738, 0.907] (n=36) | 0.815 [0.714, 0.895] (n=33) | 0.522 [0.343, 0.679] (n=16) | 1.000 [1.000, 1.000] (n=6) | 0.786 [0.734, 0.830] |
 
+**Phat hien som** - recall cua so duong khi chi giu k event dau tinh tu event malicious dau tien (nguong da khoa, khong chon lai); 'du' = cua so day du. T1003.003: so phien phat hien.
+
+| Tap | k | Recall [CI] | Phat hien | T1003.003 phien |
+|---|---|---|---|---|
+| T-clean | 4 | 0.929 [0.857, 1.000] | 39/42 | 6/6 |
+| T-clean | 8 | 0.929 [0.857, 1.000] | 39/42 | 6/6 |
+| T-clean | 16 | 0.929 [0.857, 1.000] | 39/42 | 6/6 |
+| T-clean | 32 | 0.976 [0.929, 1.000] | 41/42 | 6/6 |
+| T-clean | du | 1.000 [1.000, 1.000] | 42/42 | 6/6 |
+| T-novel | 4 | 1.000 [1.000, 1.000] | 54/54 | 6/6 |
+| T-novel | 8 | 1.000 [1.000, 1.000] | 54/54 | 6/6 |
+| T-novel | 16 | 1.000 [1.000, 1.000] | 54/54 | 6/6 |
+| T-novel | 32 | 1.000 [1.000, 1.000] | 54/54 | 6/6 |
+| T-novel | du | 1.000 [1.000, 1.000] | 54/54 | 6/6 |
+
 **T1003.003 - recall muc PHIEN** (bootstrap theo phien; F1 muc cua so voi so mau nay khong co y nghia thong ke)
 
 | Tap | Nguong | Nhi phan: phat hien | Recall [bootstrap] | Wilson 95% | Nhan T1003.003: phat hien | Recall [bootstrap] | Wilson 95% |

@@ -15,6 +15,9 @@ Quy uoc:
   - Moc C: FPR PHAN TANG THEO DO DAI cua so (du 64 event / ngan < 64) tren cua so am, moi tap, va tuong quan
     Spearman diem ~ n_events tren cua so am (confounder da biet: ti le cua so du 64 lech theo lop).
     n_events CHI dung de phan tang bao cao, KHONG bao gio la feature.
+  - Phat hien som: moi cua so DUONG (T-clean, T-novel) cat con k event dau tinh tu event malicious dau tien
+    (event dau tien thuoc cay phien attack), k in EARLY_KS; mo hinh cham lai cua so da cat, tinh recall o NGUONG DA KHOA
+    (khong chon lai nguong) + recall T1003.003 muc phien. Mo hinh tu cham (early_starts() cho vi tri bat dau).
   - Metadata cua so (run_id, nhom, chu ky) chi dung de chia fold / nhom bao cao, KHONG bao gio la feature.
 Chay tu kiem: python src/eval/evaluate.py --selftest
 """
@@ -36,6 +39,7 @@ SPLIT_NAME = {"train": "Train", "t_clean": "T-clean", "t_hard": "T-hard", "t_nov
 META_KEYS = ["window_id", "run_id", "batch", "host", "window_malicious", "window_ttps", "window_class",
              "revert_control", "n_events"]
 NTDS = "T1003.003"
+EARLY_KS = (4, 8, 16, 32)
 
 def P(root, *p): return os.path.join(root, *p)
 
@@ -126,6 +130,41 @@ def load_preds(root, model, split):
             r = json.loads(l); out[r["window_id"]] = {"p": r["p_malicious"], "p_ttp": r["p_ttp"]}
     return out
 
+def early_starts(root, meta, splits=("t_clean", "t_novel")):
+    """{split: {window_id: (i0, n)}} cho cua so duong: i0 = vi tri event cay phien (malicious) dau tien trong cua so
+    (thu tu nhu windows.jsonl / features), n = so event cua cua so. Chi doc event_origin (metadata), khong phai feature."""
+    want = {w["window_id"]: s for s in splits for w in meta[s] if w["window_malicious"]}
+    out = {s: {} for s in splits}
+    with open(P(root, "data", "processed", "windows.jsonl"), encoding="utf-8") as fh:
+        for l in fh:
+            w = json.loads(l)
+            s = want.get(w["window_id"])
+            if s is None: continue
+            i0 = next(i for i, o in enumerate(w["event_origin"]) if o == "own")
+            out[s][w["window_id"]] = (i0, len(w["events"]))
+    miss = [wid for wid in want if wid not in out[want[wid]]]
+    if miss: sys.exit(f"LOI: thieu {len(miss)} cua so duong trong windows.jsonl")
+    return out
+
+def _early_block(meta, early, thr, n_boot, seed):
+    """early: {split: {k: {window_id: p}}} -> recall cua so duong theo k + recall T1003.003 muc phien theo k."""
+    out = {}
+    for s, byk in early.items():
+        M = [w for w in meta[s] if w["window_malicious"]]
+        out[s] = {}
+        for k, pk in sorted(byk.items()):
+            det = np.array([pk[w["window_id"]] >= thr for w in M], bool)
+            sess = defaultdict(list)
+            for i, w in enumerate(M):
+                if NTDS in w["window_ttps"]: sess[w["run_id"]].append(i)
+            sd = np.array([det[idx].any() for _, idx in sorted(sess.items())], bool)
+            out[s][str(k)] = {"n_pos": len(M), "detected": int(det.sum()),
+                              "recall": _ci(len(M), lambda i: float(det[i].mean()) if len(i) else None, n_boot, seed),
+                              "ntds_sessions": {"detected": int(sd.sum()), "of": len(sd),
+                                                "recall": _ci(len(sd), lambda i: float(sd[i].mean()) if len(i) else None, n_boot, seed),
+                                                "wilson": wilson(int(sd.sum()), len(sd))}}
+    return out
+
 def check_predictions(meta, preds):
     """Moi cua so co dung mot du doan; khong co du doan thua; khong run_id Train nao lot vao test."""
     probs = {}
@@ -211,8 +250,9 @@ def _session_recall(meta, pr, thr, thr_ttp, n_boot, seed, ttp=NTDS):
                             "wilson": wilson(int(det_ttp.sum()), n)}
     return out
 
-def evaluate(model, meta, preds, thresholds, root=".", n_boot=N_BOOT, seed=SEED, hn_sig=None):
-    """meta: load_all_meta(); preds: {split: {window_id: {...}}} cho 3 tap test; thresholds: choose_thresholds()."""
+def evaluate(model, meta, preds, thresholds, root=".", n_boot=N_BOOT, seed=SEED, hn_sig=None, early=None):
+    """meta: load_all_meta(); preds: {split: {window_id: {...}}} cho 3 tap test; thresholds: choose_thresholds();
+    early (tuy chon): {split: {k: {window_id: p}}} diem cua cua so duong da cat k event tu event malicious dau tien."""
     chk = check_predictions({s: meta[s] for s in SPLITS if s in preds or s == "train"},
                             {s: preds[s] for s in TEST_SPLITS})
     if not chk["ok"]: sys.exit(f"LOI du doan: {chk}")
@@ -266,6 +306,9 @@ def evaluate(model, meta, preds, thresholds, root=".", n_boot=N_BOOT, seed=SEED,
         out["spearman_score_len_neg"] = _ci(len(ineg), lambda i: spearman(sc[ineg][i], nev[ineg][i]), n_boot, seed)
         out["n_neg_full64"] = int((neg & full).sum()); out["n_neg_short"] = int((neg & ~full).sum())
         res["splits"][s] = out
+    if early is not None:
+        res["early"] = _early_block(meta, early, thresholds["binary"], n_boot, seed)
+        res["early_ks"] = list(EARLY_KS)
     return res
 
 # ---------------- bang ----------------
@@ -320,6 +363,18 @@ def render_markdown(res):
                 (fci(b["per_ttp"][t]["f1"]) + f" (n={b['per_ttp'][t]['n_pos']})") if b["per_ttp"][t]["n_pos"] else "- (n=0)"
                 for t in TTPS) + f" | {fci(b['macro_f1'])} |")
         L.append("")
+    if res.get("early"):
+        L += ["**Phat hien som** - recall cua so duong khi chi giu k event dau tinh tu event malicious dau tien (nguong da khoa, "
+              "khong chon lai); 'du' = cua so day du. T1003.003: so phien phat hien.", "",
+              "| Tap | k | Recall [CI] | Phat hien | T1003.003 phien |", "|---|---|---|---|---|"]
+        for s in ("t_clean", "t_novel"):
+            e = res["early"].get(s, {})
+            for k, v in e.items():
+                L.append(f"| {SPLIT_NAME[s]} | {k} | {fci(v['recall'])} | {v['detected']}/{v['n_pos']} | {v['ntds_sessions']['detected']}/{v['ntds_sessions']['of']} |")
+            full = res["splits"][s]["tuned"]
+            L.append(f"| {SPLIT_NAME[s]} | du | {fci(full['recall'])} | {full['tp']}/{full['tp'] + full['fn']} | "
+                     f"{full['ntds_session_recall']['binary']['detected']}/{full['ntds_session_recall']['binary']['of']} |")
+        L.append("")
     L += ["**T1003.003 - recall muc PHIEN** (bootstrap theo phien; F1 muc cua so voi so mau nay khong co y nghia thong ke)", "",
           "| Tap | Nguong | Nhi phan: phat hien | Recall [bootstrap] | Wilson 95% | Nhan T1003.003: phat hien | Recall [bootstrap] | Wilson 95% |",
           "|---|---|---|---|---|---|---|---|"]
@@ -359,11 +414,17 @@ def selftest(root="."):
         for i in va: gf[asg[meta["train"][i]["run_id"]]["group"]].add(f_)
     assert all(len(v) == 1 for v in gf.values()), "nhom nam o >1 fold"
     hn_sig = hn_signatures(root, {w["run_id"] for w in meta["t_hard"]})
+    starts = early_starts(root, meta)
+    assert all(0 <= i0 < n for st in starts.values() for i0, n in st.values())
+    print("== vi tri event malicious dau tien (cua so duong) ==", {s: (len(st), round(float(np.mean([i0 for i0, _ in st.values()])), 1)) for s, st in starts.items()})
     results = {}
     for kind in ("random", "oracle"):
         pr = _fake_model(kind, meta)
         thr = choose_thresholds(meta["train"], pr["train"])         # gia lap OOF: dung du doan gia tren Train
-        res = evaluate(f"selftest-{kind}", meta, {s: pr[s] for s in TEST_SPLITS}, thr, root=root, hn_sig=hn_sig)
+        rng_e = np.random.default_rng(SEED + 1)
+        early = {s: {k: {wid: (float(rng_e.random()) if kind == "random" else 0.9) for wid in st}
+                     for k in EARLY_KS} for s, st in starts.items()}
+        res = evaluate(f"selftest-{kind}", meta, {s: pr[s] for s in TEST_SPLITS}, thr, root=root, hn_sig=hn_sig, early=early)
         results[kind] = res
         print(render_markdown(res))
     # kiem tra hop ly
@@ -372,6 +433,9 @@ def selftest(root="."):
     assert o["t_novel"]["tuned"]["ntds_session_recall"]["binary"]["detected"] == o["t_novel"]["tuned"]["ntds_session_recall"]["n_sessions"]
     ra = r["t_clean"]["roc_auc"]
     assert ra["lo"] <= 0.5 <= ra["hi"] or abs(ra["point"] - 0.5) < 0.15, ra
+    for s_ in ("t_clean", "t_novel"):   # phat hien som: oracle 1.0 moi k; random quanh 1 - nguong
+        for k in map(str, EARLY_KS):
+            assert results["oracle"]["early"][s_][k]["recall"]["point"] == 1.0
     for sp in TEST_SPLITS:      # moc C: diem ngau nhien khong tuong quan voi do dai
         c = r[sp]["spearman_score_len_neg"]; assert c["lo"] <= 0.0 <= c["hi"], (sp, c)
         assert set(r[sp]["tuned"]["fpr_by_length"]) == {"full64", "short"}

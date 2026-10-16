@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, "..", "eval")); sys.path.insert(0, os.path.join(HERE, "..", "dataset"))
 from common import window_events, is_known_one_sided_bg
 from evaluate import (check_dataset, load_all_meta, evaluate, render_markdown, write_preds, check_predictions,
-                      cv_folds, choose_thresholds, TTPS, SPLITS, TEST_SPLITS)
+                      cv_folds, choose_thresholds, early_starts, TTPS, SPLITS, TEST_SPLITS, EARLY_KS)
 from bootstrap import average_precision, roc_auc, SEED
 from featurize import norm_cmd
 
@@ -42,12 +42,17 @@ def event_tokens(e, use_img=True):
         toks += ["c:" + t for t in TOK_RE.findall(norm_cmd(e["command_line"]))]
     return toks
 
+def make_doc(ev, origin, ablation):
+    keep = [e for e, o in zip(ev, origin) if (ablation != "c" or o == "own") and not (ablation == "cp" and is_known_one_sided_bg(e, o))]
+    return " ".join(" ".join(event_tokens(e, use_img=(ablation != "b"))) for e in keep)
+
 def build_docs(wev, ablation):
-    docs = {}
-    for wid, (ev, origin) in wev.items():
-        keep = [e for e, o in zip(ev, origin) if (ablation != "c" or o == "own") and not (ablation == "cp" and is_known_one_sided_bg(e, o))]
-        docs[wid] = " ".join(" ".join(event_tokens(e, use_img=(ablation != "b"))) for e in keep)
-    return docs
+    return {wid: make_doc(ev, origin, ablation) for wid, (ev, origin) in wev.items()}
+
+def build_early_docs(wev, ablation, starts):
+    """{split: {k: {window_id: doc}}}: cua so duong cat con k event tu event malicious dau tien (cung ablation)."""
+    return {s: {k: {wid: make_doc(wev[wid][0][i0:i0 + k], wev[wid][1][i0:i0 + k], ablation) for wid, (i0, _) in st.items()}
+                for k in EARLY_KS} for s, st in starts.items()}
 
 def make_vec(kind):
     kw = dict(token_pattern=r"\S+", lowercase=False, ngram_range=(1, 2), min_df=2)
@@ -71,7 +76,7 @@ def oof(kind, C, docs, Y, folds):
         for k in Y: P[k][va] = p[k]
     return P
 
-def run(kind, ablation, root, meta, docs, folds):
+def run(kind, ablation, root, meta, docs, folds, edocs=None):
     model = f"b1_{kind}_{ablation}"
     tr = meta["train"]
     d_tr = np.array([docs[w["window_id"]] for w in tr], dtype=object)
@@ -90,8 +95,12 @@ def run(kind, ablation, root, meta, docs, folds):
     for s in TEST_SPLITS:
         p = fit_predict(kind, C, d_tr, Y, d_te_all[s])
         preds[s] = {w["window_id"]: {"p": float(p["bin"][i]), "p_ttp": {t: float(p[t][i]) for t in TTPS}} for i, w in enumerate(meta[s])}
-    res = evaluate(model, meta, {s: preds[s] for s in TEST_SPLITS}, thr, root=root)
-    vec = make_vec(kind); X = vec.fit_transform(d_tr); clf = make_clf(C).fit(X, Y["bin"])
+    vec = make_vec(kind); X = vec.fit_transform(d_tr); clf = make_clf(C).fit(X, Y["bin"])   # mo hinh cuoi (nhi phan)
+    early = None
+    if edocs is not None:
+        early = {s: {k: dict(zip(dk.keys(), clf.predict_proba(vec.transform(list(dk.values())))[:, 1].astype(float)))
+                     for k, dk in byk.items()} for s, byk in edocs.items()}
+    res = evaluate(model, meta, {s: preds[s] for s in TEST_SPLITS}, thr, root=root, early=early)
     names = vec.get_feature_names_out(); coef = clf.coef_[0]; o = np.argsort(coef)
     res.update(variant=kind, ablation=ablation, ablation_desc=ABLATIONS[ablation], C_grid=grid, C=C,
                n_features=int(len(names)), vocab_leak_tokens=[v for v in names if LEAK_RE.search(v)][:20],
@@ -118,10 +127,11 @@ def main():
     meta = load_all_meta(a.root)
     wev = window_events(a.root, [w["window_id"] for s in SPLITS for w in meta[s]])
     folds = cv_folds(meta["train"], root=a.root)
+    starts = early_starts(a.root, meta)
     for ab in a.ablations.split(","):
-        docs = build_docs(wev, ab)
+        docs = build_docs(wev, ab); edocs = build_early_docs(wev, ab, starts)
         for kind in a.variants.split(","):
-            model, res = run(kind, ab, a.root, meta, docs, folds)
+            model, res = run(kind, ab, a.root, meta, docs, folds, edocs)
             print(f"[{model}] C={res['C']} | dac trung {res['n_features']} | token nghi ro ri {res['vocab_leak_tokens']} | "
                   f"kiem tra {res['acceptance']['one_pred_per_window_no_leak']}")
 
