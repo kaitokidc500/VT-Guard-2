@@ -12,6 +12,9 @@ Quy uoc:
   - Bao cao RIENG tung tap: T-clean (P/R/F1/PR-AUC/ROC-AUC + per-TTP F1, macro-F1), T-hard (FPR, FPR theo
     chu ky cong cu va theo co/khong cmd.exe trong cay tien trinh), T-novel (nhu T-clean + recall T1003.003
     muc phien x/6).
+  - Moc C: FPR PHAN TANG THEO DO DAI cua so (du 64 event / ngan < 64) tren cua so am, moi tap, va tuong quan
+    Spearman diem ~ n_events tren cua so am (confounder da biet: ti le cua so du 64 lech theo lop).
+    n_events CHI dung de phan tang bao cao, KHONG bao gio la feature.
   - Metadata cua so (run_id, nhom, chu ky) chi dung de chia fold / nhom bao cao, KHONG bao gio la feature.
 Chay tu kiem: python src/eval/evaluate.py --selftest
 """
@@ -24,7 +27,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "..", "dataset"))
 from bootstrap import (bootstrap_ci, precision, recall, f1, fpr, average_precision, roc_auc,
-                       best_f1_threshold, counts, wilson, N_BOOT, SEED)
+                       best_f1_threshold, counts, wilson, spearman, N_BOOT, SEED)
 
 TTPS = ["T1016", "T1018", "T1087.002", "T1654", "T1003.003"]
 SPLITS = ["train", "t_clean", "t_hard", "t_novel"]
@@ -248,6 +251,19 @@ def evaluate(model, meta, preds, thresholds, root=".", n_boot=N_BOOT, seed=SEED,
                 out["ttp_t05"] = _ttp_block(M, pr, {t: 0.5 for t in TTPS}, n_boot, seed)
             for tag, thr, tt in (("tuned", thresholds["binary"], thresholds.get("ttp")), ("t05", 0.5, {t: 0.5 for t in TTPS} if has_ttp else None)):
                 out[tag]["ntds_session_recall"] = _session_recall(M, pr, thr, tt, n_boot, seed)
+        # moc C: phan tang theo do dai (chi bao cao)
+        nev = np.array([w["n_events"] for w in M]); full = nev >= 64; neg = ~y
+        for tag, thr in (("tuned", thresholds["binary"]), ("t05", 0.5)):
+            yhat = sc >= thr; strata = {}
+            for name, m in (("full64", full), ("short", ~full)):
+                idx = np.where(neg & m)[0]
+                strata[name] = {"n_neg": int(len(idx)), "fp": int(yhat[idx].sum()),
+                                "fpr": _ci(len(idx), lambda i, idx=idx: float(yhat[idx][i].mean()) if len(i) else None, n_boot, seed),
+                                "fpr_wilson": wilson(int(yhat[idx].sum()), int(len(idx)))}
+            out[tag]["fpr_by_length"] = strata
+        ineg = np.where(neg)[0]
+        out["spearman_score_len_neg"] = _ci(len(ineg), lambda i: spearman(sc[ineg][i], nev[ineg][i]), n_boot, seed)
+        out["n_neg_full64"] = int((neg & full).sum()); out["n_neg_short"] = int((neg & ~full).sum())
         res["splits"][s] = out
     return res
 
@@ -278,6 +294,17 @@ def render_markdown(res):
                 L.append(f"| {SPLIT_NAME[s]} | {o['n']} ({o['n_pos']}) | {fci(b['precision'])} | {fci(b['recall'])} | {fci(b['f1'])} | "
                          f"{fci(b['fpr'])} | {fci(o.get('pr_auc'))} | {fci(o.get('roc_auc'))} |")
         L.append("")
+    L += ["**FPR phan tang theo do dai cua so** (chi cua so am; n_events chi dung de phan tang bao cao, khong la feature) "
+          "va Spearman diem ~ n_events tren cua so am (confounder da biet, khong phai bang chung mo hinh hoc do dai)", "",
+          "| Tap | Nguong | Du 64: FP/n | FPR du 64 [CI] | Ngan: FP/n | FPR ngan [CI] | Spearman(diem, n_events | am) [CI] |",
+          "|---|---|---|---|---|---|---|"]
+    for s in TEST_SPLITS:
+        o = res["splits"][s]
+        for tag, name in (("tuned", "khoa"), ("t05", "0.5")):
+            st = o[tag]["fpr_by_length"]
+            L.append(f"| {SPLIT_NAME[s]} | {name} | {st['full64']['fp']}/{st['full64']['n_neg']} | {fci(st['full64']['fpr'])} | "
+                     f"{st['short']['fp']}/{st['short']['n_neg']} | {fci(st['short']['fpr'])} | {fci(o['spearman_score_len_neg']) if tag == 'tuned' else ''} |")
+    L.append("")
     h = res["splits"]["t_hard"]["tuned"]
     L += ["**T-hard - FPR theo chu ky cong cu (nguong da khoa)**", "", "| Chu ky | n | FP | FPR [bootstrap] | Wilson 95% |", "|---|---|---|---|---|"]
     for g, v in h["fpr_by_signature"].items(): L.append(f"| `{g}` | {v['n']} | {v['fp']} | {fci(v['fpr'])} | {fw(v['fpr_wilson'])} |")
@@ -344,7 +371,11 @@ def selftest(root="."):
     assert o["t_novel"]["tuned"]["ntds_session_recall"]["binary"]["detected"] == o["t_novel"]["tuned"]["ntds_session_recall"]["n_sessions"]
     ra = r["t_clean"]["roc_auc"]
     assert ra["lo"] <= 0.5 <= ra["hi"] or abs(ra["point"] - 0.5) < 0.15, ra
-    print("SELFTEST: DAT (oracle F1=1, FPR=0, recall phien = 1; random ROC-AUC quanh 0.5:", ra, ")")
+    for sp in TEST_SPLITS:      # moc C: diem ngau nhien khong tuong quan voi do dai
+        c = r[sp]["spearman_score_len_neg"]; assert c["lo"] <= 0.0 <= c["hi"], (sp, c)
+        assert set(r[sp]["tuned"]["fpr_by_length"]) == {"full64", "short"}
+    print("SELFTEST: DAT (oracle F1=1, FPR=0, recall phien = 1; random ROC-AUC quanh 0.5:", ra,
+          "; random Spearman diem~do dai chua 0 o ca 3 tap)")
     return results
 
 def main():

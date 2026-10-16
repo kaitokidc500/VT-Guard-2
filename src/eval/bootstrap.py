@@ -102,3 +102,22 @@ def wilson(k, n, z=1.959964):
     c = (p + z * z / (2 * n)) / d
     h = z * np.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
     return {"k": int(k), "n": int(n), "lo": round(float(max(0.0, c - h)), 4), "hi": round(float(min(1.0, c + h)), 4)}
+
+def rankdata(x):
+    """Hang trung binh khi hoa (1..n)."""
+    x = np.asarray(x, float); order = np.argsort(x, kind="mergesort")
+    r = np.empty(len(x), float); xs = x[order]; i = 0
+    while i < len(x):
+        j = i
+        while j + 1 < len(x) and xs[j + 1] == xs[i]: j += 1
+        r[order[i:j + 1]] = (i + j) / 2.0 + 1.0
+        i = j + 1
+    return r
+
+def spearman(x, y):
+    """Tuong quan hang Spearman; None neu < 3 diem hoac mot bien hang so."""
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    if len(x) < 3: return None
+    rx, ry = rankdata(x), rankdata(y)
+    if rx.std() == 0 or ry.std() == 0: return None
+    return float(np.corrcoef(rx, ry)[0, 1])
