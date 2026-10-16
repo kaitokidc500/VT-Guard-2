@@ -17,7 +17,7 @@ def short(c, d=3):
     if c.get("lo") is None: return f"{c['point']:.{d}f}"
     return f"{c['point']:.{d}f} [{c['lo']:.{d}f}, {c['hi']:.{d}f}]"
 
-def tables(root, models, weights=()):
+def tables(root, models, weights=(), thard_only=()):
     R = {m: json.load(open(os.path.join(root, "reports", "step5", f"{m}.json"), encoding="utf-8")) for m in models}
     dsv = {r.get("dataset_version", "?") for r in R.values()}
     L = [f"Dataset: {', '.join(sorted(dsv))}. Moi chi so o nguong khoa tren Train OOF (B0: L chon tren Train); CI bootstrap 95%, 1000 lan, seed 1337.", ""]
@@ -25,19 +25,22 @@ def tables(root, models, weights=()):
           "| Mo hinh | T-clean F1 | T-clean PR-AUC | T-novel F1 | T-novel PR-AUC | macro-F1 TTP clean / novel | T1003.003 phien T-novel: nhi phan / nhan TTP |",
           "|---|---|---|---|---|---|---|"]
     for m, r in R.items():
+        if m in thard_only: continue
         S = r["splits"]; sr = S["t_novel"]["tuned"]["ntds_session_recall"]
         mc = S["t_clean"].get("ttp_tuned", {}).get("macro_f1"); mn = S["t_novel"].get("ttp_tuned", {}).get("macro_f1")
         ttp = sr.get("ttp_label")
         L.append(f"| {m} | {short(S['t_clean']['tuned']['f1'])} | {short(S['t_clean']['pr_auc'])} | {short(S['t_novel']['tuned']['f1'])} | "
                  f"{short(S['t_novel']['pr_auc'])} | {short(mc, 2) if mc else '-'} / {short(mn, 2) if mn else '-'} | "
                  f"{sr['binary']['detected']}/{sr['binary']['of']} / " + (f"{ttp['detected']}/{ttp['of']}" if ttp else "-") + " |")
-    L += ["", "**(2) T-hard (87 cua so, 0 duong)**", "",
-          "| Mo hinh | FPR tong (FP/87) | Co cmd.exe: FP/n | Khong cmd.exe: FP/n | Du 64: FP/n | Ngan: FP/n | Spearman(diem, n_events) cua so am T-hard |",
+    nh = sorted({r["splits"]["t_hard"]["n"] for r in R.values()})
+    L += ["", f"**(2) T-hard ({'/'.join(map(str, nh))} cua so, 0 duong)**", "",
+          "| Mo hinh | FPR tong (FP/n) | Co cmd.exe: FP/n | Khong cmd.exe: FP/n | Du 64: FP/n | Ngan: FP/n | Spearman(diem, n_events) cua so am T-hard |",
           "|---|---|---|---|---|---|---|"]
     for m, r in R.items():
         h = r["splits"]["t_hard"]; t = h["tuned"]; cm = t["fpr_by_cmd"]; lb = t["fpr_by_length"]
+        if m in thard_only: m = m + " (chi T-hard, so voi (a))"
         g = lambda d, k: f"{d.get(k, {}).get('fp', '-')}/{d.get(k, {}).get('n', '-')}"
-        L.append(f"| {m} | {short(t['fpr'])} ({t['fp']}) | {g(cm, 'co cmd.exe')} | {g(cm, 'khong cmd.exe')} | "
+        L.append(f"| {m} | {short(t['fpr'])} ({t['fp']}/{h['n']}) | {g(cm, 'co cmd.exe')} | {g(cm, 'khong cmd.exe')} | "
                  f"{lb['full64']['fp']}/{lb['full64']['n_neg']} | {lb['short']['fp']}/{lb['short']['n_neg']} | {short(h.get('spearman_score_len_neg'), 2)} |")
     sigs = []
     for r in R.values():
@@ -53,6 +56,7 @@ def tables(root, models, weights=()):
     L += ["", "**(4) Phan tang do dai tren T-clean / T-novel (cua so am, nguong khoa)**", "",
           "| Mo hinh | T-clean du64 | T-clean ngan | Spearman T-clean | T-novel du64 | T-novel ngan | Spearman T-novel |", "|---|---|---|---|---|---|---|"]
     for m, r in R.items():
+        if m in thard_only: continue
         c = r["splits"]["t_clean"]; n = r["splits"]["t_novel"]
         f_ = lambda o, k: f"{o['tuned']['fpr_by_length'][k]['fp']}/{o['tuned']['fpr_by_length'][k]['n_neg']}"
         L.append(f"| {m} | {f_(c, 'full64')} | {f_(c, 'short')} | {short(c.get('spearman_score_len_neg'), 2)} | "
@@ -71,9 +75,10 @@ def main():
     ap.add_argument("--root", default=".")
     ap.add_argument("--models", required=True)
     ap.add_argument("--weights", default="")
+    ap.add_argument("--thard-only", default="", help="mo hinh chi bao T-hard (vd ablation (c) ro nhan theo cau truc)")
     ap.add_argument("--out")
     a = ap.parse_args()
-    md = tables(a.root, a.models.split(","), [w for w in a.weights.split(",") if w])
+    md = tables(a.root, a.models.split(","), [w for w in a.weights.split(",") if w], [m for m in a.thard_only.split(",") if m])
     print(md)
     if a.out:
         with open(a.out, "w", encoding="utf-8", newline="\n") as f: f.write(md)

@@ -72,3 +72,13 @@ def window_events(root, window_ids):
 
 # ---- chuan hoa dong lenh: tu dataset-v1.1 nam trong featurize (norm_cmd da goi canon_cmd) ----
 from featurize import canon_cmd  # noqa: E402,F401
+
+# ---- ablation (c'): event nen MOT PHIA da biet (dataset card #11) - che khi danh gia, khong xoa du lieu ----
+NTDS_SIDE_EFFECT_EIDS = {98, 102, 103, 105, 216, 300, 301, 302, 325, 326, 327, 330, 2001, 2002, 2003, 2004, 2005, 2006}
+
+def is_known_one_sided_bg(e, origin):
+    """Event NEN (khong thuoc cay phien) da biet chi xuat hien o phia attack: ESENT/Directory Service cua ntdsutil ifm,
+    va svchost -> rundll32 shell32.dll,SHCreateLocalServerRunDll (COM local server)."""
+    if origin != "bg": return False
+    if e.get("event_id") in NTDS_SIDE_EFFECT_EIDS: return True
+    return (e.get("image_name") == "rundll32.exe" and "shcreatelocalserverrundll" in (e.get("command_line") or "").lower())

@@ -8,7 +8,9 @@ Khong dung text tho, khong dung parent_image_name.
 - Bien the: tfidf (TfidfVectorizer word 1-2 gram, min_df=2, IDF + L2) va raw (CountVectorizer, dem tho, khong IDF,
   khong chuan hoa).
 - Ablation: (a) du; (b) bo image_name + parent_image_name (B1 khong dung parent, nen la bo token img=; token dong
-  lenh van giu - la hanh vi); (c) chi event trong cay tien trinh (event_origin == "own"; event nen bi che).
+  lenh van giu - la hanh vi); (c) chi event trong cay tien trinh (event_origin == "own"; event nen bi che) - mat na lay tu
+  cay tien trinh = chinh co che gan nhan -> ro nhan theo cau truc, CHI dung de so T-hard voi (a);
+  (cp = c') che event nen mot-phia da biet (common.is_known_one_sided_bg), bao du 3 tap.
 - LogisticRegression(class_weight="balanced", liblinear); da nhan: mot bo phan loai moi TTP (one-vs-rest).
 - C chon tren Train bang CV 5 fold theo nhom (evaluate.cv_folds), toi da PR-AUC OOF; vectorizer fit LAI trong tung
   fold. Nguong chon tren OOF (evaluate.choose_thresholds), KHOA; mo hinh cuoi fit tren toan Train, cham test MOT lan.
@@ -22,7 +24,7 @@ from sklearn.linear_model import LogisticRegression
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, "..", "eval")); sys.path.insert(0, os.path.join(HERE, "..", "dataset"))
-from common import window_events
+from common import window_events, is_known_one_sided_bg
 from evaluate import (check_dataset, load_all_meta, evaluate, render_markdown, write_preds, check_predictions,
                       cv_folds, choose_thresholds, TTPS, SPLITS, TEST_SPLITS)
 from bootstrap import average_precision, roc_auc, SEED
@@ -31,7 +33,8 @@ from featurize import norm_cmd
 TOK_RE = re.compile(r"[a-z0-9_.<>/\\-]+")
 LEAK_RE = re.compile(r"atomic|invoke-|\bt10\d\d|\bt1\d{3}\b|vt-?guard", re.I)
 C_GRID = [0.01, 0.1, 1.0, 10.0, 100.0]
-ABLATIONS = {"a": "du", "b": "bo image_name + parent_image_name", "c": "chi event cay tien trinh"}
+ABLATIONS = {"a": "du", "b": "bo image_name + parent_image_name", "c": "chi event cay tien trinh (ro nhan theo cau truc - chi bao T-hard)",
+             "cp": "che event nen mot-phia da biet (ESENT/Directory Service, svchost->rundll32 COM)"}
 
 def event_tokens(e, use_img=True):
     toks = ([f"img={e['image_name'] or 'none'}"] if use_img else []) + [f"eid={e['event_id']}"]
@@ -42,7 +45,7 @@ def event_tokens(e, use_img=True):
 def build_docs(wev, ablation):
     docs = {}
     for wid, (ev, origin) in wev.items():
-        keep = [e for e, o in zip(ev, origin) if ablation != "c" or o == "own"]
+        keep = [e for e, o in zip(ev, origin) if (ablation != "c" or o == "own") and not (ablation == "cp" and is_known_one_sided_bg(e, o))]
         docs[wid] = " ".join(" ".join(event_tokens(e, use_img=(ablation != "b"))) for e in keep)
     return docs
 
@@ -108,7 +111,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--variants", default="tfidf,raw")
-    ap.add_argument("--ablations", default="a,b,c")
+    ap.add_argument("--ablations", default="a,b,c,cp")
     a = ap.parse_args()
     print("checksum dataset (so voi reports/dataset_stats.json):", check_dataset(a.root))
     os.makedirs(os.path.join(a.root, "reports", "step5"), exist_ok=True)
