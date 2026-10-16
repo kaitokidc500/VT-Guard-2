@@ -32,7 +32,7 @@ def mitre_to_ttp(m, t):
     return m == t or m.startswith(t + ".") or t.startswith(m + ".")
 
 def main(root="."):
-    print("checksum dataset-v1.0:", check_dataset(root))
+    print("checksum dataset (so voi reports/dataset_stats.json):", check_dataset(root))
     meta = load_all_meta(root)
     ev = full_window_events(root, [w["window_id"] for s in SPLITS for w in meta[s]])
     feat, mitre_seen = {}, Counter()

@@ -217,7 +217,8 @@ def evaluate(model, meta, preds, thresholds, root=".", n_boot=N_BOOT, seed=SEED,
                             {s: preds[s] for s in TEST_SPLITS})
     if not chk["ok"]: sys.exit(f"LOI du doan: {chk}")
     if hn_sig is None: hn_sig = hn_signatures(root, {w["run_id"] for w in meta["t_hard"]})
-    res = {"model": model, "thresholds": thresholds, "n_boot": n_boot, "seed": seed, "checks": chk, "splits": {}}
+    dsv = json.load(open(P(root, "reports", "dataset_stats.json"), encoding="utf-8")).get("dataset_version", "v1.0")
+    res = {"model": model, "dataset_version": dsv, "thresholds": thresholds, "n_boot": n_boot, "seed": seed, "checks": chk, "splits": {}}
     has_ttp = bool(thresholds.get("ttp"))
     for s in TEST_SPLITS:
         M, pr = meta[s], preds[s]
@@ -278,7 +279,7 @@ def fw(w):
     return "-" if w is None or w.get("lo") is None else f"[{w['lo']:.3f}, {w['hi']:.3f}]"
 
 def render_markdown(res):
-    L = [f"### {res['model']}", "",
+    L = [f"### {res['model']} (dataset-{res.get('dataset_version', '?')})", "",
          f"Nguong nhi phan chon tren Train OOF: **{res['thresholds']['binary']:.4f}** "
          f"(F1 OOF {res['thresholds']['binary_train_oof_f1'] if res['thresholds']['binary_train_oof_f1'] is None else round(res['thresholds']['binary_train_oof_f1'], 3)}). "
          f"CI bootstrap 95%, {res['n_boot']} lan, seed {res['seed']}.", ""]
@@ -346,7 +347,7 @@ def _fake_model(kind, meta, seed=SEED):
     return out
 
 def selftest(root="."):
-    print("== kiem tra checksum dataset-v1.0 ==", check_dataset(root))
+    print("== kiem tra checksum dataset (reports/dataset_stats.json) ==", check_dataset(root))
     meta = load_all_meta(root)
     folds = cv_folds(meta["train"], root=root)
     print("== fold Train (theo nhom chong thoi gian) ==",

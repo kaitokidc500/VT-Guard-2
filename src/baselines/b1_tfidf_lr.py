@@ -130,7 +130,7 @@ def run(kind, model, root, meta, docs, folds):
     return res, md
 
 def main(root="."):
-    print("checksum dataset-v1.0:", check_dataset(root))
+    print("checksum dataset (so voi reports/dataset_stats.json):", check_dataset(root))
     meta = load_all_meta(root)
     wev = window_events(root, [w["window_id"] for s in SPLITS for w in meta[s]])
     docs = {wid: " ".join(" ".join(event_tokens(e)) for e in ev) for wid, (ev, _) in wev.items()}
