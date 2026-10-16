@@ -52,7 +52,8 @@ VT-Guard/  (= vt-guard-research/)
 | 2 | Bộ điều phối sinh phiên, thu thập 479 phiên (10 đợt) | `orchestrator/`, `manifests/` | Hoàn thành |
 | 3 | Chuẩn hoá & gán nhãn (normalize v1, labeler v8) | `src/normalize/`, `src/label/` | Hoàn thành |
 | 4 | Đóng băng dataset (tag `dataset-v1.2`, thay v1.1/v1.0 — bản sửa dataset CUỐI): gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
-| 5–6 | Khung đánh giá (`src/eval/`), baseline B0–B3 (`src/baselines/`); VT-Seq + ablation | `src/eval/`, `src/baselines/`, `src/models/`, `notebooks/` | Đang làm |
+| 5 | Khung đánh giá (`src/eval/`), baseline B0–B3 (`src/baselines/`) + ablation; tổng hợp `reports/step5_report.md` (tag `step5-done`) | `src/eval/`, `src/baselines/`, `reports/` | Hoàn thành |
+| 6 | VT-Seq (GRU-Attention đa nhiệm) + ablation | `src/models/`, `notebooks/` | Chưa bắt đầu |
 | 7 | Luật | `src/rules/` | Chưa bắt đầu |
 | 8 | Fusion | `src/fusion/` | Chưa bắt đầu |
 | — | Bằng chứng hạ tầng | `evidence/` | Chưa bắt đầu |
@@ -177,12 +178,26 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   theo bằng chứng (mất telemetry / cmdlet trong orchestrator / không xác định sau snapshot).
 - Lỗi trùng PID của quy tắc loại orchestrator (không giới hạn thời gian): 7 tiến trình / 23 event (gồm ntdsutil malicious) — ghi hạn chế.
 
+### Bước 5 hoàn tất (B0–B3) — 2026-10-17
+- Vá rò rỉ: `tempo`/`variant`/`user_role` (cấu hình orchestrator; `variant != mixed` chỉ ở attack → rò nhãn) thêm vào trường cấm:
+  `featurize.FORBIDDEN`, `evaluate.check_model_sources` (quét tĩnh `src/baselines` + `src/models`, `evaluate()` dừng nếu vi phạm),
+  `common.window_events` assert, card #2 + mục 7. B0/B1 không dùng → không chạy lại; dữ liệu/checksum dataset-v1.2 không đổi.
+- B2 (`b2_lgbm.py`, LightGBM 4.7.0): đặc trưng tỉ lệ theo số event (không `n_events`), CV nhóm chọn siêu tham số, ngưỡng khoá Train OOF,
+  top-15 gain. (a) macro-F1 TTP 0.88/0.80, T-hard FPR 1/88; (b) sụp (T-novel F1 0.48, FPR 14/88) → phụ thuộc tên tiến trình.
+- B3 (`b3_gru.py`, torch 2.14.1 CPU): GRU 1 lớp hidden 96, không attention, đơn nhiệm; B3-bin + B3-ttp huấn luyện RIÊNG;
+  padding mask (pack_padded_sequence) + random length crop (nhãn tính lại trên đoạn cắt từ `label_malicious`/`label_ttps` từng event,
+  chỉ trên Train); early stopping theo CV nhóm, 3 seed (1337/7/42) báo trung bình ± độ lệch chuẩn. Mã hoá đối chiếu khớp file split.
+  Trần 60 epoch: 3/120 fold CV chạm trần, nhưng model cuối mỗi lượt dừng ở epoch 18–49 (dưới trần) → ảnh hưởng nhỏ.
+- Kết quả chính: học máy giảm FPR T-hard từ 17/88 (B0) xuống 0–5/88; **B1 và B3 KHÔNG sụp ở ablation (b)**, B2 thì sụp → ở B1/B3
+  bỏ `image_name` tổng quát hoá tốt hơn (ứng cử cấu hình chính Bước 6); (c') ≈ (a) ở mọi mô hình; T1654 là TTP khó nhất; T1003.003
+  test nhỏ (6 phiên T-novel) báo theo phiên. Confounder độ dài: Spearman điểm~độ dài dương ở B1 TF-IDF (~0.73) và B3 (~0.61).
+- `src/baselines/summary.py` gộp nhiều seed (trung bình ± độ lệch chuẩn); `src/baselines/step5_report.py` sinh report + results.json.
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
 - [x] Bước 5 mốc C: FPR phân tầng theo độ dài + Spearman điểm–độ dài trong evaluate.py.
-- [ ] Bước 5 mốc D: chạy B0, B1, B2, B3 trên dataset-v1.2 + ablation (a) đủ, (b) bỏ image_name+parent, (c) chỉ cây tiến trình
-      (CHỈ báo T-hard, rò nhãn theo cấu trúc), (c') che event nền một-phía đã biết;
-      tổng hợp `reports/step5_report.md`, `step5_results.json`, `reports/preds/`. Cần cài lightgbm, torch (CPU) — đã được phép.
+- [x] Bước 5 mốc D: B0, B1 (TF-IDF/raw), B2 (LightGBM), B3 (GRU, 3 seed) trên dataset-v1.2 + ablation (a)(b)(c chỉ T-hard)(c');
+      tổng hợp `reports/step5_report.md` + `reports/step5_results.json`; preds ở `reports/preds/` (giữ cho Bước 8). Tag `step5-done`.
 - [ ] Bước 6: VT-Seq (GRU-Attention đa nhiệm) + ablation; nạp dữ liệu CHỈ từ `cat`/`cmd`/`num`; cắt ngẫu nhiên độ dài
       cửa sổ khi huấn luyện; ablation bỏ `image_name` (đường tắt ping/wevtutil/ntdsutil).
 - [ ] #9 đạt sát ngưỡng (cmd.exe 15.1%) — nếu thu thêm dữ liệu: phiên benign gọi tool qua `cmd.exe /c`
