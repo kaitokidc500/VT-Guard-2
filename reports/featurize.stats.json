@@ -1,5 +1,5 @@
 {
-  "featurizer_version": "f1",
+  "featurizer_version": "f3",
   "event_vector": {
     "categorical_ids": 7,
     "cmd_hash_dim": 256,
@@ -9,29 +9,29 @@
   "window_tensor": "[64, 268] (+ mask; cua so ngan duoc pad o buoc model)",
   "vocab_size_incl_special": {
     "channel": 8,
-    "event_id": 45,
-    "image_name": 60,
-    "parent_image_name": 17,
+    "event_id": 44,
+    "image_name": 59,
+    "parent_image_name": 14,
     "host_role": 5,
     "integrity_level": 8,
     "logon_type": 8
   },
   "vocab_fit": "run_id trong train_runs.txt",
-  "fit_windows": 479,
+  "fit_windows": 471,
   "min_sessions": 2,
-  "windows": 809,
-  "events": 39563,
-  "cmd_events_nonzero": 8359,
-  "cmd_unique_strings": 583,
+  "windows": 793,
+  "events": 38114,
+  "cmd_events_nonzero": 7415,
+  "cmd_unique_strings": 590,
   "cmd_nnz_per_event": {
-    "median": 82,
-    "max": 236
+    "median": 46,
+    "max": 234
   },
   "unk_rate": {
     "fit": {
       "channel": 0.0,
       "event_id": 0.0002,
-      "image_name": 0.0004,
+      "image_name": 0.0003,
       "parent_image_name": 0.0002,
       "host_role": 0.0,
       "integrity_level": 0.0,
@@ -40,8 +40,8 @@
     "t_novel": {
       "channel": 0.0,
       "event_id": 0.0003,
-      "image_name": 0.0187,
-      "parent_image_name": 0.0222,
+      "image_name": 0.0312,
+      "parent_image_name": 0.0219,
       "host_role": 0.0,
       "integrity_level": 0.0,
       "logon_type": 0.0

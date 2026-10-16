@@ -14,7 +14,7 @@ from collections import defaultdict
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "dataset"))
 sys.path.insert(0, os.path.join(HERE, "..", "eval"))
-from windows import load_manifests, ts   # noqa: E402
+from windows import load_manifests, ts, is_scaffold_event   # noqa: E402
 
 W = 64
 
@@ -29,7 +29,9 @@ def full_window_events(root, window_ids):
     own, bg = defaultdict(list), defaultdict(list)
     with open(os.path.join(root, "data", "processed", "all.events.jsonl"), encoding="utf-8") as fh:
         for line in fh:
-            r = json.loads(line); r["_t"] = ts(r["ts_system"])
+            r = json.loads(line)
+            if is_scaffold_event(r): continue          # dataset-v1.1: conhost loai khi dung stream
+            r["_t"] = ts(r["ts_system"])
             (own[r["run_id"]] if r["run_id"] else bg[r["host"]]).append(r)
     key = lambda r: (r["_t"], r["channel"] or "", r["record_id"] or -1)
     for h in bg: bg[h].sort(key=key)
@@ -55,3 +57,18 @@ def full_window_events(root, window_ids):
     missing = [wid for wid in window_ids if wid not in out]
     if bad or missing: sys.exit(f"LOI: dung lai cua so lech windows.jsonl ({bad} lech, {len(missing)} thieu). DUNG.")
     return out
+
+def window_events(root, window_ids):
+    """window_id -> (events_slim, event_origin) doc tu windows.jsonl (cac truong nguon duoc phep cua Buoc 4).
+    event_origin ("own"/"bg") CHI dung de che event nen trong ablation (c), khong phai feature."""
+    want = set(window_ids); out = {}
+    with open(os.path.join(root, "data", "processed", "windows.jsonl"), encoding="utf-8") as fh:
+        for line in fh:
+            w = json.loads(line)
+            if w["window_id"] in want: out[w["window_id"]] = (w["events"], w["event_origin"])
+    missing = want - set(out)
+    if missing: sys.exit(f"LOI: thieu {len(missing)} cua so trong windows.jsonl")
+    return out
+
+# ---- chuan hoa dong lenh: tu dataset-v1.1 nam trong featurize (norm_cmd da goi canon_cmd) ----
+from featurize import canon_cmd  # noqa: E402,F401

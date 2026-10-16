@@ -3,6 +3,8 @@
 Doc data/processed/windows.jsonl (4.2), bien moi event thanh vector, ghi
 data/processed/features.jsonl + data/processed/vocab.json + reports/featurize.stats.json.
 
+dataset-v1.1 (featurizer f3): dong lenh qua canon_cmd truoc (trung hoa scaffold: duong dan file thuc thi,
+chuyen huong, duoi .exe); parent_image_name powershell.exe/cmd.exe -> <launcher> (gop o windows.jsonl).
 Vector moi event (268 cot tho):
   - 7 categorical -> chi so embedding (vocab.json): channel, event_id, image_name,
     parent_image_name, host_role, integrity_level, logon_type.
@@ -20,12 +22,12 @@ Vocab duoc FIT tren mot tap con: mac dinh moi cua so tru cac dot T-novel (chac c
 vocab). O 4.4, split.py fit lai tren Train (--fit-runs) de vocab chi thay du lieu huan luyen.
 Chay: python src/dataset/featurize.py [--root .] [--fit-runs runs.txt] [--min-sessions 2]
 """
-import argparse, hashlib, json, math, os, re, sys
+import argparse, hashlib, html, json, math, os, re, sys
 from collections import Counter, defaultdict
 from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from windows import NOVEL_BATCHES
+from windows import NOVEL_BATCHES, neutral_parent
 
 CAT_FIELDS = ["channel", "event_id", "image_name", "parent_image_name", "host_role",
               "integrity_level", "logon_type"]
@@ -35,7 +37,7 @@ FORBIDDEN = re.compile(r"^(wazuh_rule_|label_)|^(run_id|event_uid|process_guid|p
                        r"script_block_text|ps_payload|image|parent_image|n_events|revert_control|snapshot_before|event_origin)$")
 CMD_DIM, NGRAM = 256, (3, 5)
 PAD, UNK, NONE = "<pad>", "<unk>", "<none>"
-FEATURIZER_VERSION = "f1"
+FEATURIZER_VERSION = "f3"
 
 # Security 4688 ghi mandatory label dang SID, Sysmon ghi chu -> gop ve mot ten
 IL_SID = {"S-1-16-0": "Untrusted", "S-1-16-4096": "Low", "S-1-16-8192": "Medium",
@@ -48,9 +50,37 @@ WS_RE = re.compile(r"\s+")
 def token(field, v):
     if v is None or v == "": return NONE
     if field == "integrity_level": return IL_SID.get(v, v)
+    if field == "parent_image_name": v = neutral_parent(v)     # da gop o windows.jsonl; giu de phong
     return str(v).lower() if field in ("image_name", "parent_image_name") else str(v)
 
+# ---- chuan hoa dong lenh trung hoa scaffold (dataset-v1.1, f2 + f3 bo duoi .exe), ap DONG NHAT moi event ----
+_LEAD_QUOTED = re.compile(r'^\s*"([^"]*[\\/])?([^"\\/]+)"')
+_LEAD_PLAIN = re.compile(r'^\s*(\S*[\\/])(\S+)')
+_REDIR_FD = re.compile(r'\s*\d?>>?\s*&\s*\d')                       # 2>&1, 1>&2
+_REDIR_FILE = re.compile(r'\s*\d?>>?\s*("[^"]*"|[^\s&|]+)')         # >nul, 2>file, >>file
+_OPS = re.compile(r'\s*(\|\||&&|\||&)\s*')
+_EXE_SUFFIX = re.compile(r'(?i)(?<=[^\s"\\/])\.exe(?=$|[\s"])')        # f3: arp.exe -> arp (moi token file thuc thi)
+
+def canon_cmd(s):
+    """Bo duong dan file thuc thi dau dong lenh (-> basename), bo toan tu chuyen huong kem dich
+    (>nul, 2>&1, 1>, 2>, >>), thay & && | || bang khoang trang. Giu nguyen tham so/hanh vi (for /l, dich...)."""
+    if not s: return s
+    s = s.replace('\\"', '"').replace("\\\\", "\\")
+    s = html.unescape(s)
+    m = _LEAD_QUOTED.match(s)
+    if m: s = m.group(2) + s[m.end():]
+    else:
+        m = _LEAD_PLAIN.match(s)
+        if m: s = m.group(2) + s[m.end():]
+    s = _REDIR_FD.sub(" ", s)
+    s = _REDIR_FILE.sub(" ", s)
+    s = _OPS.sub(" ", s)
+    # f3: bo duoi .exe cua MOI token file thuc thi trong dong lenh (PowerShell goi tool truc tiep -> "arp.exe -a",
+    # ART go "arp -a"). Khong dung image_name, khong dung token khac (.dll, duong dan thu muc...).
+    return _EXE_SUFFIX.sub("", s)
+
 def norm_cmd(s):
+    s = canon_cmd(s)
     s = s.lower().replace('\\"', " ").replace('"', " ").replace("'", " ")
     s = s.replace("\\\\", "\\")
     s = GUID_RE.sub("<guid>", s); s = HEX_RE.sub("<hex>", s); s = NUM_RE.sub("0", s)
@@ -135,7 +165,8 @@ def main():
                       "min_sessions": a.min_sessions, "fit": fit_desc, "fit_sessions": len(fit_runs & {w["run_id"] for w in windows}),
                       "fit_windows": len(fit),
                       "cmd": {"dim": CMD_DIM, "ngram": list(NGRAM), "hash": "md5: idx=uint32le(d[0:4]) % dim, sign=d[4]&1",
-                              "value": "signed count -> sign*log1p(|x|) -> L2", "normalize": "lower; bo dau nhay; \\\\->\\; GUID-><guid>; 0x..-><hex>; so->0; gop khoang trang; cat 1024"},
+                              "value": "signed count -> sign*log1p(|x|) -> L2", "normalize": "f3: canon_cmd (basename file thuc thi dau dong lenh; bo chuyen huong >nul 2>&1 1> 2> >>; & && | || -> khoang trang; bo duoi .exe moi token file thuc thi); lower; bo dau nhay; \\\\->\\; GUID-><guid>; 0x..-><hex>; so->0; gop khoang trang; cat 1024"},
+                      "parent_launcher_merge": "powershell.exe|cmd.exe -> <launcher> (windows.jsonl)",
                       "integrity_level_map": IL_SID}
     with open(P("data", "processed", "vocab.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(vocab, f, ensure_ascii=False, indent=1)

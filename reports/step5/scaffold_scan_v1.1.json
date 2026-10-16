@@ -1,0 +1,4622 @@
+{
+ "meta": {
+  "n_attack_windows": 265,
+  "n_hn_windows": 219,
+  "n_attack_sessions": 149,
+  "n_hn_sessions": 157,
+  "canon": false,
+  "min_sep": 0.5
+ },
+ "rows": [
+  {
+   "feature": "channel=Microsoft-Windows-Sysmon/Operational",
+   "auc_attack_gt_hn": 0.2221,
+   "separation": 0.7779,
+   "side": "hard_negative",
+   "pct_windows_attack": 1.0,
+   "pct_windows_hn": 1.0,
+   "sessions_attack": 149,
+   "sessions_hn": 157
+  },
+  {
+   "feature": "pair=<launcher>->cmd.exe",
+   "auc_attack_gt_hn": 0.7623,
+   "separation": 0.7623,
+   "side": "attack",
+   "pct_windows_attack": 0.657,
+   "pct_windows_hn": 0.087,
+   "sessions_attack": 110,
+   "sessions_hn": 15
+  },
+  {
+   "feature": "image=cmd.exe",
+   "auc_attack_gt_hn": 0.7425,
+   "separation": 0.7425,
+   "side": "attack",
+   "pct_windows_attack": 0.819,
+   "pct_windows_hn": 0.201,
+   "sessions_attack": 131,
+   "sessions_hn": 34
+  },
+  {
+   "feature": "cmdtok=c",
+   "auc_attack_gt_hn": 0.7178,
+   "separation": 0.7178,
+   "side": "attack",
+   "pct_windows_attack": 0.487,
+   "pct_windows_hn": 0.041,
+   "sessions_attack": 77,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "pair=None->cmd.exe",
+   "auc_attack_gt_hn": 0.7112,
+   "separation": 0.7112,
+   "side": "attack",
+   "pct_windows_attack": 0.758,
+   "pct_windows_hn": 0.201,
+   "sessions_attack": 130,
+   "sessions_hn": 34
+  },
+  {
+   "feature": "cmdtok=cmd",
+   "auc_attack_gt_hn": 0.7103,
+   "separation": 0.7103,
+   "side": "attack",
+   "pct_windows_attack": 0.732,
+   "pct_windows_hn": 0.201,
+   "sessions_attack": 130,
+   "sessions_hn": 34
+  },
+  {
+   "feature": "image=netstat.exe",
+   "auc_attack_gt_hn": 0.29,
+   "separation": 0.71,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.42,
+   "sessions_attack": 0,
+   "sessions_hn": 87
+  },
+  {
+   "feature": "pair=<launcher>->netstat.exe",
+   "auc_attack_gt_hn": 0.29,
+   "separation": 0.71,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.42,
+   "sessions_attack": 0,
+   "sessions_hn": 87
+  },
+  {
+   "feature": "cmdtok=netstat",
+   "auc_attack_gt_hn": 0.29,
+   "separation": 0.71,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.42,
+   "sessions_attack": 0,
+   "sessions_hn": 87
+  },
+  {
+   "feature": "cmdtok=-ano",
+   "auc_attack_gt_hn": 0.29,
+   "separation": 0.71,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.42,
+   "sessions_attack": 0,
+   "sessions_hn": 87
+  },
+  {
+   "feature": "image=route.exe",
+   "auc_attack_gt_hn": 0.2922,
+   "separation": 0.7078,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.416,
+   "sessions_attack": 0,
+   "sessions_hn": 87
+  },
+  {
+   "feature": "pair=<launcher>->route.exe",
+   "auc_attack_gt_hn": 0.2922,
+   "separation": 0.7078,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.416,
+   "sessions_attack": 0,
+   "sessions_hn": 87
+  },
+  {
+   "feature": "cmdtok=route",
+   "auc_attack_gt_hn": 0.2922,
+   "separation": 0.7078,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.416,
+   "sessions_attack": 0,
+   "sessions_hn": 87
+  },
+  {
+   "feature": "cmdtok=print",
+   "auc_attack_gt_hn": 0.2922,
+   "separation": 0.7078,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.416,
+   "sessions_attack": 0,
+   "sessions_hn": 87
+  },
+  {
+   "feature": "pair=None->route.exe",
+   "auc_attack_gt_hn": 0.2922,
+   "separation": 0.7078,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.416,
+   "sessions_attack": 0,
+   "sessions_hn": 87
+  },
+  {
+   "feature": "pair=None->netstat.exe",
+   "auc_attack_gt_hn": 0.2991,
+   "separation": 0.7009,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.402,
+   "sessions_attack": 0,
+   "sessions_hn": 83
+  },
+  {
+   "feature": "cmdtok=/c",
+   "auc_attack_gt_hn": 0.686,
+   "separation": 0.686,
+   "side": "attack",
+   "pct_windows_attack": 0.732,
+   "pct_windows_hn": 0.233,
+   "sessions_attack": 130,
+   "sessions_hn": 40
+  },
+  {
+   "feature": "eid=4688",
+   "auc_attack_gt_hn": 0.6838,
+   "separation": 0.6838,
+   "side": "attack",
+   "pct_windows_attack": 0.985,
+   "pct_windows_hn": 0.68,
+   "sessions_attack": 146,
+   "sessions_hn": 112
+  },
+  {
+   "feature": "pair=None->ipconfig.exe",
+   "auc_attack_gt_hn": 0.3277,
+   "separation": 0.6723,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.461,
+   "sessions_attack": 33,
+   "sessions_hn": 95
+  },
+  {
+   "feature": "eid=5",
+   "auc_attack_gt_hn": 0.3282,
+   "separation": 0.6718,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.932,
+   "pct_windows_hn": 0.918,
+   "sessions_attack": 149,
+   "sessions_hn": 157
+  },
+  {
+   "feature": "image=None",
+   "auc_attack_gt_hn": 0.663,
+   "separation": 0.663,
+   "side": "attack",
+   "pct_windows_attack": 0.698,
+   "pct_windows_hn": 0.543,
+   "sessions_attack": 100,
+   "sessions_hn": 73
+  },
+  {
+   "feature": "pair=None->None",
+   "auc_attack_gt_hn": 0.663,
+   "separation": 0.663,
+   "side": "attack",
+   "pct_windows_attack": 0.698,
+   "pct_windows_hn": 0.543,
+   "sessions_attack": 100,
+   "sessions_hn": 73
+  },
+  {
+   "feature": "image=ipconfig.exe",
+   "auc_attack_gt_hn": 0.3379,
+   "separation": 0.6621,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.461,
+   "sessions_attack": 33,
+   "sessions_hn": 95
+  },
+  {
+   "feature": "integrity=System",
+   "auc_attack_gt_hn": 0.6598,
+   "separation": 0.6598,
+   "side": "attack",
+   "pct_windows_attack": 0.709,
+   "pct_windows_hn": 0.388,
+   "sessions_attack": 103,
+   "sessions_hn": 60
+  },
+  {
+   "feature": "pair=<launcher>->ipconfig.exe",
+   "auc_attack_gt_hn": 0.3436,
+   "separation": 0.6564,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.461,
+   "sessions_attack": 33,
+   "sessions_hn": 95
+  },
+  {
+   "feature": "integrity=S-1-16-16384",
+   "auc_attack_gt_hn": 0.6561,
+   "separation": 0.6561,
+   "side": "attack",
+   "pct_windows_attack": 0.709,
+   "pct_windows_hn": 0.393,
+   "sessions_attack": 103,
+   "sessions_hn": 60
+  },
+  {
+   "feature": "cmdtok=ipconfig",
+   "auc_attack_gt_hn": 0.3563,
+   "separation": 0.6437,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.461,
+   "sessions_attack": 33,
+   "sessions_hn": 95
+  },
+  {
+   "feature": "integrity=S-1-16-8192",
+   "auc_attack_gt_hn": 0.6389,
+   "separation": 0.6389,
+   "side": "attack",
+   "pct_windows_attack": 0.483,
+   "pct_windows_hn": 0.21,
+   "sessions_attack": 79,
+   "sessions_hn": 33
+  },
+  {
+   "feature": "cmdtok=/all",
+   "auc_attack_gt_hn": 0.3615,
+   "separation": 0.6385,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.452,
+   "sessions_attack": 33,
+   "sessions_hn": 94
+  },
+  {
+   "feature": "eid=1",
+   "auc_attack_gt_hn": 0.371,
+   "separation": 0.629,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.996,
+   "pct_windows_hn": 0.904,
+   "sessions_attack": 149,
+   "sessions_hn": 157
+  },
+  {
+   "feature": "pair=None->arp.exe",
+   "auc_attack_gt_hn": 0.3715,
+   "separation": 0.6285,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.234,
+   "pct_windows_hn": 0.443,
+   "sessions_attack": 46,
+   "sessions_hn": 91
+  },
+  {
+   "feature": "cmdtok=0",
+   "auc_attack_gt_hn": 0.6273,
+   "separation": 0.6273,
+   "side": "attack",
+   "pct_windows_attack": 0.438,
+   "pct_windows_hn": 0.178,
+   "sessions_attack": 66,
+   "sessions_hn": 30
+  },
+  {
+   "feature": "channel=Security",
+   "auc_attack_gt_hn": 0.626,
+   "separation": 0.626,
+   "side": "attack",
+   "pct_windows_attack": 0.989,
+   "pct_windows_hn": 0.795,
+   "sessions_attack": 146,
+   "sessions_hn": 117
+  },
+  {
+   "feature": "flag=security_channel",
+   "auc_attack_gt_hn": 0.626,
+   "separation": 0.626,
+   "side": "attack",
+   "pct_windows_attack": 0.989,
+   "pct_windows_hn": 0.795,
+   "sessions_attack": 146,
+   "sessions_hn": 117
+  },
+  {
+   "feature": "eid=22",
+   "auc_attack_gt_hn": 0.6173,
+   "separation": 0.6173,
+   "side": "attack",
+   "pct_windows_attack": 0.536,
+   "pct_windows_hn": 0.26,
+   "sessions_attack": 88,
+   "sessions_hn": 38
+  },
+  {
+   "feature": "flag=has_dns",
+   "auc_attack_gt_hn": 0.6173,
+   "separation": 0.6173,
+   "side": "attack",
+   "pct_windows_attack": 0.536,
+   "pct_windows_hn": 0.26,
+   "sessions_attack": 88,
+   "sessions_hn": 38
+  },
+  {
+   "feature": "cmdtok=userdnsdomain",
+   "auc_attack_gt_hn": 0.617,
+   "separation": 0.617,
+   "side": "attack",
+   "pct_windows_attack": 0.234,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 44,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "image=powershell.exe",
+   "auc_attack_gt_hn": 0.6138,
+   "separation": 0.6138,
+   "side": "attack",
+   "pct_windows_attack": 0.238,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "channel=Microsoft-Windows-PowerShell/Operational",
+   "auc_attack_gt_hn": 0.6135,
+   "separation": 0.6135,
+   "side": "attack",
+   "pct_windows_attack": 0.238,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "flag=powershell_channel",
+   "auc_attack_gt_hn": 0.6135,
+   "separation": 0.6135,
+   "side": "attack",
+   "pct_windows_attack": 0.238,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "eid=40961",
+   "auc_attack_gt_hn": 0.6122,
+   "separation": 0.6122,
+   "side": "attack",
+   "pct_windows_attack": 0.234,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "eid=53504",
+   "auc_attack_gt_hn": 0.6122,
+   "separation": 0.6122,
+   "side": "attack",
+   "pct_windows_attack": 0.234,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "eid=40962",
+   "auc_attack_gt_hn": 0.6122,
+   "separation": 0.6122,
+   "side": "attack",
+   "pct_windows_attack": 0.234,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=powershell",
+   "auc_attack_gt_hn": 0.6117,
+   "separation": 0.6117,
+   "side": "attack",
+   "pct_windows_attack": 0.234,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "eid=4104",
+   "auc_attack_gt_hn": 0.6116,
+   "separation": 0.6116,
+   "side": "attack",
+   "pct_windows_attack": 0.234,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=<launcher>->powershell.exe",
+   "auc_attack_gt_hn": 0.6113,
+   "separation": 0.6113,
+   "side": "attack",
+   "pct_windows_attack": 0.223,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 43,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "parent=searchindexer.exe",
+   "auc_attack_gt_hn": 0.6112,
+   "separation": 0.6112,
+   "side": "attack",
+   "pct_windows_attack": 0.26,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "pair=searchindexer.exe->searchfilterhost.exe",
+   "auc_attack_gt_hn": 0.6112,
+   "separation": 0.6112,
+   "side": "attack",
+   "pct_windows_attack": 0.26,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=searchfilterhost",
+   "auc_attack_gt_hn": 0.6112,
+   "separation": 0.6112,
+   "side": "attack",
+   "pct_windows_attack": 0.26,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=-s",
+   "auc_attack_gt_hn": 0.6107,
+   "separation": 0.6107,
+   "side": "attack",
+   "pct_windows_attack": 0.275,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 46,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "cmdtok=netsvcs",
+   "auc_attack_gt_hn": 0.6107,
+   "separation": 0.6107,
+   "side": "attack",
+   "pct_windows_attack": 0.264,
+   "pct_windows_hn": 0.041,
+   "sessions_attack": 45,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "image=arp.exe",
+   "auc_attack_gt_hn": 0.3901,
+   "separation": 0.6099,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.238,
+   "pct_windows_hn": 0.443,
+   "sessions_attack": 47,
+   "sessions_hn": 91
+  },
+  {
+   "feature": "pair=searchindexer.exe->searchprotocolhost.exe",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=downleveldaemon",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=software\\microsoft\\windows",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=-0",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=ms",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=robot",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=global\\usgthrctrlfltpipemssgthrpipe0",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=windows",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=\\programdata\\microsoft\\search\\data\\temp\\usgthrsvc",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=0.0",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=msie",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=searchprotocolhost",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=nt",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=compatible",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=global\\usgthrfltpipemssgthrpipe0_",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=search",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=mozilla/0.0",
+   "auc_attack_gt_hn": 0.6057,
+   "separation": 0.6057,
+   "side": "attack",
+   "pct_windows_attack": 0.249,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 41,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "eid=4103",
+   "auc_attack_gt_hn": 0.6039,
+   "separation": 0.6039,
+   "side": "attack",
+   "pct_windows_attack": 0.219,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=dsmsvc",
+   "auc_attack_gt_hn": 0.6038,
+   "separation": 0.6038,
+   "side": "attack",
+   "pct_windows_attack": 0.208,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 34,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "pair=None->powershell.exe",
+   "auc_attack_gt_hn": 0.6029,
+   "separation": 0.6029,
+   "side": "attack",
+   "pct_windows_attack": 0.215,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 44,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=admins",
+   "auc_attack_gt_hn": 0.3973,
+   "separation": 0.6027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 0,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "image=searchfilterhost.exe",
+   "auc_attack_gt_hn": 0.6024,
+   "separation": 0.6024,
+   "side": "attack",
+   "pct_windows_attack": 0.283,
+   "pct_windows_hn": 0.082,
+   "sessions_attack": 44,
+   "sessions_hn": 16
+  },
+  {
+   "feature": "cmdtok=-p",
+   "auc_attack_gt_hn": 0.6012,
+   "separation": 0.6012,
+   "side": "attack",
+   "pct_windows_attack": 0.283,
+   "pct_windows_hn": 0.078,
+   "sessions_attack": 48,
+   "sessions_hn": 13
+  },
+  {
+   "feature": "pair=<launcher>->arp.exe",
+   "auc_attack_gt_hn": 0.4002,
+   "separation": 0.5998,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.238,
+   "pct_windows_hn": 0.438,
+   "sessions_attack": 47,
+   "sessions_hn": 91
+  },
+  {
+   "feature": "parent=services.exe",
+   "auc_attack_gt_hn": 0.5983,
+   "separation": 0.5983,
+   "side": "attack",
+   "pct_windows_attack": 0.377,
+   "pct_windows_hn": 0.192,
+   "sessions_attack": 59,
+   "sessions_hn": 34
+  },
+  {
+   "feature": "integrity=S-1-16-12288",
+   "auc_attack_gt_hn": 0.5963,
+   "separation": 0.5963,
+   "side": "attack",
+   "pct_windows_attack": 0.717,
+   "pct_windows_hn": 0.393,
+   "sessions_attack": 104,
+   "sessions_hn": 73
+  },
+  {
+   "feature": "channel=System",
+   "auc_attack_gt_hn": 0.5961,
+   "separation": 0.5961,
+   "side": "attack",
+   "pct_windows_attack": 0.381,
+   "pct_windows_hn": 0.215,
+   "sessions_attack": 55,
+   "sessions_hn": 34
+  },
+  {
+   "feature": "image=searchprotocolhost.exe",
+   "auc_attack_gt_hn": 0.5946,
+   "separation": 0.5946,
+   "side": "attack",
+   "pct_windows_attack": 0.268,
+   "pct_windows_hn": 0.082,
+   "sessions_attack": 43,
+   "sessions_hn": 16
+  },
+  {
+   "feature": "eid=7036",
+   "auc_attack_gt_hn": 0.5928,
+   "separation": 0.5928,
+   "side": "attack",
+   "pct_windows_attack": 0.34,
+   "pct_windows_hn": 0.174,
+   "sessions_attack": 50,
+   "sessions_hn": 27
+  },
+  {
+   "feature": "eid=98",
+   "auc_attack_gt_hn": 0.5925,
+   "separation": 0.5925,
+   "side": "attack",
+   "pct_windows_attack": 0.185,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 25,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "logon_type=5",
+   "auc_attack_gt_hn": 0.5914,
+   "separation": 0.5914,
+   "side": "attack",
+   "pct_windows_attack": 0.355,
+   "pct_windows_hn": 0.178,
+   "sessions_attack": 59,
+   "sessions_hn": 31
+  },
+  {
+   "feature": "eid=2005",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=2001",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=2003",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=2006",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=102",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=300",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=216",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=330",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=301",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=302",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=105",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=103",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=326",
+   "auc_attack_gt_hn": 0.5906,
+   "separation": 0.5906,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=325",
+   "auc_attack_gt_hn": 0.5887,
+   "separation": 0.5887,
+   "side": "attack",
+   "pct_windows_attack": 0.177,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "pair=services.exe->svchost.exe",
+   "auc_attack_gt_hn": 0.5853,
+   "separation": 0.5853,
+   "side": "attack",
+   "pct_windows_attack": 0.287,
+   "pct_windows_hn": 0.123,
+   "sessions_attack": 49,
+   "sessions_hn": 22
+  },
+  {
+   "feature": "cmdtok=svchost",
+   "auc_attack_gt_hn": 0.5853,
+   "separation": 0.5853,
+   "side": "attack",
+   "pct_windows_attack": 0.287,
+   "pct_windows_hn": 0.123,
+   "sessions_attack": 49,
+   "sessions_hn": 22
+  },
+  {
+   "feature": "cmdtok=-k",
+   "auc_attack_gt_hn": 0.5853,
+   "separation": 0.5853,
+   "side": "attack",
+   "pct_windows_attack": 0.287,
+   "pct_windows_hn": 0.123,
+   "sessions_attack": 49,
+   "sessions_hn": 22
+  },
+  {
+   "feature": "cmdtok=-querytype",
+   "auc_attack_gt_hn": 0.5849,
+   "separation": 0.5849,
+   "side": "attack",
+   "pct_windows_attack": 0.17,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 32,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=-timeout",
+   "auc_attack_gt_hn": 0.5849,
+   "separation": 0.5849,
+   "side": "attack",
+   "pct_windows_attack": 0.17,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 32,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=_ldap._tcp.dc._msdcs.",
+   "auc_attack_gt_hn": 0.583,
+   "separation": 0.583,
+   "side": "attack",
+   "pct_windows_attack": 0.166,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 32,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=config",
+   "auc_attack_gt_hn": 0.583,
+   "separation": 0.583,
+   "side": "attack",
+   "pct_windows_attack": 0.166,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 33,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=-a",
+   "auc_attack_gt_hn": 0.4205,
+   "separation": 0.5795,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.242,
+   "pct_windows_hn": 0.438,
+   "sessions_attack": 47,
+   "sessions_hn": 91
+  },
+  {
+   "feature": "cmdtok=arp",
+   "auc_attack_gt_hn": 0.4205,
+   "separation": 0.5795,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.242,
+   "pct_windows_hn": 0.438,
+   "sessions_attack": 47,
+   "sessions_hn": 91
+  },
+  {
+   "feature": "channel=Application",
+   "auc_attack_gt_hn": 0.5792,
+   "separation": 0.5792,
+   "side": "attack",
+   "pct_windows_attack": 0.223,
+   "pct_windows_hn": 0.078,
+   "sessions_attack": 34,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "eid=327",
+   "auc_attack_gt_hn": 0.5792,
+   "separation": 0.5792,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=-embedding",
+   "auc_attack_gt_hn": 0.5741,
+   "separation": 0.5741,
+   "side": "attack",
+   "pct_windows_attack": 0.264,
+   "pct_windows_hn": 0.105,
+   "sessions_attack": 44,
+   "sessions_hn": 16
+  },
+  {
+   "feature": "integrity=High",
+   "auc_attack_gt_hn": 0.426,
+   "separation": 0.574,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.755,
+   "pct_windows_hn": 0.607,
+   "sessions_attack": 107,
+   "sessions_hn": 113
+  },
+  {
+   "feature": "image=svchost.exe",
+   "auc_attack_gt_hn": 0.5736,
+   "separation": 0.5736,
+   "side": "attack",
+   "pct_windows_attack": 0.849,
+   "pct_windows_hn": 0.74,
+   "sessions_attack": 125,
+   "sessions_hn": 106
+  },
+  {
+   "feature": "cmdtok=.findone",
+   "auc_attack_gt_hn": 0.5736,
+   "separation": 0.5736,
+   "side": "attack",
+   "pct_windows_attack": 0.147,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 30,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=objectcategory",
+   "auc_attack_gt_hn": 0.5736,
+   "separation": 0.5736,
+   "side": "attack",
+   "pct_windows_attack": 0.147,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 30,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=.findall",
+   "auc_attack_gt_hn": 0.5736,
+   "separation": 0.5736,
+   "side": "attack",
+   "pct_windows_attack": 0.147,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 30,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=adsisearcher",
+   "auc_attack_gt_hn": 0.5736,
+   "separation": 0.5736,
+   "side": "attack",
+   "pct_windows_attack": 0.147,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 30,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=create",
+   "auc_attack_gt_hn": 0.5736,
+   "separation": 0.5736,
+   "side": "attack",
+   "pct_windows_attack": 0.147,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 34,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=-n",
+   "auc_attack_gt_hn": 0.5705,
+   "separation": 0.5705,
+   "side": "attack",
+   "pct_windows_attack": 0.219,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 35,
+   "sessions_hn": 13
+  },
+  {
+   "feature": "cmdtok=enum-logs",
+   "auc_attack_gt_hn": 0.5698,
+   "separation": 0.5698,
+   "side": "attack",
+   "pct_windows_attack": 0.14,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 29,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "pair=services.exe->vssvc.exe",
+   "auc_attack_gt_hn": 0.5697,
+   "separation": 0.5697,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 34,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "cmdtok=vssvc",
+   "auc_attack_gt_hn": 0.5697,
+   "separation": 0.5697,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 34,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "cmdtok=domain",
+   "auc_attack_gt_hn": 0.4324,
+   "separation": 0.5676,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.072,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 17,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "image=vssvc.exe",
+   "auc_attack_gt_hn": 0.5672,
+   "separation": 0.5672,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 34,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "image=rundll32.exe",
+   "auc_attack_gt_hn": 0.5662,
+   "separation": 0.5662,
+   "side": "attack",
+   "pct_windows_attack": 0.147,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 27,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "parent=<launcher>",
+   "auc_attack_gt_hn": 0.4344,
+   "separation": 0.5656,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.917,
+   "pct_windows_hn": 0.808,
+   "sessions_attack": 149,
+   "sessions_hn": 157
+  },
+  {
+   "feature": "pair=svchost.exe->rundll32.exe",
+   "auc_attack_gt_hn": 0.5646,
+   "separation": 0.5646,
+   "side": "attack",
+   "pct_windows_attack": 0.14,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 26,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=rundll0",
+   "auc_attack_gt_hn": 0.5646,
+   "separation": 0.5646,
+   "side": "attack",
+   "pct_windows_attack": 0.14,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 26,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=\\windows\\system0\\shell0.dll",
+   "auc_attack_gt_hn": 0.5642,
+   "separation": 0.5642,
+   "side": "attack",
+   "pct_windows_attack": 0.128,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 25,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=shcreatelocalserverrundll",
+   "auc_attack_gt_hn": 0.5642,
+   "separation": 0.5642,
+   "side": "attack",
+   "pct_windows_attack": 0.128,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 25,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=list",
+   "auc_attack_gt_hn": 0.4361,
+   "separation": 0.5639,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.128,
+   "sessions_attack": 0,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "image=&lt;unknown process&gt;",
+   "auc_attack_gt_hn": 0.5625,
+   "separation": 0.5625,
+   "side": "attack",
+   "pct_windows_attack": 0.328,
+   "pct_windows_hn": 0.201,
+   "sessions_attack": 61,
+   "sessions_hn": 33
+  },
+  {
+   "feature": "pair=None->&lt;unknown process&gt;",
+   "auc_attack_gt_hn": 0.5625,
+   "separation": 0.5625,
+   "side": "attack",
+   "pct_windows_attack": 0.328,
+   "pct_windows_hn": 0.201,
+   "sessions_attack": 61,
+   "sessions_hn": 33
+  },
+  {
+   "feature": "cmdtok=swprv",
+   "auc_attack_gt_hn": 0.5625,
+   "separation": 0.5625,
+   "side": "attack",
+   "pct_windows_attack": 0.185,
+   "pct_windows_hn": 0.055,
+   "sessions_attack": 34,
+   "sessions_hn": 11
+  },
+  {
+   "feature": "cmdtok=shadows",
+   "auc_attack_gt_hn": 0.4384,
+   "separation": 0.5616,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.123,
+   "sessions_attack": 0,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "cmdtok=/dsgetdc",
+   "auc_attack_gt_hn": 0.4384,
+   "separation": 0.5616,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.123,
+   "sessions_attack": 0,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "integrity=Medium",
+   "auc_attack_gt_hn": 0.561,
+   "separation": 0.561,
+   "side": "attack",
+   "pct_windows_attack": 0.491,
+   "pct_windows_hn": 0.311,
+   "sessions_attack": 80,
+   "sessions_hn": 55
+  },
+  {
+   "feature": "cmdtok=all",
+   "auc_attack_gt_hn": 0.5608,
+   "separation": 0.5608,
+   "side": "attack",
+   "pct_windows_attack": 0.17,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 32,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "pair=None->ntdsutil.exe",
+   "auc_attack_gt_hn": 0.5607,
+   "separation": 0.5607,
+   "side": "attack",
+   "pct_windows_attack": 0.181,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 24,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "image=ntdsutil.exe",
+   "auc_attack_gt_hn": 0.5604,
+   "separation": 0.5604,
+   "side": "attack",
+   "pct_windows_attack": 0.185,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 25,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "cmdtok=user",
+   "auc_attack_gt_hn": 0.559,
+   "separation": 0.559,
+   "side": "attack",
+   "pct_windows_attack": 0.358,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 73,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "cmdtok=_ldap._tcp.dc._msdcs.corp.vtlab.test",
+   "auc_attack_gt_hn": 0.558,
+   "separation": 0.558,
+   "side": "attack",
+   "pct_windows_attack": 0.17,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 32,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "pair=None->searchfilterhost.exe",
+   "auc_attack_gt_hn": 0.5566,
+   "separation": 0.5566,
+   "side": "attack",
+   "pct_windows_attack": 0.177,
+   "pct_windows_hn": 0.059,
+   "sessions_attack": 21,
+   "sessions_hn": 11
+  },
+  {
+   "feature": "cmdtok=full",
+   "auc_attack_gt_hn": 0.5566,
+   "separation": 0.5566,
+   "side": "attack",
+   "pct_windows_attack": 0.113,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 25,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=ifm",
+   "auc_attack_gt_hn": 0.5566,
+   "separation": 0.5566,
+   "side": "attack",
+   "pct_windows_attack": 0.113,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 25,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=q",
+   "auc_attack_gt_hn": 0.5566,
+   "separation": 0.5566,
+   "side": "attack",
+   "pct_windows_attack": 0.113,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 25,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=\\windows\\temp\\ntds_t0",
+   "auc_attack_gt_hn": 0.5566,
+   "separation": 0.5566,
+   "side": "attack",
+   "pct_windows_attack": 0.113,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 25,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "eid=16394",
+   "auc_attack_gt_hn": 0.5556,
+   "separation": 0.5556,
+   "side": "attack",
+   "pct_windows_attack": 0.121,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 21,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=None->rundll32.exe",
+   "auc_attack_gt_hn": 0.5553,
+   "separation": 0.5553,
+   "side": "attack",
+   "pct_windows_attack": 0.121,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 27,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "image=nslookup.exe",
+   "auc_attack_gt_hn": 0.5541,
+   "separation": 0.5541,
+   "side": "attack",
+   "pct_windows_attack": 0.177,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 32,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "pair=None->nslookup.exe",
+   "auc_attack_gt_hn": 0.5541,
+   "separation": 0.5541,
+   "side": "attack",
+   "pct_windows_attack": 0.177,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 32,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "pair=services.exe->sppsvc.exe",
+   "auc_attack_gt_hn": 0.5537,
+   "separation": 0.5537,
+   "side": "attack",
+   "pct_windows_attack": 0.117,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 21,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=sppsvc",
+   "auc_attack_gt_hn": 0.5537,
+   "separation": 0.5537,
+   "side": "attack",
+   "pct_windows_attack": 0.117,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 21,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=nbtstat",
+   "auc_attack_gt_hn": 0.5536,
+   "separation": 0.5536,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 33,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "cmdtok=administrator",
+   "auc_attack_gt_hn": 0.5528,
+   "separation": 0.5528,
+   "side": "attack",
+   "pct_windows_attack": 0.106,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 22,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "pair=None->svchost.exe",
+   "auc_attack_gt_hn": 0.5525,
+   "separation": 0.5525,
+   "side": "attack",
+   "pct_windows_attack": 0.845,
+   "pct_windows_hn": 0.726,
+   "sessions_attack": 124,
+   "sessions_hn": 104
+  },
+  {
+   "feature": "pair=<launcher>->nbtstat.exe",
+   "auc_attack_gt_hn": 0.5518,
+   "separation": 0.5518,
+   "side": "attack",
+   "pct_windows_attack": 0.155,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 33,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "image=nbtstat.exe",
+   "auc_attack_gt_hn": 0.5513,
+   "separation": 0.5513,
+   "side": "attack",
+   "pct_windows_attack": 0.155,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 33,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "cmdtok=mkdir",
+   "auc_attack_gt_hn": 0.5509,
+   "separation": 0.5509,
+   "side": "attack",
+   "pct_windows_attack": 0.102,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 24,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=nslookup",
+   "auc_attack_gt_hn": 0.5504,
+   "separation": 0.5504,
+   "side": "attack",
+   "pct_windows_attack": 0.17,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 32,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "pair=<launcher>->nslookup.exe",
+   "auc_attack_gt_hn": 0.5504,
+   "separation": 0.5504,
+   "side": "attack",
+   "pct_windows_attack": 0.17,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 32,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "cmdtok=/sc_query",
+   "auc_attack_gt_hn": 0.4498,
+   "separation": 0.5502,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.1,
+   "sessions_attack": 0,
+   "sessions_hn": 20
+  },
+  {
+   "feature": "cmdtok=system",
+   "auc_attack_gt_hn": 0.5491,
+   "separation": 0.5491,
+   "side": "attack",
+   "pct_windows_attack": 0.098,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 20,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "pair=None->vssadmin.exe",
+   "auc_attack_gt_hn": 0.4512,
+   "separation": 0.5488,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.128,
+   "sessions_attack": 9,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "image=sppsvc.exe",
+   "auc_attack_gt_hn": 0.5488,
+   "separation": 0.5488,
+   "side": "attack",
+   "pct_windows_attack": 0.125,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 23,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "image=vssadmin.exe",
+   "auc_attack_gt_hn": 0.4522,
+   "separation": 0.5478,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.128,
+   "sessions_attack": 9,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "cmdtok=-inputformat",
+   "auc_attack_gt_hn": 0.5472,
+   "separation": 0.5472,
+   "side": "attack",
+   "pct_windows_attack": 0.094,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=zwblahqalqblahyazqbuahqababvagcaiaanafmazqbjahuacgbpahqaeqanacaafaagahcaaablahiazqagahsajabfac0atqblahmacwbhagcazqagac0ababpagsazqagaccakgbtafkauwbuaeuatqaqaccafqagahwaiablahgacabvahiadaatagmacwb0acaajablag0adga0ahqazqbtahaaxabuadeanga0adqaxwblahyazqbuahqacwauahqaeab0aa",
+   "auc_attack_gt_hn": 0.5472,
+   "separation": 0.5472,
+   "side": "attack",
+   "pct_windows_attack": 0.094,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=-outputformat",
+   "auc_attack_gt_hn": 0.5472,
+   "separation": 0.5472,
+   "side": "attack",
+   "pct_windows_attack": 0.094,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=xml",
+   "auc_attack_gt_hn": 0.5472,
+   "separation": 0.5472,
+   "side": "attack",
+   "pct_windows_attack": 0.094,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=-encodedcommand",
+   "auc_attack_gt_hn": 0.5472,
+   "separation": 0.5472,
+   "side": "attack",
+   "pct_windows_attack": 0.094,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "pair=<launcher>->vssadmin.exe",
+   "auc_attack_gt_hn": 0.4529,
+   "separation": 0.5471,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.128,
+   "sessions_attack": 9,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "eid=16",
+   "auc_attack_gt_hn": 0.5467,
+   "separation": 0.5467,
+   "side": "attack",
+   "pct_windows_attack": 0.132,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 25,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "cmdtok=vssadmin",
+   "auc_attack_gt_hn": 0.4533,
+   "separation": 0.5467,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.128,
+   "sessions_attack": 9,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "cmdtok=ac",
+   "auc_attack_gt_hn": 0.5463,
+   "separation": 0.5463,
+   "side": "attack",
+   "pct_windows_attack": 0.113,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 25,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "cmdtok=<guid>",
+   "auc_attack_gt_hn": 0.5458,
+   "separation": 0.5458,
+   "side": "attack",
+   "pct_windows_attack": 0.17,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 32,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "pair=None->searchprotocolhost.exe",
+   "auc_attack_gt_hn": 0.5456,
+   "separation": 0.5456,
+   "side": "attack",
+   "pct_windows_attack": 0.155,
+   "pct_windows_hn": 0.059,
+   "sessions_attack": 19,
+   "sessions_hn": 11
+  },
+  {
+   "feature": "cmdtok=env",
+   "auc_attack_gt_hn": 0.5453,
+   "separation": 0.5453,
+   "side": "attack",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 19,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=/dclist",
+   "auc_attack_gt_hn": 0.5453,
+   "separation": 0.5453,
+   "side": "attack",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 20,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "integrity=None",
+   "auc_attack_gt_hn": 0.5446,
+   "separation": 0.5446,
+   "side": "attack",
+   "pct_windows_attack": 1.0,
+   "pct_windows_hn": 1.0,
+   "sessions_attack": 149,
+   "sessions_hn": 157
+  },
+  {
+   "feature": "image=wevtutil.exe",
+   "auc_attack_gt_hn": 0.5437,
+   "separation": 0.5437,
+   "side": "attack",
+   "pct_windows_attack": 0.143,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 29,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=wevtutil",
+   "auc_attack_gt_hn": 0.5435,
+   "separation": 0.5435,
+   "side": "attack",
+   "pct_windows_attack": 0.14,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 29,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=_.message",
+   "auc_attack_gt_hn": 0.5434,
+   "separation": 0.5434,
+   "side": "attack",
+   "pct_windows_attack": 0.087,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=get-eventlog",
+   "auc_attack_gt_hn": 0.5434,
+   "separation": 0.5434,
+   "side": "attack",
+   "pct_windows_attack": 0.087,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=temp\\t0_events.txt",
+   "auc_attack_gt_hn": 0.5434,
+   "separation": 0.5434,
+   "side": "attack",
+   "pct_windows_attack": 0.087,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=export-csv",
+   "auc_attack_gt_hn": 0.5434,
+   "separation": 0.5434,
+   "side": "attack",
+   "pct_windows_attack": 0.087,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=-like",
+   "auc_attack_gt_hn": 0.5434,
+   "separation": 0.5434,
+   "side": "attack",
+   "pct_windows_attack": 0.087,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 18,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=view",
+   "auc_attack_gt_hn": 0.4566,
+   "separation": 0.5434,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.087,
+   "sessions_attack": 0,
+   "sessions_hn": 17
+  },
+  {
+   "feature": "cmdtok=\\dc0",
+   "auc_attack_gt_hn": 0.4566,
+   "separation": 0.5434,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.087,
+   "sessions_attack": 0,
+   "sessions_hn": 17
+  },
+  {
+   "feature": "pair=<launcher>->wevtutil.exe",
+   "auc_attack_gt_hn": 0.5427,
+   "separation": 0.5427,
+   "side": "attack",
+   "pct_windows_attack": 0.14,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 29,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=interface",
+   "auc_attack_gt_hn": 0.5407,
+   "separation": 0.5407,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 33,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "image=lsass.exe",
+   "auc_attack_gt_hn": 0.5404,
+   "separation": 0.5404,
+   "side": "attack",
+   "pct_windows_attack": 0.645,
+   "pct_windows_hn": 0.47,
+   "sessions_attack": 93,
+   "sessions_hn": 56
+  },
+  {
+   "feature": "pair=None->lsass.exe",
+   "auc_attack_gt_hn": 0.5404,
+   "separation": 0.5404,
+   "side": "attack",
+   "pct_windows_attack": 0.645,
+   "pct_windows_hn": 0.47,
+   "sessions_attack": 93,
+   "sessions_hn": 56
+  },
+  {
+   "feature": "cmdtok=where",
+   "auc_attack_gt_hn": 0.5404,
+   "separation": 0.5404,
+   "side": "attack",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 18,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=<launcher>->netsh.exe",
+   "auc_attack_gt_hn": 0.54,
+   "separation": 0.54,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 33,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "pair=None->netsh.exe",
+   "auc_attack_gt_hn": 0.54,
+   "separation": 0.54,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 33,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=show",
+   "auc_attack_gt_hn": 0.5399,
+   "separation": 0.5399,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 33,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=netsh",
+   "auc_attack_gt_hn": 0.5399,
+   "separation": 0.5399,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 33,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "image=netsh.exe",
+   "auc_attack_gt_hn": 0.5399,
+   "separation": 0.5399,
+   "side": "attack",
+   "pct_windows_attack": 0.158,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 33,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "image=net1.exe",
+   "auc_attack_gt_hn": 0.5398,
+   "separation": 0.5398,
+   "side": "attack",
+   "pct_windows_attack": 0.332,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 72,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "parent=net.exe",
+   "auc_attack_gt_hn": 0.5397,
+   "separation": 0.5397,
+   "side": "attack",
+   "pct_windows_attack": 0.332,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 72,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "pair=net.exe->net1.exe",
+   "auc_attack_gt_hn": 0.5397,
+   "separation": 0.5397,
+   "side": "attack",
+   "pct_windows_attack": 0.332,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 72,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "cmdtok=net0",
+   "auc_attack_gt_hn": 0.5397,
+   "separation": 0.5397,
+   "side": "attack",
+   "pct_windows_attack": 0.332,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 72,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "image=microsoft.activedirectory.webservices.exe",
+   "auc_attack_gt_hn": 0.4603,
+   "separation": 0.5397,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.192,
+   "pct_windows_hn": 0.269,
+   "sessions_attack": 21,
+   "sessions_hn": 29
+  },
+  {
+   "feature": "pair=None->microsoft.activedirectory.webservices.exe",
+   "auc_attack_gt_hn": 0.4603,
+   "separation": 0.5397,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.192,
+   "pct_windows_hn": 0.269,
+   "sessions_attack": 21,
+   "sessions_hn": 29
+  },
+  {
+   "feature": "pair=None->wevtutil.exe",
+   "auc_attack_gt_hn": 0.5397,
+   "separation": 0.5397,
+   "side": "attack",
+   "pct_windows_attack": 0.136,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 29,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=corp.vtlab.test",
+   "auc_attack_gt_hn": 0.4605,
+   "separation": 0.5395,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.164,
+   "sessions_attack": 20,
+   "sessions_hn": 30
+  },
+  {
+   "feature": "cmdtok=volumes",
+   "auc_attack_gt_hn": 0.4612,
+   "separation": 0.5388,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.078,
+   "sessions_attack": 0,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "cmdtok=net",
+   "auc_attack_gt_hn": 0.5374,
+   "separation": 0.5374,
+   "side": "attack",
+   "pct_windows_attack": 0.347,
+   "pct_windows_hn": 0.288,
+   "sessions_attack": 72,
+   "sessions_hn": 59
+  },
+  {
+   "feature": "eid=4634",
+   "auc_attack_gt_hn": 0.4632,
+   "separation": 0.5368,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.332,
+   "pct_windows_hn": 0.388,
+   "sessions_attack": 45,
+   "sessions_hn": 46
+  },
+  {
+   "feature": "cmdtok=i",
+   "auc_attack_gt_hn": 0.5368,
+   "separation": 0.5368,
+   "side": "attack",
+   "pct_windows_attack": 0.128,
+   "pct_windows_hn": 0.059,
+   "sessions_attack": 29,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "cmdtok=controllers",
+   "auc_attack_gt_hn": 0.5358,
+   "separation": 0.5358,
+   "side": "attack",
+   "pct_windows_attack": 0.072,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 17,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "pair=None->nbtstat.exe",
+   "auc_attack_gt_hn": 0.5351,
+   "separation": 0.5351,
+   "side": "attack",
+   "pct_windows_attack": 0.121,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 26,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "cmdtok=files",
+   "auc_attack_gt_hn": 0.4653,
+   "separation": 0.5347,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 1,
+   "sessions_hn": 15
+  },
+  {
+   "feature": "pair=None->net1.exe",
+   "auc_attack_gt_hn": 0.5343,
+   "separation": 0.5343,
+   "side": "attack",
+   "pct_windows_attack": 0.313,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 70,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "cmdtok=info",
+   "auc_attack_gt_hn": 0.4658,
+   "separation": 0.5342,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 0,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "cmdtok=quit",
+   "auc_attack_gt_hn": 0.4658,
+   "separation": 0.5342,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 0,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "logon_type=3",
+   "auc_attack_gt_hn": 0.4672,
+   "separation": 0.5328,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.332,
+   "pct_windows_hn": 0.374,
+   "sessions_attack": 45,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "parent=None",
+   "auc_attack_gt_hn": 0.531,
+   "separation": 0.531,
+   "side": "attack",
+   "pct_windows_attack": 1.0,
+   "pct_windows_hn": 1.0,
+   "sessions_attack": 149,
+   "sessions_hn": 157
+  },
+  {
+   "feature": "parent=svchost.exe",
+   "auc_attack_gt_hn": 0.528,
+   "separation": 0.528,
+   "side": "attack",
+   "pct_windows_attack": 0.419,
+   "pct_windows_hn": 0.315,
+   "sessions_attack": 62,
+   "sessions_hn": 45
+  },
+  {
+   "feature": "cmdtok=ipv0",
+   "auc_attack_gt_hn": 0.4726,
+   "separation": 0.5274,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.055,
+   "sessions_attack": 0,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "cmdtok=group",
+   "auc_attack_gt_hn": 0.4737,
+   "separation": 0.5263,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.155,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 35,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "cmdtok=qe",
+   "auc_attack_gt_hn": 0.4749,
+   "separation": 0.5251,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 0,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=/rd",
+   "auc_attack_gt_hn": 0.4749,
+   "separation": 0.5251,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 0,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=/f",
+   "auc_attack_gt_hn": 0.4749,
+   "separation": 0.5251,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 0,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=true",
+   "auc_attack_gt_hn": 0.4749,
+   "separation": 0.5251,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 0,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=el",
+   "auc_attack_gt_hn": 0.4749,
+   "separation": 0.5251,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 0,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=portproxy",
+   "auc_attack_gt_hn": 0.4749,
+   "separation": 0.5251,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 0,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "cmdtok=-type",
+   "auc_attack_gt_hn": 0.4749,
+   "separation": 0.5251,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 0,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=srv",
+   "auc_attack_gt_hn": 0.4749,
+   "separation": 0.5251,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 0,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=addresses",
+   "auc_attack_gt_hn": 0.4749,
+   "separation": 0.5251,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 0,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=localservicenetworkrestricted",
+   "auc_attack_gt_hn": 0.5241,
+   "separation": 0.5241,
+   "side": "attack",
+   "pct_windows_attack": 0.053,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 14,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=winhttpautoproxysvc",
+   "auc_attack_gt_hn": 0.5241,
+   "separation": 0.5241,
+   "side": "attack",
+   "pct_windows_attack": 0.053,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 14,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=instance",
+   "auc_attack_gt_hn": 0.4772,
+   "separation": 0.5228,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.046,
+   "sessions_attack": 0,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=activate",
+   "auc_attack_gt_hn": 0.4772,
+   "separation": 0.5228,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.046,
+   "sessions_attack": 0,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=text",
+   "auc_attack_gt_hn": 0.5218,
+   "separation": 0.5218,
+   "side": "attack",
+   "pct_windows_attack": 0.094,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 18,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=ntds",
+   "auc_attack_gt_hn": 0.5214,
+   "separation": 0.5214,
+   "side": "attack",
+   "pct_windows_attack": 0.113,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 25,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "cmdtok=ntdsutil",
+   "auc_attack_gt_hn": 0.5214,
+   "separation": 0.5214,
+   "side": "attack",
+   "pct_windows_attack": 0.113,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 25,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "pair=<launcher>->ntdsutil.exe",
+   "auc_attack_gt_hn": 0.5213,
+   "separation": 0.5213,
+   "side": "attack",
+   "pct_windows_attack": 0.113,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 25,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "eid=3",
+   "auc_attack_gt_hn": 0.4791,
+   "separation": 0.5209,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.928,
+   "pct_windows_hn": 0.863,
+   "sessions_attack": 144,
+   "sessions_hn": 128
+  },
+  {
+   "feature": "flag=has_network",
+   "auc_attack_gt_hn": 0.4791,
+   "separation": 0.5209,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.928,
+   "pct_windows_hn": 0.863,
+   "sessions_attack": 144,
+   "sessions_hn": 128
+  },
+  {
+   "feature": "eid=4672",
+   "auc_attack_gt_hn": 0.5207,
+   "separation": 0.5207,
+   "side": "attack",
+   "pct_windows_attack": 0.525,
+   "pct_windows_hn": 0.475,
+   "sessions_attack": 72,
+   "sessions_hn": 61
+  },
+  {
+   "feature": "cmdtok=currentprofile",
+   "auc_attack_gt_hn": 0.4795,
+   "separation": 0.5205,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.041,
+   "sessions_attack": 0,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "cmdtok=advfirewall",
+   "auc_attack_gt_hn": 0.4795,
+   "separation": 0.5205,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.041,
+   "sessions_attack": 0,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "pair=<launcher>->net.exe",
+   "auc_attack_gt_hn": 0.5203,
+   "separation": 0.5203,
+   "side": "attack",
+   "pct_windows_attack": 0.34,
+   "pct_windows_hn": 0.288,
+   "sessions_attack": 72,
+   "sessions_hn": 59
+  },
+  {
+   "feature": "pair=None->nltest.exe",
+   "auc_attack_gt_hn": 0.4804,
+   "separation": 0.5196,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.123,
+   "sessions_attack": 20,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "pair=None->msedge.exe",
+   "auc_attack_gt_hn": 0.5195,
+   "separation": 0.5195,
+   "side": "attack",
+   "pct_windows_attack": 0.313,
+   "pct_windows_hn": 0.247,
+   "sessions_attack": 46,
+   "sessions_hn": 37
+  },
+  {
+   "feature": "image=msedge.exe",
+   "auc_attack_gt_hn": 0.5194,
+   "separation": 0.5194,
+   "side": "attack",
+   "pct_windows_attack": 0.313,
+   "pct_windows_hn": 0.247,
+   "sessions_attack": 46,
+   "sessions_hn": 37
+  },
+  {
+   "feature": "image=dns.exe",
+   "auc_attack_gt_hn": 0.4809,
+   "separation": 0.5191,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.434,
+   "pct_windows_hn": 0.402,
+   "sessions_attack": 58,
+   "sessions_hn": 46
+  },
+  {
+   "feature": "pair=None->dns.exe",
+   "auc_attack_gt_hn": 0.4809,
+   "separation": 0.5191,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.434,
+   "pct_windows_hn": 0.402,
+   "sessions_attack": 58,
+   "sessions_hn": 46
+  },
+  {
+   "feature": "image=nltest.exe",
+   "auc_attack_gt_hn": 0.4814,
+   "separation": 0.5186,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.123,
+   "sessions_attack": 20,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "cmdtok=security",
+   "auc_attack_gt_hn": 0.5186,
+   "separation": 0.5186,
+   "side": "attack",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 19,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "image=wermgr.exe",
+   "auc_attack_gt_hn": 0.4817,
+   "separation": 0.5183,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.038,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 8,
+   "sessions_hn": 11
+  },
+  {
+   "feature": "cmdtok=writers",
+   "auc_attack_gt_hn": 0.4817,
+   "separation": 0.5183,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 0,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "pair=<launcher>->nltest.exe",
+   "auc_attack_gt_hn": 0.4819,
+   "separation": 0.5181,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.123,
+   "sessions_attack": 20,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "pair=svchost.exe->wermgr.exe",
+   "auc_attack_gt_hn": 0.4824,
+   "separation": 0.5176,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 3,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=wermgr",
+   "auc_attack_gt_hn": 0.4824,
+   "separation": 0.5176,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 3,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=-upload",
+   "auc_attack_gt_hn": 0.4824,
+   "separation": 0.5176,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 3,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=nltest",
+   "auc_attack_gt_hn": 0.483,
+   "separation": 0.517,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.123,
+   "sessions_attack": 20,
+   "sessions_hn": 24
+  },
+  {
+   "feature": "cmdtok=shadow",
+   "auc_attack_gt_hn": 0.517,
+   "separation": 0.517,
+   "side": "attack",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 9,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "cmdtok=/for",
+   "auc_attack_gt_hn": 0.517,
+   "separation": 0.517,
+   "side": "attack",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 9,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "image=dllhost.exe",
+   "auc_attack_gt_hn": 0.4837,
+   "separation": 0.5163,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.042,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 7,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "pair=svchost.exe->dllhost.exe",
+   "auc_attack_gt_hn": 0.4837,
+   "separation": 0.5163,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.042,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 7,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "cmdtok=/processid",
+   "auc_attack_gt_hn": 0.4837,
+   "separation": 0.5163,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.042,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 7,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "cmdtok=dllhost",
+   "auc_attack_gt_hn": 0.4837,
+   "separation": 0.5163,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.042,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 7,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "cmdtok=-c",
+   "auc_attack_gt_hn": 0.5161,
+   "separation": 0.5161,
+   "side": "attack",
+   "pct_windows_attack": 0.087,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 18,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "pair=None->dllhost.exe",
+   "auc_attack_gt_hn": 0.4842,
+   "separation": 0.5158,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.038,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 7,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "pair=None->wermgr.exe",
+   "auc_attack_gt_hn": 0.4849,
+   "separation": 0.5151,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 7,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "cmdtok=--ram-no-pressure-read-main-dll",
+   "auc_attack_gt_hn": 0.4863,
+   "separation": 0.5137,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=dnsservers",
+   "auc_attack_gt_hn": 0.4863,
+   "separation": 0.5137,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 0,
+   "sessions_hn": 5
+  },
+  {
+   "feature": "image=wmiprvse.exe",
+   "auc_attack_gt_hn": 0.4864,
+   "separation": 0.5136,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.042,
+   "pct_windows_hn": 0.068,
+   "sessions_attack": 6,
+   "sessions_hn": 10
+  },
+  {
+   "feature": "image=net.exe",
+   "auc_attack_gt_hn": 0.5135,
+   "separation": 0.5135,
+   "side": "attack",
+   "pct_windows_attack": 0.343,
+   "pct_windows_hn": 0.288,
+   "sessions_attack": 72,
+   "sessions_hn": 59
+  },
+  {
+   "feature": "eid=4624",
+   "auc_attack_gt_hn": 0.5134,
+   "separation": 0.5134,
+   "side": "attack",
+   "pct_windows_attack": 0.555,
+   "pct_windows_hn": 0.507,
+   "sessions_attack": 76,
+   "sessions_hn": 65
+  },
+  {
+   "feature": "eid=1501",
+   "auc_attack_gt_hn": 0.5132,
+   "separation": 0.5132,
+   "side": "attack",
+   "pct_windows_attack": 0.026,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 4,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "parent=msedge.exe",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=msedge.exe->msedge.exe",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--pseudonymization-salt-handle",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--trace-process-track-uuid",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--mojo-platform-channel-handle",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--metrics-shmem-handle",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=msedge",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=/prefetch",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--variations-seed-version",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--type",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--field-trial-handle",
+   "auc_attack_gt_hn": 0.4874,
+   "separation": 0.5126,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=None->wmiprvse.exe",
+   "auc_attack_gt_hn": 0.4875,
+   "separation": 0.5125,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.03,
+   "pct_windows_hn": 0.055,
+   "sessions_attack": 5,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "pair=svchost.exe->gpupdate.exe",
+   "auc_attack_gt_hn": 0.5124,
+   "separation": 0.5124,
+   "side": "attack",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 5,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=gpupdate",
+   "auc_attack_gt_hn": 0.5124,
+   "separation": 0.5124,
+   "side": "attack",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 5,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=/target",
+   "auc_attack_gt_hn": 0.5124,
+   "separation": 0.5124,
+   "side": "attack",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 5,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "parent=microsoftedgeupdate.exe",
+   "auc_attack_gt_hn": 0.4881,
+   "separation": 0.5119,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.026,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 4,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "cmdtok=--gpu-preferences",
+   "auc_attack_gt_hn": 0.4882,
+   "separation": 0.5118,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 1,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=gpu-process",
+   "auc_attack_gt_hn": 0.4882,
+   "separation": 0.5118,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 1,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--gpu-vendor-id",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--gpu-driver-version",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--use-gl",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=d0d0-warp-webgl",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--use-angle",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--gpu-sub-system-id",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--disable-gpu-sandbox",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--gpu-device-id",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=angle",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=--gpu-revision",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=waaaaaaaaadoaaaeaaaaaaaaaaaaagaaqaaaaaaaaaaaaaaaaaaaadgaaaaaaaaaaaaaaaaaaabcaaaaaaaaaaaaaaaaaaaakaaaaaaaaaaoaaaaaaaaaagaaaaaaaaadaaaaaeaaaaaaaaaaaaaaagaaaaaaaaacaaaaaaaaaa",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=echo",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "cmdtok=dc0.corp.vtlab.test",
+   "auc_attack_gt_hn": 0.4886,
+   "separation": 0.5114,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 0,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "cmdtok=arg0",
+   "auc_attack_gt_hn": 0.4889,
+   "separation": 0.5111,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.072,
+   "pct_windows_hn": 0.091,
+   "sessions_attack": 10,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "cmdtok=0.0.0.0",
+   "auc_attack_gt_hn": 0.489,
+   "separation": 0.511,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.064,
+   "pct_windows_hn": 0.091,
+   "sessions_attack": 3,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "image=wazuh-agent.exe",
+   "auc_attack_gt_hn": 0.4892,
+   "separation": 0.5108,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 4,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "pair=None->wazuh-agent.exe",
+   "auc_attack_gt_hn": 0.4892,
+   "separation": 0.5108,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 4,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "cmdtok=ngckeypregen",
+   "auc_attack_gt_hn": 0.5104,
+   "separation": 0.5104,
+   "side": "attack",
+   "pct_windows_attack": 0.049,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 9,
+   "sessions_hn": 5
+  },
+  {
+   "feature": "pair=services.exe->trustedinstaller.exe",
+   "auc_attack_gt_hn": 0.5103,
+   "separation": 0.5103,
+   "side": "attack",
+   "pct_windows_attack": 0.083,
+   "pct_windows_hn": 0.059,
+   "sessions_attack": 11,
+   "sessions_hn": 11
+  },
+  {
+   "feature": "cmdtok=trustedinstaller",
+   "auc_attack_gt_hn": 0.5103,
+   "separation": 0.5103,
+   "side": "attack",
+   "pct_windows_attack": 0.083,
+   "pct_windows_hn": 0.059,
+   "sessions_attack": 11,
+   "sessions_hn": 11
+  },
+  {
+   "feature": "pair=None->microsoftedgeupdate.exe",
+   "auc_attack_gt_hn": 0.5102,
+   "separation": 0.5102,
+   "side": "attack",
+   "pct_windows_attack": 0.125,
+   "pct_windows_hn": 0.1,
+   "sessions_attack": 21,
+   "sessions_hn": 14
+  },
+  {
+   "feature": "cmdtok=netsetupsvc",
+   "auc_attack_gt_hn": 0.5098,
+   "separation": 0.5098,
+   "side": "attack",
+   "pct_windows_attack": 0.057,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 11,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "image=gpupdate.exe",
+   "auc_attack_gt_hn": 0.5098,
+   "separation": 0.5098,
+   "side": "attack",
+   "pct_windows_attack": 0.038,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 5,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "pair=microsoftedgeupdate.exe->microsoftedgeupdate.exe",
+   "auc_attack_gt_hn": 0.4905,
+   "separation": 0.5095,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.026,
+   "pct_windows_hn": 0.046,
+   "sessions_attack": 4,
+   "sessions_hn": 5
+  },
+  {
+   "feature": "cmdtok=core",
+   "auc_attack_gt_hn": 0.4908,
+   "separation": 0.5092,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.023,
+   "pct_windows_hn": 0.041,
+   "sessions_attack": 3,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "cmdtok=/displaydns",
+   "auc_attack_gt_hn": 0.4909,
+   "separation": 0.5091,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "eid=1704",
+   "auc_attack_gt_hn": 0.4909,
+   "separation": 0.5091,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=/ua",
+   "auc_attack_gt_hn": 0.4911,
+   "separation": 0.5089,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.057,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 8,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "cmdtok=/installsource",
+   "auc_attack_gt_hn": 0.4911,
+   "separation": 0.5089,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.057,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 8,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "cmdtok=wsappx",
+   "auc_attack_gt_hn": 0.4919,
+   "separation": 0.5081,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 3,
+   "sessions_hn": 6
+  },
+  {
+   "feature": "image=mousocoreworker.exe",
+   "auc_attack_gt_hn": 0.5078,
+   "separation": 0.5078,
+   "side": "attack",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.046,
+   "sessions_attack": 8,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "pair=None->gpupdate.exe",
+   "auc_attack_gt_hn": 0.5078,
+   "separation": 0.5078,
+   "side": "attack",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 4,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "cmdtok=keyroaming",
+   "auc_attack_gt_hn": 0.4925,
+   "separation": 0.5075,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.064,
+   "pct_windows_hn": 0.078,
+   "sessions_attack": 12,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "cmdtok=/domain",
+   "auc_attack_gt_hn": 0.5071,
+   "separation": 0.5071,
+   "side": "attack",
+   "pct_windows_attack": 0.242,
+   "pct_windows_hn": 0.205,
+   "sessions_attack": 53,
+   "sessions_hn": 43
+  },
+  {
+   "feature": "cmdtok=microsoftedgeupdate",
+   "auc_attack_gt_hn": 0.4929,
+   "separation": 0.5071,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 9,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "cmdtok=networkservice",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "image=identity_helper.exe",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "image=mpcmdrun.exe",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "parent=msmpeng.exe",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=msmpeng.exe->mpcmdrun.exe",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=mpcmdrun",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=-schedulejob",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=-restrictprivileges",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "parent=mpcmdrun.exe",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=mpcmdrun.exe->mpcmdrun.exe",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=-reinvoke",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=None->mpcmdrun.exe",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=signaturesupdateservice",
+   "auc_attack_gt_hn": 0.4932,
+   "separation": 0.5068,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.0,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 0,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=svchost.exe->tiworker.exe",
+   "auc_attack_gt_hn": 0.5067,
+   "separation": 0.5067,
+   "side": "attack",
+   "pct_windows_attack": 0.075,
+   "pct_windows_hn": 0.059,
+   "sessions_attack": 11,
+   "sessions_hn": 11
+  },
+  {
+   "feature": "cmdtok=tiworker",
+   "auc_attack_gt_hn": 0.5067,
+   "separation": 0.5067,
+   "side": "attack",
+   "pct_windows_attack": 0.075,
+   "pct_windows_hn": 0.059,
+   "sessions_attack": 11,
+   "sessions_hn": 11
+  },
+  {
+   "feature": "cmdtok=<hex>",
+   "auc_attack_gt_hn": 0.4933,
+   "separation": 0.5067,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.038,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 8,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "pair=svchost.exe->mousocoreworker.exe",
+   "auc_attack_gt_hn": 0.5067,
+   "separation": 0.5067,
+   "side": "attack",
+   "pct_windows_attack": 0.045,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 6,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "cmdtok=mousocoreworker",
+   "auc_attack_gt_hn": 0.5067,
+   "separation": 0.5067,
+   "side": "attack",
+   "pct_windows_attack": 0.045,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 6,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "cmdtok=computer",
+   "auc_attack_gt_hn": 0.5067,
+   "separation": 0.5067,
+   "side": "attack",
+   "pct_windows_attack": 0.023,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "eid=1500",
+   "auc_attack_gt_hn": 0.5067,
+   "separation": 0.5067,
+   "side": "attack",
+   "pct_windows_attack": 0.023,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 3,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=svchost.exe->microsoftedgeupdate.exe",
+   "auc_attack_gt_hn": 0.4936,
+   "separation": 0.5064,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.038,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 6,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "cmdtok=scheduler",
+   "auc_attack_gt_hn": 0.4936,
+   "separation": 0.5064,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.038,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 6,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "image=dfsrs.exe",
+   "auc_attack_gt_hn": 0.4938,
+   "separation": 0.5062,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 7,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "pair=None->dfsrs.exe",
+   "auc_attack_gt_hn": 0.4938,
+   "separation": 0.5062,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.073,
+   "sessions_attack": 7,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "pair=svchost.exe->dsregcmd.exe",
+   "auc_attack_gt_hn": 0.4938,
+   "separation": 0.5062,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 3,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "cmdtok=dsregcmd",
+   "auc_attack_gt_hn": 0.4938,
+   "separation": 0.5062,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 3,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "pair=None->dsregcmd.exe",
+   "auc_attack_gt_hn": 0.4938,
+   "separation": 0.5062,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 3,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "pair=None->mousocoreworker.exe",
+   "auc_attack_gt_hn": 0.506,
+   "separation": 0.506,
+   "side": "attack",
+   "pct_windows_attack": 0.03,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 7,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "image=msmpeng.exe",
+   "auc_attack_gt_hn": 0.5058,
+   "separation": 0.5058,
+   "side": "attack",
+   "pct_windows_attack": 0.03,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 6,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "pair=None->msmpeng.exe",
+   "auc_attack_gt_hn": 0.5058,
+   "separation": 0.5058,
+   "side": "attack",
+   "pct_windows_attack": 0.03,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 6,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "image=audiodg.exe",
+   "auc_attack_gt_hn": 0.4942,
+   "separation": 0.5058,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.023,
+   "sessions_attack": 1,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "cmdtok=pcapatchsdbtask",
+   "auc_attack_gt_hn": 0.5057,
+   "separation": 0.5057,
+   "side": "attack",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.0,
+   "sessions_attack": 1,
+   "sessions_hn": 0
+  },
+  {
+   "feature": "image=microsoftedgeupdate.exe",
+   "auc_attack_gt_hn": 0.5055,
+   "separation": 0.5055,
+   "side": "attack",
+   "pct_windows_attack": 0.125,
+   "pct_windows_hn": 0.11,
+   "sessions_attack": 21,
+   "sessions_hn": 15
+  },
+  {
+   "feature": "eid=1001",
+   "auc_attack_gt_hn": 0.4945,
+   "separation": 0.5055,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.045,
+   "pct_windows_hn": 0.055,
+   "sessions_attack": 9,
+   "sessions_hn": 9
+  },
+  {
+   "feature": "image=logonui.exe",
+   "auc_attack_gt_hn": 0.4948,
+   "separation": 0.5052,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.068,
+   "pct_windows_hn": 0.078,
+   "sessions_attack": 12,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "image=dsregcmd.exe",
+   "auc_attack_gt_hn": 0.4955,
+   "separation": 0.5045,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.019,
+   "pct_windows_hn": 0.027,
+   "sessions_attack": 3,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "logon_type=7",
+   "auc_attack_gt_hn": 0.4963,
+   "separation": 0.5037,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.041,
+   "sessions_attack": 6,
+   "sessions_hn": 5
+  },
+  {
+   "feature": "pair=None->logonui.exe",
+   "auc_attack_gt_hn": 0.4964,
+   "separation": 0.5036,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.041,
+   "sessions_attack": 5,
+   "sessions_hn": 5
+  },
+  {
+   "feature": "integrity=S-1-16-4096",
+   "auc_attack_gt_hn": 0.4965,
+   "separation": 0.5035,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 2,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "cmdtok=-servername",
+   "auc_attack_gt_hn": 0.4965,
+   "separation": 0.5035,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 2,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "integrity=AppContainer",
+   "auc_attack_gt_hn": 0.4965,
+   "separation": 0.5035,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 2,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "cmdtok=\\windows\\system0\\pcasvc.dll",
+   "auc_attack_gt_hn": 0.5034,
+   "separation": 0.5034,
+   "side": "attack",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=startwork",
+   "auc_attack_gt_hn": 0.5034,
+   "separation": 0.5034,
+   "side": "attack",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 2,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=backgroundtaskhost.webaccountprovider",
+   "auc_attack_gt_hn": 0.5034,
+   "separation": 0.5034,
+   "side": "attack",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 2,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "image=runtimebroker.exe",
+   "auc_attack_gt_hn": 0.4969,
+   "separation": 0.5031,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 1,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=install",
+   "auc_attack_gt_hn": 0.4971,
+   "separation": 0.5029,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 8,
+   "sessions_hn": 11
+  },
+  {
+   "feature": "logon_type=11",
+   "auc_attack_gt_hn": 0.4972,
+   "separation": 0.5028,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.026,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 5,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "image=lockapp.exe",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=None->lockapp.exe",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=res",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=if",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=get-vmswitch",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=_.netadapterinterfacedescription",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=null",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=.interfacedescription",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=-ne",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=get-netlbfoteamnic",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=-eq",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=-and",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=appxsvc",
+   "auc_attack_gt_hn": 0.4973,
+   "separation": 0.5027,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.004,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "logon_type=None",
+   "auc_attack_gt_hn": 0.4974,
+   "separation": 0.5026,
+   "side": "hard_negative",
+   "pct_windows_attack": 1.0,
+   "pct_windows_hn": 1.0,
+   "sessions_attack": 149,
+   "sessions_hn": 157
+  },
+  {
+   "feature": "image=tiworker.exe",
+   "auc_attack_gt_hn": 0.4974,
+   "separation": 0.5026,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.091,
+   "pct_windows_hn": 0.096,
+   "sessions_attack": 15,
+   "sessions_hn": 15
+  },
+  {
+   "feature": "parent=winlogon.exe",
+   "auc_attack_gt_hn": 0.4983,
+   "separation": 0.5017,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 7,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "pair=winlogon.exe->logonui.exe",
+   "auc_attack_gt_hn": 0.4983,
+   "separation": 0.5017,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 7,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=/flags",
+   "auc_attack_gt_hn": 0.4983,
+   "separation": 0.5017,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 7,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=logonui",
+   "auc_attack_gt_hn": 0.4983,
+   "separation": 0.5017,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 7,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "cmdtok=/state0",
+   "auc_attack_gt_hn": 0.4983,
+   "separation": 0.5017,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.034,
+   "pct_windows_hn": 0.037,
+   "sessions_attack": 7,
+   "sessions_hn": 7
+  },
+  {
+   "feature": "image=msedgewebview2.exe",
+   "auc_attack_gt_hn": 0.4983,
+   "separation": 0.5017,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 3,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "pair=None->msedgewebview2.exe",
+   "auc_attack_gt_hn": 0.4983,
+   "separation": 0.5017,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 3,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "eid=16384",
+   "auc_attack_gt_hn": 0.4983,
+   "separation": 0.5017,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 4,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "pair=None->sppsvc.exe",
+   "auc_attack_gt_hn": 0.4983,
+   "separation": 0.5017,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.018,
+   "sessions_attack": 4,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "image=wsqmcons.exe",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=svchost.exe->wsqmcons.exe",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=wsqmcons",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=None->wsqmcons.exe",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "image=compattelrunner.exe",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=compattelrunner.exe->compattelrunner.exe",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=-m",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=-cv",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=-f",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=compattelrunner",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=None->compattelrunner.exe",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=None->backgroundtaskhost.exe",
+   "auc_attack_gt_hn": 0.5015,
+   "separation": 0.5015,
+   "side": "attack",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.005,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=None->net.exe",
+   "auc_attack_gt_hn": 0.4986,
+   "separation": 0.5014,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.325,
+   "pct_windows_hn": 0.283,
+   "sessions_attack": 72,
+   "sessions_hn": 59
+  },
+  {
+   "feature": "image=usoclient.exe",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=svchost.exe->usoclient.exe",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=usoclient",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=None->usoclient.exe",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=utility",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 3,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=none",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 3,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=--lang",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 3,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=--service-sandbox-type",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 3,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=en-us",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 3,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=--utility-sub-type",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 3,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=None->audiodg.exe",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 1,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=svchost.exe->wmiprvse.exe",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 3,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=wmiprvse",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 3,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=-secured",
+   "auc_attack_gt_hn": 0.4988,
+   "separation": 0.5012,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 3,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "image=backgroundtaskhost.exe",
+   "auc_attack_gt_hn": 0.5011,
+   "separation": 0.5011,
+   "side": "attack",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=svchost.exe->backgroundtaskhost.exe",
+   "auc_attack_gt_hn": 0.5011,
+   "separation": 0.5011,
+   "side": "attack",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=backgroundtaskhost",
+   "auc_attack_gt_hn": 0.5011,
+   "separation": 0.5011,
+   "side": "attack",
+   "pct_windows_attack": 0.011,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "image=taskhostw.exe",
+   "auc_attack_gt_hn": 0.499,
+   "separation": 0.501,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.174,
+   "pct_windows_hn": 0.169,
+   "sessions_attack": 25,
+   "sessions_hn": 27
+  },
+  {
+   "feature": "image=trustedinstaller.exe",
+   "auc_attack_gt_hn": 0.501,
+   "separation": 0.501,
+   "side": "attack",
+   "pct_windows_attack": 0.098,
+   "pct_windows_hn": 0.096,
+   "sessions_attack": 15,
+   "sessions_hn": 15
+  },
+  {
+   "feature": "logon_type=2",
+   "auc_attack_gt_hn": 0.4991,
+   "separation": 0.5009,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.03,
+   "pct_windows_hn": 0.032,
+   "sessions_attack": 5,
+   "sessions_hn": 4
+  },
+  {
+   "feature": "pair=svchost.exe->taskhostw.exe",
+   "auc_attack_gt_hn": 0.5008,
+   "separation": 0.5008,
+   "side": "attack",
+   "pct_windows_attack": 0.17,
+   "pct_windows_hn": 0.16,
+   "sessions_attack": 25,
+   "sessions_hn": 26
+  },
+  {
+   "feature": "cmdtok=taskhostw",
+   "auc_attack_gt_hn": 0.5008,
+   "separation": 0.5008,
+   "side": "attack",
+   "pct_windows_attack": 0.17,
+   "pct_windows_hn": 0.16,
+   "sessions_attack": 25,
+   "sessions_hn": 26
+  },
+  {
+   "feature": "pair=None->tiworker.exe",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.049,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 10,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "pair=None->trustedinstaller.exe",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.049,
+   "pct_windows_hn": 0.05,
+   "sessions_attack": 10,
+   "sessions_hn": 8
+  },
+  {
+   "feature": "cmdtok=chrome.mojom.utilwin",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 2,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=--message-loop-type-ui",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 2,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=--skip-read-main-dll",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 2,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=compattelrunner.exe->powershell.exe",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=result",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=restricted",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=final",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=-command",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=-executionpolicy",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=write-host",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=cameramonitor",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=frameserver",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "cmdtok=camera",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 2,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "pair=svchost.exe->runtimebroker.exe",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "cmdtok=runtimebroker",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "image=explorer.exe",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "pair=None->explorer.exe",
+   "auc_attack_gt_hn": 0.4992,
+   "separation": 0.5008,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.008,
+   "pct_windows_hn": 0.009,
+   "sessions_attack": 1,
+   "sessions_hn": 1
+  },
+  {
+   "feature": "parent=compattelrunner.exe",
+   "auc_attack_gt_hn": 0.5006,
+   "separation": 0.5006,
+   "side": "attack",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 1,
+   "sessions_hn": 2
+  },
+  {
+   "feature": "eid=566",
+   "auc_attack_gt_hn": 0.5006,
+   "separation": 0.5006,
+   "side": "attack",
+   "pct_windows_attack": 0.015,
+   "pct_windows_hn": 0.014,
+   "sessions_attack": 4,
+   "sessions_hn": 3
+  },
+  {
+   "feature": "image=system",
+   "auc_attack_gt_hn": 0.5005,
+   "separation": 0.5005,
+   "side": "attack",
+   "pct_windows_attack": 0.464,
+   "pct_windows_hn": 0.397,
+   "sessions_attack": 75,
+   "sessions_hn": 60
+  },
+  {
+   "feature": "pair=None->system",
+   "auc_attack_gt_hn": 0.5005,
+   "separation": 0.5005,
+   "side": "attack",
+   "pct_windows_attack": 0.464,
+   "pct_windows_hn": 0.397,
+   "sessions_attack": 75,
+   "sessions_hn": 60
+  },
+  {
+   "feature": "cmdtok=ping",
+   "auc_attack_gt_hn": 0.5002,
+   "separation": 0.5002,
+   "side": "attack",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 2,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "cmdtok=-w",
+   "auc_attack_gt_hn": 0.5002,
+   "separation": 0.5002,
+   "side": "attack",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 2,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "image=ping.exe",
+   "auc_attack_gt_hn": 0.5002,
+   "separation": 0.5002,
+   "side": "attack",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 2,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "pair=<launcher>->ping.exe",
+   "auc_attack_gt_hn": 0.5002,
+   "separation": 0.5002,
+   "side": "attack",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 2,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "pair=None->ping.exe",
+   "auc_attack_gt_hn": 0.5002,
+   "separation": 0.5002,
+   "side": "attack",
+   "pct_windows_attack": 0.06,
+   "pct_windows_hn": 0.064,
+   "sessions_attack": 2,
+   "sessions_hn": 12
+  },
+  {
+   "feature": "pair=None->taskhostw.exe",
+   "auc_attack_gt_hn": 0.5,
+   "separation": 0.5,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.166,
+   "pct_windows_hn": 0.16,
+   "sessions_attack": 25,
+   "sessions_hn": 26
+  },
+  {
+   "feature": "eid=4648",
+   "auc_attack_gt_hn": 0.5,
+   "separation": 0.5,
+   "side": "hard_negative",
+   "pct_windows_attack": 0.042,
+   "pct_windows_hn": 0.041,
+   "sessions_attack": 7,
+   "sessions_hn": 5
+  }
+ ]
+}

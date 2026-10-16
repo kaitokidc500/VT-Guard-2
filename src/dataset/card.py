@@ -16,7 +16,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 import featurize
 from label import LABEL_VERSION
 from split import SPLITS
-from windows import BATCHES, NOVEL_BATCHES, load_manifests
+from windows import BATCHES, NOVEL_BATCHES, load_manifests, DATASET_VERSION, SCAFFOLD_DROP_IMAGES, LAUNCHERS, LAUNCHER_TOKEN
+from scaffold_scan import scan as scaffold_scan
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "eval"))
+from evaluate import fci
 
 LEAK_RE = re.compile(r"atomic|invoke-|\bT10\d\d|\bT1\d{3}\b|vt-?guard", re.I)
 SPLIT_NAME = {"train": "Train", "t_clean": "T-clean", "t_hard": "T-hard", "t_novel": "T-novel"}
@@ -28,6 +31,18 @@ TOOLS = ["ping.exe", "wevtutil.exe", "ntdsutil.exe", "vssadmin.exe", "nltest.exe
 CHECK9_TOOLS = ["ntdsutil.exe", "vssadmin.exe", "ping.exe", "wevtutil.exe", "nltest.exe", "nslookup.exe",
                 "nbtstat.exe", "netsh.exe", "cmd.exe"]
 CHECK9_MIN_NEG = 0.15
+SEP11 = 0.98
+_BENIGN_SCEN = re.compile(r"(route|netstat|ipconfig|print|-ano|admins|list|shadows|/dsgetdc|/sc_query)", re.I)
+
+def categorize11(feature, side):
+    """Phan loai so bo dac trung mot-phia (de nguoi duyet): scaffold con sot / kich ban benign / tac dong phu
+    NTDS / hanh vi tan cong."""
+    if feature.startswith("eid="): return "tac dong phu NTDS (ESENT/Directory Service)" if side == "attack" else "kich ban benign"
+    if "shcreatelocalserverrundll" in feature or "shell0.dll" in feature: return "tac dong phu nen (svchost->rundll32 COM, ngoai cay tien trinh)"
+    if re.match(r"^cmdtok=[a-z0-9_-]+\.exe$", feature) and side == "hard_negative": return "scaffold con sot (.exe cua lenh goi tu PowerShell)"
+    if feature == f"pair={LAUNCHER_TOKEN}->powershell.exe": return "gioi han co chu y (ART chay test PowerShell trong tien trinh con)"
+    if side == "hard_negative": return "kich ban benign (coverage attack thieu)" if _BENIGN_SCEN.search(feature) else "kich ban benign"
+    return "hanh vi tan cong"
 EXCLUDE_WHY = {"hard_negative_labeled0_khong_co_tien_trinh_con":
                "không có event tiến trình con trong khung phiên, nghi do agent hoặc đồng hồ sau khi khôi phục snapshot; "
                "loại hẳn (quy tắc chung: hard_negative labeled=0 bị loại như phiên attack)",
@@ -136,10 +151,46 @@ def main():
     acc["7_train_test_time_overlap"] = sst["acceptance"]["train_test_time_overlap"]
     acc["8_vocab_fit_only_train"] = vocab["_meta"]["fit"].startswith("run_id trong train_runs") and \
         vocab["_meta"]["fit_sessions"] == per["train"]["sessions"]
+    # ---- #11: khong dac trung don le nao tach attack vs hard_negative voi muc tach >= 0.98 (thuong truc) ----
+    rows11, meta11 = scaffold_scan(a.root, canon=False, min_sep=0.5, min_windows=3)
+    over11 = [r for r in rows11 if r["separation"] >= SEP11]
+    one_sided = sorted([r for r in rows11 if (r["pct_windows_hn"] <= 0.01 and r["pct_windows_attack"] >= 0.10 and r["sessions_hn"] == 0)
+                        or (r["pct_windows_attack"] <= 0.01 and r["pct_windows_hn"] >= 0.10 and r["sessions_attack"] == 0)],
+                       key=lambda r: -max(r["pct_windows_attack"], r["pct_windows_hn"]))
+    for r in one_sided: r["category"] = categorize11(r["feature"], r["side"])
+    acc["11_single_feature_separation"] = {
+        "threshold": SEP11, "unit": "cua so attack duong vs cua so hard_negative; diem = ti le event mang gia tri",
+        "max_separation": rows11[0]["separation"] if rows11 else None, "max_feature": rows11[0]["feature"] if rows11 else None,
+        "over_threshold": over11, "top10": rows11[:10], "one_sided": one_sided, "meta": meta11, "ok": not over11}
     passed = (not acc["1_run_id_in_gt1_split"] and not bad_src and nonnum == 0
               and acc["3_t_hard_non_hn_windows"] == 0 and acc["3_t_novel_non_novel_batch_windows"] == 0
               and acc["3_novel_batch_outside_t_novel"] == 0 and acc["5_positive_windows"]["ok"]
               and not hits and not vocab_hits and not acc["7_train_test_time_overlap"] and acc["8_vocab_fit_only_train"])
+    # bang chung moc A (B1 / B1-raw / B1-canon tren dataset-v1.0)
+    mocA = {}
+    for m in ("b1_tfidf_lr", "b1_raw_lr", "b1_canon_lr"):
+        fp = P("reports", "step5", "v1.0_mocA", f"{m}.json")
+        if os.path.exists(fp):
+            r = json.load(open(fp, encoding="utf-8")); S = r["splits"]; h = S["t_hard"]["tuned"]
+            mocA[m] = {"t_clean_f1": S["t_clean"]["tuned"]["f1"], "t_hard_fpr": h["fpr"], "t_hard_fp": h["fp"],
+                       "t_hard_fp_cmd": h["fpr_by_cmd"].get("co cmd.exe", {}).get("fp"), "t_novel_f1": S["t_novel"]["tuned"]["f1"],
+                       "t_novel_pr_auc": S["t_novel"]["pr_auc"], "macro_f1_clean": S["t_clean"]["ttp_tuned"]["macro_f1"]["point"],
+                       "macro_f1_novel": S["t_novel"]["ttp_tuned"]["macro_f1"]["point"],
+                       "top_pos": r.get("top_pos_features", [])[:5], "top_neg": r.get("top_neg_features", [])[:5]}
+    scan10 = {}
+    fp = P("reports", "step5", "scaffold_scan_v1.0.json")
+    if os.path.exists(fp):
+        d10 = json.load(open(fp, encoding="utf-8"))["v1.0"]["rows"]
+        pure10 = [r for r in d10 if (r["pct_windows_hn"] <= 0.01 and r["pct_windows_attack"] >= 0.10 and r["sessions_hn"] == 0)
+                  or (r["pct_windows_attack"] <= 0.01 and r["pct_windows_hn"] >= 0.10 and r["sessions_attack"] == 0)]
+        scan10 = {"top": d10[:8], "n_one_sided": len(pure10), "max": d10[0]["separation"] if d10 else None}
+    v10 = {}
+    fp = P("data", "processed", "v1.0", "dataset_stats.v1.0.json")
+    if os.path.exists(fp):
+        o = json.load(open(fp, encoding="utf-8"))
+        v10 = {"windows": o["windows"]["total"], "positive": o["windows"]["positive"], "before_cap": o["windows"]["before_cap"],
+               "splits": {k: {"windows": v["windows"], "positive": v["positive"], "sessions": v["sessions"]} for k, v in o["splits"].items()},
+               "files_sha256": o["files_sha256"]}
 
     # ---- bang T1003.003 theo tap ----
     ntds_runs = {r for r, m in man.items() if "T1003.003" in m["ttps"]}
@@ -237,7 +288,9 @@ def main():
     shutil.copyfile(P("data", "processed", "vocab.json"), P("reports", "vocab.json"))
     stats = {
         "generated": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "dataset_version": DATASET_VERSION,
         "versions": {"normalize": NORMALIZE_VERSION, "label": LABEL_VERSION, "featurizer": featurize.FEATURIZER_VERSION},
+        "scaffold": {**wst.get("scaffold", {}), "evidence_mocA_v1.0": mocA, "scan_v1.0": scan10, "v1.0": v10},
         "seed": a.seed,
         "params": {"W": wst["params"]["W"], "stride": wst["params"]["stride"], "K": wst["params"]["K"],
                    "time_field": wst["params"]["time_field"], "hard_frac": sst["hard_frac"],
@@ -292,6 +345,9 @@ def main():
     print("T1003.003:", {SPLIT_NAME[s]: (v["positive"], v["negative_in_t1003_sessions"], v["negative_dc01"]) for s, v in t1003.items()})
     print("Cong cu chi o phia duong: toan bo =", shortcut_all, "| trong Train =", shortcut_train)
     print("ACCEPTANCE (8 kiem tra):", "DAT" if passed else "KHONG DAT")
+    c11 = acc["11_single_feature_separation"]
+    print("#11: max tach", c11["max_separation"], c11["max_feature"], "| >= 0.98:", [r["feature"] for r in c11["over_threshold"]],
+          "| mot phia:", len(c11["one_sided"]), dict(Counter(r["category"] for r in c11["one_sided"])))
 
 def render_card(s):
     P = s["splits"]; ac = s["acceptance"]; pv = s["provenance"]; ev = s["events"]; wn = s["windows"]
@@ -306,11 +362,13 @@ def render_card(s):
     excl_attack = [(r, why) for r, c, why in wn["sessions_excluded"] if c == "attack"]
     fr = wn["full64_rate"]
     L = []
-    L += ["# VT-Guard — Dataset card (Bước 4, bản đóng băng)", "",
+    sc = s["scaffold"]; c11 = ac["11_single_feature_separation"]; v10 = sc.get("v1.0", {})
+    L += [f"# VT-Guard — Dataset card ({s['dataset_version'].replace('v', 'dataset-v')}, bản đóng băng)", "",
           f"Sinh tự động bởi `src/dataset/card.py` lúc {s['generated']}. Số liệu chi tiết: `reports/dataset_stats.json`.", "",
-          "> **Phiên bản `dataset-v1.0` — ĐÓNG BĂNG.** Split (`data/processed/splits/*.jsonl`), `vocab.json` và checksum ở mục 10 "
-          "là cố định: mọi mô hình ở Bước 5–8 phải dùng đúng các file này. Trước khi huấn luyện/đánh giá, kiểm tra sha256 khớp bảng mục 10. "
-          "Muốn đổi dữ liệu → tạo phiên bản mới (dataset-v1.1…), không sửa tại chỗ.", "",
+          f"> **Phiên bản `dataset-{s['dataset_version']}` — ĐÓNG BĂNG, thay thế dataset-v1.0.** Split (`data/processed/splits/*.jsonl`), "
+          "`vocab.json` và checksum ở mục 10 là cố định: mọi mô hình ở Bước 5–8 phải dùng đúng các file này; trước khi chạy, so sha256 với mục 10. "
+          "v1.1 trung hoà dấu vết bộ sinh dữ liệu (mục 7a); thành viên các tập (run_id) giữ nguyên so với v1.0. "
+          "Muốn đổi dữ liệu → tạo phiên bản mới, không sửa tại chỗ.", "",
           "## 1. Mục đích",
           "Phát hiện hành vi APT kiểu **Volt Typhoon** (living-off-the-land) trên log Windows thu bằng Wazuh. "
           "Đơn vị phát hiện là **cửa sổ phiên** (chuỗi tối đa 64 event), nhãn **đa nhãn** ở mức cửa sổ: "
@@ -424,8 +482,10 @@ def render_card(s):
           f"riêng Train: {', '.join(s['tools_positive_only_train']) or 'không có'}.", "",
           "## 6. Đặc trưng (mỗi event → 268 cột)",
           f"- 7 categorical → chỉ số embedding (`vocab.json`): " + ", ".join(f"`{f}` ({s['features']['vocab_size'][f]})" for f in featurize.CAT_FIELDS) +
-          ". Id 0=`<pad>`, 1=`<unk>`, 2=`<none>`. Token vào vocab khi xuất hiện ở ≥2 phiên Train; `integrity_level` gộp SID về tên.",
-          f"- `command_line` → {featurize.CMD_DIM} chiều: chuẩn hoá (chữ thường, bỏ nháy, GUID/hex/số → ký hiệu), char n-gram 3–5, "
+          ". Id 0=`<pad>`, 1=`<unk>`, 2=`<none>`. Token vào vocab khi xuất hiện ở ≥2 phiên Train; `integrity_level` gộp SID về tên; "
+          f"`parent_image_name` ∈ {{{', '.join(sorted(LAUNCHERS))}}} → `{LAUNCHER_TOKEN}` (gộp ngay trong windows.jsonl).",
+          f"- `command_line` → {featurize.CMD_DIM} chiều: chuẩn hoá ({s['versions']['featurizer']}: `canon_cmd` — basename file thực thi đầu dòng lệnh, "
+          "bỏ chuyển hướng `>nul 2>&1 1> 2> >>`, `& && | ||` → khoảng trắng; rồi chữ thường, bỏ nháy, GUID/hex/số → ký hiệu), char n-gram 3–5, "
           "signed hashing md5, log1p, chuẩn L2. **Không lưu text thô.**",
           "- 5 số: `dt_log` = log(1+Δt giây), `has_network`, `has_dns`, `is_powershell_channel`, `is_security_channel`.",
           "- Vocab fit **chỉ trên Train**; tỉ lệ `<unk>` của `image_name`: " +
@@ -455,6 +515,46 @@ def render_card(s):
           f"khoá chỉ có `record_id` sẽ xoá nhầm {fmt(ev['brief_key_collisions'])} event thật.",
           "- Chia theo phiên và nhóm phiên: không `run_id`/session nào ở 2 tập, không cặp phiên Train/kiểm thử nào chồng thời gian trên cùng host.",
           "- Vocab fit chỉ trên Train; T-novel thật sự chứa token chưa thấy.", "",
+          "### 7a. Rò rỉ dấu vết bộ sinh dữ liệu (scaffold) và cách xử lý (dataset-v1.1)",
+          "Ở Bước 5, B1 lộ ra rằng **cách khởi chạy công cụ** khác nhau giữa bộ sinh tấn công (Atomic Red Team) và script hard-negative tự viết "
+          "(batch06/07) — không phải hành vi:",
+          "- **Đường dẫn cmd**: ART gọi `\"cmd.exe\" /c …` (283/283 dòng lệnh attack); script hard-negative gọi `\"C:\\Windows\\System32\\cmd.exe\" /c …` (236/236).",
+          "- **Chuyển hướng**: chỉ hard-negative batch07 có `>nul 2>&1` (212/212).",
+          "- **conhost.exe**: ART chạy cmd trong console riêng → `cmd.exe→conhost.exe` ở 131/149 phiên attack, 0 phiên hard-negative "
+          "(script dùng `Start-Process -NoNewWindow`).",
+          "- **Launcher cha**: công cụ trong script benign do `powershell.exe` sinh trực tiếp, trong ART do `cmd.exe` sinh "
+          "(`powershell.exe→arp/netstat/route/ipconfig/net` chỉ ở hard-negative; `cmd.exe→arp`, `powershell.exe→powershell.exe` chỉ ở attack).", "",
+          "**Bằng chứng định lượng (mốc A, dataset-v1.0, B1 TF-IDF+LR):** bỏ dấu vết đường dẫn + chuyển hướng (B1-canon) gần như không đổi kết quả "
+          "— chênh nằm trong khoảng tin cậy; mô hình vẫn tách được nhờ tín hiệu khác (đứng đầu là `img=conhost.exe`):", "",
+          "| Mô hình (v1.0) | T-clean F1 | T-hard FPR (FP, trong đó có cmd.exe) | T-novel F1 | T-novel PR-AUC | macro-F1 TTP clean/novel |", "|---|---|---|---|---|---|"]
+    for m, v in sc.get("evidence_mocA_v1.0", {}).items():
+        L.append(f"| {m} | {fci(v['t_clean_f1'])} | {fci(v['t_hard_fpr'])} ({v['t_hard_fp']}, {v['t_hard_fp_cmd']}) | {fci(v['t_novel_f1'])} | "
+                 f"{fci(v['t_novel_pr_auc'])} | {v['macro_f1_clean']:.3f}/{v['macro_f1_novel']:.3f} |")
+    s10 = sc.get("scan_v1.0", {})
+    L += ["",
+          "**Cách xử lý (áp ĐỒNG NHẤT mọi lớp, không xoá event hành vi):**",
+          f"1. Loại hẳn mọi event `image_name` ∈ {{{', '.join(sorted(sc.get('dropped_images', [])))}}} khi dựng stream "
+          f"({fmt(sc.get('dropped_total', 0))} event: " + ", ".join(f"{k} {fmt(v)}" for k, v in sc.get("dropped_events", {}).items()) + ").",
+          "2. Chuẩn hoá dòng lệnh (featurizer f2): basename file thực thi đầu dòng lệnh, bỏ chuyển hướng `>nul 2>&1 1> 2> >>` và toán tử `& && | ||`.",
+          "4. Bỏ đuôi `.exe` của mọi token file thực thi trong dòng lệnh (featurizer f3): công cụ do PowerShell gọi trực tiếp mang `arp.exe -a`, "
+          "`net.exe …` còn ART gõ `arp -a`, `net …`. Chỉ đổi text dòng lệnh; `image_name` giữ nguyên. Số cửa sổ và thành viên các tập không đổi.",
+          f"3. Gộp `parent_image_name` ∈ {{{', '.join(sorted(sc.get('launcher_parents', [])))}}} → `{sc.get('launcher_token')}` ở mọi nơi dùng parent "
+          "(windows.jsonl, vocab, cặp cha→con).",
+          "- **Giữ nguyên có chủ ý**: route/netstat/ipconfig/\"Domain Admins\" của kịch bản benign; tham số tấn công (arp, `%USERDNSDOMAIN%`, "
+          "`-timeout`, truy vấn nslookup, adsisearcher, `ifm`); event ESENT/Directory Service do `ntdsutil ifm` sinh ra. Đây là hành vi hoặc lỗ hổng "
+          "coverage — xử lý bằng ablation + hạn chế (mục 9), không xoá dữ liệu.", "",
+          f"**Ảnh hưởng tới cửa sổ:** {v10.get('windows', '?')} → {wn['total']} cửa sổ ({v10.get('positive', '?')} → {wn['positive']} dương; "
+          f"trước khi chặn K: {v10.get('before_cap', '?')} → {wn['before_cap']}). Bỏ conhost làm stream ngắn lại; phiên có stream vượt 64 event "
+          "chỉ nhờ event conhost giờ chỉ còn 1 cửa sổ (16 phiên mất đúng 1 cửa sổ). Cả 149 phiên attack vẫn có ≥1 cửa sổ dương. "
+          "**Thành viên các tập giữ nguyên**: danh sách run_id mỗi tập và `assignment.json` trùng khớp v1.0 (split tất định theo seed + run_id).", "",
+          "| Tập | Phiên | Cửa sổ v1.0 → v1.1 | Dương v1.0 → v1.1 |", "|---|---|---|---|"]
+    for k, p_ in P.items():
+        o = v10.get("splits", {}).get(k, {})
+        L.append(f"| {SPLIT_NAME[k]} | {p_['sessions']} | {o.get('windows', '?')} → {p_['windows']} | {o.get('positive', '?')} → {p_['positive']} |")
+    L += ["",
+          f"**Quét đặc trưng đơn lẻ trước/sau** (`src/dataset/scaffold_scan.py`): mức tách cao nhất {s10.get('max', '?')} (`image=conhost.exe`, v1.0) → "
+          f"{c11['max_separation']} (`{c11['max_feature']}`, v1.1); số đặc trưng một-phía {s10.get('n_one_sided', '?')} → {len(c11['one_sided'])}. "
+          "Danh sách đầy đủ: `reports/step5/scaffold_scan_v1.0.json`, `scaffold_scan_v1.1.json`.", "",
           "## 8. Kiểm thử chấp nhận (chạy lại trên file split)", "",
           "| # | Kiểm tra | Kết quả |", "|---|---|---|",
           f"| 1 | Không session/run_id ở >1 tập | {tick(not ac['1_run_id_in_gt1_split'])} ({len(ac['1_run_id_in_gt1_split'])} vi phạm) |",
@@ -473,7 +573,9 @@ def render_card(s):
           + tick(not c9["failed"]) + (f" ({', '.join(c9['failed'])})" if c9["failed"] else "") + " |",
           f"| 10 | So phân bố (channel, event_id) của event nền: cửa sổ dương T1003.003 vs cửa sổ revert_control | "
           f"đã chạy: khoảng cách biến phân toàn phần (TVD) = {c10['total_variation_distance']} (xem bảng dưới) |", "",
-          f"**Tổng 1–8: {tick(s['acceptance_pass'])}. #9: {tick(not c9['failed'])}. #10: báo cáo (không có ngưỡng).**", "",
+          f"| 11 | Không đặc trưng đơn lẻ nào tách attack/hard_negative với mức tách ≥ {c11['threshold']} (thường trực) | "
+          f"{tick(c11['ok'])}: cao nhất {c11['max_separation']} (`{c11['max_feature']}`) |", "",
+          f"**Tổng 1–8: {tick(s['acceptance_pass'])}. #9: {tick(not c9['failed'])}. #10: báo cáo (không có ngưỡng). #11: {tick(c11['ok'])}.**", "",
           "Kiểm tra #9 — tỉ lệ cửa sổ âm trong Train theo công cụ (không sửa số liệu để ép đạt):", "",
           "| Công cụ | Train dương | Train âm | % âm | Kết quả |", "|---|---|---|---|---|"]
     for t, v in c9["tools"].items():
@@ -486,6 +588,18 @@ def render_card(s):
           "| channel:event_id | Dương T1003.003 | revert_control | Chênh |", "|---|---|---|---|"]
     for x in c10["top10"]:
         L.append(f"| `{x['channel_event']}` | {x['t1003_pos']:.1%} | {x['revert_control']:.1%} | {x['diff']:+.1%} |")
+    L += ["",
+          "Kiểm tra #11 — 10 đặc trưng có mức tách cao nhất (max(AUC, 1−AUC); điểm = tỉ lệ event mang giá trị trong cửa sổ):", "",
+          "| Đặc trưng | Mức tách | Phía | % cửa sổ attack | % cửa sổ HN |", "|---|---|---|---|---|"]
+    for r in c11["top10"]:
+        L.append(f"| `{r['feature']}` | {r['separation']:.3f} | {r['side']} | {100 * r['pct_windows_attack']:.1f}% | {100 * r['pct_windows_hn']:.1f}% |")
+    L += ["", f"Đặc trưng **một phía** còn lại sau trung hoà ({len(c11['one_sided'])}; có ở ≥10% cửa sổ một nhóm, 0 phiên nhóm kia) — "
+          "phân loại sơ bộ để người duyệt:", "",
+          "| Đặc trưng | Phía | % cửa sổ | Phiên | Phân loại sơ bộ |", "|---|---|---|---|---|"]
+    for r in c11["one_sided"]:
+        pctw = r["pct_windows_attack"] if r["side"] == "attack" else r["pct_windows_hn"]
+        ns = r["sessions_attack"] if r["side"] == "attack" else r["sessions_hn"]
+        L.append(f"| `{r['feature']}` | {r['side']} | {100 * pctw:.1f}% | {ns} | {r['category']} |")
     L += ["",
           "Đọc kết quả #10: phần chênh không hoàn toàn là nhiễu khôi phục snapshot. `Application:216` và `Application:330` (ESENT) chỉ xuất hiện "
           "ở ntds/ntds2 — ESENT ghi khi `ntdsutil ifm` sao chép CSDL AD, tức tác động phụ thật của kỹ thuật nằm ngoài cây tiến trình "
@@ -525,6 +639,15 @@ def render_card(s):
           f"- **DC01 ít trong T-clean** ({P['t_clean']['windows_by_host'].get('DC01', 0)} cửa sổ so với "
           f"{P['t_clean']['windows_by_host'].get('WIN10-01', 0)} của WIN10-01) do phân tầng theo phiên.",
           "- **Nhiễu nhãn nhỏ đã biết**: một lệnh `net user /domain` người vận hành gõ tay trên DC01 ở batch05 được giữ làm event nền benign.",
+          "- **Lỗ hổng coverage (hành vi, giữ nguyên có chủ ý):** (1) phía attack không có `route print`, `netstat -ano`, truy vấn \"Domain Admins\" "
+          "— các lệnh này chỉ có ở kịch bản benign nên là đường tắt ngược (sự hiện diện ⇒ benign); (2) phía benign không có hoạt động IFM/ESENT "
+          "(event 216/330/2001–2006… của `ntdsutil ifm` chỉ có ở attack). Đo bằng ablation (b)/(c) ở Bước 5–6, không xoá dữ liệu.",
+          "- **Giới hạn có chủ ý — `<launcher>→powershell.exe`** (chỉ ở attack, 22% cửa sổ): ART chạy test PowerShell trong một tiến trình "
+          "powershell con, còn script benign chạy cmdlet ngay trong tiến trình hiện tại. Không gộp thêm vì `image_name=powershell.exe` là hành vi "
+          "được quan sát; đo bằng ablation (b) (bỏ image_name + parent_image_name).",
+          "- **Tác động phụ nền chỉ có ở phiên attack**: `svchost.exe→rundll32.exe shell32.dll,SHCreateLocalServerRunDll` (COM local server, "
+          "26 event nền ở 25 phiên attack, ngoài cây tiến trình, nhãn benign) và các event ESENT/Directory Service của `ntdsutil ifm` — "
+          "mô hình có thể dựa vào event nền này; đo bằng ablation (c) (chỉ cây tiến trình).",
           "- Chỉ 2 host, 2 tài khoản, 1 domain lab; phạm vi là 5 TTP Discovery/Credential Access, chưa có lateral movement hay persistence.", "",
           "## 10. Tái lập",
           "```",

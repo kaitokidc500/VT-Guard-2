@@ -13,6 +13,12 @@ Thoi gian = ts_system (gio that cua event); `ts` cua Wazuh tre toi ~85 s nen kho
 Cua so: bat dau 0, 32, 64, ... va them 1 cua so cuoi de phu duoi stream; stream < W -> 1 cua so ngan.
 Gioi han K: lay mau ngau nhien (seed + run_id) PHAN TANG theo cua so duong/am, giu it nhat
 1 cua so duong neu phien co.
+dataset-v1.1 - trung hoa dau vet bo sinh du lieu (scaffold), ap DONG NHAT moi lop:
+  - Loai han moi event image_name == conhost.exe khi dung stream (console host, khong mang hanh vi;
+    ART chay cmd trong console rieng -> co conhost, script hard-negative dung -NoNewWindow -> khong co).
+  - parent_image_name thuoc {powershell.exe, cmd.exe} -> "<launcher>" (cach khoi chay tool khac nhau
+    giua ART va script hard-negative; khong xoa event). Ap ngay trong windows.jsonl de moi noi dung chung.
+  - Chuan hoa dong lenh (basename file thuc thi, bo chuyen huong) nam o featurize.norm_cmd.
 Phien attack khong co event malicious nao trong stream -> loai, KHONG coi la benign (khong sinh cua so
 attack am gia). Truong hop labeled=0 (atomic khong sinh tien trinh con nao) ghi ly do rieng.
 Chay: python src/dataset/windows.py [--root .] [--W 64] [--stride 32] [--K 8] [--seed 1337]
@@ -25,6 +31,17 @@ from datetime import datetime
 BATCHES = ["batch01", "batch02", "batch03", "batch04", "batch05", "batch06", "batch07", "ntds", "ntds2", "ntds2v"]
 # Dot ep TOAN BO vao T-novel: batch05 = holdout thoi gian, ntds2v = bien the T1003.003 held-out
 NOVEL_BATCHES = ["batch05", "ntds2v"]
+DATASET_VERSION = "v1.1"
+# Trung hoa scaffold (dataset-v1.1), ap dong nhat moi lop
+SCAFFOLD_DROP_IMAGES = {"conhost.exe"}
+LAUNCHERS = {"powershell.exe", "cmd.exe"}
+LAUNCHER_TOKEN = "<launcher>"
+
+def neutral_parent(v):
+    return LAUNCHER_TOKEN if v and str(v).lower() in LAUNCHERS else v
+
+def is_scaffold_event(r):
+    return (r.get("image_name") or "").lower() in SCAFFOLD_DROP_IMAGES
 # Truong giu lai cho moi event trong cua so: chi nhung gi 4.3 can (khong label_*, wazuh_*, run_id,
 # event_uid, process_guid, script_block_text, ps_payload).
 EVENT_FIELDS = ["channel", "event_id", "image_name", "parent_image_name", "host_role",
@@ -51,6 +68,7 @@ def load_manifests(root):
 
 def slim(r):
     e = {k: r.get(k) for k in EVENT_FIELDS}
+    e["parent_image_name"] = neutral_parent(e["parent_image_name"])
     e["ts"] = r["ts_system"]
     e["has_dns_query"] = bool(r.get("dns_query"))
     return e
@@ -80,11 +98,14 @@ def main():
     a = ap.parse_args()
     man = load_manifests(a.root)
 
+    scaffold_dropped = Counter()
     own = defaultdict(list)          # run_id -> event
     bg = defaultdict(list)           # host -> event nen
     with open(os.path.join(a.root, "data", "processed", "all.events.jsonl"), encoding="utf-8") as fh:
         for line in fh:
             r = json.loads(line)
+            if is_scaffold_event(r):
+                scaffold_dropped["own" if r["run_id"] else "bg", bool(r["label_malicious"])] += 1; continue
             r["_t"] = ts(r["ts_system"])
             (own[r["run_id"]] if r["run_id"] else bg[r["host"]]).append(r)
     unknown = [rid for rid in own if rid not in man]
@@ -149,6 +170,11 @@ def main():
     shared_bg = sum(1 for v in bg_use.values() if v > 1)
     stats = {
         "params": {"W": a.W, "stride": a.stride, "K": a.K, "seed": a.seed, "time_field": "ts_system"},
+        "dataset_version": DATASET_VERSION,
+        "scaffold": {"dropped_images": sorted(SCAFFOLD_DROP_IMAGES), "launcher_parents": sorted(LAUNCHERS),
+                     "launcher_token": LAUNCHER_TOKEN,
+                     "dropped_events": {f"{k[0]}|{'malicious' if k[1] else 'benign'}": v for k, v in sorted(scaffold_dropped.items())},
+                     "dropped_total": sum(scaffold_dropped.values())},
         "windows": st["windows"], "positive": st["pos"], "negative": st["neg"],
         "positive_rate": round(st["pos"] / max(1, st["windows"]), 4),
         "sessions_with_windows": len(ps), "sessions_excluded": excluded,

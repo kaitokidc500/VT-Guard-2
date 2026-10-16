@@ -4,3 +4,4 @@
 *.md text eol=lf
 *.json text eol=lf
 *.ps1 text eol=crlf
+*.jsonl text eol=lf

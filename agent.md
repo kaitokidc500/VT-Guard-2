@@ -51,8 +51,8 @@ VT-Guard/  (= vt-guard-research/)
 | 1 | Hạ tầng Wazuh (DC01, WIN10-01 → Indexer) | `evidence/` | Hoàn thành |
 | 2 | Bộ điều phối sinh phiên, thu thập 479 phiên (10 đợt) | `orchestrator/`, `manifests/` | Hoàn thành |
 | 3 | Chuẩn hoá & gán nhãn (labeler v7) | `src/normalize/`, `src/label/` | Hoàn thành |
-| 4 | Đóng băng dataset (tag `dataset-v1.0`): gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
-| 5–6 | Baseline B0–B3; VT-Seq + ablation | `src/models/`, `notebooks/` | Chưa bắt đầu |
+| 4 | Đóng băng dataset (tag `dataset-v1.1`, thay v1.0): gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
+| 5–6 | Khung đánh giá (`src/eval/`), baseline B0–B3 (`src/baselines/`); VT-Seq + ablation | `src/eval/`, `src/baselines/`, `src/models/`, `notebooks/` | Đang làm |
 | 7 | Luật | `src/rules/` | Chưa bắt đầu |
 | 8 | Fusion | `src/fusion/` | Chưa bắt đầu |
 | — | Bằng chứng hạ tầng | `evidence/` | Chưa bắt đầu |
@@ -67,9 +67,10 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - Mỗi phiên chạy của orchestrator ghi một bản kê vào `manifests/` (schema sẽ chốt ở Bước 2).
 - Notebook Colab import code từ `src/` thay vì chép code vào notebook.
 - Không commit secrets: `.env`, thông tin đăng nhập Indexer, token.
-- **Dataset đóng băng `dataset-v1.0` (git tag):** Bước 5–8 dùng ĐÚNG `data/processed/splits/{train,t_clean,t_hard,t_novel}.jsonl`,
-  `data/processed/vocab.json` (bản sao `reports/vocab.json`); trước khi chạy, so sha256 với `reports/dataset_card.md` mục 10.
-  Không chạy lại split/featurize/label trên bản này; muốn đổi dữ liệu thì tạo phiên bản mới (dataset-v1.1…).
+- **Dataset đóng băng `dataset-v1.1` (git tag, thay v1.0):** Bước 5–8 dùng ĐÚNG `data/processed/splits/{train,t_clean,t_hard,t_novel}.jsonl`,
+  `data/processed/vocab.json` (bản sao `reports/vocab.json`); trước khi chạy, so sha256 với `reports/dataset_card.md` mục 10
+  (`src/eval/evaluate.py: check_dataset` tự so). Không chạy lại split/featurize/label trên bản này; muốn đổi dữ liệu thì tạo
+  phiên bản mới (dataset-v1.2…). Bản v1.0 lưu cục bộ ở `data/processed/v1.0/`.
 
 ## 5. Quy trình mỗi phiên làm việc
 
@@ -144,13 +145,30 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - Xác nhận `orchestrator/Invoke-VTSession.ps1` ở HEAD parse 0 lỗi.
 - Gắn tag `dataset-v1.0`. sha256: train 22008227…, t_clean 7795fe31…, t_hard 185ae4d0…, t_novel e53b4ff7…, vocab f92a0915…
 
+### Bước 5 (phần 1) + dataset-v1.1 — 2026-10-16
+- Khung đánh giá `src/eval/{bootstrap,evaluate}.py` (chỉ numpy): checksum dataset, fold theo nhóm chồng thời gian,
+  ngưỡng chọn trên Train OOF (khoá) + 0.5, CI bootstrap 1000 lần seed 1337 (paired) + Wilson, báo riêng T-clean / T-hard
+  (FPR theo chữ ký công cụ, có/không cmd.exe) / T-novel (recall T1003.003 mức phiên). Selftest random/oracle đạt.
+- B0 (`src/baselines/b0_wazuh.py`, trên v1.0): L=4; mạnh nhờ luật powershell→cmd.exe; mù T1016/T1654/T1003.003. Sẽ chạy lại trên v1.1.
+- B1 (`b1_tfidf_lr.py`) trên v1.0 lộ **dấu vết bộ sinh (scaffold)**: đường dẫn cmd (ART `"cmd.exe"` vs HN `C:\Windows\System32\cmd.exe`),
+  `>nul 2>&1`, `conhost.exe` (ART console riêng), launcher cha (powershell vs cmd), đuôi `.exe`. Mốc A: B1-canon ≈ B1 (chênh trong CI).
+- `src/dataset/scaffold_scan.py`: quét đặc trưng đơn lẻ tách attack/hard_negative (kiểm tra #11 thường trực, ngưỡng 0.98).
+- **dataset-v1.1** (featurizer f3), áp đồng nhất mọi lớp: bỏ event conhost.exe khi dựng stream; `canon_cmd` (basename file thực thi,
+  bỏ chuyển hướng & toán tử, bỏ đuôi `.exe`); parent powershell/cmd → `<launcher>`. run_id mỗi tập + assignment.json trùng v1.0;
+  809 → 793 cửa sổ (265 dương; 16 phiên mất 1 cửa sổ vì stream ngắn đi). #11: mức tách cao nhất 0.942 → 0.778; một phía 68 → 52
+  (còn lại: coverage benign route/netstat/admins, hành vi attack, ESENT, `<launcher>→powershell.exe`, svchost→rundll32 COM nền).
+  #9 giờ ĐẠT (cmd.exe 15.1%). Giữ nguyên có chủ ý các khác biệt hành vi/coverage; đo bằng ablation.
+- Đã cài scikit-learn 1.9.1 (+scipy) trên host.
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
-- [ ] Bước 5: baseline B0 (luật Wazuh từ `wazuh_rule_*`), B1 (TF-IDF+LR), B2 (LightGBM), B3 (GRU thuần) trên các split.
+- [ ] Bước 5 mốc C: FPR phân tầng theo độ dài (đủ 64 vs ngắn) + Spearman điểm–độ dài trong evaluate.py (không tuyên bố B1-raw học độ dài).
+- [ ] Bước 5 mốc D: chạy B0, B1, B2, B3 trên dataset-v1.1 + ablation (a) đủ, (b) bỏ image_name+parent, (c) chỉ cây tiến trình;
+      tổng hợp `reports/step5_report.md`, `step5_results.json`, `reports/preds/`. Cần cài lightgbm, torch (CPU) — đã được phép.
 - [ ] Bước 6: VT-Seq (GRU-Attention đa nhiệm) + ablation; nạp dữ liệu CHỈ từ `cat`/`cmd`/`num`; cắt ngẫu nhiên độ dài
       cửa sổ khi huấn luyện; ablation bỏ `image_name` (đường tắt ping/wevtutil/ntdsutil).
-- [ ] #9: `cmd.exe` Train chỉ 14,5% cửa sổ âm — thêm phiên benign/hard-negative gọi tool qua `cmd.exe /c`
-      (vd sửa network_check/user_inventory/log_review sang `cmd.exe /c`, cũng giúp 45 phiên benign có event riêng).
+- [ ] #9 đạt sát ngưỡng (cmd.exe 15.1%) — nếu thu thêm dữ liệu: phiên benign gọi tool qua `cmd.exe /c`
+      (vd sửa network_check/user_inventory/log_review), cũng giúp 45 phiên benign có event riêng.
 - [ ] route/netstat chỉ ở phía âm (đường tắt ngược); wevtutil Train âm 5 cửa sổ (17%) — sát ngưỡng.
 - [ ] #10: ESENT 216/330 là tín hiệu nền của T1003.003 (ngoài cây tiến trình) — cân nhắc khi diễn giải ablation.
 - [ ] T1003.003: T-clean 13 cửa sổ dương, T-novel (ntds2v) 5 — báo cáo kèm khoảng tin cậy.
