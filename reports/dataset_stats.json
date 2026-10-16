@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-16T14:17:04+07:00",
+  "generated": "2026-10-16T21:25:53+07:00",
   "dataset_version": "v1.2",
   "versions": {
     "normalize": "v1",
@@ -2225,6 +2225,13 @@
       "parent_image_name",
       "ts"
     ],
+    "2_orch_config_fields": [
+      "tempo",
+      "variant",
+      "user_role"
+    ],
+    "2_orch_config_in_sources_or_events": [],
+    "2_model_source_violations": [],
     "3_t_hard_non_hn_windows": 0,
     "3_t_novel_batches": [
       "batch05",

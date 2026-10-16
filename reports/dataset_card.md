@@ -1,6 +1,6 @@
 # VT-Guard — Dataset card (dataset-v1.2, bản đóng băng)
 
-Sinh tự động bởi `src/dataset/card.py` lúc 2026-10-16T14:17:04+07:00. Số liệu chi tiết: `reports/dataset_stats.json`.
+Sinh tự động bởi `src/dataset/card.py` lúc 2026-10-16T21:25:53+07:00. Số liệu chi tiết: `reports/dataset_stats.json`.
 
 > **Phiên bản `dataset-v1.2` — ĐÓNG BĂNG, thay thế dataset-v1.1 (và v1.0).** Split (`data/processed/splits/*.jsonl`), `vocab.json` và checksum ở mục 10 là cố định: mọi mô hình ở Bước 5–8 phải dùng đúng các file này; trước khi chạy, so sha256 với mục 10. v1.1 trung hoà dấu vết bộ sinh dữ liệu (mục 7a); v1.2 gán event 4688 theo tiến trình được tạo (mục 7b). Thành viên các tập giữ nguyên từ v1.0, v1.2 thêm đúng 1 phiên được khôi phục vào Train. Muốn đổi dữ liệu → tạo phiên bản mới, không sửa tại chỗ.
 
@@ -177,7 +177,8 @@ Công cụ chỉ xuất hiện ở phía dương: **toàn bộ dữ liệu: khô
 - Vocab fit **chỉ trên Train**; tỉ lệ `<unk>` của `image_name`: fit 0.0%, t_novel 3.0%, other 0.0% (fit = Train, other = T-clean + T-hard).
 
 ## 7. Biện pháp chống rò rỉ
-- **Trường không bao giờ làm feature**: `wazuh_rule_*` (chỉ cho baseline B0), `label_*`, `run_id`, `event_uid`, `process_guid`, `parent_process_guid`, `script_block_text`, `ps_payload`, đường dẫn đầy đủ `image`/`parent_image`, `n_events`. `featurize.py` assert nguồn feature không khớp mẫu cấm; cửa sổ chỉ mang 11 trường nguồn được phép.
+- **Trường không bao giờ làm feature**: `wazuh_rule_*` (chỉ cho baseline B0), `label_*`, `run_id`, `event_uid`, `process_guid`, `parent_process_guid`, `script_block_text`, `ps_payload`, đường dẫn đầy đủ `image`/`parent_image`, `n_events`, `tempo`, `variant`, `user_role`. `featurize.py` assert nguồn feature không khớp mẫu cấm; cửa sổ chỉ mang 11 trường nguồn được phép.
+- **Cấu hình orchestrator `tempo`, `variant`, `user_role` (bổ sung ở Bước 5, B2)**: là tham số sinh phiên ghi trong manifest, KHÔNG quan sát được từ log; bản ghi cửa sổ/split mang chúng chỉ làm metadata. `variant` ≠ `mixed` chỉ xuất hiện ở phiên attack (0 phiên benign/hard-negative) nên dùng làm feature là rò nhãn trực tiếp — phát hiện khi dựng B2, đã loại trước khi chấm. Kiểm tra #2 nay gồm: ba trường không thuộc nguồn feature và không có trong event của cửa sổ; quét tĩnh mã `src/baselines`, `src/models` không đọc chúng (`evaluate.check_model_sources`, `evaluate()` dừng nếu vi phạm). B0/B1 chưa từng dùng ba trường này (chỉ đọc `events` của cửa sổ) nên không chạy lại. Dữ liệu và checksum không đổi.
 - **Labeler v8** loại event công cụ thay vì gán nhãn (tổng trên 10 đợt): orchestrator 345 393, harness ART 2 195, upload manifest scp/ssh 316, console PowerShell người vận hành 2 393, mảnh vỡ 4103 mất PID 683.
   - v5: chặn upload manifest (v4 gán nhầm 72 event thành malicious T1003.003 ở ntds), console người vận hành, mảnh vỡ 4103.
   - v6: event không có `process_guid` chỉ được ghép vào tiến trình khi `ts_system` nằm trong vòng đời tiến trình (EID1→EID5). v5 ghép theo PID ±300 s bằng giờ Wazuh: sau khi khôi phục snapshot, đồng hồ DC01 lệch ~55 phút nên 204 event PowerShell (pid 1112, nạp module CIM) bị gán nhầm malicious T1003.003 vào phiên ntds2 `20261015-084208-dc01-a`, và 27 event PowerShell khác bị ghép nhầm vào cây scp. Đối chiếu từng event v5↔v6: chỉ 231 event này đổi, các đợt khác giữ nguyên.
@@ -241,7 +242,7 @@ Tổng: 793 → 809 cửa sổ, 265 → 272 dương; event giữ lại 61 490 �
 | # | Kiểm tra | Kết quả |
 |---|---|---|
 | 1 | Không session/run_id ở >1 tập | ĐẠT (0 vi phạm) |
-| 2 | Không feature từ trường cấm; giá trị feature chỉ là số | ĐẠT |
+| 2 | Không feature từ trường cấm (gồm `tempo`/`variant`/`user_role`; mã mô hình không đọc chúng); giá trị feature chỉ là số | ĐẠT |
 | 3 | T-hard chỉ hard_negative; T-novel chỉ batch05 + ntds2v (và các đợt này không ở tập khác) | ĐẠT |
 | 4 | Thống kê mỗi tập (cửa sổ, tỉ lệ dương, TTP, host) | xem mục 5 |
 | 5 | Số cửa sổ dương hợp lý | ĐẠT: 272 ≤ 150×8; trung bình 1.81/phiên |

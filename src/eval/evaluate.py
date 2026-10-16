@@ -19,9 +19,13 @@ Quy uoc:
     (event dau tien thuoc cay phien attack), k in EARLY_KS; mo hinh cham lai cua so da cat, tinh recall o NGUONG DA KHOA
     (khong chon lai nguong) + recall T1003.003 muc phien. Mo hinh tu cham (early_starts() cho vi tri bat dau).
   - Metadata cua so (run_id, nhom, chu ky) chi dung de chia fold / nhom bao cao, KHONG bao gio la feature.
+  - Truong CAM (acceptance #2, ap cho MOI mo hinh): ngoai mau cam cua featurize con ORCH_CONFIG_FIELDS = tempo, variant,
+    user_role - cau hinh orchestrator ghi trong manifest, KHONG quan sat duoc tu log (variant != "mixed" chi co o phien
+    attack -> ro nhan). evaluate() quet tinh ma src/baselines + src/models (check_model_sources) va DUNG neu co mo hinh
+    doc cac truong nay (hoac n_events); load_meta khong tra chung; common.window_events assert event khong mang chung.
 Chay tu kiem: python src/eval/evaluate.py --selftest
 """
-import argparse, hashlib, json, os, sys
+import argparse, hashlib, json, os, re, sys
 from collections import Counter, defaultdict
 
 import numpy as np
@@ -40,6 +44,11 @@ META_KEYS = ["window_id", "run_id", "batch", "host", "window_malicious", "window
              "revert_control", "n_events"]
 NTDS = "T1003.003"
 EARLY_KS = (4, 8, 16, 32)
+ORCH_CONFIG_FIELDS = ("tempo", "variant", "user_role")      # cau hinh orchestrator (manifest), khong quan sat tu log
+MODEL_FORBIDDEN_FIELDS = ORCH_CONFIG_FIELDS + ("n_events",)  # truong cap cua so mo hinh khong duoc doc
+MODEL_DIRS = ("src/baselines", "src/models")
+_ACCESS_RE = re.compile(r"""(?:[\w\])]\[\s*|\.get\(\s*|getattr\([^,]+,\s*)["'](%s)["']\s*[\],)]""" % "|".join(MODEL_FORBIDDEN_FIELDS))
+assert not set(META_KEYS) & set(ORCH_CONFIG_FIELDS)
 
 def P(root, *p): return os.path.join(root, *p)
 
@@ -68,6 +77,19 @@ def load_meta(root, split):
             w = json.loads(l)
             out.append({k: w.get(k) for k in META_KEYS})
     return out
+
+def check_model_sources(root="."):
+    """Quet tinh ma mo hinh (src/baselines, src/models): moi cho DOC truong cam (x["tempo"], x.get("variant"),
+    getattr(x, "user_role"), x["n_events"]) -> danh sach "file:dong". Rong = dat."""
+    bad = []
+    for d in MODEL_DIRS:
+        for dp, _, fs in sorted(os.walk(P(root, *d.split("/")))):
+            for f in sorted(fs):
+                if not f.endswith(".py"): continue
+                fp = os.path.join(dp, f)
+                for i, l in enumerate(open(fp, encoding="utf-8"), 1):
+                    if _ACCESS_RE.search(l): bad.append(f"{os.path.relpath(fp, root).replace(os.sep, '/')}:{i}")
+    return bad
 
 def load_all_meta(root="."):
     return {s: load_meta(root, s) for s in SPLITS}
@@ -258,7 +280,10 @@ def evaluate(model, meta, preds, thresholds, root=".", n_boot=N_BOOT, seed=SEED,
     if not chk["ok"]: sys.exit(f"LOI du doan: {chk}")
     if hn_sig is None: hn_sig = hn_signatures(root, {w["run_id"] for w in meta["t_hard"]})
     dsv = json.load(open(P(root, "reports", "dataset_stats.json"), encoding="utf-8")).get("dataset_version", "v1.0")
-    res = {"model": model, "dataset_version": dsv, "thresholds": thresholds, "n_boot": n_boot, "seed": seed, "checks": chk, "splits": {}}
+    src_bad = check_model_sources(root)
+    if src_bad: sys.exit(f"LOI: ma mo hinh doc truong cam {MODEL_FORBIDDEN_FIELDS}: {src_bad}. DUNG.")
+    res = {"model": model, "dataset_version": dsv, "thresholds": thresholds, "n_boot": n_boot, "seed": seed, "checks": chk, "splits": {},
+           "forbidden_fields": {"orch_config": list(ORCH_CONFIG_FIELDS), "model_source_violations": src_bad}}
     has_ttp = bool(thresholds.get("ttp"))
     for s in TEST_SPLITS:
         M, pr = meta[s], preds[s]
@@ -403,6 +428,13 @@ def _fake_model(kind, meta, seed=SEED):
 
 def selftest(root="."):
     print("== kiem tra checksum dataset (reports/dataset_stats.json) ==", check_dataset(root))
+    # truong cam: bo quet bat cach doc, bo qua ten tham so / chuoi trong danh sach; ma mo hinh hien tai sach
+    for t, want in [('w["variant"]', True), ("e.get('tempo')", True), ('getattr(m, "user_role")', True), ('x["n_events"]', True),
+                    ("res.update(variant=kind)", False), ('excluded=["n_events", "tempo"]', False)]:
+        assert bool(_ACCESS_RE.search(t)) == want, t
+    assert not any(k in m for ms in load_all_meta(root).values() for m in ms for k in ORCH_CONFIG_FIELDS)
+    print("== quet ma mo hinh doc truong cam ==", check_model_sources(root) or "khong vi pham")
+    assert not check_model_sources(root)
     meta = load_all_meta(root)
     folds = cv_folds(meta["train"], root=root)
     print("== fold Train (theo nhom chong thoi gian) ==",

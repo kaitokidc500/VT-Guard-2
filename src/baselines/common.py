@@ -15,6 +15,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "dataset"))
 sys.path.insert(0, os.path.join(HERE, "..", "eval"))
 from windows import load_manifests, ts, is_scaffold_event   # noqa: E402
+from evaluate import MODEL_FORBIDDEN_FIELDS                  # noqa: E402
 
 W = 64
 
@@ -67,6 +68,8 @@ def window_events(root, window_ids):
             w = json.loads(line)
             if w["window_id"] in want: out[w["window_id"]] = (w["events"], w["event_origin"])
     missing = want - set(out)
+    leak = {k for ev, _ in out.values() for e in ev for k in e if k in MODEL_FORBIDDEN_FIELDS}
+    assert not leak, f"event mang truong cam {leak}"     # tempo/variant/user_role chi o cap cua so, khong tra cho mo hinh
     if missing: sys.exit(f"LOI: thieu {len(missing)} cua so trong windows.jsonl")
     return out
 

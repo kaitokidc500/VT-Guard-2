@@ -34,7 +34,8 @@ CAT_FIELDS = ["channel", "event_id", "image_name", "parent_image_name", "host_ro
 NUM_FIELDS = ["dt_log", "has_network", "has_dns", "is_powershell_channel", "is_security_channel"]
 SOURCE_FIELDS = set(CAT_FIELDS) | {"command_line", "ts", "dst_port", "has_dns_query"}
 FORBIDDEN = re.compile(r"^(wazuh_rule_|label_)|^(run_id|event_uid|process_guid|parent_process_guid|"
-                       r"script_block_text|ps_payload|image|parent_image|n_events|revert_control|snapshot_before|event_origin)$")
+                       r"script_block_text|ps_payload|image|parent_image|n_events|revert_control|snapshot_before|event_origin|"
+                       r"tempo|variant|user_role)$")
 CMD_DIM, NGRAM = 256, (3, 5)
 PAD, UNK, NONE = "<pad>", "<unk>", "<none>"
 FEATURIZER_VERSION = "f3"

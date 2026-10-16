@@ -20,7 +20,7 @@ from windows import BATCHES, NOVEL_BATCHES, load_manifests, DATASET_VERSION, SCA
 from scaffold_scan import scan as scaffold_scan
 from audit import ratio_4688_eid1, excluded_audit, pid_reuse
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "eval"))
-from evaluate import fci
+from evaluate import fci, check_model_sources, ORCH_CONFIG_FIELDS
 
 LEAK_RE = re.compile(r"atomic|invoke-|\bT10\d\d|\bT1\d{3}\b|vt-?guard", re.I)
 SPLIT_NAME = {"train": "Train", "t_clean": "T-clean", "t_hard": "T-hard", "t_novel": "T-novel"}
@@ -118,6 +118,15 @@ def main():
     acc["2_forbidden_feature_sources"] = bad_src
     acc["2_non_numeric_feature_values"] = nonnum
     acc["2_feature_sources"] = sorted(featurize.SOURCE_FIELDS)
+    # 2b) cau hinh orchestrator (tempo/variant/user_role) khong la nguon feature, khong nam trong event cua cua so,
+    #     va khong mo hinh nao (src/baselines, src/models) doc chung (quet tinh)
+    ev_keys = set()
+    with open(P("data", "processed", "windows.jsonl"), encoding="utf-8") as fh:
+        for l in fh:
+            for e in json.loads(l)["events"]: ev_keys |= set(e)
+    acc["2_orch_config_fields"] = list(ORCH_CONFIG_FIELDS)
+    acc["2_orch_config_in_sources_or_events"] = sorted(set(ORCH_CONFIG_FIELDS) & (featurize.SOURCE_FIELDS | ev_keys))
+    acc["2_model_source_violations"] = check_model_sources(a.root)
     # 3) T-hard / T-novel
     acc["3_t_hard_non_hn_windows"] = sum(w["window_class"] != "hard_negative" for w in W["t_hard"])
     acc["3_t_novel_batches"] = NOVEL_BATCHES
@@ -198,6 +207,7 @@ def main():
         "max_separation": rows11[0]["separation"] if rows11 else None, "max_feature": rows11[0]["feature"] if rows11 else None,
         "over_threshold": over11, "top10": rows11[:10], "one_sided": one_sided, "meta": meta11, "ok": not over11}
     passed = (not acc["1_run_id_in_gt1_split"] and not bad_src and nonnum == 0
+              and not acc["2_orch_config_in_sources_or_events"] and not acc["2_model_source_violations"]
               and acc["3_t_hard_non_hn_windows"] == 0 and acc["3_t_novel_non_novel_batch_windows"] == 0
               and acc["3_novel_batch_outside_t_novel"] == 0 and acc["5_positive_windows"]["ok"]
               and not hits and not vocab_hits and not acc["7_train_test_time_overlap"] and acc["8_vocab_fit_only_train"])
@@ -529,8 +539,15 @@ def render_card(s):
           ", ".join(f"{g} {r['image_name']:.1%}" for g, r in s["features"]["unk_rate"].items()) + " (fit = Train, other = T-clean + T-hard).", "",
           "## 7. Biện pháp chống rò rỉ",
           "- **Trường không bao giờ làm feature**: `wazuh_rule_*` (chỉ cho baseline B0), `label_*`, `run_id`, `event_uid`, `process_guid`, "
-          "`parent_process_guid`, `script_block_text`, `ps_payload`, đường dẫn đầy đủ `image`/`parent_image`, `n_events`. "
+          "`parent_process_guid`, `script_block_text`, `ps_payload`, đường dẫn đầy đủ `image`/`parent_image`, `n_events`, "
+          "`tempo`, `variant`, `user_role`. "
           "`featurize.py` assert nguồn feature không khớp mẫu cấm; cửa sổ chỉ mang 11 trường nguồn được phép.",
+          "- **Cấu hình orchestrator `tempo`, `variant`, `user_role` (bổ sung ở Bước 5, B2)**: là tham số sinh phiên ghi trong manifest, "
+          "KHÔNG quan sát được từ log; bản ghi cửa sổ/split mang chúng chỉ làm metadata. `variant` ≠ `mixed` chỉ xuất hiện ở phiên attack "
+          "(0 phiên benign/hard-negative) nên dùng làm feature là rò nhãn trực tiếp — phát hiện khi dựng B2, đã loại trước khi chấm. "
+          "Kiểm tra #2 nay gồm: ba trường không thuộc nguồn feature và không có trong event của cửa sổ; quét tĩnh mã "
+          "`src/baselines`, `src/models` không đọc chúng (`evaluate.check_model_sources`, `evaluate()` dừng nếu vi phạm). "
+          "B0/B1 chưa từng dùng ba trường này (chỉ đọc `events` của cửa sổ) nên không chạy lại. Dữ liệu và checksum không đổi.",
           f"- **Labeler {s['versions']['label']}** loại event công cụ thay vì gán nhãn (tổng trên {len(ev['dropped_by_batch'])} đợt): "
           f"orchestrator {fmt(dr.get('orchestrator', 0))}, harness ART {fmt(dr.get('art_harness', 0))}, "
           f"upload manifest scp/ssh {fmt(dr.get('harness_upload', 0))}, console PowerShell người vận hành {fmt(dr.get('operator_console', 0))}, "
@@ -621,7 +638,8 @@ def render_card(s):
           "## 8. Kiểm thử chấp nhận (chạy lại trên file split)", "",
           "| # | Kiểm tra | Kết quả |", "|---|---|---|",
           f"| 1 | Không session/run_id ở >1 tập | {tick(not ac['1_run_id_in_gt1_split'])} ({len(ac['1_run_id_in_gt1_split'])} vi phạm) |",
-          f"| 2 | Không feature từ trường cấm; giá trị feature chỉ là số | {tick(not ac['2_forbidden_feature_sources'] and ac['2_non_numeric_feature_values'] == 0)} |",
+          f"| 2 | Không feature từ trường cấm (gồm `tempo`/`variant`/`user_role`; mã mô hình không đọc chúng); giá trị feature chỉ là số | "
+          f"{tick(not ac['2_forbidden_feature_sources'] and ac['2_non_numeric_feature_values'] == 0 and not ac.get('2_orch_config_in_sources_or_events') and not ac.get('2_model_source_violations'))} |",
           f"| 3 | T-hard chỉ hard_negative; T-novel chỉ {novel} (và các đợt này không ở tập khác) | "
           f"{tick(ac['3_t_hard_non_hn_windows'] == 0 and ac['3_t_novel_non_novel_batch_windows'] == 0 and ac['3_novel_batch_outside_t_novel'] == 0)} |",
           f"| 4 | Thống kê mỗi tập (cửa sổ, tỉ lệ dương, TTP, host) | xem mục 5 |",
