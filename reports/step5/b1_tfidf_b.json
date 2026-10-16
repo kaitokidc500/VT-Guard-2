@@ -1,0 +1,2641 @@
+{
+ "model": "b1_tfidf_b",
+ "dataset_version": "v1.1",
+ "thresholds": {
+  "binary": 0.5774131498030474,
+  "binary_train_oof_f1": 0.9698795180722891,
+  "ttp": {
+   "T1016": 0.6245452577027572,
+   "T1018": 0.7226845055840995,
+   "T1087.002": 0.7417265590972354,
+   "T1654": 0.4262071061177064,
+   "T1003.003": 0.4601580817002986
+  },
+  "ttp_train_oof_f1": {
+   "T1016": 0.7450980392156863,
+   "T1018": 0.8088235294117647,
+   "T1087.002": 0.7142857142857143,
+   "T1654": 0.6993865030674846,
+   "T1003.003": 1.0
+  }
+ },
+ "n_boot": 1000,
+ "seed": 1337,
+ "checks": {
+  "ok": true,
+  "problems": {},
+  "train_run_ids_in_test": []
+ },
+ "splits": {
+  "t_clean": {
+   "n": 87,
+   "n_pos": 41,
+   "tuned": {
+    "threshold": 0.5774131498030474,
+    "n": 87,
+    "n_pos": 41,
+    "tp": 40,
+    "fp": 0,
+    "fn": 1,
+    "tn": 46,
+    "precision": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "recall": {
+     "point": 0.9756,
+     "lo": 0.9167,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "f1": {
+     "point": 0.9877,
+     "lo": 0.9565,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "fpr": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "fpr_wilson": {
+     "k": 0,
+     "n": 46,
+     "lo": 0.0,
+     "hi": 0.0771
+    },
+    "recall_wilson": {
+     "k": 40,
+     "n": 41,
+     "lo": 0.874,
+     "hi": 0.9957
+    },
+    "ntds_session_recall": {
+     "ttp": "T1003.003",
+     "n_sessions": 6,
+     "binary": {
+      "detected": 6,
+      "of": 6,
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 6
+      },
+      "wilson": {
+       "k": 6,
+       "n": 6,
+       "lo": 0.6097,
+       "hi": 1.0
+      }
+     },
+     "sessions": {
+      "20261014-161727-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9986
+      },
+      "20261014-161953-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9992
+      },
+      "20261014-162336-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9991
+      },
+      "20261014-163941-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9983
+      },
+      "20261015-080400-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.999
+      },
+      "20261015-084116-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9974
+      }
+     },
+     "ttp_label": {
+      "detected": 6,
+      "of": 6,
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 6
+      },
+      "wilson": {
+       "k": 6,
+       "n": 6,
+       "lo": 0.6097,
+       "hi": 1.0
+      }
+     }
+    },
+    "fpr_by_length": {
+     "full64": {
+      "n_neg": 21,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 21
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 21,
+       "lo": 0.0,
+       "hi": 0.1546
+      }
+     },
+     "short": {
+      "n_neg": 25,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 25
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 25,
+       "lo": 0.0,
+       "hi": 0.1332
+      }
+     }
+    }
+   },
+   "t05": {
+    "threshold": 0.5,
+    "n": 87,
+    "n_pos": 41,
+    "tp": 40,
+    "fp": 0,
+    "fn": 1,
+    "tn": 46,
+    "precision": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "recall": {
+     "point": 0.9756,
+     "lo": 0.9167,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "f1": {
+     "point": 0.9877,
+     "lo": 0.9565,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "fpr": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "fpr_wilson": {
+     "k": 0,
+     "n": 46,
+     "lo": 0.0,
+     "hi": 0.0771
+    },
+    "recall_wilson": {
+     "k": 40,
+     "n": 41,
+     "lo": 0.874,
+     "hi": 0.9957
+    },
+    "ntds_session_recall": {
+     "ttp": "T1003.003",
+     "n_sessions": 6,
+     "binary": {
+      "detected": 6,
+      "of": 6,
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 6
+      },
+      "wilson": {
+       "k": 6,
+       "n": 6,
+       "lo": 0.6097,
+       "hi": 1.0
+      }
+     },
+     "sessions": {
+      "20261014-161727-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9986
+      },
+      "20261014-161953-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9992
+      },
+      "20261014-162336-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9991
+      },
+      "20261014-163941-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9983
+      },
+      "20261015-080400-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.999
+      },
+      "20261015-084116-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 2,
+       "max_p": 0.9974
+      }
+     },
+     "ttp_label": {
+      "detected": 6,
+      "of": 6,
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 6
+      },
+      "wilson": {
+       "k": 6,
+       "n": 6,
+       "lo": 0.6097,
+       "hi": 1.0
+      }
+     }
+    },
+    "fpr_by_length": {
+     "full64": {
+      "n_neg": 21,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 21
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 21,
+       "lo": 0.0,
+       "hi": 0.1546
+      }
+     },
+     "short": {
+      "n_neg": 25,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 25
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 25,
+       "lo": 0.0,
+       "hi": 0.1332
+      }
+     }
+    }
+   },
+   "pr_auc": {
+    "point": 0.9973,
+    "lo": 0.9895,
+    "hi": 1.0,
+    "n_valid": 1000,
+    "n_boot": 1000,
+    "n_units": 87
+   },
+   "roc_auc": {
+    "point": 0.9973,
+    "lo": 0.9893,
+    "hi": 1.0,
+    "n_valid": 1000,
+    "n_boot": 1000,
+    "n_units": 87
+   },
+   "ttp_tuned": {
+    "per_ttp": {
+     "T1016": {
+      "threshold": 0.6245452577027572,
+      "n_pos": 21,
+      "tp": 17,
+      "fp": 0,
+      "fn": 4,
+      "tn": 66,
+      "f1": {
+       "point": 0.8947,
+       "lo": 0.7727,
+       "hi": 0.9804,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 0.8095,
+       "lo": 0.6296,
+       "hi": 0.9616,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     },
+     "T1018": {
+      "threshold": 0.7226845055840995,
+      "n_pos": 22,
+      "tp": 10,
+      "fp": 0,
+      "fn": 12,
+      "tn": 65,
+      "f1": {
+       "point": 0.625,
+       "lo": 0.3846,
+       "hi": 0.8,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 0.4545,
+       "lo": 0.2381,
+       "hi": 0.6667,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     },
+     "T1087.002": {
+      "threshold": 0.7417265590972354,
+      "n_pos": 23,
+      "tp": 16,
+      "fp": 0,
+      "fn": 7,
+      "tn": 64,
+      "f1": {
+       "point": 0.8205,
+       "lo": 0.6511,
+       "hi": 0.9362,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 0.6957,
+       "lo": 0.4827,
+       "hi": 0.88,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     },
+     "T1654": {
+      "threshold": 0.4262071061177064,
+      "n_pos": 16,
+      "tp": 16,
+      "fp": 3,
+      "fn": 0,
+      "tn": 68,
+      "f1": {
+       "point": 0.9143,
+       "lo": 0.8,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 0.8421,
+       "lo": 0.6667,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     },
+     "T1003.003": {
+      "threshold": 0.4601580817002986,
+      "n_pos": 12,
+      "tp": 12,
+      "fp": 0,
+      "fn": 0,
+      "tn": 75,
+      "f1": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     }
+    },
+    "macro_f1": {
+     "point": 0.8509,
+     "lo": 0.7871,
+     "hi": 0.9007,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "macro_over": [
+     "T1016",
+     "T1018",
+     "T1087.002",
+     "T1654",
+     "T1003.003"
+    ]
+   },
+   "ttp_t05": {
+    "per_ttp": {
+     "T1016": {
+      "threshold": 0.5,
+      "n_pos": 21,
+      "tp": 18,
+      "fp": 1,
+      "fn": 3,
+      "tn": 65,
+      "f1": {
+       "point": 0.9,
+       "lo": 0.7857,
+       "hi": 0.9804,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 0.8571,
+       "lo": 0.6842,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 0.9474,
+       "lo": 0.8398,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     },
+     "T1018": {
+      "threshold": 0.5,
+      "n_pos": 22,
+      "tp": 14,
+      "fp": 0,
+      "fn": 8,
+      "tn": 65,
+      "f1": {
+       "point": 0.7778,
+       "lo": 0.6,
+       "hi": 0.9091,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 0.6364,
+       "lo": 0.4286,
+       "hi": 0.8333,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     },
+     "T1087.002": {
+      "threshold": 0.5,
+      "n_pos": 23,
+      "tp": 18,
+      "fp": 0,
+      "fn": 5,
+      "tn": 64,
+      "f1": {
+       "point": 0.878,
+       "lo": 0.7498,
+       "hi": 0.9678,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 0.7826,
+       "lo": 0.5998,
+       "hi": 0.9376,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     },
+     "T1654": {
+      "threshold": 0.5,
+      "n_pos": 16,
+      "tp": 14,
+      "fp": 2,
+      "fn": 2,
+      "tn": 69,
+      "f1": {
+       "point": 0.875,
+       "lo": 0.7222,
+       "hi": 0.9756,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 0.875,
+       "lo": 0.6667,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 0.875,
+       "lo": 0.7,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     },
+     "T1003.003": {
+      "threshold": 0.5,
+      "n_pos": 12,
+      "tp": 12,
+      "fp": 0,
+      "fn": 0,
+      "tn": 75,
+      "f1": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      },
+      "precision": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 87
+      }
+     }
+    },
+    "macro_f1": {
+     "point": 0.8862,
+     "lo": 0.8284,
+     "hi": 0.9345,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "macro_over": [
+     "T1016",
+     "T1018",
+     "T1087.002",
+     "T1654",
+     "T1003.003"
+    ]
+   },
+   "spearman_score_len_neg": {
+    "point": 0.3058,
+    "lo": -0.0536,
+    "hi": 0.5797,
+    "n_valid": 1000,
+    "n_boot": 1000,
+    "n_units": 46
+   },
+   "n_neg_full64": 21,
+   "n_neg_short": 25
+  },
+  "t_hard": {
+   "n": 87,
+   "n_pos": 0,
+   "tuned": {
+    "threshold": 0.5774131498030474,
+    "n": 87,
+    "n_pos": 0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0,
+    "tn": 87,
+    "precision": {
+     "point": null,
+     "lo": null,
+     "hi": null,
+     "n_valid": 0,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "recall": {
+     "point": null,
+     "lo": null,
+     "hi": null,
+     "n_valid": 0,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "f1": {
+     "point": null,
+     "lo": null,
+     "hi": null,
+     "n_valid": 0,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "fpr": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "fpr_wilson": {
+     "k": 0,
+     "n": 87,
+     "lo": 0.0,
+     "hi": 0.0423
+    },
+    "recall_wilson": {
+     "k": 0,
+     "n": 0,
+     "lo": null,
+     "hi": null
+    },
+    "fpr_by_signature": {
+     "arp.exe+ipconfig.exe+netstat.exe+route.exe": {
+      "n": 41,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 41
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 41,
+       "lo": 0.0,
+       "hi": 0.0857
+      }
+     },
+     "arp.exe+ipconfig.exe+net.exe+net1.exe+netstat.exe+route.exe": {
+      "n": 12,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 12
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 12,
+       "lo": 0.0,
+       "hi": 0.2425
+      }
+     },
+     "net.exe+net1.exe": {
+      "n": 5,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 5
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 5,
+       "lo": 0.0,
+       "hi": 0.4345
+      }
+     },
+     "ipconfig.exe+nbtstat.exe+netsh.exe+nslookup.exe": {
+      "n": 4,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 4
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 4,
+       "lo": 0.0,
+       "hi": 0.4899
+      }
+     },
+     "ntdsutil.exe+vssadmin.exe [revert_control]": {
+      "n": 4,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 4
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 4,
+       "lo": 0.0,
+       "hi": 0.4899
+      }
+     },
+     "net.exe+nltest.exe+ping.exe": {
+      "n": 3,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 3
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 3,
+       "lo": 0.0,
+       "hi": 0.5615
+      }
+     },
+     "net.exe+net1.exe+vssadmin.exe": {
+      "n": 2,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 2
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 2,
+       "lo": 0.0,
+       "hi": 0.6576
+      }
+     },
+     "net.exe+net1.exe+nltest.exe": {
+      "n": 2,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 2
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 2,
+       "lo": 0.0,
+       "hi": 0.6576
+      }
+     },
+     "ipconfig.exe+netsh.exe": {
+      "n": 2,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 2
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 2,
+       "lo": 0.0,
+       "hi": 0.6576
+      }
+     },
+     "net.exe+nltest.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "vssadmin.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "arp.exe+ipconfig.exe+net.exe+netstat.exe+nltest.exe+route.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "nltest.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "nltest.exe+vssadmin.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "arp.exe+ipconfig.exe+netstat.exe+route.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "ntdsutil.exe+vssadmin.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "arp.exe+net.exe+nltest.exe+ntdsutil.exe+ping.exe+vssadmin.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "arp.exe+net.exe+nltest.exe+ping.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "nbtstat.exe+netsh.exe+nslookup.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "netsh.exe+nslookup.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     }
+    },
+    "fpr_by_cmd": {
+     "khong cmd.exe": {
+      "n": 69,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 69
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 69,
+       "lo": 0.0,
+       "hi": 0.0527
+      }
+     },
+     "co cmd.exe": {
+      "n": 18,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 18
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 18,
+       "lo": 0.0,
+       "hi": 0.1759
+      }
+     }
+    },
+    "fpr_by_length": {
+     "full64": {
+      "n_neg": 34,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 34
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 34,
+       "lo": 0.0,
+       "hi": 0.1015
+      }
+     },
+     "short": {
+      "n_neg": 53,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 53
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 53,
+       "lo": 0.0,
+       "hi": 0.0676
+      }
+     }
+    }
+   },
+   "t05": {
+    "threshold": 0.5,
+    "n": 87,
+    "n_pos": 0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0,
+    "tn": 87,
+    "precision": {
+     "point": null,
+     "lo": null,
+     "hi": null,
+     "n_valid": 0,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "recall": {
+     "point": null,
+     "lo": null,
+     "hi": null,
+     "n_valid": 0,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "f1": {
+     "point": null,
+     "lo": null,
+     "hi": null,
+     "n_valid": 0,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "fpr": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 87
+    },
+    "fpr_wilson": {
+     "k": 0,
+     "n": 87,
+     "lo": 0.0,
+     "hi": 0.0423
+    },
+    "recall_wilson": {
+     "k": 0,
+     "n": 0,
+     "lo": null,
+     "hi": null
+    },
+    "fpr_by_signature": {
+     "arp.exe+ipconfig.exe+netstat.exe+route.exe": {
+      "n": 41,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 41
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 41,
+       "lo": 0.0,
+       "hi": 0.0857
+      }
+     },
+     "arp.exe+ipconfig.exe+net.exe+net1.exe+netstat.exe+route.exe": {
+      "n": 12,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 12
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 12,
+       "lo": 0.0,
+       "hi": 0.2425
+      }
+     },
+     "net.exe+net1.exe": {
+      "n": 5,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 5
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 5,
+       "lo": 0.0,
+       "hi": 0.4345
+      }
+     },
+     "ipconfig.exe+nbtstat.exe+netsh.exe+nslookup.exe": {
+      "n": 4,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 4
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 4,
+       "lo": 0.0,
+       "hi": 0.4899
+      }
+     },
+     "ntdsutil.exe+vssadmin.exe [revert_control]": {
+      "n": 4,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 4
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 4,
+       "lo": 0.0,
+       "hi": 0.4899
+      }
+     },
+     "net.exe+nltest.exe+ping.exe": {
+      "n": 3,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 3
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 3,
+       "lo": 0.0,
+       "hi": 0.5615
+      }
+     },
+     "net.exe+net1.exe+vssadmin.exe": {
+      "n": 2,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 2
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 2,
+       "lo": 0.0,
+       "hi": 0.6576
+      }
+     },
+     "net.exe+net1.exe+nltest.exe": {
+      "n": 2,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 2
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 2,
+       "lo": 0.0,
+       "hi": 0.6576
+      }
+     },
+     "ipconfig.exe+netsh.exe": {
+      "n": 2,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 2
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 2,
+       "lo": 0.0,
+       "hi": 0.6576
+      }
+     },
+     "net.exe+nltest.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "vssadmin.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "arp.exe+ipconfig.exe+net.exe+netstat.exe+nltest.exe+route.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "nltest.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "nltest.exe+vssadmin.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "arp.exe+ipconfig.exe+netstat.exe+route.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "ntdsutil.exe+vssadmin.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "arp.exe+net.exe+nltest.exe+ntdsutil.exe+ping.exe+vssadmin.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "arp.exe+net.exe+nltest.exe+ping.exe+wevtutil.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "nbtstat.exe+netsh.exe+nslookup.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     },
+     "netsh.exe+nslookup.exe": {
+      "n": 1,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 1
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 1,
+       "lo": 0.0,
+       "hi": 0.7935
+      }
+     }
+    },
+    "fpr_by_cmd": {
+     "khong cmd.exe": {
+      "n": 69,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 69
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 69,
+       "lo": 0.0,
+       "hi": 0.0527
+      }
+     },
+     "co cmd.exe": {
+      "n": 18,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 18
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 18,
+       "lo": 0.0,
+       "hi": 0.1759
+      }
+     }
+    },
+    "fpr_by_length": {
+     "full64": {
+      "n_neg": 34,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 34
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 34,
+       "lo": 0.0,
+       "hi": 0.1015
+      }
+     },
+     "short": {
+      "n_neg": 53,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 53
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 53,
+       "lo": 0.0,
+       "hi": 0.0676
+      }
+     }
+    }
+   },
+   "spearman_score_len_neg": {
+    "point": 0.791,
+    "lo": 0.6844,
+    "hi": 0.8627,
+    "n_valid": 1000,
+    "n_boot": 1000,
+    "n_units": 87
+   },
+   "n_neg_full64": 34,
+   "n_neg_short": 53
+  },
+  "t_novel": {
+   "n": 148,
+   "n_pos": 53,
+   "tuned": {
+    "threshold": 0.5774131498030474,
+    "n": 148,
+    "n_pos": 53,
+    "tp": 50,
+    "fp": 6,
+    "fn": 3,
+    "tn": 89,
+    "precision": {
+     "point": 0.8929,
+     "lo": 0.807,
+     "hi": 0.9655,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "recall": {
+     "point": 0.9434,
+     "lo": 0.8772,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "f1": {
+     "point": 0.9174,
+     "lo": 0.8549,
+     "hi": 0.9661,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "fpr": {
+     "point": 0.0632,
+     "lo": 0.0204,
+     "hi": 0.1196,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "fpr_wilson": {
+     "k": 6,
+     "n": 95,
+     "lo": 0.0293,
+     "hi": 0.131
+    },
+    "recall_wilson": {
+     "k": 50,
+     "n": 53,
+     "lo": 0.8463,
+     "hi": 0.9806
+    },
+    "ntds_session_recall": {
+     "ttp": "T1003.003",
+     "n_sessions": 6,
+     "binary": {
+      "detected": 6,
+      "of": 6,
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 6
+      },
+      "wilson": {
+       "k": 6,
+       "n": 6,
+       "lo": 0.6097,
+       "hi": 1.0
+      }
+     },
+     "sessions": {
+      "20261015-084801-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9783
+      },
+      "20261015-085019-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9812
+      },
+      "20261015-085107-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9731
+      },
+      "20261015-085224-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9895
+      },
+      "20261015-085320-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9771
+      },
+      "20261015-085404-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9794
+      }
+     },
+     "ttp_label": {
+      "detected": 6,
+      "of": 6,
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 6
+      },
+      "wilson": {
+       "k": 6,
+       "n": 6,
+       "lo": 0.6097,
+       "hi": 1.0
+      }
+     }
+    },
+    "fpr_by_length": {
+     "full64": {
+      "n_neg": 53,
+      "fp": 6,
+      "fpr": {
+       "point": 0.1132,
+       "lo": 0.0377,
+       "hi": 0.2075,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 53
+      },
+      "fpr_wilson": {
+       "k": 6,
+       "n": 53,
+       "lo": 0.0529,
+       "hi": 0.2258
+      }
+     },
+     "short": {
+      "n_neg": 42,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 42
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 42,
+       "lo": 0.0,
+       "hi": 0.0838
+      }
+     }
+    }
+   },
+   "t05": {
+    "threshold": 0.5,
+    "n": 148,
+    "n_pos": 53,
+    "tp": 52,
+    "fp": 6,
+    "fn": 1,
+    "tn": 89,
+    "precision": {
+     "point": 0.8966,
+     "lo": 0.8103,
+     "hi": 0.9667,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "recall": {
+     "point": 0.9811,
+     "lo": 0.9375,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "f1": {
+     "point": 0.9369,
+     "lo": 0.8829,
+     "hi": 0.9768,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "fpr": {
+     "point": 0.0632,
+     "lo": 0.0204,
+     "hi": 0.1196,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "fpr_wilson": {
+     "k": 6,
+     "n": 95,
+     "lo": 0.0293,
+     "hi": 0.131
+    },
+    "recall_wilson": {
+     "k": 52,
+     "n": 53,
+     "lo": 0.9006,
+     "hi": 0.9967
+    },
+    "ntds_session_recall": {
+     "ttp": "T1003.003",
+     "n_sessions": 6,
+     "binary": {
+      "detected": 6,
+      "of": 6,
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 6
+      },
+      "wilson": {
+       "k": 6,
+       "n": 6,
+       "lo": 0.6097,
+       "hi": 1.0
+      }
+     },
+     "sessions": {
+      "20261015-084801-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9783
+      },
+      "20261015-085019-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9812
+      },
+      "20261015-085107-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9731
+      },
+      "20261015-085224-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9895
+      },
+      "20261015-085320-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9771
+      },
+      "20261015-085404-dc01-a": {
+       "binary": true,
+       "ttp": true,
+       "n_windows": 1,
+       "max_p": 0.9794
+      }
+     },
+     "ttp_label": {
+      "detected": 6,
+      "of": 6,
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 6
+      },
+      "wilson": {
+       "k": 6,
+       "n": 6,
+       "lo": 0.6097,
+       "hi": 1.0
+      }
+     }
+    },
+    "fpr_by_length": {
+     "full64": {
+      "n_neg": 53,
+      "fp": 6,
+      "fpr": {
+       "point": 0.1132,
+       "lo": 0.0377,
+       "hi": 0.2075,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 53
+      },
+      "fpr_wilson": {
+       "k": 6,
+       "n": 53,
+       "lo": 0.0529,
+       "hi": 0.2258
+      }
+     },
+     "short": {
+      "n_neg": 42,
+      "fp": 0,
+      "fpr": {
+       "point": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 42
+      },
+      "fpr_wilson": {
+       "k": 0,
+       "n": 42,
+       "lo": 0.0,
+       "hi": 0.0838
+      }
+     }
+    }
+   },
+   "pr_auc": {
+    "point": 0.9029,
+    "lo": 0.8168,
+    "hi": 0.9715,
+    "n_valid": 1000,
+    "n_boot": 1000,
+    "n_units": 148
+   },
+   "roc_auc": {
+    "point": 0.9615,
+    "lo": 0.9255,
+    "hi": 0.9882,
+    "n_valid": 1000,
+    "n_boot": 1000,
+    "n_units": 148
+   },
+   "ttp_tuned": {
+    "per_ttp": {
+     "T1016": {
+      "threshold": 0.6245452577027572,
+      "n_pos": 36,
+      "tp": 27,
+      "fp": 7,
+      "fn": 9,
+      "tn": 105,
+      "f1": {
+       "point": 0.7714,
+       "lo": 0.6545,
+       "hi": 0.8772,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 0.75,
+       "lo": 0.6097,
+       "hi": 0.8858,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 0.7941,
+       "lo": 0.655,
+       "hi": 0.9231,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     },
+     "T1018": {
+      "threshold": 0.7226845055840995,
+      "n_pos": 35,
+      "tp": 17,
+      "fp": 5,
+      "fn": 18,
+      "tn": 108,
+      "f1": {
+       "point": 0.5965,
+       "lo": 0.4323,
+       "hi": 0.7407,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 0.4857,
+       "lo": 0.3235,
+       "hi": 0.6667,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 0.7727,
+       "lo": 0.5909,
+       "hi": 0.9444,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     },
+     "T1087.002": {
+      "threshold": 0.7417265590972354,
+      "n_pos": 32,
+      "tp": 23,
+      "fp": 8,
+      "fn": 9,
+      "tn": 108,
+      "f1": {
+       "point": 0.7302,
+       "lo": 0.5926,
+       "hi": 0.8462,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 0.7188,
+       "lo": 0.5555,
+       "hi": 0.875,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 0.7419,
+       "lo": 0.5769,
+       "hi": 0.8824,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     },
+     "T1654": {
+      "threshold": 0.4262071061177064,
+      "n_pos": 16,
+      "tp": 13,
+      "fp": 15,
+      "fn": 3,
+      "tn": 117,
+      "f1": {
+       "point": 0.5909,
+       "lo": 0.4,
+       "hi": 0.7369,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 0.8125,
+       "lo": 0.5882,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 0.4643,
+       "lo": 0.2778,
+       "hi": 0.6429,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     },
+     "T1003.003": {
+      "threshold": 0.4601580817002986,
+      "n_pos": 6,
+      "tp": 6,
+      "fp": 0,
+      "fn": 0,
+      "tn": 142,
+      "f1": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     }
+    },
+    "macro_f1": {
+     "point": 0.7378,
+     "lo": 0.6783,
+     "hi": 0.7877,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "macro_over": [
+     "T1016",
+     "T1018",
+     "T1087.002",
+     "T1654",
+     "T1003.003"
+    ]
+   },
+   "ttp_t05": {
+    "per_ttp": {
+     "T1016": {
+      "threshold": 0.5,
+      "n_pos": 36,
+      "tp": 27,
+      "fp": 8,
+      "fn": 9,
+      "tn": 104,
+      "f1": {
+       "point": 0.7606,
+       "lo": 0.6389,
+       "hi": 0.8685,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 0.75,
+       "lo": 0.6097,
+       "hi": 0.8858,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 0.7714,
+       "lo": 0.6249,
+       "hi": 0.9091,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     },
+     "T1018": {
+      "threshold": 0.5,
+      "n_pos": 35,
+      "tp": 22,
+      "fp": 7,
+      "fn": 13,
+      "tn": 106,
+      "f1": {
+       "point": 0.6875,
+       "lo": 0.5424,
+       "hi": 0.8102,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 0.6286,
+       "lo": 0.4686,
+       "hi": 0.7941,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 0.7586,
+       "lo": 0.6,
+       "hi": 0.9063,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     },
+     "T1087.002": {
+      "threshold": 0.5,
+      "n_pos": 32,
+      "tp": 23,
+      "fp": 16,
+      "fn": 9,
+      "tn": 100,
+      "f1": {
+       "point": 0.6479,
+       "lo": 0.5069,
+       "hi": 0.7647,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 0.7188,
+       "lo": 0.5555,
+       "hi": 0.875,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 0.5897,
+       "lo": 0.4285,
+       "hi": 0.7429,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     },
+     "T1654": {
+      "threshold": 0.5,
+      "n_pos": 16,
+      "tp": 10,
+      "fp": 11,
+      "fn": 6,
+      "tn": 121,
+      "f1": {
+       "point": 0.5405,
+       "lo": 0.3158,
+       "hi": 0.7038,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 0.625,
+       "lo": 0.357,
+       "hi": 0.8571,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 0.4762,
+       "lo": 0.2608,
+       "hi": 0.6842,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     },
+     "T1003.003": {
+      "threshold": 0.5,
+      "n_pos": 6,
+      "tp": 6,
+      "fp": 0,
+      "fn": 0,
+      "tn": 142,
+      "f1": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "recall": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      },
+      "precision": {
+       "point": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n_valid": 1000,
+       "n_boot": 1000,
+       "n_units": 148
+      }
+     }
+    },
+    "macro_f1": {
+     "point": 0.7273,
+     "lo": 0.6563,
+     "hi": 0.7846,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 148
+    },
+    "macro_over": [
+     "T1016",
+     "T1018",
+     "T1087.002",
+     "T1654",
+     "T1003.003"
+    ]
+   },
+   "spearman_score_len_neg": {
+    "point": 0.7164,
+    "lo": 0.5817,
+    "hi": 0.8215,
+    "n_valid": 1000,
+    "n_boot": 1000,
+    "n_units": 95
+   },
+   "n_neg_full64": 53,
+   "n_neg_short": 42
+  }
+ },
+ "variant": "tfidf",
+ "ablation": "b",
+ "ablation_desc": "bo image_name + parent_image_name",
+ "C_grid": [
+  {
+   "C": 0.01,
+   "oof_pr_auc": 0.8458,
+   "oof_roc_auc": 0.8822
+  },
+  {
+   "C": 0.1,
+   "oof_pr_auc": 0.8902,
+   "oof_roc_auc": 0.9202
+  },
+  {
+   "C": 1.0,
+   "oof_pr_auc": 0.9516,
+   "oof_roc_auc": 0.967
+  },
+  {
+   "C": 10.0,
+   "oof_pr_auc": 0.9844,
+   "oof_roc_auc": 0.9879
+  },
+  {
+   "C": 100.0,
+   "oof_pr_auc": 0.9898,
+   "oof_roc_auc": 0.9909
+  }
+ ],
+ "C": 100.0,
+ "n_features": 1186,
+ "vocab_leak_tokens": [],
+ "top_pos_features": [
+  [
+   "eid=5 eid=4688",
+   9.558
+  ],
+  [
+   "c:enum-logs",
+   9.534
+  ],
+  [
+   "c:wevtutil c:enum-logs",
+   9.534
+  ],
+  [
+   "eid=4104",
+   9.361
+  ],
+  [
+   "eid=4624 eid=4624",
+   7.799
+  ],
+  [
+   "c:wevtutil",
+   7.353
+  ],
+  [
+   "c:group c:/domain",
+   7.176
+  ],
+  [
+   "c:/dclist",
+   6.488
+  ],
+  [
+   "c:nltest c:/dclist",
+   6.488
+  ],
+  [
+   "eid=216",
+   5.43
+  ]
+ ],
+ "top_neg_features": [
+  [
+   "eid=5 eid=1",
+   -12.914
+  ],
+  [
+   "c:/c c:ping",
+   -7.539
+  ],
+  [
+   "c:0.0.0.0 eid=4688",
+   -7.539
+  ],
+  [
+   "c:admins",
+   -4.693
+  ],
+  [
+   "c:admins c:/domain",
+   -4.693
+  ],
+  [
+   "c:group c:domain",
+   -4.693
+  ],
+  [
+   "c:domain c:admins",
+   -4.693
+  ],
+  [
+   "c:view",
+   -3.174
+  ],
+  [
+   "c:\\dc0",
+   -3.174
+  ],
+  [
+   "c:view c:\\dc0",
+   -3.174
+  ]
+ ],
+ "acceptance": {
+  "one_pred_per_window_no_leak": true,
+  "vectorizer_fit_on": "train only (refit per CV fold)",
+  "features_used": [
+   null,
+   "event_id",
+   "command_line (norm_cmd)"
+  ]
+ }
+}
