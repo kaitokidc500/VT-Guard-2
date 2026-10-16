@@ -536,9 +536,9 @@ def render_card(s):
           f"1. Loại hẳn mọi event `image_name` ∈ {{{', '.join(sorted(sc.get('dropped_images', [])))}}} khi dựng stream "
           f"({fmt(sc.get('dropped_total', 0))} event: " + ", ".join(f"{k} {fmt(v)}" for k, v in sc.get("dropped_events", {}).items()) + ").",
           "2. Chuẩn hoá dòng lệnh (featurizer f2): basename file thực thi đầu dòng lệnh, bỏ chuyển hướng `>nul 2>&1 1> 2> >>` và toán tử `& && | ||`.",
-          "4. Bỏ đuôi `.exe` của mọi token file thực thi trong dòng lệnh (featurizer f3): công cụ do PowerShell gọi trực tiếp mang `arp.exe -a`, "
+          "3. Bỏ đuôi `.exe` của mọi token file thực thi trong dòng lệnh (featurizer f3): công cụ do PowerShell gọi trực tiếp mang `arp.exe -a`, "
           "`net.exe …` còn ART gõ `arp -a`, `net …`. Chỉ đổi text dòng lệnh; `image_name` giữ nguyên. Số cửa sổ và thành viên các tập không đổi.",
-          f"3. Gộp `parent_image_name` ∈ {{{', '.join(sorted(sc.get('launcher_parents', [])))}}} → `{sc.get('launcher_token')}` ở mọi nơi dùng parent "
+          f"4. Gộp `parent_image_name` ∈ {{{', '.join(sorted(sc.get('launcher_parents', [])))}}} → `{sc.get('launcher_token')}` ở mọi nơi dùng parent "
           "(windows.jsonl, vocab, cặp cha→con).",
           "- **Giữ nguyên có chủ ý**: route/netstat/ipconfig/\"Domain Admins\" của kịch bản benign; tham số tấn công (arp, `%USERDNSDOMAIN%`, "
           "`-timeout`, truy vấn nslookup, adsisearcher, `ifm`); event ESENT/Directory Service do `ntdsutil ifm` sinh ra. Đây là hành vi hoặc lỗ hổng "
@@ -572,7 +572,7 @@ def render_card(s):
           f"| 9 | Train có cửa sổ âm ≥{c9['min_neg_share']:.0%} số cửa sổ chứa từng công cụ ({', '.join(t.replace('.exe', '') for t in c9['tools'])}) | "
           + tick(not c9["failed"]) + (f" ({', '.join(c9['failed'])})" if c9["failed"] else "") + " |",
           f"| 10 | So phân bố (channel, event_id) của event nền: cửa sổ dương T1003.003 vs cửa sổ revert_control | "
-          f"đã chạy: khoảng cách biến phân toàn phần (TVD) = {c10['total_variation_distance']} (xem bảng dưới) |", "",
+          f"đã chạy: khoảng cách biến phân toàn phần (TVD) = {c10['total_variation_distance']} (xem bảng dưới) |",
           f"| 11 | Không đặc trưng đơn lẻ nào tách attack/hard_negative với mức tách ≥ {c11['threshold']} (thường trực) | "
           f"{tick(c11['ok'])}: cao nhất {c11['max_separation']} (`{c11['max_feature']}`) |", "",
           f"**Tổng 1–8: {tick(s['acceptance_pass'])}. #9: {tick(not c9['failed'])}. #10: báo cáo (không có ngưỡng). #11: {tick(c11['ok'])}.**", "",
@@ -608,10 +608,10 @@ def render_card(s):
           "## 9. Hạn chế đã biết"]
     sa, st = s["tools_positive_only_all"], s["tools_positive_only_train"]
     pc = lambda t, k: cov.get(t, {}).get(k, 0)
-    L += [f"- **Kiểm tra #9**: " + (f"{', '.join(f'`{t}`' for t in c9['failed'])} có ít hơn {c9['min_neg_share']:.0%} cửa sổ âm trong Train "
-          "(không ép đạt bằng cách sửa số liệu; cần thêm phiên hard-negative hoặc chấp nhận và báo cáo ablation)." if c9["failed"]
-          else f"mọi công cụ theo dõi đều có ≥{c9['min_neg_share']:.0%} cửa sổ âm trong Train."),
-          f"- **Đường tắt theo tiến trình**: sau khi thêm batch06–07, "
+    if c9["failed"]:   # chi la han che khi #9 khong dat
+        L.append(f"- **Kiểm tra #9**: {', '.join(f'`{t}`' for t in c9['failed'])} có ít hơn {c9['min_neg_share']:.0%} cửa sổ âm trong Train "
+                 "(không ép đạt bằng cách sửa số liệu; cần thêm phiên hard-negative hoặc chấp nhận và báo cáo ablation).")
+    L += [f"- **Đường tắt theo tiến trình**: sau khi thêm batch06–07, "
           + (f"vẫn còn công cụ chỉ ở phía dương: {', '.join(sa)}. " if sa else "không công cụ nào chỉ xuất hiện ở phía dương trên toàn bộ dữ liệu. ")
           + f"Phía âm vẫn mỏng: `ping.exe` dương {pc('ping.exe', 'all_pos')} / âm {pc('ping.exe', 'all_neg')}, "
           f"`wevtutil.exe` {pc('wevtutil.exe', 'all_pos')} / {pc('wevtutil.exe', 'all_neg')}, `ntdsutil.exe` {pc('ntdsutil.exe', 'all_pos')} / {pc('ntdsutil.exe', 'all_neg')} cửa sổ. "

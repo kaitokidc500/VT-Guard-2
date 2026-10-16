@@ -1,6 +1,6 @@
 # VT-Guard — Dataset card (dataset-v1.1, bản đóng băng)
 
-Sinh tự động bởi `src/dataset/card.py` lúc 2026-10-16T13:29:59+07:00. Số liệu chi tiết: `reports/dataset_stats.json`.
+Sinh tự động bởi `src/dataset/card.py` lúc 2026-10-16T13:37:50+07:00. Số liệu chi tiết: `reports/dataset_stats.json`.
 
 > **Phiên bản `dataset-v1.1` — ĐÓNG BĂNG, thay thế dataset-v1.0.** Split (`data/processed/splits/*.jsonl`), `vocab.json` và checksum ở mục 10 là cố định: mọi mô hình ở Bước 5–8 phải dùng đúng các file này; trước khi chạy, so sha256 với mục 10. v1.1 trung hoà dấu vết bộ sinh dữ liệu (mục 7a); thành viên các tập (run_id) giữ nguyên so với v1.0. Muốn đổi dữ liệu → tạo phiên bản mới, không sửa tại chỗ.
 
@@ -189,8 +189,8 @@ Công cụ chỉ xuất hiện ở phía dương: **toàn bộ dữ liệu: khô
 **Cách xử lý (áp ĐỒNG NHẤT mọi lớp, không xoá event hành vi):**
 1. Loại hẳn mọi event `image_name` ∈ {conhost.exe} khi dựng stream (1 785 event: bg|benign 934, own|malicious 851).
 2. Chuẩn hoá dòng lệnh (featurizer f2): basename file thực thi đầu dòng lệnh, bỏ chuyển hướng `>nul 2>&1 1> 2> >>` và toán tử `& && | ||`.
-4. Bỏ đuôi `.exe` của mọi token file thực thi trong dòng lệnh (featurizer f3): công cụ do PowerShell gọi trực tiếp mang `arp.exe -a`, `net.exe …` còn ART gõ `arp -a`, `net …`. Chỉ đổi text dòng lệnh; `image_name` giữ nguyên. Số cửa sổ và thành viên các tập không đổi.
-3. Gộp `parent_image_name` ∈ {cmd.exe, powershell.exe} → `<launcher>` ở mọi nơi dùng parent (windows.jsonl, vocab, cặp cha→con).
+3. Bỏ đuôi `.exe` của mọi token file thực thi trong dòng lệnh (featurizer f3): công cụ do PowerShell gọi trực tiếp mang `arp.exe -a`, `net.exe …` còn ART gõ `arp -a`, `net …`. Chỉ đổi text dòng lệnh; `image_name` giữ nguyên. Số cửa sổ và thành viên các tập không đổi.
+4. Gộp `parent_image_name` ∈ {cmd.exe, powershell.exe} → `<launcher>` ở mọi nơi dùng parent (windows.jsonl, vocab, cặp cha→con).
 - **Giữ nguyên có chủ ý**: route/netstat/ipconfig/"Domain Admins" của kịch bản benign; tham số tấn công (arp, `%USERDNSDOMAIN%`, `-timeout`, truy vấn nslookup, adsisearcher, `ifm`); event ESENT/Directory Service do `ntdsutil ifm` sinh ra. Đây là hành vi hoặc lỗ hổng coverage — xử lý bằng ablation + hạn chế (mục 9), không xoá dữ liệu.
 
 **Ảnh hưởng tới cửa sổ:** 809 → 793 cửa sổ (278 → 265 dương; trước khi chặn K: 880 → 858). Bỏ conhost làm stream ngắn lại; phiên có stream vượt 64 event chỉ nhờ event conhost giờ chỉ còn 1 cửa sổ (16 phiên mất đúng 1 cửa sổ). Cả 149 phiên attack vẫn có ≥1 cửa sổ dương. **Thành viên các tập giữ nguyên**: danh sách run_id mỗi tập và `assignment.json` trùng khớp v1.0 (split tất định theo seed + run_id).
@@ -218,7 +218,6 @@ Công cụ chỉ xuất hiện ở phía dương: **toàn bộ dữ liệu: khô
 | 8 | Vocab chỉ fit trên Train | ĐẠT |
 | 9 | Train có cửa sổ âm ≥15% số cửa sổ chứa từng công cụ (ntdsutil, vssadmin, ping, wevtutil, nltest, nslookup, nbtstat, netsh, cmd) | ĐẠT |
 | 10 | So phân bố (channel, event_id) của event nền: cửa sổ dương T1003.003 vs cửa sổ revert_control | đã chạy: khoảng cách biến phân toàn phần (TVD) = 0.495 (xem bảng dưới) |
-
 | 11 | Không đặc trưng đơn lẻ nào tách attack/hard_negative với mức tách ≥ 0.98 (thường trực) | ĐẠT: cao nhất 0.7779 (`channel=Microsoft-Windows-Sysmon/Operational`) |
 
 **Tổng 1–8: ĐẠT. #9: ĐẠT. #10: báo cáo (không có ngưỡng). #11: ĐẠT.**
@@ -250,7 +249,7 @@ Kiểm tra #10 — event nền trong 58 cửa sổ dương T1003.003 (3 141 even
 | `Security:4634` | 1.0% | 4.6% | -3.6% |
 | `Application:1001` | 0.3% | 3.7% | -3.4% |
 | `Microsoft-Windows-Sysmon/Operational:5` | 1.3% | 4.6% | -3.3% |
-| `Application:105` | 3.1% | 0.0% | +3.1% |
+| `Application:102` | 3.1% | 0.0% | +3.1% |
 
 Kiểm tra #11 — 10 đặc trưng có mức tách cao nhất (max(AUC, 1−AUC); điểm = tỉ lệ event mang giá trị trong cửa sổ):
 
@@ -262,23 +261,23 @@ Kiểm tra #11 — 10 đặc trưng có mức tách cao nhất (max(AUC, 1−AUC
 | `cmdtok=c` | 0.718 | attack | 48.7% | 4.1% |
 | `pair=None->cmd.exe` | 0.711 | attack | 75.8% | 20.1% |
 | `cmdtok=cmd` | 0.710 | attack | 73.2% | 20.1% |
-| `image=netstat.exe` | 0.710 | hard_negative | 0.0% | 42.0% |
-| `pair=<launcher>->netstat.exe` | 0.710 | hard_negative | 0.0% | 42.0% |
 | `cmdtok=-ano` | 0.710 | hard_negative | 0.0% | 42.0% |
 | `cmdtok=netstat` | 0.710 | hard_negative | 0.0% | 42.0% |
+| `image=netstat.exe` | 0.710 | hard_negative | 0.0% | 42.0% |
+| `pair=<launcher>->netstat.exe` | 0.710 | hard_negative | 0.0% | 42.0% |
 
 Đặc trưng **một phía** còn lại sau trung hoà (52; có ở ≥10% cửa sổ một nhóm, 0 phiên nhóm kia) — phân loại sơ bộ để người duyệt:
 
 | Đặc trưng | Phía | % cửa sổ | Phiên | Phân loại sơ bộ |
 |---|---|---|---|---|
-| `image=netstat.exe` | hard_negative | 42.0% | 87 | kich ban benign (coverage attack thieu) |
-| `pair=<launcher>->netstat.exe` | hard_negative | 42.0% | 87 | kich ban benign (coverage attack thieu) |
 | `cmdtok=-ano` | hard_negative | 42.0% | 87 | kich ban benign (coverage attack thieu) |
 | `cmdtok=netstat` | hard_negative | 42.0% | 87 | kich ban benign (coverage attack thieu) |
-| `image=route.exe` | hard_negative | 41.6% | 87 | kich ban benign (coverage attack thieu) |
-| `pair=<launcher>->route.exe` | hard_negative | 41.6% | 87 | kich ban benign (coverage attack thieu) |
+| `image=netstat.exe` | hard_negative | 42.0% | 87 | kich ban benign (coverage attack thieu) |
+| `pair=<launcher>->netstat.exe` | hard_negative | 42.0% | 87 | kich ban benign (coverage attack thieu) |
 | `cmdtok=print` | hard_negative | 41.6% | 87 | kich ban benign (coverage attack thieu) |
 | `cmdtok=route` | hard_negative | 41.6% | 87 | kich ban benign (coverage attack thieu) |
+| `image=route.exe` | hard_negative | 41.6% | 87 | kich ban benign (coverage attack thieu) |
+| `pair=<launcher>->route.exe` | hard_negative | 41.6% | 87 | kich ban benign (coverage attack thieu) |
 | `pair=None->route.exe` | hard_negative | 41.6% | 87 | kich ban benign (coverage attack thieu) |
 | `pair=None->netstat.exe` | hard_negative | 40.2% | 83 | kich ban benign (coverage attack thieu) |
 | `cmdtok=userdnsdomain` | attack | 23.4% | 44 | hanh vi tan cong |
@@ -286,40 +285,40 @@ Kiểm tra #11 — 10 đặc trưng có mức tách cao nhất (max(AUC, 1−AUC
 | `cmdtok=dsmsvc` | attack | 20.8% | 34 | hanh vi tan cong |
 | `cmdtok=admins` | hard_negative | 20.5% | 43 | kich ban benign (coverage attack thieu) |
 | `eid=98` | attack | 18.5% | 25 | tac dong phu NTDS (ESENT/Directory Service) |
-| `eid=2005` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
+| `eid=102` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
+| `eid=103` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
+| `eid=105` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
 | `eid=2001` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
 | `eid=2003` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
+| `eid=2005` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
 | `eid=2006` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
-| `eid=102` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
-| `eid=300` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
 | `eid=216` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
-| `eid=330` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
+| `eid=300` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
 | `eid=301` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
 | `eid=302` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
-| `eid=105` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
-| `eid=103` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
 | `eid=326` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
+| `eid=330` | attack | 18.1% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
 | `eid=325` | attack | 17.7% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
-| `cmdtok=-timeout` | attack | 17.0% | 32 | hanh vi tan cong |
 | `cmdtok=-querytype` | attack | 17.0% | 32 | hanh vi tan cong |
+| `cmdtok=-timeout` | attack | 17.0% | 32 | hanh vi tan cong |
 | `cmdtok=_ldap._tcp.dc._msdcs.` | attack | 16.6% | 32 | hanh vi tan cong |
 | `cmdtok=config` | attack | 16.6% | 33 | hanh vi tan cong |
 | `eid=327` | attack | 15.8% | 24 | tac dong phu NTDS (ESENT/Directory Service) |
+| `cmdtok=.findall` | attack | 14.7% | 30 | hanh vi tan cong |
 | `cmdtok=.findone` | attack | 14.7% | 30 | hanh vi tan cong |
 | `cmdtok=adsisearcher` | attack | 14.7% | 30 | hanh vi tan cong |
-| `cmdtok=objectcategory` | attack | 14.7% | 30 | hanh vi tan cong |
-| `cmdtok=.findall` | attack | 14.7% | 30 | hanh vi tan cong |
 | `cmdtok=create` | attack | 14.7% | 34 | hanh vi tan cong |
+| `cmdtok=objectcategory` | attack | 14.7% | 30 | hanh vi tan cong |
 | `cmdtok=enum-logs` | attack | 14.0% | 29 | hanh vi tan cong |
-| `cmdtok=shcreatelocalserverrundll` | attack | 12.8% | 25 | tac dong phu nen (svchost->rundll32 COM, ngoai cay tien trinh) |
 | `cmdtok=\windows\system0\shell0.dll` | attack | 12.8% | 25 | tac dong phu nen (svchost->rundll32 COM, ngoai cay tien trinh) |
+| `cmdtok=shcreatelocalserverrundll` | attack | 12.8% | 25 | tac dong phu nen (svchost->rundll32 COM, ngoai cay tien trinh) |
 | `cmdtok=list` | hard_negative | 12.8% | 24 | kich ban benign (coverage attack thieu) |
-| `cmdtok=shadows` | hard_negative | 12.3% | 24 | kich ban benign (coverage attack thieu) |
 | `cmdtok=/dsgetdc` | hard_negative | 12.3% | 24 | kich ban benign (coverage attack thieu) |
-| `cmdtok=full` | attack | 11.3% | 25 | hanh vi tan cong |
-| `cmdtok=q` | attack | 11.3% | 25 | hanh vi tan cong |
+| `cmdtok=shadows` | hard_negative | 12.3% | 24 | kich ban benign (coverage attack thieu) |
 | `cmdtok=\windows\temp\ntds_t0` | attack | 11.3% | 25 | hanh vi tan cong |
+| `cmdtok=full` | attack | 11.3% | 25 | hanh vi tan cong |
 | `cmdtok=ifm` | attack | 11.3% | 25 | hanh vi tan cong |
+| `cmdtok=q` | attack | 11.3% | 25 | hanh vi tan cong |
 | `cmdtok=administrator` | attack | 10.6% | 22 | hanh vi tan cong |
 | `cmdtok=mkdir` | attack | 10.2% | 24 | hanh vi tan cong |
 | `cmdtok=/sc_query` | hard_negative | 10.0% | 20 | kich ban benign (coverage attack thieu) |
@@ -327,7 +326,6 @@ Kiểm tra #11 — 10 đặc trưng có mức tách cao nhất (max(AUC, 1−AUC
 Đọc kết quả #10: phần chênh không hoàn toàn là nhiễu khôi phục snapshot. `Application:216` và `Application:330` (ESENT) chỉ xuất hiện ở ntds/ntds2 — ESENT ghi khi `ntdsutil ifm` sao chép CSDL AD, tức tác động phụ thật của kỹ thuật nằm ngoài cây tiến trình (vẫn là event nền, nhãn benign). Các mục còn lại (Sysmon 3/22, logon 4624/4672/4634, WER 1001) là hoạt động nền khác nhau giữa hai nhóm phiên; revert_control mới có 12 cửa sổ nên ước lượng còn nhiễu.
 
 ## 9. Hạn chế đã biết
-- **Kiểm tra #9**: mọi công cụ theo dõi đều có ≥15% cửa sổ âm trong Train.
 - **Đường tắt theo tiến trình**: sau khi thêm batch06–07, không công cụ nào chỉ xuất hiện ở phía dương trên toàn bộ dữ liệu. Phía âm vẫn mỏng: `ping.exe` dương 16 / âm 14, `wevtutil.exe` 38 / 11, `ntdsutil.exe` 49 / 16 cửa sổ. Gần như chỉ dương (≥90% số cửa sổ chứa là dương): `powershell.exe` 63/7. Đường tắt ngược (chỉ xuất hiện ở phía âm): `route.exe`, `netstat.exe` — kịch bản benign dùng chúng còn biến thể tấn công thì không. Nên báo cáo ablation bỏ `image_name`.
 - **T1003.003 ít dữ liệu đánh giá**: T-clean có 12 cửa sổ dương, T-novel (ntds2v) 6; báo cáo kèm khoảng tin cậy. Phiên ntds2/ntds2v rất ngắn (thường 1–2 cửa sổ, toàn cửa sổ dương), nên không có cửa sổ âm bên trong phiên NTDS mới.
 - **Khôi phục snapshot ở ntds/ntds2/ntds2v**: phiên attack NTDS có bước khôi phục snapshot DC01, làm đồng hồ lệch tới ~55 phút cho tới khi đồng bộ lại. Từ v6 không còn ghép nhầm event theo PID, nhưng event nền phát ra lúc đồng hồ lệch có `ts_system` sai nên có thể rơi ra ngoài (hoặc vào nhầm) khung thời gian phiên. Hệ quả hệ thống của việc khôi phục (dịch vụ khởi động lại) có thể tương quan với lớp. batch07 thêm phiên đối chứng revert_control (hard_negative có khôi phục snapshot); kiểm tra #10 cho TVD = 0.495 giữa event nền của cửa sổ dương T1003.003 và cửa sổ revert_control — chênh lớn nhất ở `Microsoft-Windows-Sysmon/Operational:3` (-21.2%).

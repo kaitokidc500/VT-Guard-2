@@ -159,6 +159,8 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   (còn lại: coverage benign route/netstat/admins, hành vi attack, ESENT, `<launcher>→powershell.exe`, svchost→rundll32 COM nền).
   #9 giờ ĐẠT (cmd.exe 15.1%). Giữ nguyên có chủ ý các khác biệt hành vi/coverage; đo bằng ablation.
 - Đã cài scikit-learn 1.9.1 (+scipy) trên host.
+- Sửa trình bày card (7a đánh số 1–4 theo thứ tự thao tác, #11 nối vào bảng mục 8, bỏ gạch đầu #9 ở mục 9 vì đã đạt);
+  `scaffold_scan` sắp xếp tất định (tie-break theo tên). Dữ liệu/checksum KHÔNG đổi; tag `dataset-v1.1` dời sang commit này.
 
 ## 7. Việc tiếp theo / câu hỏi mở
 

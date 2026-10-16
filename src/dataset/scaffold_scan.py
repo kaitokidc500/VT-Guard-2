@@ -73,7 +73,7 @@ def scan(root=".", canon=False, min_sep=0.9, min_windows=3):
                      "side": "attack" if auc >= 0.5 else "hard_negative",
                      "pct_windows_attack": round(pa, 3), "pct_windows_hn": round(ph, 3),
                      "sessions_attack": sa, "sessions_hn": sh})
-    rows.sort(key=lambda r: (-r["separation"], -max(r["pct_windows_attack"], r["pct_windows_hn"])))
+    rows.sort(key=lambda r: (-r["separation"], -max(r["pct_windows_attack"], r["pct_windows_hn"]), r["feature"]))   # tat dinh
     meta = {"n_attack_windows": len(A), "n_hn_windows": len(H),
             "n_attack_sessions": len({run[w] for w in A}), "n_hn_sessions": len({run[w] for w in H}),
             "canon": canon, "min_sep": min_sep}

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-16T13:29:59+07:00",
+  "generated": "2026-10-16T13:37:50+07:00",
   "dataset_version": "v1.1",
   "versions": {
     "normalize": "v0",
@@ -1839,28 +1839,6 @@
           "sessions_hn": 34
         },
         {
-          "feature": "image=netstat.exe",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
-          "sessions_attack": 0,
-          "sessions_hn": 87,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
-          "feature": "pair=<launcher>->netstat.exe",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
-          "sessions_attack": 0,
-          "sessions_hn": 87,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
           "feature": "cmdtok=-ano",
           "auc_attack_gt_hn": 0.29,
           "separation": 0.71,
@@ -1873,6 +1851,28 @@
         },
         {
           "feature": "cmdtok=netstat",
+          "auc_attack_gt_hn": 0.29,
+          "separation": 0.71,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.42,
+          "sessions_attack": 0,
+          "sessions_hn": 87,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "image=netstat.exe",
+          "auc_attack_gt_hn": 0.29,
+          "separation": 0.71,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.42,
+          "sessions_attack": 0,
+          "sessions_hn": 87,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "pair=<launcher>->netstat.exe",
           "auc_attack_gt_hn": 0.29,
           "separation": 0.71,
           "side": "hard_negative",
@@ -1885,28 +1885,6 @@
       ],
       "one_sided": [
         {
-          "feature": "image=netstat.exe",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
-          "sessions_attack": 0,
-          "sessions_hn": 87,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
-          "feature": "pair=<launcher>->netstat.exe",
-          "auc_attack_gt_hn": 0.29,
-          "separation": 0.71,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.42,
-          "sessions_attack": 0,
-          "sessions_hn": 87,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
           "feature": "cmdtok=-ano",
           "auc_attack_gt_hn": 0.29,
           "separation": 0.71,
@@ -1929,23 +1907,23 @@
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
-          "feature": "image=route.exe",
-          "auc_attack_gt_hn": 0.2922,
-          "separation": 0.7078,
+          "feature": "image=netstat.exe",
+          "auc_attack_gt_hn": 0.29,
+          "separation": 0.71,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.416,
+          "pct_windows_hn": 0.42,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
-          "feature": "pair=<launcher>->route.exe",
-          "auc_attack_gt_hn": 0.2922,
-          "separation": 0.7078,
+          "feature": "pair=<launcher>->netstat.exe",
+          "auc_attack_gt_hn": 0.29,
+          "separation": 0.71,
           "side": "hard_negative",
           "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.416,
+          "pct_windows_hn": 0.42,
           "sessions_attack": 0,
           "sessions_hn": 87,
           "category": "kich ban benign (coverage attack thieu)"
@@ -1963,6 +1941,28 @@
         },
         {
           "feature": "cmdtok=route",
+          "auc_attack_gt_hn": 0.2922,
+          "separation": 0.7078,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.416,
+          "sessions_attack": 0,
+          "sessions_hn": 87,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "image=route.exe",
+          "auc_attack_gt_hn": 0.2922,
+          "separation": 0.7078,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.416,
+          "sessions_attack": 0,
+          "sessions_hn": 87,
+          "category": "kich ban benign (coverage attack thieu)"
+        },
+        {
+          "feature": "pair=<launcher>->route.exe",
           "auc_attack_gt_hn": 0.2922,
           "separation": 0.7078,
           "side": "hard_negative",
@@ -2050,7 +2050,29 @@
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
-          "feature": "eid=2005",
+          "feature": "eid=102",
+          "auc_attack_gt_hn": 0.5906,
+          "separation": 0.5906,
+          "side": "attack",
+          "pct_windows_attack": 0.181,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 24,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eid=103",
+          "auc_attack_gt_hn": 0.5906,
+          "separation": 0.5906,
+          "side": "attack",
+          "pct_windows_attack": 0.181,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 24,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eid=105",
           "auc_attack_gt_hn": 0.5906,
           "separation": 0.5906,
           "side": "attack",
@@ -2083,29 +2105,18 @@
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
+          "feature": "eid=2005",
+          "auc_attack_gt_hn": 0.5906,
+          "separation": 0.5906,
+          "side": "attack",
+          "pct_windows_attack": 0.181,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 24,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
           "feature": "eid=2006",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
-          "side": "attack",
-          "pct_windows_attack": 0.181,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
-          "sessions_hn": 0,
-          "category": "tac dong phu NTDS (ESENT/Directory Service)"
-        },
-        {
-          "feature": "eid=102",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
-          "side": "attack",
-          "pct_windows_attack": 0.181,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
-          "sessions_hn": 0,
-          "category": "tac dong phu NTDS (ESENT/Directory Service)"
-        },
-        {
-          "feature": "eid=300",
           "auc_attack_gt_hn": 0.5906,
           "separation": 0.5906,
           "side": "attack",
@@ -2127,7 +2138,7 @@
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
-          "feature": "eid=330",
+          "feature": "eid=300",
           "auc_attack_gt_hn": 0.5906,
           "separation": 0.5906,
           "side": "attack",
@@ -2160,29 +2171,18 @@
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
-          "feature": "eid=105",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
-          "side": "attack",
-          "pct_windows_attack": 0.181,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
-          "sessions_hn": 0,
-          "category": "tac dong phu NTDS (ESENT/Directory Service)"
-        },
-        {
-          "feature": "eid=103",
-          "auc_attack_gt_hn": 0.5906,
-          "separation": 0.5906,
-          "side": "attack",
-          "pct_windows_attack": 0.181,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 24,
-          "sessions_hn": 0,
-          "category": "tac dong phu NTDS (ESENT/Directory Service)"
-        },
-        {
           "feature": "eid=326",
+          "auc_attack_gt_hn": 0.5906,
+          "separation": 0.5906,
+          "side": "attack",
+          "pct_windows_attack": 0.181,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 24,
+          "sessions_hn": 0,
+          "category": "tac dong phu NTDS (ESENT/Directory Service)"
+        },
+        {
+          "feature": "eid=330",
           "auc_attack_gt_hn": 0.5906,
           "separation": 0.5906,
           "side": "attack",
@@ -2204,7 +2204,7 @@
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
-          "feature": "cmdtok=-timeout",
+          "feature": "cmdtok=-querytype",
           "auc_attack_gt_hn": 0.5849,
           "separation": 0.5849,
           "side": "attack",
@@ -2215,7 +2215,7 @@
           "category": "hanh vi tan cong"
         },
         {
-          "feature": "cmdtok=-querytype",
+          "feature": "cmdtok=-timeout",
           "auc_attack_gt_hn": 0.5849,
           "separation": 0.5849,
           "side": "attack",
@@ -2259,6 +2259,17 @@
           "category": "tac dong phu NTDS (ESENT/Directory Service)"
         },
         {
+          "feature": "cmdtok=.findall",
+          "auc_attack_gt_hn": 0.5736,
+          "separation": 0.5736,
+          "side": "attack",
+          "pct_windows_attack": 0.147,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 30,
+          "sessions_hn": 0,
+          "category": "hanh vi tan cong"
+        },
+        {
           "feature": "cmdtok=.findone",
           "auc_attack_gt_hn": 0.5736,
           "separation": 0.5736,
@@ -2281,28 +2292,6 @@
           "category": "hanh vi tan cong"
         },
         {
-          "feature": "cmdtok=objectcategory",
-          "auc_attack_gt_hn": 0.5736,
-          "separation": 0.5736,
-          "side": "attack",
-          "pct_windows_attack": 0.147,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 30,
-          "sessions_hn": 0,
-          "category": "hanh vi tan cong"
-        },
-        {
-          "feature": "cmdtok=.findall",
-          "auc_attack_gt_hn": 0.5736,
-          "separation": 0.5736,
-          "side": "attack",
-          "pct_windows_attack": 0.147,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 30,
-          "sessions_hn": 0,
-          "category": "hanh vi tan cong"
-        },
-        {
           "feature": "cmdtok=create",
           "auc_attack_gt_hn": 0.5736,
           "separation": 0.5736,
@@ -2310,6 +2299,17 @@
           "pct_windows_attack": 0.147,
           "pct_windows_hn": 0.0,
           "sessions_attack": 34,
+          "sessions_hn": 0,
+          "category": "hanh vi tan cong"
+        },
+        {
+          "feature": "cmdtok=objectcategory",
+          "auc_attack_gt_hn": 0.5736,
+          "separation": 0.5736,
+          "side": "attack",
+          "pct_windows_attack": 0.147,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 30,
           "sessions_hn": 0,
           "category": "hanh vi tan cong"
         },
@@ -2325,7 +2325,7 @@
           "category": "hanh vi tan cong"
         },
         {
-          "feature": "cmdtok=shcreatelocalserverrundll",
+          "feature": "cmdtok=\\windows\\system0\\shell0.dll",
           "auc_attack_gt_hn": 0.5642,
           "separation": 0.5642,
           "side": "attack",
@@ -2336,7 +2336,7 @@
           "category": "tac dong phu nen (svchost->rundll32 COM, ngoai cay tien trinh)"
         },
         {
-          "feature": "cmdtok=\\windows\\system0\\shell0.dll",
+          "feature": "cmdtok=shcreatelocalserverrundll",
           "auc_attack_gt_hn": 0.5642,
           "separation": 0.5642,
           "side": "attack",
@@ -2358,17 +2358,6 @@
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
-          "feature": "cmdtok=shadows",
-          "auc_attack_gt_hn": 0.4384,
-          "separation": 0.5616,
-          "side": "hard_negative",
-          "pct_windows_attack": 0.0,
-          "pct_windows_hn": 0.123,
-          "sessions_attack": 0,
-          "sessions_hn": 24,
-          "category": "kich ban benign (coverage attack thieu)"
-        },
-        {
           "feature": "cmdtok=/dsgetdc",
           "auc_attack_gt_hn": 0.4384,
           "separation": 0.5616,
@@ -2380,26 +2369,15 @@
           "category": "kich ban benign (coverage attack thieu)"
         },
         {
-          "feature": "cmdtok=full",
-          "auc_attack_gt_hn": 0.5566,
-          "separation": 0.5566,
-          "side": "attack",
-          "pct_windows_attack": 0.113,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 25,
-          "sessions_hn": 0,
-          "category": "hanh vi tan cong"
-        },
-        {
-          "feature": "cmdtok=q",
-          "auc_attack_gt_hn": 0.5566,
-          "separation": 0.5566,
-          "side": "attack",
-          "pct_windows_attack": 0.113,
-          "pct_windows_hn": 0.0,
-          "sessions_attack": 25,
-          "sessions_hn": 0,
-          "category": "hanh vi tan cong"
+          "feature": "cmdtok=shadows",
+          "auc_attack_gt_hn": 0.4384,
+          "separation": 0.5616,
+          "side": "hard_negative",
+          "pct_windows_attack": 0.0,
+          "pct_windows_hn": 0.123,
+          "sessions_attack": 0,
+          "sessions_hn": 24,
+          "category": "kich ban benign (coverage attack thieu)"
         },
         {
           "feature": "cmdtok=\\windows\\temp\\ntds_t0",
@@ -2413,7 +2391,29 @@
           "category": "hanh vi tan cong"
         },
         {
+          "feature": "cmdtok=full",
+          "auc_attack_gt_hn": 0.5566,
+          "separation": 0.5566,
+          "side": "attack",
+          "pct_windows_attack": 0.113,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "hanh vi tan cong"
+        },
+        {
           "feature": "cmdtok=ifm",
+          "auc_attack_gt_hn": 0.5566,
+          "separation": 0.5566,
+          "side": "attack",
+          "pct_windows_attack": 0.113,
+          "pct_windows_hn": 0.0,
+          "sessions_attack": 25,
+          "sessions_hn": 0,
+          "category": "hanh vi tan cong"
+        },
+        {
+          "feature": "cmdtok=q",
           "auc_attack_gt_hn": 0.5566,
           "separation": 0.5566,
           "side": "attack",
@@ -2593,7 +2593,7 @@
           "diff": -0.0332
         },
         {
-          "channel_event": "Application:105",
+          "channel_event": "Application:102",
           "t1003_pos": 0.0306,
           "revert_control": 0.0,
           "diff": 0.0306
