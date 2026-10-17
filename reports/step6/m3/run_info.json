@@ -1,0 +1,407 @@
+{
+ "commit": "44f8948d7e8d626c81cebbbfe8cbeab97ff7e152",
+ "torch": "2.11.0+cu130",
+ "device": "cuda",
+ "configs": [
+  "M1",
+  "M2",
+  "M3",
+  "M4",
+  "M4b",
+  "M3c",
+  "M3cp"
+ ],
+ "seeds": [
+  1337,
+  7,
+  42,
+  2024,
+  99
+ ],
+ "final_config_locked_from": "099d028c439aa8f6435ed585c0e17c4053a4b415",
+ "dataset_sha256": {
+  "vocab.json": "9886ee564f6613bf83290656e7480184b25b21a1b1d5bb6b5954b3d865aa5fb1",
+  "splits/train.jsonl": "b69928bd22f505744c8fdc8a64712068e03099757b588957a025aa8176a25604",
+  "splits/t_clean.jsonl": "0e34a0865421661b681f8a34837057f0bd8a2de176fec661efbb8fd82e46992a",
+  "splits/t_hard.jsonl": "8ebbcd79e98701665e6afe5e7c7f42b69e2ee3ad29f3f8ea157d79470ecb8190",
+  "splits/t_novel.jsonl": "788691cc50a559769c24c6e6726a52adf3282f185974f2c4aff992f7b55998f4"
+ },
+ "aux_sha256": "c627af938b77aba5015046413a392ed1258f116a475f5bba97d00b554ce39ecb",
+ "runs": [
+  {
+   "model": "vtseq_M1_s1337",
+   "final_epochs": {
+    "bin": 26,
+    "ttp": 19
+   },
+   "binary_score": "p_bin",
+   "thr": 0.16666954755783084,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.24
+  },
+  {
+   "model": "vtseq_M1_s7",
+   "final_epochs": {
+    "bin": 20,
+    "ttp": 21
+   },
+   "binary_score": "p_bin",
+   "thr": 0.7925756573677064,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.2
+  },
+  {
+   "model": "vtseq_M1_s42",
+   "final_epochs": {
+    "bin": 24,
+    "ttp": 26
+   },
+   "binary_score": "p_bin",
+   "thr": 0.7547280788421632,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.23
+  },
+  {
+   "model": "vtseq_M1_s2024",
+   "final_epochs": {
+    "bin": 36,
+    "ttp": 27
+   },
+   "binary_score": "p_bin",
+   "thr": 0.623386323451996,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.29
+  },
+  {
+   "model": "vtseq_M1_s99",
+   "final_epochs": {
+    "bin": 27,
+    "ttp": 40
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.7744255661964418,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.3
+  },
+  {
+   "model": "vtseq_M2_s1337",
+   "final_epochs": {
+    "joint": 37
+   },
+   "binary_score": "p_bin",
+   "thr": 0.6415856480598451,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.18
+  },
+  {
+   "model": "vtseq_M2_s7",
+   "final_epochs": {
+    "joint": 28
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.7442581057548524,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.14
+  },
+  {
+   "model": "vtseq_M2_s42",
+   "final_epochs": {
+    "joint": 41
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.9220746159553529,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.2
+  },
+  {
+   "model": "vtseq_M2_s2024",
+   "final_epochs": {
+    "joint": 28
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.8971558213233949,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.14
+  },
+  {
+   "model": "vtseq_M2_s99",
+   "final_epochs": {
+    "joint": 30
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.6564295887947084,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.15
+  },
+  {
+   "model": "vtseq_M3_s1337",
+   "final_epochs": {
+    "joint": 39
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.9104533195495607,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.2
+  },
+  {
+   "model": "vtseq_M3_s7",
+   "final_epochs": {
+    "joint": 31
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.9115215539932252,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.15
+  },
+  {
+   "model": "vtseq_M3_s42",
+   "final_epochs": {
+    "joint": 33
+   },
+   "binary_score": "p_bin",
+   "thr": 0.920183300971985,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.17
+  },
+  {
+   "model": "vtseq_M3_s2024",
+   "final_epochs": {
+    "joint": 52
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.863717019557953,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.26
+  },
+  {
+   "model": "vtseq_M3_s99",
+   "final_epochs": {
+    "joint": 38
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.7774300575256349,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.19
+  },
+  {
+   "model": "vtseq_M4_s1337",
+   "final_epochs": {
+    "joint": 34
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.6998190879821778,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.17
+  },
+  {
+   "model": "vtseq_M4_s7",
+   "final_epochs": {
+    "joint": 48
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.8966905474662782,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.24
+  },
+  {
+   "model": "vtseq_M4_s42",
+   "final_epochs": {
+    "joint": 42
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.6181250214576722,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.21
+  },
+  {
+   "model": "vtseq_M4_s2024",
+   "final_epochs": {
+    "joint": 33
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.9452444911003114,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.17
+  },
+  {
+   "model": "vtseq_M4_s99",
+   "final_epochs": {
+    "joint": 37
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.7813854217529298,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.18
+  },
+  {
+   "model": "vtseq_M4b_s1337",
+   "final_epochs": {
+    "joint": 41
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.7535611987113954,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.21
+  },
+  {
+   "model": "vtseq_M4b_s7",
+   "final_epochs": {
+    "joint": 27
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.9163196086883546,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.14
+  },
+  {
+   "model": "vtseq_M4b_s42",
+   "final_epochs": {
+    "joint": 38
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.8910635709762574,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.19
+  },
+  {
+   "model": "vtseq_M4b_s2024",
+   "final_epochs": {
+    "joint": 39
+   },
+   "binary_score": "p_bin",
+   "thr": 0.3330754935741425,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.2
+  },
+  {
+   "model": "vtseq_M4b_s99",
+   "final_epochs": {
+    "joint": 26
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.9163190126419068,
+   "oof_source": "/content/VT-Guard/reports/step6/m2",
+   "minutes": 0.13
+  },
+  {
+   "model": "vtseq_M3c_s1337",
+   "final_epochs": {
+    "joint": 37
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.18161602318286899,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 0.89
+  },
+  {
+   "model": "vtseq_M3c_s7",
+   "final_epochs": {
+    "joint": 41
+   },
+   "binary_score": "p_bin",
+   "thr": 0.9584495425224305,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 0.9
+  },
+  {
+   "model": "vtseq_M3c_s42",
+   "final_epochs": {
+    "joint": 24
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.9739157557487489,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 0.63
+  },
+  {
+   "model": "vtseq_M3c_s2024",
+   "final_epochs": {
+    "joint": 36
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.9531102180480958,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 0.85
+  },
+  {
+   "model": "vtseq_M3c_s99",
+   "final_epochs": {
+    "joint": 27
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.9064382910728456,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 0.76
+  },
+  {
+   "model": "vtseq_M3cp_s1337",
+   "final_epochs": {
+    "joint": 39
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.7192222476005555,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 1.07
+  },
+  {
+   "model": "vtseq_M3cp_s7",
+   "final_epochs": {
+    "joint": 28
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.8707070946693422,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 0.99
+  },
+  {
+   "model": "vtseq_M3cp_s42",
+   "final_epochs": {
+    "joint": 25
+   },
+   "binary_score": "p_bin",
+   "thr": 0.8756948709487916,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 0.91
+  },
+  {
+   "model": "vtseq_M3cp_s2024",
+   "final_epochs": {
+    "joint": 32
+   },
+   "binary_score": "p_bin_max",
+   "thr": 0.922674596309662,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 1.1
+  },
+  {
+   "model": "vtseq_M3cp_s99",
+   "final_epochs": {
+    "joint": 26
+   },
+   "binary_score": "p_bin",
+   "thr": 0.7031233310699464,
+   "oof_source": "chay CV tai moc 3",
+   "minutes": 1.09
+  }
+ ],
+ "ensembles": [
+  {
+   "model": "vtseq_M3_ens",
+   "binary_score": "p_bin_max",
+   "thr": 0.8691656000000001,
+   "oof_pr_auc": {
+    "p_bin": 0.9967,
+    "p_bin_max": 0.9968
+   }
+  },
+  {
+   "model": "vtseq_M4b_ens",
+   "binary_score": "p_bin_max",
+   "thr": 0.6814698000000001,
+   "oof_pr_auc": {
+    "p_bin": 0.9964,
+    "p_bin_max": 0.9968
+   }
+  }
+ ]
+}

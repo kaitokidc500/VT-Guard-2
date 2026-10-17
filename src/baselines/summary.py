@@ -39,11 +39,18 @@ def cnt(rs, get, d=1):
     if len(rs) == 1: return str(get(rs[0]))
     return ms([get(r) for r in rs], d)
 
+RESULT_DIRS = (("reports", "step5"), ("reports", "step6", "eval"))
+
 def load(root, m, seeds):
-    p = os.path.join(root, "reports", "step5", f"{m}.json")
-    if os.path.exists(p): return [json.load(open(p, encoding="utf-8"))]
-    rs = [json.load(open(os.path.join(root, "reports", "step5", f"{m}_s{s}.json"), encoding="utf-8")) for s in seeds]
-    return rs
+    """<m>.json (1 ket qua) hoac <m>_s<seed>.json (nhieu seed; chi cac seed co file) trong reports/step5 hoac reports/step6/eval."""
+    for d in RESULT_DIRS:
+        p = os.path.join(root, *d, f"{m}.json")
+        if os.path.exists(p): return [json.load(open(p, encoding="utf-8"))]
+    for d in RESULT_DIRS:
+        ps = [os.path.join(root, *d, f"{m}_s{s}.json") for s in seeds]
+        rs = [json.load(open(q, encoding="utf-8")) for q in ps if os.path.exists(q)]
+        if rs: return rs
+    raise FileNotFoundError(f"khong co ket qua cho {m}")
 
 def tables(root, models, weights=(), thard_only=(), seeds=()):
     R = {m: load(root, m, seeds) for m in models}
@@ -135,7 +142,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--models", required=True)
-    ap.add_argument("--seeds", default="1337,7,42", help="seed cho mo hinh nhieu seed (<ten>_s<seed>.json)")
+    ap.add_argument("--seeds", default="1337,7,42,2024,99", help="seed cho mo hinh nhieu seed (<ten>_s<seed>.json)")
     ap.add_argument("--weights", default="")
     ap.add_argument("--thard-only", default="", help="mo hinh chi bao T-hard (vd ablation (c) ro nhan theo cau truc)")
     ap.add_argument("--out")

@@ -1,0 +1,297 @@
+{
+ "n_boot": 1000,
+ "seed": 1337,
+ "unit": "cua so (T-novel cho macro-F1/PR-AUC, T-hard cho FPR)",
+ "results": {
+  "vtseq_M3_ens - b1_tfidf_b": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8168,
+    "b": 0.7349,
+    "diff": 0.0819,
+    "lo": 0.0089,
+    "hi": 0.1564,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.986,
+    "b": 0.9791,
+    "diff": 0.0069,
+    "lo": -0.0072,
+    "hi": 0.0286,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   },
+   "fpr_t_hard": {
+    "a": 0.0114,
+    "b": 0.0,
+    "diff": 0.0114,
+    "lo": 0.0,
+    "hi": 0.0341,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  },
+  "vtseq_M3_ens - b2_lgbm_a": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8168,
+    "b": 0.8018,
+    "diff": 0.015,
+    "lo": -0.0263,
+    "hi": 0.0504,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.986,
+    "b": 0.9903,
+    "diff": -0.0043,
+    "lo": -0.0152,
+    "hi": 0.0034,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   },
+   "fpr_t_hard": {
+    "a": 0.0114,
+    "b": 0.0114,
+    "diff": 0.0,
+    "lo": -0.023,
+    "hi": 0.0341,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  },
+  "vtseq_M3_ens - b3_gru_b_s1337": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8168,
+    "b": 0.7248,
+    "diff": 0.092,
+    "lo": 0.0394,
+    "hi": 0.1835,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.986,
+    "b": 0.9177,
+    "diff": 0.0683,
+    "lo": 0.007,
+    "hi": 0.1576,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "fpr_t_hard": {
+    "a": 0.0114,
+    "b": 0.0114,
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  },
+  "vtseq_M3_ens - b3_gru_b_s7": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8168,
+    "b": 0.7487,
+    "diff": 0.0681,
+    "lo": 0.0391,
+    "hi": 0.1022,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.986,
+    "b": 0.9299,
+    "diff": 0.0561,
+    "lo": 0.0013,
+    "hi": 0.1285,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "fpr_t_hard": {
+    "a": 0.0114,
+    "b": 0.0227,
+    "diff": -0.0114,
+    "lo": -0.0455,
+    "hi": 0.0227,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  },
+  "vtseq_M3_ens - b3_gru_b_s42": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8168,
+    "b": 0.7773,
+    "diff": 0.0395,
+    "lo": 0.0176,
+    "hi": 0.0623,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.986,
+    "b": 0.9452,
+    "diff": 0.0409,
+    "lo": 0.0006,
+    "hi": 0.0944,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "fpr_t_hard": {
+    "a": 0.0114,
+    "b": 0.0227,
+    "diff": -0.0114,
+    "lo": -0.0455,
+    "hi": 0.0227,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  },
+  "vtseq_M4b_ens - b1_tfidf_b": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8308,
+    "b": 0.7349,
+    "diff": 0.0959,
+    "lo": 0.0259,
+    "hi": 0.1659,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.9881,
+    "b": 0.9791,
+    "diff": 0.009,
+    "lo": -0.0073,
+    "hi": 0.0353,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   },
+   "fpr_t_hard": {
+    "a": 0.0,
+    "b": 0.0,
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  },
+  "vtseq_M4b_ens - b2_lgbm_a": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8308,
+    "b": 0.8018,
+    "diff": 0.029,
+    "lo": -0.0105,
+    "hi": 0.0654,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.9881,
+    "b": 0.9903,
+    "diff": -0.0022,
+    "lo": -0.0127,
+    "hi": 0.0062,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   },
+   "fpr_t_hard": {
+    "a": 0.0,
+    "b": 0.0114,
+    "diff": -0.0114,
+    "lo": -0.0341,
+    "hi": 0.0,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  },
+  "vtseq_M4b_ens - b3_gru_b_s1337": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8308,
+    "b": 0.7248,
+    "diff": 0.106,
+    "lo": 0.053,
+    "hi": 0.2015,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.9881,
+    "b": 0.9177,
+    "diff": 0.0704,
+    "lo": 0.0118,
+    "hi": 0.1584,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "fpr_t_hard": {
+    "a": 0.0,
+    "b": 0.0114,
+    "diff": -0.0114,
+    "lo": -0.0341,
+    "hi": 0.0,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  },
+  "vtseq_M4b_ens - b3_gru_b_s7": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8308,
+    "b": 0.7487,
+    "diff": 0.0821,
+    "lo": 0.0514,
+    "hi": 0.1165,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.9881,
+    "b": 0.9299,
+    "diff": 0.0582,
+    "lo": 0.0066,
+    "hi": 0.1289,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "fpr_t_hard": {
+    "a": 0.0,
+    "b": 0.0227,
+    "diff": -0.0227,
+    "lo": -0.0568,
+    "hi": 0.0,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  },
+  "vtseq_M4b_ens - b3_gru_b_s42": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8308,
+    "b": 0.7773,
+    "diff": 0.0535,
+    "lo": 0.0307,
+    "hi": 0.0778,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "pr_auc_t_novel": {
+    "a": 0.9881,
+    "b": 0.9452,
+    "diff": 0.043,
+    "lo": 0.0058,
+    "hi": 0.0935,
+    "n_valid": 1000,
+    "verdict": "a hon"
+   },
+   "fpr_t_hard": {
+    "a": 0.0,
+    "b": 0.0227,
+    "diff": -0.0227,
+    "lo": -0.0568,
+    "hi": 0.0,
+    "n_valid": 1000,
+    "verdict": "khong khac co y nghia"
+   }
+  }
+ }
+}
