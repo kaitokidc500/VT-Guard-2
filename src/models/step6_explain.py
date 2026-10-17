@@ -265,7 +265,10 @@ def report():
           "- Attention dung chung cho moi TTP (mot pooling): cua so nhieu TTP (phien mixed) lam token cua TTP khac xuat hien (vd nslookup o "
           "moi TTP) -> Buoc 7 can do do dac hieu theo TTP (cua so mot TTP / so voi cua so TTP khac).",
           "- T1003.003: 34% top-5 la event NEN (ESENT 216/103, vssvc, rundll32) - tac dong phu mot-phia (#10/#11); luat nen dua tren "
-          "ntdsutil `ifm create full`, khong tren event nen.", "",
+          "ntdsutil `ifm create full`, khong tren event nen.",
+          "- T1087.002: token dau la `powershell.exe` (lift ~81) va EID 40961/4104 - dau vet bo sinh (ART chay test trong "
+          "powershell con; gioi han `<launcher>`->powershell.exe da biet, dataset card #11). Luat T1087.002 phai dua tren lenh that "
+          "(`net user /domain`, `adsisearcher`, `objectcategory`), khong dua tren su hien dien cua PowerShell.", "",
           "**(3) ONNX** (opset 17, truc dong batch + time; dau ra p_bin, p_ttp, alpha). Parity voi PyTorch (ban pack) tren toan T-novel; "
           f"do tre onnxruntime {O['host']['onnxruntime']} CPU 1 thread tren host ({O['host']['cpu']}).", "",
           "| Mo hinh | File | So mang | max abs diff p_bin / p_ttp / alpha | Parity < 1e-4 | batch 1: ms/cua so (TB / p95) | batch 32: ms/cua so (TB / p95) |",

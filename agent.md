@@ -53,7 +53,7 @@ VT-Guard/  (= vt-guard-research/)
 | 3 | Chuẩn hoá & gán nhãn (normalize v1, labeler v8) | `src/normalize/`, `src/label/` | Hoàn thành |
 | 4 | Đóng băng dataset (tag `dataset-v1.2`, thay v1.1/v1.0 — bản sửa dataset CUỐI): gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
 | 5 | Khung đánh giá (`src/eval/`), baseline B0–B3 (`src/baselines/`) + ablation; tổng hợp `reports/step5_report.md` (tag `step5-done`) | `src/eval/`, `src/baselines/`, `reports/` | Hoàn thành |
-| 6 | VT-Seq (GRU-Attention đa nhiệm) + ablation | `src/models/`, `notebooks/` | Chưa bắt đầu |
+| 6 | VT-Seq (GRU-Attention đa nhiệm) + ablation; `reports/step6_report.md` (tag `step6-done`); triển khai = VT-Seq-ens (M3, 5 seed) | `src/models/`, `notebooks/`, `reports/step6/` | Hoàn thành |
 | 7 | Luật | `src/rules/` | Chưa bắt đầu |
 | 8 | Fusion | `src/fusion/` | Chưa bắt đầu |
 | — | Bằng chứng hạ tầng | `evidence/` | Chưa bắt đầu |
@@ -193,13 +193,37 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   test nhỏ (6 phiên T-novel) báo theo phiên. Confounder độ dài: Spearman điểm~độ dài dương ở B1 TF-IDF (~0.73) và B3 (~0.61).
 - `src/baselines/summary.py` gộp nhiều seed (trung bình ± độ lệch chuẩn); `src/baselines/step5_report.py` sinh report + results.json.
 
+### Bước 5 đóng + Bước 6 (VT-Seq) — 2026-10-17
+- Bước 5 đóng: sửa câu coverage gap (route/netstat/Domain Admins chỉ ở phía ÂM); Spearman B0 T-hard 0.46 (v1.1) → 0.05 (v1.2)
+  là thật (luật Wazuh 67027 level 3 trên 4688 khôi phục ở v1.2). Tag `step5-done` đã đẩy nên KHÔNG dời: tạo `step5-done-r1`.
+- `src/models/vtseq.py` (một nguồn cho host + Colab): encoder event giống B3 → GRU 1 chiều hidden 96 → additive attention →
+  đầu bin + 5 đầu TTP; name dropout; crop U[4,n] mọi lớp (nhãn đoạn từ nhãn event Train); ngưỡng FPR<=1% OOF; p_bin/p_bin'.
+  Đọc CHỈ cat/cmd/num + nhãn cửa sổ từ split + `data/processed/step6/aux.jsonl` (`vtseq_aux.py`: mặt nạ origin/one_sided,
+  nhãn event CHỈ Train; sha ở `reports/step6/aux_manifest.json`). `test_vtseq.py` 38/38.
+- Huấn luyện: laptop quá tải khi chạy 5 tiến trình song song → mốc 2–3 chạy Colab (`notebooks/step6_vtseq_colab.ipynb`,
+  clone theo commit, chỉ giải nén splits + vocab + aux), chấm trên host bằng evaluate.py. Mốc 4 (attention, ONNX) trên host.
+- Mốc 2 (OOF, 5 seed): attention là bước nhảy chính (macro-F1 OOF 0.774 → 0.822); M3/M4/M4b ngang nhau theo 4.3, phá hoà bằng
+  độ ổn định ngưỡng OOF → khoá M3 ở `reports/step6/final_config.json` (commit 3ebc94b) TRƯỚC test.
+- Mốc 3 (test 1 lần): sau Holm (9 so sánh) chỉ còn VT-Seq-ens > B3 (b) ở macro-F1 TTP T-novel (+0.092, p Holm 0.009); vs
+  B1/B2 không khác. T1654 ~0.68 (B2 0.59, B3 0.46–0.50); M4b-ens bền khi bỏ tên công cụ (0.83 vs B2 (b) 0.45). Crop chưa vững
+  (theo trung vị); seed lẻ không ổn định với T1003 → triển khai ens. Ổn định ngưỡng đến từ quy tắc FPR<=1%, không từ kiến trúc.
+- Mốc 4: hạt giống luật CHỈ Train (attention OOF, fold huấn luyện lại trên host, r 0.991–0.999 với Colab) → 4 cảnh báo
+  (ntds_T1003 trong đường dẫn ART, cmd /c, attention dùng chung + ESENT ở T1003, powershell/4104 ở T1087.002). Faithfulness ens
+  đạt mọi k. ONNX opset 17 (seed 1337 + ens), parity ≤ 6.6e-7, ens ~1.4 ms/cửa sổ CPU 1 thread. `.onnx`/`.pt` không vào git (sha256).
+- Tiêu chí chấp nhận mục 9: 8/8 đạt. Brief mục 6 đã sửa (hạt giống chỉ Train; attention test chỉ để giải thích).
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
 - [x] Bước 5 mốc C: FPR phân tầng theo độ dài + Spearman điểm–độ dài trong evaluate.py.
 - [x] Bước 5 mốc D: B0, B1 (TF-IDF/raw), B2 (LightGBM), B3 (GRU, 3 seed) trên dataset-v1.2 + ablation (a)(b)(c chỉ T-hard)(c');
       tổng hợp `reports/step5_report.md` + `reports/step5_results.json`; preds ở `reports/preds/` (giữ cho Bước 8). Tag `step5-done`.
-- [ ] Bước 6: VT-Seq (GRU-Attention đa nhiệm) + ablation; nạp dữ liệu CHỈ từ `cat`/`cmd`/`num`; cắt ngẫu nhiên độ dài
-      cửa sổ khi huấn luyện; ablation bỏ `image_name` (đường tắt ping/wevtutil/ntdsutil).
+- [x] Bước 6: VT-Seq + ablation, `reports/step6_report.md`, tag `step6-done`.
+- [ ] Bước 7: Auto Rule Engine — hạt giống `reports/step6/rule_seeds_train.json` (CHỈ Train) + đặc trưng B2; xử lý 4 cảnh báo
+      ở `reports/step6/m4_explain.md` (loại ntds_T1003, không dựa vỏ cmd /c hay sự hiện diện PowerShell, đo độ đặc hiệu theo TTP,
+      không dựa event nền ESENT); quality gate FPR trên T-hard, độ phủ trên T-novel.
+- [ ] Bước 8: fusion VT-Seq-ens (`reports/preds/vtseq_M3_ens_*`) + luật, cùng evaluate.py.
+- [ ] Kiểm soát độ dài chưa vững ở từng seed (crop) — cân nhắc ở bước sau nếu cần.
+- [ ] `.onnx`/`.pt` không vào git: bản gốc ở Drive `step6_m3_44f8948d.zip`; tái tạo ONNX: `python src/models/step6_explain.py onnx`.
 - [ ] #9 đạt sát ngưỡng (cmd.exe 15.1%) — nếu thu thêm dữ liệu: phiên benign gọi tool qua `cmd.exe /c`
       (vd sửa network_check/user_inventory/log_review), cũng giúp 45 phiên benign có event riêng.
 - [ ] route/netstat chỉ ở phía âm (đường tắt ngược); wevtutil Train âm 5 cửa sổ (17%) — sát ngưỡng.

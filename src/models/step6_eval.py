@@ -135,6 +135,19 @@ def main(root="."):
     for k, v in pb.items():
         print(k, {m: (x["diff"], x["lo"], x["hi"], x["verdict"]) for m, x in v.items()})
 
+def holm_family(pb):
+    """9 so sanh VT-Seq-ens (M3) vs B1 TF-IDF (b) / B2 (a) / B3 (b) x 3 chi so; B3 lay seed co p lon nhat; Holm."""
+    fam = []
+    for bname, keys in (("B1 TF-IDF (b)", ["b1_tfidf_b"]), ("B2 (a)", ["b2_lgbm_a"]), ("B3 (b) (3 seed, p lon nhat)", [f"b3_gru_b_s{x}" for x in (1337, 7, 42)])):
+        for m, mn in (("macro_f1_ttp_t_novel", "macro-F1 TTP T-novel"), ("pr_auc_t_novel", "PR-AUC T-novel"), ("fpr_t_hard", "FPR T-hard")):
+            rs = [pb[f"vtseq_M3_ens - {k}"][m] for k in keys]
+            worst = max(rs, key=lambda r: r["p_value"])
+            fam.append({"baseline": bname, "metric": mn, "diff": worst["diff"], "lo": worst["lo"], "hi": worst["hi"], "p": worst["p_value"]})
+    order = sorted(range(len(fam)), key=lambda i: fam[i]["p"]); m_ = len(fam); run = 0.0
+    for r_, i in enumerate(order):
+        run = max(run, min(1.0, (m_ - r_) * fam[i]["p"])); fam[i]["p_holm"] = run
+    return fam
+
 def report(root="."):
     """reports/step6/m3_test.md: paired bootstrap + Spearman tung seed M2 vs M3 + T1003 tung seed; bang day du o m3_summary.md."""
     E = os.path.join(root, "reports", "step6", "eval")
@@ -151,15 +164,7 @@ def report(root="."):
         L.append(f"| {k} | {c('macro_f1_ttp_t_novel')} | {c('pr_auc_t_novel')} | {c('fpr_t_hard')} |")
     # Holm cho ho 9 so sanh cua mo hinh trien khai (VT-Seq-ens M3): 3 baseline x 3 chi so; B3 (b) co 3 seed ->
     # lay p-value LON NHAT trong 3 seed (bao thu) va hieu so nho nhat theo huong co loi.
-    fam = []
-    for bname, keys in (("B1 TF-IDF (b)", ["b1_tfidf_b"]), ("B2 (a)", ["b2_lgbm_a"]), ("B3 (b) (3 seed, p lon nhat)", [f"b3_gru_b_s{x}" for x in (1337, 7, 42)])):
-        for m, mn in (("macro_f1_ttp_t_novel", "macro-F1 TTP T-novel"), ("pr_auc_t_novel", "PR-AUC T-novel"), ("fpr_t_hard", "FPR T-hard")):
-            rs = [pb[f"vtseq_M3_ens - {k}"][m] for k in keys]
-            worst = max(rs, key=lambda r: r["p_value"])
-            fam.append({"baseline": bname, "metric": mn, "diff": worst["diff"], "lo": worst["lo"], "hi": worst["hi"], "p": worst["p_value"]})
-    order = sorted(range(len(fam)), key=lambda i: fam[i]["p"]); m_ = len(fam); run = 0.0
-    for r_, i in enumerate(order):
-        run = max(run, min(1.0, (m_ - r_) * fam[i]["p"])); fam[i]["p_holm"] = run
+    fam = holm_family(pb)
     L += ["", "**Hieu chinh so sanh boi (Holm, 9 so sanh: VT-Seq-ens M3 vs 3 baseline x 3 chi so).** p-value hai phia tu phan bo "
           "bootstrap (san 1/1000). B3 (b): lay seed co p lon nhat (bao thu). Cac dong khac (M4b-ens, tung seed B3) o bang tren la "
           "tham khao, CHUA hieu chinh so sanh boi.", "",

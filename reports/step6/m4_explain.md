@@ -53,6 +53,7 @@ Brief muc 6 da SUA (2026-10-17): hat giong luat CHI tu Train (attention OOF); at
 - `cmd.exe` / `cmd /c` dung dau moi TTP: ART chay qua cmd (cmd.exe chi o 8% cua so am Train) - bat doi xung bo sinh da biet (#9); luat phai dua tren lenh con, khong dua tren vo cmd.
 - Attention dung chung cho moi TTP (mot pooling): cua so nhieu TTP (phien mixed) lam token cua TTP khac xuat hien (vd nslookup o moi TTP) -> Buoc 7 can do do dac hieu theo TTP (cua so mot TTP / so voi cua so TTP khac).
 - T1003.003: 34% top-5 la event NEN (ESENT 216/103, vssvc, rundll32) - tac dong phu mot-phia (#10/#11); luat nen dua tren ntdsutil `ifm create full`, khong tren event nen.
+- T1087.002: token dau la `powershell.exe` (lift ~81) va EID 40961/4104 - dau vet bo sinh (ART chay test trong powershell con; gioi han `<launcher>`->powershell.exe da biet, dataset card #11). Luat T1087.002 phai dua tren lenh that (`net user /domain`, `adsisearcher`, `objectcategory`), khong dua tren su hien dien cua PowerShell.
 
 **(3) ONNX** (opset 17, truc dong batch + time; dau ra p_bin, p_ttp, alpha). Parity voi PyTorch (ban pack) tren toan T-novel; do tre onnxruntime 1.31.0 CPU 1 thread tren host (Intel64 Family 6 Model 158 Stepping 13, GenuineIntel).
 
