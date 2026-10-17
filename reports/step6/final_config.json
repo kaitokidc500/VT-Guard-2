@@ -1,0 +1,401 @@
+{
+ "locked_at": "2026-10-17T12:42:21+07:00",
+ "locked_from_commit": "099d028c439aa8f6435ed585c0e17c4053a4b415",
+ "dataset_version": "v1.2",
+ "final_model": "VT-Seq = M3",
+ "config": {
+  "name": "M3",
+  "pooling": "attn",
+  "multitask": true,
+  "crop": "uniform",
+  "crop_p": 0.5,
+  "crop_min": 4,
+  "name_drop": 0.0,
+  "drop_names": false,
+  "mask": "a",
+  "d_event": 96,
+  "hidden": 96,
+  "emb_big": 16,
+  "emb_small": 8,
+  "cmd_dim": 64,
+  "dropout": 0.3,
+  "lam": 1.0,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "batch": 32,
+  "clip": 1.0,
+  "max_epochs": 100,
+  "patience": 10,
+  "fpr_target": 0.01
+ },
+ "seeds": [
+  1337,
+  7,
+  42,
+  2024,
+  99
+ ],
+ "selection_rule": {
+  "criteria_4_3": [
+   "macro-F1 TTP OOF",
+   "PR-AUC nhi phan OOF",
+   "FPR OOF tren cua so hard_negative"
+  ],
+  "tie": "ngang nhau neu |chenh trung binh| <= do lech chuan gop qua seed sqrt((sd1^2+sd2^2)/2)",
+  "result_4_3": "M3, M4, M4b ngang nhau o ca 3 tieu chi (reports/step6/m2_oof.md)",
+  "tie_break": "do on dinh nguong nhi phan giua seed (do lech chuan nguong OOF thap nhat): M3 0.060, M4 0.135, M4b 0.249 -> M3",
+  "note": "tieu chi pha hoa (do on dinh nguong) THEM SAU KHI xem OOF moc 2, van CHI dua tren Train (OOF); khong dung ket qua test nao (ke ca test Buoc 5)."
+ },
+ "threshold_rule": {
+  "binary": "FPR <= 1% tren cua so am OOF (moi seed rieng)",
+  "binary_reference": "max-F1 OOF",
+  "ttp": "max-F1 OOF theo tung TTP (moi seed rieng)",
+  "binary_score": "p_bin hay p_bin' = max(p_bin, max_k p_ttp) chon theo PR-AUC OOF (moi seed rieng)"
+ },
+ "final_fit": "fit lai toan Train, so epoch = trung vi epoch tot nhat 5 fold (moi seed rieng)",
+ "per_seed": {
+  "1337": {
+   "final_epochs": {
+    "joint": 39
+   },
+   "binary_score": "p_bin_max",
+   "threshold_binary_fpr1pct": 0.9104533195495607,
+   "threshold_binary_max_f1_ref": 0.8920786380767822,
+   "threshold_ttp": {
+    "T1016": 0.8810793161392212,
+    "T1018": 0.8417479991912842,
+    "T1087.002": 0.7689915895462036,
+    "T1654": 0.8231312036514282,
+    "T1003.003": 0.8524186015129089
+   },
+   "oof": {
+    "macro_f1_ttp": 0.8569,
+    "f1_ttp": {
+     "T1016": 0.8362,
+     "T1018": 0.7515,
+     "T1087.002": 0.8311,
+     "T1654": 0.8778,
+     "T1003.003": 0.988
+    },
+    "pr_auc_bin": 0.9957,
+    "roc_auc_bin": 0.9959,
+    "fpr_neg": 0.0098,
+    "recall": 0.9545,
+    "fpr_hard_negative": 0.0275
+   },
+   "best_epoch_per_fold": [
+    44,
+    39,
+    37,
+    42,
+    4
+   ]
+  },
+  "7": {
+   "final_epochs": {
+    "joint": 31
+   },
+   "binary_score": "p_bin_max",
+   "threshold_binary_fpr1pct": 0.9115215539932252,
+   "threshold_binary_max_f1_ref": 0.8786736726760864,
+   "threshold_ttp": {
+    "T1016": 0.6315123438835144,
+    "T1018": 0.8145661950111389,
+    "T1087.002": 0.7082961201667786,
+    "T1654": 0.8087731599807739,
+    "T1003.003": 0.8675360083580017
+   },
+   "oof": {
+    "macro_f1_ttp": 0.8176,
+    "f1_ttp": {
+     "T1016": 0.75,
+     "T1018": 0.7374,
+     "T1087.002": 0.7966,
+     "T1654": 0.8161,
+     "T1003.003": 0.988
+    },
+    "pr_auc_bin": 0.9946,
+    "roc_auc_bin": 0.9966,
+    "fpr_neg": 0.0098,
+    "recall": 0.9148,
+    "fpr_hard_negative": 0.0183
+   },
+   "best_epoch_per_fold": [
+    28,
+    45,
+    80,
+    31,
+    5
+   ]
+  },
+  "42": {
+   "final_epochs": {
+    "joint": 33
+   },
+   "binary_score": "p_bin",
+   "threshold_binary_fpr1pct": 0.920183300971985,
+   "threshold_binary_max_f1_ref": 0.902773916721344,
+   "threshold_ttp": {
+    "T1016": 0.9241700172424316,
+    "T1018": 0.7874748110771179,
+    "T1087.002": 0.46879708766937256,
+    "T1654": 0.46697327494621277,
+    "T1003.003": 0.7362865209579468
+   },
+   "oof": {
+    "macro_f1_ttp": 0.8166,
+    "f1_ttp": {
+     "T1016": 0.7662,
+     "T1018": 0.72,
+     "T1087.002": 0.7866,
+     "T1654": 0.8218,
+     "T1003.003": 0.9882
+    },
+    "pr_auc_bin": 0.9946,
+    "roc_auc_bin": 0.9961,
+    "fpr_neg": 0.0098,
+    "recall": 0.9034,
+    "fpr_hard_negative": 0.0275
+   },
+   "best_epoch_per_fold": [
+    28,
+    36,
+    33,
+    34,
+    8
+   ]
+  },
+  "2024": {
+   "final_epochs": {
+    "joint": 52
+   },
+   "binary_score": "p_bin_max",
+   "threshold_binary_fpr1pct": 0.863717019557953,
+   "threshold_binary_max_f1_ref": 0.8650287985801697,
+   "threshold_ttp": {
+    "T1016": 0.5052933692932129,
+    "T1018": 0.7675772309303284,
+    "T1087.002": 0.45408204197883606,
+    "T1654": 0.43688327074050903,
+    "T1003.003": 0.7036852836608887
+   },
+   "oof": {
+    "macro_f1_ttp": 0.8239,
+    "f1_ttp": {
+     "T1016": 0.7489,
+     "T1018": 0.7423,
+     "T1087.002": 0.7899,
+     "T1654": 0.8384,
+     "T1003.003": 1.0
+    },
+    "pr_auc_bin": 0.9969,
+    "roc_auc_bin": 0.9975,
+    "fpr_neg": 0.0098,
+    "recall": 0.9943,
+    "fpr_hard_negative": 0.0275
+   },
+   "best_epoch_per_fold": [
+    52,
+    59,
+    70,
+    30,
+    8
+   ]
+  },
+  "99": {
+   "final_epochs": {
+    "joint": 38
+   },
+   "binary_score": "p_bin_max",
+   "threshold_binary_fpr1pct": 0.7774300575256349,
+   "threshold_binary_max_f1_ref": 0.875338077545166,
+   "threshold_ttp": {
+    "T1016": 0.4120126962661743,
+    "T1018": 0.7533666491508484,
+    "T1087.002": 0.5014745593070984,
+    "T1654": 0.430663138628006,
+    "T1003.003": 0.9630607962608337
+   },
+   "oof": {
+    "macro_f1_ttp": 0.8297,
+    "f1_ttp": {
+     "T1016": 0.7692,
+     "T1018": 0.7629,
+     "T1087.002": 0.8103,
+     "T1654": 0.8058,
+     "T1003.003": 1.0
+    },
+    "pr_auc_bin": 0.9976,
+    "roc_auc_bin": 0.9979,
+    "fpr_neg": 0.0098,
+    "recall": 0.9943,
+    "fpr_hard_negative": 0.0275
+   },
+   "best_epoch_per_fold": [
+    38,
+    72,
+    41,
+    19,
+    10
+   ]
+  }
+ },
+ "threshold_binary_mean_sd": [
+  0.8766610503196718,
+  0.05971954525356926
+ ],
+ "oof_mean_sd_candidates": {
+  "M3": {
+   "macro_f1_ttp": [
+    0.82456,
+    0.018029919578300937
+   ],
+   "pr_auc_bin": [
+    0.99588,
+    0.0013516656391282524
+   ],
+   "fpr_hard_negative": [
+    0.027500000000000004,
+    3.878959614448864e-18
+   ],
+   "fpr_neg": [
+    0.010440000000000001,
+    0.0014310835055998652
+   ],
+   "recall": [
+    0.9522600000000001,
+    0.042808562227666554
+   ],
+   "spearman_len_neg": [
+    -0.021400000000000002,
+    0.07598740027136078
+   ],
+   "thr_bin": [
+    0.8766610503196718,
+    0.05971954525356926
+   ],
+   "f1_T1016": [
+    0.76894,
+    0.03548743439585344
+   ],
+   "f1_T1018": [
+    0.74024,
+    0.01699273374122011
+   ],
+   "f1_T1087.002": [
+    0.79984,
+    0.02072867578983277
+   ],
+   "f1_T1654": [
+    0.82582,
+    0.028162865621239624
+   ],
+   "f1_T1003.003": [
+    0.98796,
+    0.008628325445878816
+   ]
+  },
+  "M4": {
+   "macro_f1_ttp": [
+    0.8202,
+    0.012172510012318748
+   ],
+   "pr_auc_bin": [
+    0.9952799999999999,
+    0.002099285592767251
+   ],
+   "fpr_hard_negative": [
+    0.02566,
+    0.004114365078599613
+   ],
+   "fpr_neg": [
+    0.010440000000000001,
+    0.0014310835055998652
+   ],
+   "recall": [
+    0.9568199999999999,
+    0.04393030844417099
+   ],
+   "spearman_len_neg": [
+    0.02732,
+    0.040808295725256655
+   ],
+   "thr_bin": [
+    0.7882529139518739,
+    0.13529253442727146
+   ],
+   "f1_T1016": [
+    0.75822,
+    0.01247325138045409
+   ],
+   "f1_T1018": [
+    0.74976,
+    0.02070200473384163
+   ],
+   "f1_T1087.002": [
+    0.7936,
+    0.013175355782672439
+   ],
+   "f1_T1654": [
+    0.8163599999999999,
+    0.032693317359974355
+   ],
+   "f1_T1003.003": [
+    0.98316,
+    0.006630837051232671
+   ]
+  },
+  "M4b": {
+   "macro_f1_ttp": [
+    0.81988,
+    0.008728516483343574
+   ],
+   "pr_auc_bin": [
+    0.99434,
+    0.0026557484820667844
+   ],
+   "fpr_hard_negative": [
+    0.02018,
+    0.011949351446835933
+   ],
+   "fpr_neg": [
+    0.011080000000000001,
+    0.0017527121840165314
+   ],
+   "recall": [
+    0.94658,
+    0.045003910941161566
+   ],
+   "spearman_len_neg": [
+    -0.02392,
+    0.0675753431363837
+   ],
+   "thr_bin": [
+    0.7620677769184113,
+    0.24916547074832823
+   ],
+   "f1_T1016": [
+    0.7544000000000001,
+    0.01523958660856653
+   ],
+   "f1_T1018": [
+    0.7302200000000001,
+    0.013938687169170561
+   ],
+   "f1_T1087.002": [
+    0.8013600000000001,
+    0.014355068791197065
+   ],
+   "f1_T1654": [
+    0.82316,
+    0.024382227133713595
+   ],
+   "f1_T1003.003": [
+    0.99032,
+    0.010183908876261602
+   ]
+  }
+ },
+ "ensemble": "VT-Seq-ens = trung binh xac suat (p_bin, p_ttp) 5 seed M3; nguong + p_bin/p_bin' chon lai tren OOF trung binh",
+ "test_runs_once": true
+}
