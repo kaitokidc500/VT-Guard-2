@@ -1,0 +1,148 @@
+{
+ "config": {
+  "name": "M1",
+  "pooling": "attn",
+  "multitask": false,
+  "crop": "b3",
+  "crop_p": 0.5,
+  "crop_min": 4,
+  "name_drop": 0.0,
+  "drop_names": false,
+  "mask": "a",
+  "d_event": 96,
+  "hidden": 96,
+  "emb_big": 16,
+  "emb_small": 8,
+  "cmd_dim": 64,
+  "dropout": 0.3,
+  "lam": 1.0,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "batch": 32,
+  "clip": 1.0,
+  "max_epochs": 100,
+  "patience": 10,
+  "fpr_target": 0.01
+ },
+ "seed": 2024,
+ "folds": [
+  {
+   "bin": {
+    "best_epoch": 49,
+    "val_loss": 0.00122,
+    "hit_ceiling": false,
+    "stop_epoch": 59
+   },
+   "ttp": {
+    "best_epoch": 27,
+    "val_loss": 0.26686,
+    "hit_ceiling": false,
+    "stop_epoch": 37
+   }
+  },
+  {
+   "bin": {
+    "best_epoch": 34,
+    "val_loss": 0.00349,
+    "hit_ceiling": false,
+    "stop_epoch": 44
+   },
+   "ttp": {
+    "best_epoch": 34,
+    "val_loss": 0.15748,
+    "hit_ceiling": false,
+    "stop_epoch": 44
+   }
+  },
+  {
+   "bin": {
+    "best_epoch": 52,
+    "val_loss": 0.00384,
+    "hit_ceiling": false,
+    "stop_epoch": 62
+   },
+   "ttp": {
+    "best_epoch": 15,
+    "val_loss": 0.23572,
+    "hit_ceiling": false,
+    "stop_epoch": 25
+   }
+  },
+  {
+   "bin": {
+    "best_epoch": 36,
+    "val_loss": 0.08076,
+    "hit_ceiling": false,
+    "stop_epoch": 46
+   },
+   "ttp": {
+    "best_epoch": 37,
+    "val_loss": 0.1798,
+    "hit_ceiling": false,
+    "stop_epoch": 47
+   }
+  },
+  {
+   "bin": {
+    "best_epoch": 9,
+    "val_loss": 0.16705,
+    "hit_ceiling": false,
+    "stop_epoch": 19
+   },
+   "ttp": {
+    "best_epoch": 7,
+    "val_loss": 0.84172,
+    "hit_ceiling": false,
+    "stop_epoch": 17
+   }
+  }
+ ],
+ "final_epochs": {
+  "bin": 36,
+  "ttp": 27
+ },
+ "n_hit_ceiling": 0,
+ "selection": {
+  "binary_score": "p_bin",
+  "oof_pr_auc": {
+   "p_bin": 0.9988,
+   "p_bin_max": 0.997
+  },
+  "binary": 0.623386323451996,
+  "binary_rule": "FPR<=0.01 tren cua so am OOF",
+  "binary_max_f1": 0.6464324593544006,
+  "binary_train_oof_f1_at_maxf1": 0.9915014164305949,
+  "ttp": {
+   "T1016": 0.8429058790206909,
+   "T1018": 0.6925742030143738,
+   "T1087.002": 0.794526219367981,
+   "T1654": 0.8282312750816345,
+   "T1003.003": 0.9003074169158936
+  },
+  "ttp_train_oof_f1": {
+   "T1016": 0.7582417582417582,
+   "T1018": 0.7619047619047619,
+   "T1087.002": 0.7922705314009661,
+   "T1654": 0.8117647058823529,
+   "T1003.003": 1.0
+  }
+ },
+ "oof": {
+  "macro_f1_ttp": 0.8248,
+  "f1_ttp": {
+   "T1016": 0.7582,
+   "T1018": 0.7619,
+   "T1087.002": 0.7923,
+   "T1654": 0.8118,
+   "T1003.003": 1.0
+  },
+  "pr_auc_bin": 0.9988,
+  "roc_auc_bin": 0.9992,
+  "fpr_neg": 0.0098,
+  "recall": 0.9943,
+  "fpr_hard_negative": 0.0183
+ },
+ "minutes": 1.52,
+ "device": "cuda",
+ "torch": "2.11.0+cu130"
+}

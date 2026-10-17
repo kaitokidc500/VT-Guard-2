@@ -1,0 +1,117 @@
+{
+ "config": {
+  "name": "M4b",
+  "pooling": "attn",
+  "multitask": true,
+  "crop": "uniform",
+  "crop_p": 0.5,
+  "crop_min": 4,
+  "name_drop": 0.0,
+  "drop_names": true,
+  "mask": "a",
+  "d_event": 96,
+  "hidden": 96,
+  "emb_big": 16,
+  "emb_small": 8,
+  "cmd_dim": 64,
+  "dropout": 0.3,
+  "lam": 1.0,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "batch": 32,
+  "clip": 1.0,
+  "max_epochs": 100,
+  "patience": 10,
+  "fpr_target": 0.01
+ },
+ "seed": 7,
+ "folds": [
+  {
+   "joint": {
+    "best_epoch": 27,
+    "val_loss": 0.36366,
+    "hit_ceiling": false,
+    "stop_epoch": 37
+   }
+  },
+  {
+   "joint": {
+    "best_epoch": 68,
+    "val_loss": 0.20401,
+    "hit_ceiling": false,
+    "stop_epoch": 78
+   }
+  },
+  {
+   "joint": {
+    "best_epoch": 55,
+    "val_loss": 0.25576,
+    "hit_ceiling": false,
+    "stop_epoch": 65
+   }
+  },
+  {
+   "joint": {
+    "best_epoch": 26,
+    "val_loss": 0.3812,
+    "hit_ceiling": false,
+    "stop_epoch": 36
+   }
+  },
+  {
+   "joint": {
+    "best_epoch": 8,
+    "val_loss": 0.99584,
+    "hit_ceiling": false,
+    "stop_epoch": 18
+   }
+  }
+ ],
+ "final_epochs": {
+  "joint": 27
+ },
+ "n_hit_ceiling": 0,
+ "selection": {
+  "binary_score": "p_bin_max",
+  "oof_pr_auc": {
+   "p_bin": 0.9923,
+   "p_bin_max": 0.9941
+  },
+  "binary": 0.9163196086883546,
+  "binary_rule": "FPR<=0.01 tren cua so am OOF",
+  "binary_max_f1": 0.5754018425941467,
+  "binary_train_oof_f1_at_maxf1": 0.9695290858725761,
+  "ttp": {
+   "T1016": 0.35969698429107666,
+   "T1018": 0.7400713562965393,
+   "T1087.002": 0.41429200768470764,
+   "T1654": 0.4374454617500305,
+   "T1003.003": 0.7584228515625
+  },
+  "ttp_train_oof_f1": {
+   "T1016": 0.74235807860262,
+   "T1018": 0.75,
+   "T1087.002": 0.7866108786610879,
+   "T1654": 0.7867298578199052,
+   "T1003.003": 1.0
+  }
+ },
+ "oof": {
+  "macro_f1_ttp": 0.8131,
+  "f1_ttp": {
+   "T1016": 0.7424,
+   "T1018": 0.75,
+   "T1087.002": 0.7866,
+   "T1654": 0.7867,
+   "T1003.003": 1.0
+  },
+  "pr_auc_bin": 0.9941,
+  "roc_auc_bin": 0.9958,
+  "fpr_neg": 0.0098,
+  "recall": 0.9318,
+  "fpr_hard_negative": 0.0183
+ },
+ "minutes": 0.98,
+ "device": "cuda",
+ "torch": "2.11.0+cu130"
+}

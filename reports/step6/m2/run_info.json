@@ -1,0 +1,28 @@
+{
+ "commit": "690103cf1023aeaa8609967a62b7b48870225c2c",
+ "torch": "2.11.0+cu130",
+ "device": "cuda",
+ "configs": [
+  "M1",
+  "M2",
+  "M3",
+  "M4",
+  "M4b"
+ ],
+ "seeds": [
+  1337,
+  7,
+  42,
+  2024,
+  99
+ ],
+ "dataset_sha256": {
+  "vocab.json": "9886ee564f6613bf83290656e7480184b25b21a1b1d5bb6b5954b3d865aa5fb1",
+  "splits/train.jsonl": "b69928bd22f505744c8fdc8a64712068e03099757b588957a025aa8176a25604",
+  "splits/t_clean.jsonl": "0e34a0865421661b681f8a34837057f0bd8a2de176fec661efbb8fd82e46992a",
+  "splits/t_hard.jsonl": "8ebbcd79e98701665e6afe5e7c7f42b69e2ee3ad29f3f8ea157d79470ecb8190",
+  "splits/t_novel.jsonl": "788691cc50a559769c24c6e6726a52adf3282f185974f2c4aff992f7b55998f4"
+ },
+ "aux_sha256": "c627af938b77aba5015046413a392ed1258f116a475f5bba97d00b554ce39ecb",
+ "n_runs": 25
+}
