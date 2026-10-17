@@ -389,8 +389,8 @@ def oof_summary(train_ws, P_bin, P_ttp, sel, hn_mask=None):
 
 # ---------------- dau ra (cung dinh dang Buoc 5) ----------------
 def preds_records(ws, split, p_bin, p_ttp, run_of=None):
-    return [{"window_id": w.wid, "split": split, "p_malicious": round(float(p_bin[i]), 6),
-             "p_ttp": {t: round(float(p_ttp[i, j]), 6) for j, t in enumerate(TTPS)}} for i, w in enumerate(ws)]
+    return [{"window_id": w.wid, "split": split, "p_malicious": round(float(p_bin[i]), 9),
+             "p_ttp": {t: round(float(p_ttp[i, j]), 9) for j, t in enumerate(TTPS)}} for i, w in enumerate(ws)]
 
 def write_jsonl(path, rows):
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -493,9 +493,14 @@ def run_final(cfg, data, vocab, seed, outdir, root=".", device="cpu", oof_dir=No
     assert log["config"] == asdict(cfg), f"{model}: cau hinh khac log OOF"
     oof = {r["window_id"]: r for r in read_jsonl(oof_path)}
     P_bin = np.array([oof[w.wid]["p_malicious"] for w in tr]); P_ttp = np.array([[oof[w.wid]["p_ttp"][t] for t in TTPS] for w in tr])
-    sel = log["selection"]                                          # nguong khoa tu OOF (xac suat day du)
-    chk = choose_on_oof(tr, P_bin, P_ttp, cfg)                      # tinh lai tu file OOF (lam tron 6 so) phai khop
-    assert chk["binary_score"] == sel["binary_score"] and abs(chk["binary"] - sel["binary"]) < 1e-5, (model, chk["binary"], sel["binary"])
+    sel = dict(log["selection"])                                    # nguong khoa tu OOF (xac suat day du)
+    chk = choose_on_oof(tr, P_bin, P_ttp, cfg)                      # tinh lai tu file OOF (da lam tron)
+    same = chk["binary_score"] == sel["binary_score"] and abs(chk["binary"] - sel["binary"]) < 1e-5
+    if src == oof_dir:   # OOF moc 2 (Colab) doc lai: phai khop
+        assert same, (model, chk["binary"], sel["binary"])
+    elif not same:       # OOF vua chay: dung nguong log; ghi lai de doi chieu (diem trung nhau, vd chuoi rong o mat na c)
+        sel["recheck_from_rounded_oof"] = {"binary_score": chk["binary_score"], "binary": chk["binary"]}
+        print(f"  [{model}] luu y: nguong tinh lai tu OOF lam tron {chk['binary']:.4f} != log {sel['binary']:.4f} - dung log", flush=True)
     nets, info = fit_nets(cfg, vocab_sizes(vocab), tr, None, log["final_epochs"], seed, 0, device, max_batches)
     raw = {"train": (P_bin, P_ttp)}
     for s in TEST_SPLITS:
