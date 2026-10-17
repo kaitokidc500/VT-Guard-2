@@ -1,6 +1,6 @@
 # VT-Guard - Bao cao Buoc 7: Auto Rule Engine (luat tu sinh -> Sigma)
 
-Sinh tu dong boi `src/rules/step7_report.py` luc 2026-10-17T15:49:13+07:00. So lieu: `reports/step7_results.json`; chi tiet: `reports/step7/` (m1_rules.md, rules_provenance.json, m2_eval.md, per_rule.json, sigma_validation.json, rules_oof.json, eval/rules.json); Sigma: `rules/sigma/*.yml`; du doan cho Buoc 8: `reports/preds/rules_*.jsonl`.
+Sinh tu dong boi `src/rules/step7_report.py` luc 2026-10-17T16:37:25+07:00. So lieu: `reports/step7_results.json`; chi tiet: `reports/step7/` (m1_rules.md, rules_provenance.json, m2_eval.md, per_rule.json, sigma_validation.json, rules_oof.json, eval/rules.json); Sigma: `rules/sigma/*.yml`; du doan cho Buoc 8: `reports/preds/rules_*.jsonl`.
 
 ## 0. Tom tat
 
@@ -187,7 +187,7 @@ B0 mu hoan toan 4 TTP (F1 = 0: T1016, T1018, T1654, T1003.003); luat tu sinh phu
 
 - **KHONG tuyen bo tong quat hoa sang ntds2v.** VTR-T1003003-01 / VTR-BIN-02 (`cmd~'create'`) bat 6/6 cua so T-novel cua ntds2v (bien the `vssadmin create shadow`) chi nho token chung `create` - trung khop, khong phai luat duoc thiet ke cho bien the nay.
 - **Token chung co rui ro FP ngoai lab:** `create` (vd `schtasks /create`, `sc create`) va `system` (VTR-T1654-01, tu bo loc `*SYSTEM*` cua get-eventlog). Trong lab 0/88 FP tren T-hard, nhung khong bao dam o moi truong khac.
-- **VTR-T1654-01 gan nham nhan TTP** T1654 cho 2 cua so T-novel (cua so doc hai, khong mang T1654) - ghi lai, khong chinh luat.
+- **VTR-T1654-01 (`cmd~'system'`) khop nham 2 cua so T-novel** (DINH CHINH Buoc 8: ban truoc ghi sai la ca hai deu doc hai): 1 cua so LANH TINH (`auditpol /get /subcategory:"System Integrity"`, event nen trong phien attack) - day la FP nhi phan duy nhat cua chi-luat tren T-novel (FPR 1/95) - va 1 cua so doc hai khong mang T1654. Token chung `system` (tu bo loc `*SYSTEM*` cua get-eventlog) khop ca lenh quan tri. Ghi lai, khong chinh luat.
 - **Khong co luat theo TTP cho T1016 va T1087.002** (phien mixed lam token cua TTP khac xuat hien; cac luat chinh xac khong qua cong); hai TTP nay dua vao AI (VT-Seq-ens). T1087.002 chi duoc phu o muc nhi phan (VTR-BIN-04 `.findall`, VTR-BIN-05).
 - **Luat quy nap tu 2 host / 1 domain** (DC01 + WIN10-01, CORP.VTLAB.TEST); coverage gap da biet (dataset card muc 9); T1003.003 test nho (6 phien T-novel).
 - Chi-luat kem AI ve recall va phat hien som (T-novel k=4: 0.70 vs VT-Seq-ens 1.00) - binh thuong voi luat don gian.
@@ -205,4 +205,4 @@ B0 mu hoan toan 4 TTP (F1 = 0: T1016, T1018, T1654, T1003.003); luat tu sinh phu
 | 5 | reports/preds/rules_<split>.jsonl san cho Buoc 8 | DAT | rules_{train,t_clean,t_hard,t_novel}.jsonl + rules_oof_train.jsonl (OOF theo fold; rules_train la in-sample) |
 | 6 | Bao so luat loai theo tung cong, gom cong vi tu cam | DAT | {'G1': 18, 'G3': 24, 'G4': 1}; atom bi chan o tang dac trung 446 |
 
-**Tong: 6/6 dat.** Unit test: 15/15 PASS trong 13.0s
+**Tong: 6/6 dat.** Unit test: 15/15 PASS trong 12.5s

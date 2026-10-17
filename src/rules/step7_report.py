@@ -139,8 +139,10 @@ def main():
           "(bien the `vssadmin create shadow`) chi nho token chung `create` - trung khop, khong phai luat duoc thiet ke cho bien the nay.",
           "- **Token chung co rui ro FP ngoai lab:** `create` (vd `schtasks /create`, `sc create`) va `system` (VTR-T1654-01, tu bo loc "
           "`*SYSTEM*` cua get-eventlog). Trong lab 0/88 FP tren T-hard, nhung khong bao dam o moi truong khac.",
-          f"- **VTR-T1654-01 gan nham nhan TTP** T1654 cho {per['VTR-T1654-01']['t_novel']['fp']} cua so T-novel (cua so doc hai, khong mang "
-          "T1654) - ghi lai, khong chinh luat.",
+          f"- **VTR-T1654-01 (`cmd~'system'`) khop nham {per['VTR-T1654-01']['t_novel']['fp']} cua so T-novel** (DINH CHINH Buoc 8: ban truoc ghi "
+          "sai la ca hai deu doc hai): 1 cua so LANH TINH (`auditpol /get /subcategory:\"System Integrity\"`, event nen trong phien attack) - "
+          "day la FP nhi phan duy nhat cua chi-luat tren T-novel (FPR 1/95) - va 1 cua so doc hai khong mang T1654. Token chung `system` "
+          "(tu bo loc `*SYSTEM*` cua get-eventlog) khop ca lenh quan tri. Ghi lai, khong chinh luat.",
           "- **Khong co luat theo TTP cho T1016 va T1087.002** (phien mixed lam token cua TTP khac xuat hien; cac luat chinh xac khong qua "
           "cong); hai TTP nay dua vao AI (VT-Seq-ens). T1087.002 chi duoc phu o muc nhi phan (VTR-BIN-04 `.findall`, VTR-BIN-05).",
           "- **Luat quy nap tu 2 host / 1 domain** (DC01 + WIN10-01, CORP.VTLAB.TEST); coverage gap da biet (dataset card muc 9); T1003.003 "

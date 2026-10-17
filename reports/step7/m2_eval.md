@@ -130,7 +130,7 @@ Mo hinh nhieu seed (ghi '(n seed)'): trung binh +- do lech chuan (ddof=1) cua gi
 - B0 mu T1016 / T1018 / T1654 / T1003.003 (F1 = 0) -> luat tu sinh co luat theo TTP cho T1018, T1654, T1003.003; T1016 va T1087.002 chi phu o muc nhi phan (khong luat theo TTP qua cong - phien mixed).
 
 **Han che (ghi lai, KHONG chinh luat):**
-- VTR-T1654-01 (`cmd~'system'`) bao nham nhan TTP T1654 tren 2 cua so T-novel (cua so doc hai nhung khong mang T1654); token chung `system` (tu bo loc `*SYSTEM*` cua get-eventlog).
+- **VTR-T1654-01 (`cmd~'system'`) khop nham 2 cua so T-novel** (DINH CHINH Buoc 8: ban truoc ghi sai la ca hai deu doc hai): 1 cua so LANH TINH (`auditpol /get /subcategory:"System Integrity"`, event nen trong phien attack) - day la FP nhi phan duy nhat cua chi-luat tren T-novel (FPR 1/95) - va 1 cua so doc hai khong mang T1654. Token chung `system` (tu bo loc `*SYSTEM*` cua get-eventlog) khop ca lenh quan tri. Ghi lai, khong chinh luat.
 - VTR-T1003003-01 / VTR-BIN-02 (`cmd~'create'`) khop ca bien the vssadmin `create shadow` cua ntds2v (6 cua so T-novel) - nho token chung chung, khong phai luat duoc thiet ke cho bien the nay; ngoai lab co the khop `schtasks /create`, `sc create`.
 - Luat quy nap tu 2 host / 1 domain; coverage gap da biet (dataset card muc 9); T1003.003 test nho (6 phien).
 - Du doan Train cua chi-luat la in-sample: Buoc 8 khong duoc dung lam OOF.
