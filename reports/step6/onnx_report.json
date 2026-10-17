@@ -1,0 +1,62 @@
+{
+ "opset": 17,
+ "dynamic_axes": "batch, time",
+ "parity_set": "toan T-novel (149 cua so), batch 32",
+ "models": {
+  "vtseq_M3_s1337": {
+   "file": "models/vtseq_M3_s1337.onnx",
+   "bytes": 404075,
+   "n_nets": 1,
+   "parity_max_abs_diff": {
+    "p_bin": 1.1920928955078125e-07,
+    "p_ttp": 1.7881393432617188e-07,
+    "alpha": 6.556510925292969e-07
+   },
+   "parity_ok_1e-4": true,
+   "latency_onnxruntime_cpu_1thread": {
+    "batch1_ms_per_window": {
+     "mean": 0.326,
+     "p95": 0.439,
+     "n": 447
+    },
+    "batch32_ms_per_window": {
+     "mean": 0.197,
+     "p95": 0.204,
+     "n": 50
+    }
+   },
+   "sha256": "0023d63e9200ff12529a58c8b612af468c83e7f30ce0cc156968f1b46791a6d1"
+  },
+  "vtseq_M3_ens": {
+   "file": "models/vtseq_M3_ens.onnx",
+   "bytes": 2011635,
+   "n_nets": 5,
+   "parity_max_abs_diff": {
+    "p_bin": 1.7881393432617188e-07,
+    "p_ttp": 1.7881393432617188e-07,
+    "alpha": 3.2782554626464844e-07
+   },
+   "parity_ok_1e-4": true,
+   "latency_onnxruntime_cpu_1thread": {
+    "batch1_ms_per_window": {
+     "mean": 1.435,
+     "p95": 1.854,
+     "n": 447
+    },
+    "batch32_ms_per_window": {
+     "mean": 0.993,
+     "p95": 1.012,
+     "n": 50
+    }
+   },
+   "sha256": "488419e2887bc9689f503e5b72ed01fdb7cd4b9fc2a3d4e87ca8d788095cabd6"
+  }
+ },
+ "host": {
+  "cpu": "Intel64 Family 6 Model 158 Stepping 13, GenuineIntel",
+  "onnxruntime": "1.31.0",
+  "torch": "2.14.1+cpu",
+  "threads": 1
+ },
+ "note": "*.onnx nam trong .gitignore -> file khong vao git; tai tao: python src/models/step6_explain.py onnx (can reports/step6/m3/ckpt)"
+}

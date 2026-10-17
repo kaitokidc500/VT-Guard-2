@@ -17,6 +17,26 @@ Huan luyen chinh tren Colab (CUDA) bang `notebooks/step6_vtseq_colab.ipynb` (com
 | vtseq_M4b_ens - b3_gru_b_s7 | 0.831 / 0.749 / **+0.082** [+0.051, +0.117] a hon | 0.988 / 0.930 / **+0.058** [+0.007, +0.129] a hon | 0.000 / 0.023 / **-0.023** [-0.057, +0.000] khong khac co y nghia |
 | vtseq_M4b_ens - b3_gru_b_s42 | 0.831 / 0.777 / **+0.053** [+0.031, +0.078] a hon | 0.988 / 0.945 / **+0.043** [+0.006, +0.093] a hon | 0.000 / 0.023 / **-0.023** [-0.057, +0.000] khong khac co y nghia |
 
+**Hieu chinh so sanh boi (Holm, 9 so sanh: VT-Seq-ens M3 vs 3 baseline x 3 chi so).** p-value hai phia tu phan bo bootstrap (san 1/1000). B3 (b): lay seed co p lon nhat (bao thu). Cac dong khac (M4b-ens, tung seed B3) o bang tren la tham khao, CHUA hieu chinh so sanh boi.
+
+| Baseline | Chi so | Hieu (VT-Seq-ens - baseline) [CI 95%] | p | p Holm | Ket luan sau Holm (alpha 0.05) |
+|---|---|---|---|---|---|
+| B1 TF-IDF (b) | macro-F1 TTP T-novel | +0.082 [+0.009, +0.156] | 0.032 | 0.256 | khong khac co y nghia |
+| B1 TF-IDF (b) | PR-AUC T-novel | +0.007 [-0.007, +0.029] | 0.454 | 1.000 | khong khac co y nghia |
+| B1 TF-IDF (b) | FPR T-hard | +0.011 [+0.000, +0.034] | 0.722 | 1.000 | khong khac co y nghia |
+| B2 (a) | macro-F1 TTP T-novel | +0.015 [-0.026, +0.050] | 0.462 | 1.000 | khong khac co y nghia |
+| B2 (a) | PR-AUC T-novel | -0.004 [-0.015, +0.003] | 0.276 | 1.000 | khong khac co y nghia |
+| B2 (a) | FPR T-hard | +0.000 [-0.023, +0.034] | 1.000 | 1.000 | khong khac co y nghia |
+| B3 (b) (3 seed, p lon nhat) | macro-F1 TTP T-novel | +0.092 [+0.039, +0.183] | 0.001 | 0.009 | VT-Seq-ens hon |
+| B3 (b) (3 seed, p lon nhat) | PR-AUC T-novel | +0.056 [+0.001, +0.129] | 0.042 | 0.294 | khong khac co y nghia |
+| B3 (b) (3 seed, p lon nhat) | FPR T-hard | +0.000 [+0.000, +0.000] | 1.000 | 1.000 | khong khac co y nghia |
+
+**Ghi chu**
+
+- **Mo hinh trien khai = VT-Seq-ens (M3, trung binh xac suat 5 seed)**, nguong chon tren OOF trung binh. Seed le KHONG on dinh voi T1003.003 (bang cuoi: M3 seed 42 bat 5/6 phien, seed 7 chi 4/6 o nhan TTP; M4b va M3cp seed 99 bo sot 0/6), ens bat 6/6.
+- **Crop do dai (M2 -> M3), trung thuc:** Spearman trung binh giam (T-hard +0.32 -> +0.11, T-novel +0.29 -> +0.14) CHU YEU nho seed 7 (-0.44 / -0.61); trung vi chi giam nhe (+0.40 -> +0.29, +0.40 -> +0.33) va 3/5 seed M3 van > +0.2 tren T-novel (+0.35, +0.33, +0.43). VT-Seq-ens dat |rho| <= 0.2 (T-hard +0.01, T-novel +0.12) mot phan do TRIET TIEU tuong quan trai dau giua cac seed, khong chung minh tung mo hinh trung lap voi do dai. Kiem soat do dai van la han che mo.
+
+
 **Spearman(diem, n_events) tren cua so am - tung seed (hieu qua crop: M2 -> M3)**
 
 | Cau hinh | s1337 | s7 | s42 | s2024 | s99 | trung binh | trung vi |

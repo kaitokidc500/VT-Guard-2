@@ -5,6 +5,7 @@
  "results": {
   "vtseq_M3_ens - b1_tfidf_b": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.032,
     "a": 0.8168,
     "b": 0.7349,
     "diff": 0.0819,
@@ -14,6 +15,7 @@
     "verdict": "a hon"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.454,
     "a": 0.986,
     "b": 0.9791,
     "diff": 0.0069,
@@ -23,6 +25,7 @@
     "verdict": "khong khac co y nghia"
    },
    "fpr_t_hard": {
+    "p_value": 0.722,
     "a": 0.0114,
     "b": 0.0,
     "diff": 0.0114,
@@ -34,6 +37,7 @@
   },
   "vtseq_M3_ens - b2_lgbm_a": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.462,
     "a": 0.8168,
     "b": 0.8018,
     "diff": 0.015,
@@ -43,6 +47,7 @@
     "verdict": "khong khac co y nghia"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.276,
     "a": 0.986,
     "b": 0.9903,
     "diff": -0.0043,
@@ -52,6 +57,7 @@
     "verdict": "khong khac co y nghia"
    },
    "fpr_t_hard": {
+    "p_value": 1.0,
     "a": 0.0114,
     "b": 0.0114,
     "diff": 0.0,
@@ -63,6 +69,7 @@
   },
   "vtseq_M3_ens - b3_gru_b_s1337": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.001,
     "a": 0.8168,
     "b": 0.7248,
     "diff": 0.092,
@@ -72,6 +79,7 @@
     "verdict": "a hon"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.028,
     "a": 0.986,
     "b": 0.9177,
     "diff": 0.0683,
@@ -81,6 +89,7 @@
     "verdict": "a hon"
    },
    "fpr_t_hard": {
+    "p_value": 1.0,
     "a": 0.0114,
     "b": 0.0114,
     "diff": 0.0,
@@ -92,6 +101,7 @@
   },
   "vtseq_M3_ens - b3_gru_b_s7": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.001,
     "a": 0.8168,
     "b": 0.7487,
     "diff": 0.0681,
@@ -101,6 +111,7 @@
     "verdict": "a hon"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.042,
     "a": 0.986,
     "b": 0.9299,
     "diff": 0.0561,
@@ -110,6 +121,7 @@
     "verdict": "a hon"
    },
    "fpr_t_hard": {
+    "p_value": 0.838,
     "a": 0.0114,
     "b": 0.0227,
     "diff": -0.0114,
@@ -121,6 +133,7 @@
   },
   "vtseq_M3_ens - b3_gru_b_s42": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.001,
     "a": 0.8168,
     "b": 0.7773,
     "diff": 0.0395,
@@ -130,6 +143,7 @@
     "verdict": "a hon"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.042,
     "a": 0.986,
     "b": 0.9452,
     "diff": 0.0409,
@@ -139,6 +153,7 @@
     "verdict": "a hon"
    },
    "fpr_t_hard": {
+    "p_value": 0.838,
     "a": 0.0114,
     "b": 0.0227,
     "diff": -0.0114,
@@ -150,6 +165,7 @@
   },
   "vtseq_M4b_ens - b1_tfidf_b": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.006,
     "a": 0.8308,
     "b": 0.7349,
     "diff": 0.0959,
@@ -159,6 +175,7 @@
     "verdict": "a hon"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.392,
     "a": 0.9881,
     "b": 0.9791,
     "diff": 0.009,
@@ -168,6 +185,7 @@
     "verdict": "khong khac co y nghia"
    },
    "fpr_t_hard": {
+    "p_value": 1.0,
     "a": 0.0,
     "b": 0.0,
     "diff": 0.0,
@@ -179,6 +197,7 @@
   },
   "vtseq_M4b_ens - b2_lgbm_a": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.128,
     "a": 0.8308,
     "b": 0.8018,
     "diff": 0.029,
@@ -188,6 +207,7 @@
     "verdict": "khong khac co y nghia"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.592,
     "a": 0.9881,
     "b": 0.9903,
     "diff": -0.0022,
@@ -197,6 +217,7 @@
     "verdict": "khong khac co y nghia"
    },
    "fpr_t_hard": {
+    "p_value": 0.766,
     "a": 0.0,
     "b": 0.0114,
     "diff": -0.0114,
@@ -208,6 +229,7 @@
   },
   "vtseq_M4b_ens - b3_gru_b_s1337": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.001,
     "a": 0.8308,
     "b": 0.7248,
     "diff": 0.106,
@@ -217,6 +239,7 @@
     "verdict": "a hon"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.006,
     "a": 0.9881,
     "b": 0.9177,
     "diff": 0.0704,
@@ -226,6 +249,7 @@
     "verdict": "a hon"
    },
    "fpr_t_hard": {
+    "p_value": 0.722,
     "a": 0.0,
     "b": 0.0114,
     "diff": -0.0114,
@@ -237,6 +261,7 @@
   },
   "vtseq_M4b_ens - b3_gru_b_s7": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.001,
     "a": 0.8308,
     "b": 0.7487,
     "diff": 0.0821,
@@ -246,6 +271,7 @@
     "verdict": "a hon"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.01,
     "a": 0.9881,
     "b": 0.9299,
     "diff": 0.0582,
@@ -255,6 +281,7 @@
     "verdict": "a hon"
    },
    "fpr_t_hard": {
+    "p_value": 0.288,
     "a": 0.0,
     "b": 0.0227,
     "diff": -0.0227,
@@ -266,6 +293,7 @@
   },
   "vtseq_M4b_ens - b3_gru_b_s42": {
    "macro_f1_ttp_t_novel": {
+    "p_value": 0.001,
     "a": 0.8308,
     "b": 0.7773,
     "diff": 0.0535,
@@ -275,6 +303,7 @@
     "verdict": "a hon"
    },
    "pr_auc_t_novel": {
+    "p_value": 0.014,
     "a": 0.9881,
     "b": 0.9452,
     "diff": 0.043,
@@ -284,6 +313,7 @@
     "verdict": "a hon"
    },
    "fpr_t_hard": {
+    "p_value": 0.288,
     "a": 0.0,
     "b": 0.0227,
     "diff": -0.0227,

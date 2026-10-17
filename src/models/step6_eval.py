@@ -110,7 +110,8 @@ def paired(root, a, b, meta, n_boot=N_BOOT, seed=SEED):
     for k, v in stats.items():
         v = np.array([x for x in v if np.isfinite(x)])
         lo, hi = np.percentile(v, [2.5, 97.5])
-        out[k] = {"a": round(point[k][0], 4), "b": round(point[k][1], 4), "diff": round(point[k][0] - point[k][1], 4),
+        pval = float(min(1.0, max(2 * min((v <= 0).mean(), (v >= 0).mean()), 1.0 / len(v))))   # hai phia, tu phan bo bootstrap
+        out[k] = {"p_value": round(pval, 4), "a": round(point[k][0], 4), "b": round(point[k][1], 4), "diff": round(point[k][0] - point[k][1], 4),
                   "lo": round(float(lo), 4), "hi": round(float(hi), 4), "n_valid": int(len(v)),
                   "verdict": "a hon" if (lo > 0 if k != "fpr_t_hard" else hi < 0) else ("a kem" if (hi < 0 if k != "fpr_t_hard" else lo > 0) else "khong khac co y nghia")}
     return out
@@ -119,7 +120,7 @@ def main(root="."):
     print("checksum dataset:", check_dataset(root))
     ri = verify(root); print("Colab commit", ri["commit"][:8], "| khoa tu", ri["final_config_locked_from"][:8], "| nguong M3 trung final_config")
     meta = load_all_meta(root)
-    score_all(root, meta)
+    if "--bootstrap-only" not in sys.argv: score_all(root, meta)
     base = ["b1_tfidf_b", "b2_lgbm_a", "b3_gru_b_s1337", "b3_gru_b_s7", "b3_gru_b_s42"]
     pb = {}
     for ens in ("vtseq_M3_ens", "vtseq_M4b_ens"):
@@ -148,6 +149,32 @@ def report(root="."):
     for k, v in pb.items():
         c = lambda m: f"{v[m]['a']:.3f} / {v[m]['b']:.3f} / **{v[m]['diff']:+.3f}** [{v[m]['lo']:+.3f}, {v[m]['hi']:+.3f}] {v[m]['verdict']}"
         L.append(f"| {k} | {c('macro_f1_ttp_t_novel')} | {c('pr_auc_t_novel')} | {c('fpr_t_hard')} |")
+    # Holm cho ho 9 so sanh cua mo hinh trien khai (VT-Seq-ens M3): 3 baseline x 3 chi so; B3 (b) co 3 seed ->
+    # lay p-value LON NHAT trong 3 seed (bao thu) va hieu so nho nhat theo huong co loi.
+    fam = []
+    for bname, keys in (("B1 TF-IDF (b)", ["b1_tfidf_b"]), ("B2 (a)", ["b2_lgbm_a"]), ("B3 (b) (3 seed, p lon nhat)", [f"b3_gru_b_s{x}" for x in (1337, 7, 42)])):
+        for m, mn in (("macro_f1_ttp_t_novel", "macro-F1 TTP T-novel"), ("pr_auc_t_novel", "PR-AUC T-novel"), ("fpr_t_hard", "FPR T-hard")):
+            rs = [pb[f"vtseq_M3_ens - {k}"][m] for k in keys]
+            worst = max(rs, key=lambda r: r["p_value"])
+            fam.append({"baseline": bname, "metric": mn, "diff": worst["diff"], "lo": worst["lo"], "hi": worst["hi"], "p": worst["p_value"]})
+    order = sorted(range(len(fam)), key=lambda i: fam[i]["p"]); m_ = len(fam); run = 0.0
+    for r_, i in enumerate(order):
+        run = max(run, min(1.0, (m_ - r_) * fam[i]["p"])); fam[i]["p_holm"] = run
+    L += ["", "**Hieu chinh so sanh boi (Holm, 9 so sanh: VT-Seq-ens M3 vs 3 baseline x 3 chi so).** p-value hai phia tu phan bo "
+          "bootstrap (san 1/1000). B3 (b): lay seed co p lon nhat (bao thu). Cac dong khac (M4b-ens, tung seed B3) o bang tren la "
+          "tham khao, CHUA hieu chinh so sanh boi.", "",
+          "| Baseline | Chi so | Hieu (VT-Seq-ens - baseline) [CI 95%] | p | p Holm | Ket luan sau Holm (alpha 0.05) |", "|---|---|---|---|---|---|"]
+    for f_ in fam:
+        good = (f_["diff"] > 0) if not f_["metric"].startswith("FPR") else (f_["diff"] < 0)
+        concl = ("VT-Seq-ens hon" if good else "VT-Seq-ens kem") if f_["p_holm"] < 0.05 else "khong khac co y nghia"
+        L.append(f"| {f_['baseline']} | {f_['metric']} | {f_['diff']:+.3f} [{f_['lo']:+.3f}, {f_['hi']:+.3f}] | {f_['p']:.3f} | {f_['p_holm']:.3f} | {concl} |")
+    L += ["", "**Ghi chu**", "",
+          "- **Mo hinh trien khai = VT-Seq-ens (M3, trung binh xac suat 5 seed)**, nguong chon tren OOF trung binh. Seed le KHONG on dinh "
+          "voi T1003.003 (bang cuoi: M3 seed 42 bat 5/6 phien, seed 7 chi 4/6 o nhan TTP; M4b va M3cp seed 99 bo sot 0/6), ens bat 6/6.",
+          "- **Crop do dai (M2 -> M3), trung thuc:** Spearman trung binh giam (T-hard +0.32 -> +0.11, T-novel +0.29 -> +0.14) CHU YEU nho "
+          "seed 7 (-0.44 / -0.61); trung vi chi giam nhe (+0.40 -> +0.29, +0.40 -> +0.33) va 3/5 seed M3 van > +0.2 tren T-novel (+0.35, +0.33, +0.43). "
+          "VT-Seq-ens dat |rho| <= 0.2 (T-hard +0.01, T-novel +0.12) mot phan do TRIET TIEU tuong quan trai dau giua cac seed, khong "
+          "chung minh tung mo hinh trung lap voi do dai. Kiem soat do dai van la han che mo.", ""]
     L += ["", "**Spearman(diem, n_events) tren cua so am - tung seed (hieu qua crop: M2 -> M3)**", "",
           "| Cau hinh | " + " | ".join(f"s{sd}" for sd in (1337, 7, 42, 2024, 99)) + " | trung binh | trung vi |", "|---|---|---|---|---|---|---|---|"]
     for c in ("M2", "M3", "M4", "M4b"):

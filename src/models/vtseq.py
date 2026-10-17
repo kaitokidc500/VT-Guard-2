@@ -529,3 +529,30 @@ def build_ensemble(cfg_name, seeds, outdir, data, root="."):
     for s, (pb, pt) in raw.items(): write_jsonl(os.path.join(outdir, "raw", f"{model}_{s}.jsonl"), raw_rows(data[s], s, pb, pt))
     write_model_outputs(outdir, model, data, raw, early, {**sel, "members": [f"vtseq_{cfg_name}_s{sd}" for sd in seeds]}, root)
     return {"model": model, "binary_score": sel["binary_score"], "thr": sel["binary"], "oof_pr_auc": sel["oof_pr_auc"]}
+
+# ---------------- suy luan khong pack (xuat ONNX) ----------------
+class ExportVTSeq(nn.Module):
+    """Bao mot (hoac nhieu, ens) mang VTSeq da nhiem pooling attn -> (p_bin, p_ttp, alpha) xac suat, khong dung
+    pack_padded_sequence: GRU mot chieu, pad o CUOI chuoi nen output tai buoc that trung voi ban pack; attention che pad.
+    Nhieu mang -> trung binh xac suat va trung binh alpha (VT-Seq-ens)."""
+    def __init__(self, nets):
+        super().__init__()
+        assert all(n.cfg.pooling == "attn" and set(n.heads) == {"bin", "ttp"} for n in nets)
+        self.nets = nn.ModuleList(nets)
+
+    @staticmethod
+    def _one(net, cat, cmd, num, lens):
+        x = net.encode_events(cat, cmd, num)
+        H, _ = net.gru(x)
+        T = cat.shape[1]
+        mask = torch.arange(T, device=cat.device).unsqueeze(0) < lens.unsqueeze(1)
+        e = net.att_v(torch.tanh(net.att_w(H))).squeeze(-1)
+        e = torch.where(mask, e, torch.full_like(e, float("-inf")))
+        alpha = torch.softmax(e, dim=1)
+        c = torch.bmm(alpha.unsqueeze(1), H).squeeze(1)
+        return torch.sigmoid(net.head_bin(c).squeeze(-1)), torch.sigmoid(net.head_ttp(c)), alpha
+
+    def forward(self, cat, cmd, num, lens):
+        outs = [self._one(n, cat, cmd, num, lens) for n in self.nets]
+        k = float(len(outs))
+        return (sum(o[0] for o in outs) / k, sum(o[1] for o in outs) / k, sum(o[2] for o in outs) / k)

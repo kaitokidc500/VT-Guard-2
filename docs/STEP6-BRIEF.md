@@ -98,15 +98,19 @@ T-hard, so tương đối với (a)) / (c′) che event nền một-phía đã b
 (1000 lần, cùng chỉ số mẫu cho hai mô hình) cho hiệu số macro-F1 TTP T-novel, PR-AUC T-novel, FPR T-hard.
 Báo CI của hiệu số; chỉ tuyên bố "hơn" khi CI không chứa 0.
 
-## 6. Giải thích bằng attention (đầu vào cho Bước 7)
-- Với mỗi cửa sổ dương được phát hiện ở T-clean/T-novel: xuất top-5 event theo α, kèm
-  `image_name, parent_image_name, event_id, channel` và **command line đã chuẩn hoá (canon)**
-  → `reports/step6/attention_topk.jsonl`.
-- **Kiểm tra độ trung thực (faithfulness)**: với mỗi cửa sổ dương, xoá top-k event theo α (k=1,3,5) và
-  xoá k event ngẫu nhiên (lặp 10 lần); so mức giảm `p_bin` và `p_ttp`. Attention chỉ được gọi là
-  "giải thích" nếu xoá top-k làm giảm điểm nhiều hơn xoá ngẫu nhiên một cách có ý nghĩa (báo CI).
-- Thống kê tổng hợp theo TTP: các `image_name`/token lệnh/event_id được attention cao nhiều nhất.
-  Đây là "hạt giống" cho Auto Rule Engine ở Bước 7.
+## 6. Giải thích bằng attention (đầu vào cho Bước 7)  — SỬA 2026-10-17, chạy TRÊN HOST
+- **Hạt giống luật cho Bước 7 = CHỈ TRAIN**: thống kê token lệnh / `image_name` / `event_id` theo TTP, tính bằng
+  **attention OOF** (mỗi cửa sổ Train lấy α từ mô hình fold KHÔNG thấy nó khi huấn luyện)
+  → `reports/step6/rule_seeds_train.json`. **KHÔNG dùng cửa sổ test làm hạt giống luật.**
+- **Attention trên test chỉ để giải thích**: top-5 event cho cửa sổ dương được phát hiện ở T-clean/T-novel, kèm
+  `image_name, parent_image_name, event_id, channel` và command line đã chuẩn hoá (canon); với ens dùng α trung bình
+  5 seed → `reports/step6/attention_topk_test.jsonl`.
+- **Faithfulness** (ens và từng seed): xoá top-k event theo α vs xoá k event ngẫu nhiên (lặp 10 lần), k=1/3/5,
+  CÙNG số event bị xoá ở hai nhánh; đo mức giảm `p_bin` và `p_ttp` của đúng TTP của cửa sổ; báo CI bootstrap của
+  hiệu số. Attention chỉ được gọi là "giải thích" nếu xoá top-k làm giảm điểm nhiều hơn xoá ngẫu nhiên có ý nghĩa.
+- **ONNX** (mục 7): một seed đại diện VÀ ens (một đồ thị bọc 5 mô hình, đầu ra = trung bình xác suất + α trung bình),
+  opset ≥ 17, dynamic batch + độ dài; parity với PyTorch < 1e-4 trên toàn T-novel; độ trễ CPU đo trên host
+  (trung bình + p95 mỗi cửa sổ, batch 1 và batch 32).
 
 ## 7. Colab + xuất ONNX
 - **Chỉ đưa lên Colab**: `data/processed/splits/*.jsonl`, `vocab.json`, và repo code (git clone theo commit).
