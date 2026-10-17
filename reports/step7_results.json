@@ -1,0 +1,1167 @@
+{
+ "generated": "2026-10-17T15:49:13+07:00",
+ "dataset_version": "v1.2",
+ "approved_rules_commit": "6b56a7a",
+ "engine": {
+  "chosen": "ripper",
+  "desc": "wittgenstein RIPPER (k=2, prune_size 0.33)",
+  "macro_f1_ttp_oof_by_engine": {
+   "tree3": {
+    "macro": 0.6584,
+    "per_ttp": {
+     "T1016": 0.6974,
+     "T1018": 0.4706,
+     "T1087.002": 0.5987,
+     "T1654": 0.6714,
+     "T1003.003": 0.8539
+    }
+   },
+   "tree4": {
+    "macro": 0.6751,
+    "per_ttp": {
+     "T1016": 0.6974,
+     "T1018": 0.5385,
+     "T1087.002": 0.6145,
+     "T1654": 0.6714,
+     "T1003.003": 0.8539
+    }
+   },
+   "ripper": {
+    "macro": 0.7558,
+    "per_ttp": {
+     "T1016": 0.725,
+     "T1018": 0.76,
+     "T1087.002": 0.6667,
+     "T1654": 0.6395,
+     "T1003.003": 0.988
+    }
+   }
+  },
+  "rule": "chon engine co macro-F1 TTP OOF cao nhat (du doan cua chinh engine, literal day du, luot rang buoc)"
+ },
+ "deviations_from_brief": [
+  {
+   "id": 1,
+   "what": "vi tu CO MAT (cua so co >= 1 event thoa atom) thay cho nguong ti le dac trung B2 (brief 4.1/4.2)",
+   "why": "chi dang nay anh xa CHINH XAC sang Sigma ('co >= 1 event thoa ...'); nguong ti le > 0 cua B2 tuong duong co mat, nguong ti le khac 0 khong bieu dien duoc trong Sigma -> matcher Sigma se lech dieu kien luat"
+  },
+  {
+   "id": 2,
+   "what": "engine = RIPPER (wittgenstein), khong phai cay",
+   "why": "brief 4.1 yeu cau chon bang macro-F1 TTP OOF; RIPPER 0.756 > cay sau 4 0.675 > cay sau 3 0.658 (du doan cua chinh engine, literal day du, luot rang buoc). Cay van duoc chay va bao cao"
+  },
+  {
+   "id": 3,
+   "what": "them cong S5 (ten mien lab vtlab) va S4-auto (atom co < 50% lan khop tren cua so duong Train nam trong cay tien trinh)",
+   "why": "S5: token ten mien lab khong khai quat ra moi truong khac. S4-auto: tong quat hoa canh bao 4 (event nen mot-phia) - bat duoc svchost dsmsvc / rundll32 -embedding (tac dong phu nen cua T1003, 0% trong cay tien trinh) ma danh sach tay bo sot; event_origin chi dung cho cong nay tren Train, khong bao gio la dac trung"
+  },
+  {
+   "id": 4,
+   "what": "cong phu: precision OOF phai tinh tren >= 10 cua so OOF khop (them vao G3)",
+   "why": "precision OOF tren 3-9 cua so khong co y nghia thong ke (vd cmd~'system' cho T1087.002: 3 cua so, precision Train 0.72). Cong dat TRUOC khi cham test, CHI dua tren Train; nguoi dung duyet giu nguong 10 (khong ha de lay them luat)"
+  }
+ ],
+ "rules": [
+  {
+   "id": "VTR-BIN-01",
+   "target": "bin",
+   "predicates": [
+    "cmd~'userdnsdomain'"
+   ],
+   "train": {
+    "support": 35,
+    "tp": 35,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.1989
+   },
+   "oof": {
+    "tp": 24,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.1667,
+    "folds_rediscovered": [
+     0,
+     2,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-040500-win10-01-a",
+    "20261014-040622-win10-01-a",
+    "20261014-042552-win10-01-a",
+    "20261014-051646-win10-01-a",
+    "20261014-052401-win10-01-a",
+    "20261014-070302-win10-01-a",
+    "20261014-071625-dc01-a",
+    "20261014-072946-dc01-a",
+    "20261014-082135-win10-01-a",
+    "20261014-082233-win10-01-a",
+    "20261014-083215-win10-01-a",
+    "20261014-090714-win10-01-a",
+    "20261014-092911-win10-01-a",
+    "20261014-093331-win10-01-a",
+    "20261014-100105-dc01-a",
+    "20261014-100336-win10-01-a",
+    "20261014-100903-win10-01-a",
+    "20261014-101038-win10-01-a",
+    "20261014-103147-win10-01-a",
+    "20261014-105541-win10-01-a",
+    "20261014-115330-dc01-a",
+    "20261014-115920-win10-01-a",
+    "20261014-122651-dc01-a",
+    "20261014-123500-dc01-a",
+    "20261014-123505-win10-01-a",
+    "20261014-124442-dc01-a"
+   ]
+  },
+  {
+   "id": "VTR-BIN-02",
+   "target": "bin",
+   "predicates": [
+    "cmd~'create'"
+   ],
+   "train": {
+    "support": 26,
+    "tp": 26,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.1477
+   },
+   "oof": {
+    "tp": 18,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.1333,
+    "folds_rediscovered": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-161400-dc01-a",
+    "20261014-162511-dc01-a",
+    "20261014-162657-dc01-a",
+    "20261014-162835-dc01-a",
+    "20261014-163110-dc01-a",
+    "20261014-163312-dc01-a",
+    "20261014-163811-dc01-a",
+    "20261014-164113-dc01-a",
+    "20261014-164328-dc01-a",
+    "20261014-164506-dc01-a",
+    "20261014-164648-dc01-a",
+    "20261015-075554-dc01-a",
+    "20261015-075801-dc01-a",
+    "20261015-075851-dc01-a",
+    "20261015-075946-dc01-a",
+    "20261015-080034-dc01-a",
+    "20261015-080143-dc01-a",
+    "20261015-080318-dc01-a",
+    "20261015-084028-dc01-a",
+    "20261015-084208-dc01-a",
+    "20261015-084247-dc01-a",
+    "20261015-084350-dc01-a",
+    "20261015-084451-dc01-a"
+   ]
+  },
+  {
+   "id": "VTR-BIN-03",
+   "target": "bin",
+   "predicates": [
+    "cmd~'enum-logs'"
+   ],
+   "train": {
+    "support": 25,
+    "tp": 25,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.142
+   },
+   "oof": {
+    "tp": 25,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.142,
+    "folds_rediscovered": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-040622-win10-01-a",
+    "20261014-072440-win10-01-a",
+    "20261014-072946-dc01-a",
+    "20261014-073800-dc01-a",
+    "20261014-082135-win10-01-a",
+    "20261014-082233-win10-01-a",
+    "20261014-083215-win10-01-a",
+    "20261014-090934-dc01-a",
+    "20261014-092419-dc01-a",
+    "20261014-092911-win10-01-a",
+    "20261014-095058-dc01-a",
+    "20261014-101650-win10-01-a",
+    "20261014-104201-win10-01-a",
+    "20261014-105541-win10-01-a",
+    "20261014-115330-dc01-a",
+    "20261014-121355-dc01-a",
+    "20261014-122651-dc01-a",
+    "20261014-123500-dc01-a",
+    "20261014-123655-dc01-a",
+    "20261014-124442-dc01-a"
+   ]
+  },
+  {
+   "id": "VTR-BIN-04",
+   "target": "bin",
+   "predicates": [
+    "cmd~'.findall'"
+   ],
+   "train": {
+    "support": 19,
+    "tp": 19,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.108
+   },
+   "oof": {
+    "tp": 15,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.1056,
+    "folds_rediscovered": [
+     0,
+     1,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-045228-win10-01-a",
+    "20261014-050504-win10-01-a",
+    "20261014-053710-win10-01-a",
+    "20261014-055553-win10-01-a",
+    "20261014-070825-win10-01-a",
+    "20261014-090828-win10-01-a",
+    "20261014-092613-win10-01-a",
+    "20261014-092914-win10-01-a",
+    "20261014-095058-dc01-a",
+    "20261014-100252-win10-01-a",
+    "20261014-100903-win10-01-a",
+    "20261014-114949-win10-01-a",
+    "20261014-120402-win10-01-a",
+    "20261014-120736-dc01-a",
+    "20261014-122634-win10-01-a",
+    "20261014-122958-win10-01-a"
+   ]
+  },
+  {
+   "id": "VTR-BIN-05",
+   "target": "bin",
+   "predicates": [
+    "image=net.exe & cmd~'administrator'"
+   ],
+   "train": {
+    "support": 18,
+    "tp": 18,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.1023
+   },
+   "oof": {
+    "tp": 10,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.0893,
+    "folds_rediscovered": [
+     0,
+     1,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-040500-win10-01-a",
+    "20261014-053540-win10-01-a",
+    "20261014-071625-dc01-a",
+    "20261014-072131-win10-01-a",
+    "20261014-074240-win10-01-a",
+    "20261014-092016-win10-01-a",
+    "20261014-092735-win10-01-a",
+    "20261014-100105-dc01-a",
+    "20261014-101038-win10-01-a",
+    "20261014-105541-win10-01-a",
+    "20261014-115920-win10-01-a",
+    "20261014-121355-dc01-a",
+    "20261014-122651-dc01-a",
+    "20261014-124442-dc01-a",
+    "20261014-125917-win10-01-a"
+   ]
+  },
+  {
+   "id": "VTR-BIN-06",
+   "target": "bin",
+   "predicates": [
+    "cmd~'controllers'"
+   ],
+   "train": {
+    "support": 17,
+    "tp": 17,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.0966
+   },
+   "oof": {
+    "tp": 10,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.0741,
+    "folds_rediscovered": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-052401-win10-01-a",
+    "20261014-074240-win10-01-a",
+    "20261014-082135-win10-01-a",
+    "20261014-082917-win10-01-a",
+    "20261014-092735-win10-01-a",
+    "20261014-095058-dc01-a",
+    "20261014-104201-win10-01-a",
+    "20261014-105404-win10-01-a",
+    "20261014-105541-win10-01-a",
+    "20261014-115330-dc01-a",
+    "20261014-120856-dc01-a",
+    "20261014-122651-dc01-a",
+    "20261014-123655-dc01-a"
+   ]
+  },
+  {
+   "id": "VTR-T1018-01",
+   "target": "T1018",
+   "predicates": [
+    "cmd~'controllers'"
+   ],
+   "train": {
+    "support": 17,
+    "tp": 17,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.2179
+   },
+   "oof": {
+    "tp": 13,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.2031,
+    "folds_rediscovered": [
+     0,
+     1,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-052401-win10-01-a",
+    "20261014-074240-win10-01-a",
+    "20261014-082135-win10-01-a",
+    "20261014-082917-win10-01-a",
+    "20261014-092735-win10-01-a",
+    "20261014-095058-dc01-a",
+    "20261014-104201-win10-01-a",
+    "20261014-105404-win10-01-a",
+    "20261014-105541-win10-01-a",
+    "20261014-115330-dc01-a",
+    "20261014-120856-dc01-a",
+    "20261014-122651-dc01-a",
+    "20261014-123655-dc01-a"
+   ]
+  },
+  {
+   "id": "VTR-T1018-02",
+   "target": "T1018",
+   "predicates": [
+    "image=nltest.exe",
+    "cmd~'userdnsdomain'"
+   ],
+   "train": {
+    "support": 10,
+    "tp": 10,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.1282
+   },
+   "oof": {
+    "tp": 10,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.1754,
+    "folds_rediscovered": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-042552-win10-01-a",
+    "20261014-051646-win10-01-a",
+    "20261014-070302-win10-01-a",
+    "20261014-090714-win10-01-a",
+    "20261014-093331-win10-01-a",
+    "20261014-100903-win10-01-a",
+    "20261014-123505-win10-01-a",
+    "20261014-124442-dc01-a"
+   ]
+  },
+  {
+   "id": "VTR-T1654-01",
+   "target": "T1654",
+   "predicates": [
+    "cmd~'system'"
+   ],
+   "train": {
+    "support": 25,
+    "tp": 25,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.3012
+   },
+   "oof": {
+    "tp": 11,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.2115,
+    "folds_rediscovered": [
+     2,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-040500-win10-01-a",
+    "20261014-044036-win10-01-a",
+    "20261014-070302-win10-01-a",
+    "20261014-071625-dc01-a",
+    "20261014-081439-dc01-a",
+    "20261014-091527-dc01-a",
+    "20261014-103147-win10-01-a",
+    "20261014-105404-win10-01-a",
+    "20261014-105541-win10-01-a",
+    "20261014-114934-win10-01-a",
+    "20261014-120020-win10-01-a",
+    "20261014-120402-win10-01-a",
+    "20261014-120736-dc01-a",
+    "20261014-122634-win10-01-a",
+    "20261014-122958-win10-01-a",
+    "20261014-125917-win10-01-a"
+   ]
+  },
+  {
+   "id": "VTR-T1654-02",
+   "target": "T1654",
+   "predicates": [
+    "cmd~'enum-logs'"
+   ],
+   "train": {
+    "support": 25,
+    "tp": 25,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.3012
+   },
+   "oof": {
+    "tp": 25,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.3012,
+    "folds_rediscovered": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-040622-win10-01-a",
+    "20261014-072440-win10-01-a",
+    "20261014-072946-dc01-a",
+    "20261014-073800-dc01-a",
+    "20261014-082135-win10-01-a",
+    "20261014-082233-win10-01-a",
+    "20261014-083215-win10-01-a",
+    "20261014-090934-dc01-a",
+    "20261014-092419-dc01-a",
+    "20261014-092911-win10-01-a",
+    "20261014-095058-dc01-a",
+    "20261014-101650-win10-01-a",
+    "20261014-104201-win10-01-a",
+    "20261014-105541-win10-01-a",
+    "20261014-115330-dc01-a",
+    "20261014-121355-dc01-a",
+    "20261014-122651-dc01-a",
+    "20261014-123500-dc01-a",
+    "20261014-123655-dc01-a",
+    "20261014-124442-dc01-a"
+   ]
+  },
+  {
+   "id": "VTR-T1003003-01",
+   "target": "T1003.003",
+   "predicates": [
+    "cmd~'create'"
+   ],
+   "train": {
+    "support": 26,
+    "tp": 26,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.619
+   },
+   "oof": {
+    "tp": 18,
+    "fp": 0,
+    "precision": 1.0,
+    "recall_on_folds": 0.5625,
+    "folds_rediscovered": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "support_sessions": [
+    "20261014-161400-dc01-a",
+    "20261014-162511-dc01-a",
+    "20261014-162657-dc01-a",
+    "20261014-162835-dc01-a",
+    "20261014-163110-dc01-a",
+    "20261014-163312-dc01-a",
+    "20261014-163811-dc01-a",
+    "20261014-164113-dc01-a",
+    "20261014-164328-dc01-a",
+    "20261014-164506-dc01-a",
+    "20261014-164648-dc01-a",
+    "20261015-075554-dc01-a",
+    "20261015-075801-dc01-a",
+    "20261015-075851-dc01-a",
+    "20261015-075946-dc01-a",
+    "20261015-080034-dc01-a",
+    "20261015-080143-dc01-a",
+    "20261015-080318-dc01-a",
+    "20261015-084028-dc01-a",
+    "20261015-084208-dc01-a",
+    "20261015-084247-dc01-a",
+    "20261015-084350-dc01-a",
+    "20261015-084451-dc01-a"
+   ]
+  }
+ ],
+ "n_rejected_by_gate": {
+  "G1": 18,
+  "G3": 24,
+  "G4": 1
+ },
+ "features": {
+  "n_atoms_all": 706,
+  "n_atoms_constrained": 260,
+  "n_atoms_blocked_forbidden": 446,
+  "blocked_by_reason": {
+   "S4 nen T1003 (ESENT/Directory Service)": 16,
+   "S4-auto nen mot-phia (40% khop trong cay tien trinh < 50%, Train)": 1,
+   "S4-auto nen mot-phia (5% khop trong cay tien trinh < 50%, Train)": 1,
+   "S3 kenh PowerShell": 5,
+   "S4-auto nen mot-phia (0% khop trong cay tien trinh < 50%, Train)": 314,
+   "S4-auto nen mot-phia (32% khop trong cay tien trinh < 50%, Train)": 1,
+   "S4-auto nen mot-phia (16% khop trong cay tien trinh < 50%, Train)": 1,
+   "S2 vo cmd": 70,
+   "S3 powershell": 24,
+   "S4 nen T1003 (VSS service)": 2,
+   "S1 duong dan/ma ky thuat ART": 3,
+   "S5 ten mien lab": 4,
+   "S4-auto nen mot-phia (42% khop trong cay tien trinh < 50%, Train)": 1,
+   "S4 nen COM (svchost->rundll32)": 2,
+   "S2/S3 launcher (cmd|powershell)": 1
+  },
+  "min_sessions": 3
+ },
+ "sigma": {
+  "validation": {
+   "tool": "pySigma 2.0.1 (SigmaCollection + 31 validator mac dinh)",
+   "files": {
+    "VTR-BIN-01.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-BIN-02.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-BIN-03.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-BIN-04.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-BIN-05.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-BIN-06.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-T1018-01.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-T1018-02.yml": {
+     "n_documents": 3,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-T1654-01.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-T1654-02.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    },
+    "VTR-T1003003-01.yml": {
+     "n_documents": 1,
+     "errors": [],
+     "validator_issues": {}
+    }
+   }
+  },
+  "generate_false_on_correlation": true,
+  "equivalence": {
+   "VTR-BIN-01": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-BIN-02": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-BIN-03": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-BIN-04": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-BIN-05": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-BIN-06": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-T1003003-01": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-T1018-01": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-T1018-02": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-T1654-01": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   },
+   "VTR-T1654-02": {
+    "train_mismatch": 0,
+    "train_support_equal_provenance": true,
+    "test_mismatch_diagnostic": {
+     "t_clean": 0,
+     "t_hard": 0,
+     "t_novel": 0
+    }
+   }
+  }
+ },
+ "rules_only": {
+  "t_clean_f1": {
+   "point": 0.88,
+   "lo": 0.7887,
+   "hi": 0.9509,
+   "n_valid": 1000,
+   "n_boot": 1000,
+   "n_units": 89
+  },
+  "t_hard_fp": 0,
+  "t_novel_f1": {
+   "point": 0.8776,
+   "lo": 0.7963,
+   "hi": 0.9423,
+   "n_valid": 1000,
+   "n_boot": 1000,
+   "n_units": 149
+  },
+  "t_novel_recall": {
+   "point": 0.7963,
+   "lo": 0.6792,
+   "hi": 0.9017,
+   "n_valid": 1000,
+   "n_boot": 1000,
+   "n_units": 149
+  },
+  "macro_f1_ttp": {
+   "t_clean": {
+    "point": 0.3912,
+    "lo": 0.3189,
+    "hi": 0.4475,
+    "n_valid": 1000,
+    "n_boot": 1000,
+    "n_units": 89
+   },
+   "t_novel": {
+    "point": 0.4167,
+    "lo": 0.3545,
+    "hi": 0.4678,
+    "n_valid": 1000,
+    "n_boot": 1000,
+    "n_units": 149
+   }
+  },
+  "t1003_sessions_t_novel": 6
+ },
+ "per_rule": {
+  "VTR-BIN-01": {
+   "target": "bin",
+   "file": "VTR-BIN-01.yml",
+   "train": {
+    "tp": 35,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 7,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 21,
+    "fp": 0
+   }
+  },
+  "VTR-BIN-02": {
+   "target": "bin",
+   "file": "VTR-BIN-02.yml",
+   "train": {
+    "tp": 26,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 8,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 6,
+    "fp": 0
+   }
+  },
+  "VTR-BIN-03": {
+   "target": "bin",
+   "file": "VTR-BIN-03.yml",
+   "train": {
+    "tp": 25,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 5,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 8,
+    "fp": 0
+   }
+  },
+  "VTR-BIN-04": {
+   "target": "bin",
+   "file": "VTR-BIN-04.yml",
+   "train": {
+    "tp": 19,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 10,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 9,
+    "fp": 0
+   }
+  },
+  "VTR-BIN-05": {
+   "target": "bin",
+   "file": "VTR-BIN-05.yml",
+   "train": {
+    "tp": 18,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 2,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 6,
+    "fp": 0
+   }
+  },
+  "VTR-BIN-06": {
+   "target": "bin",
+   "file": "VTR-BIN-06.yml",
+   "train": {
+    "tp": 17,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 3,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 2,
+    "fp": 0
+   }
+  },
+  "VTR-T1003003-01": {
+   "target": "T1003.003",
+   "file": "VTR-T1003003-01.yml",
+   "train": {
+    "tp": 26,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 8,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 6,
+    "fp": 0
+   }
+  },
+  "VTR-T1018-01": {
+   "target": "T1018",
+   "file": "VTR-T1018-01.yml",
+   "train": {
+    "tp": 17,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 3,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 2,
+    "fp": 0
+   }
+  },
+  "VTR-T1018-02": {
+   "target": "T1018",
+   "file": "VTR-T1018-02.yml",
+   "train": {
+    "tp": 10,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 5,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 9,
+    "fp": 0
+   }
+  },
+  "VTR-T1654-01": {
+   "target": "T1654",
+   "file": "VTR-T1654-01.yml",
+   "train": {
+    "tp": 25,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 3,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 0,
+    "fp": 2
+   }
+  },
+  "VTR-T1654-02": {
+   "target": "T1654",
+   "file": "VTR-T1654-02.yml",
+   "train": {
+    "tp": 25,
+    "fp": 0
+   },
+   "t_clean": {
+    "tp": 5,
+    "fp": 0
+   },
+   "t_hard": {
+    "tp": 0,
+    "fp": 0
+   },
+   "t_hard_fp_by_signature": {},
+   "t_novel": {
+    "tp": 8,
+    "fp": 0
+   }
+  }
+ },
+ "vs_b0": {
+  "T1016": {
+   "b0": [
+    0.0,
+    0.0
+   ],
+   "rules": [
+    0.0,
+    0.0
+   ],
+   "b0_blind": true,
+   "rules_ids": []
+  },
+  "T1018": {
+   "b0": [
+    0.0,
+    0.0
+   ],
+   "rules": [
+    0.5161,
+    0.4681
+   ],
+   "b0_blind": true,
+   "rules_ids": [
+    "VTR-T1018-01",
+    "VTR-T1018-02"
+   ]
+  },
+  "T1087.002": {
+   "b0": [
+    0.5846,
+    0.5859
+   ],
+   "rules": [
+    0.0,
+    0.0
+   ],
+   "b0_blind": false,
+   "rules_ids": []
+  },
+  "T1654": {
+   "b0": [
+    0.0,
+    0.0
+   ],
+   "rules": [
+    0.64,
+    0.6154
+   ],
+   "b0_blind": true,
+   "rules_ids": [
+    "VTR-T1654-01",
+    "VTR-T1654-02"
+   ]
+  },
+  "T1003.003": {
+   "b0": [
+    0.0,
+    0.0
+   ],
+   "rules": [
+    0.8,
+    1.0
+   ],
+   "b0_blind": true,
+   "rules_ids": [
+    "VTR-T1003003-01"
+   ]
+  }
+ },
+ "oof_for_step8": {
+  "file": "reports/preds/rules_oof_train.jsonl",
+  "binary_at_0.5": {
+   "tp": 124,
+   "fp": 2,
+   "fn": 52,
+   "precision": 0.9841,
+   "recall": 0.7045,
+   "f1": 0.8212
+  },
+  "ttp_f1_at_0.5": {
+   "T1016": 0.7068,
+   "T1018": 0.2857,
+   "T1087.002": 0.2569,
+   "T1654": 0.7121,
+   "T1003.003": 0.7647
+  },
+  "macro_f1_ttp": 0.5452,
+  "note": "rules_train.jsonl = IN-SAMPLE; Buoc 8 CHI dung rules_oof_train.jsonl de hoc fusion. G3 trong fold xap xi bang precision tren 4/5 Train."
+ },
+ "acceptance": [
+  {
+   "id": 1,
+   "criterion": "Checksum dataset-v1.2 khop; luat chi quy nap tu Train; test chi de do",
+   "pass": true,
+   "evidence": "check_dataset True; test 1a-1c (split test chi bam sha, windows.jsonl chi parse dong Train) True; luat + code quy nap khong doi tu commit duyet 6b56a7a: True; nguong chi-luat co dinh 0.5 dat truoc test"
+  },
+  {
+   "id": 2,
+   "criterion": "Moi luat co provenance day du va KHONG chua vi tu cam (assert tu dong, 0 vi pham)",
+   "pass": true,
+   "evidence": "provenance day du True; vi pham danh sach cam 0; test 3e (S1-S5 + S4-auto, 0 vi pham) True; test 5 True"
+  },
+  {
+   "id": 3,
+   "criterion": "Sigma hop le cu phap; matcher noi bo == dieu kien luat/engine tren Train",
+   "pass": true,
+   "evidence": "pySigma 2.0.1 (SigmaCollection + 31 validator mac dinh): 11/11 file 0 loi 0 canh bao True; matcher doc YAML Sigma == vi tu luat tren Train (0 lech, support trung) True; test 4a-4c (matcher == RIPPER, ruleset doc lai == wittgenstein.predict) True"
+  },
+  {
+   "id": 4,
+   "criterion": "Bang chi-luat tren ca 3 tap test + so voi B0 + so voi AI",
+   "pass": true,
+   "evidence": "muc 3-5 bao cao nay (B0, B1 TF-IDF (b), B2 (a), VT-Seq-ens)"
+  },
+  {
+   "id": 5,
+   "criterion": "reports/preds/rules_<split>.jsonl san cho Buoc 8",
+   "pass": true,
+   "evidence": "rules_{train,t_clean,t_hard,t_novel}.jsonl + rules_oof_train.jsonl (OOF theo fold; rules_train la in-sample)"
+  },
+  {
+   "id": 6,
+   "criterion": "Bao so luat loai theo tung cong, gom cong vi tu cam",
+   "pass": true,
+   "evidence": "{'G1': 18, 'G3': 24, 'G4': 1}; atom bi chan o tang dac trung 446"
+  }
+ ]
+}

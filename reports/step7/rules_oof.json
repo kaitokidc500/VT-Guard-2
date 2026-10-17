@@ -1,0 +1,526 @@
+{
+ "file": "reports/preds/rules_oof_train.jsonl",
+ "binary_at_0.5": {
+  "tp": 124,
+  "fp": 2,
+  "fn": 52,
+  "precision": 0.9841,
+  "recall": 0.7045,
+  "f1": 0.8212
+ },
+ "ttp_f1_at_0.5": {
+  "T1016": 0.7068,
+  "T1018": 0.2857,
+  "T1087.002": 0.2569,
+  "T1654": 0.7121,
+  "T1003.003": 0.7647
+ },
+ "macro_f1_ttp": 0.5452,
+ "folds": [
+  {
+   "fold": 0,
+   "n_rules": 13,
+   "n_val": 97,
+   "n_final_rules_present": 8,
+   "rules": [
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'userdnsdomain'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "image=net.exe & cmd~'administrator'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'.findall'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'where'"
+     ],
+     "precision_in_fold": 0.95
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "image=nslookup.exe",
+      "cmd~'userdnsdomain'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1018",
+     "predicates": [
+      "image=nltest.exe & cmd~'/dclist'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1018",
+     "predicates": [
+      "cmd~'controllers'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1087.002",
+     "predicates": [
+      "cmd~'.findall'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'where'"
+     ],
+     "precision_in_fold": 0.95
+    },
+    {
+     "target": "T1003.003",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    }
+   ]
+  },
+  {
+   "fold": 1,
+   "n_rules": 13,
+   "n_val": 97,
+   "n_final_rules_present": 8,
+   "rules": [
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'config'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "image=net.exe & cmd~'administrator'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'-encodedcommand'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'.findall'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'controllers'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "cmd~'-querytype'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "image=ipconfig.exe",
+      "cmd~'-n'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1018",
+     "predicates": [
+      "cmd~'controllers'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'-c'",
+      "cmd~'where'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1003.003",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    }
+   ]
+  },
+  {
+   "fold": 2,
+   "n_rules": 12,
+   "n_val": 97,
+   "n_final_rules_present": 7,
+   "rules": [
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'userdnsdomain'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'system'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'controllers'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "image=nbtstat.exe",
+      "cmd~'-n'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "cmd~'userdnsdomain'"
+     ],
+     "precision_in_fold": 0.9643
+    },
+    {
+     "target": "T1087.002",
+     "predicates": [
+      "cmd~'.findall'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1087.002",
+     "predicates": [
+      "image=net.exe & cmd~'administrator'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'system'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1003.003",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    }
+   ]
+  },
+  {
+   "fold": 3,
+   "n_rules": 13,
+   "n_val": 96,
+   "n_final_rules_present": 9,
+   "rules": [
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'userdnsdomain'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'-encodedcommand'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'.findall'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'controllers'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "image=nslookup.exe",
+      "cmd~'userdnsdomain'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "image=nbtstat.exe",
+      "cmd~'-n'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "image=net.exe",
+      "cmd~'system'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1018",
+     "predicates": [
+      "cmd~'controllers'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'system'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1003.003",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    }
+   ]
+  },
+  {
+   "fold": 4,
+   "n_rules": 14,
+   "n_val": 96,
+   "n_final_rules_present": 11,
+   "rules": [
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'userdnsdomain'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'-encodedcommand'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'.findall'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "image=net.exe & cmd~'administrator'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "bin",
+     "predicates": [
+      "cmd~'controllers'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "image=nslookup.exe",
+      "cmd~'userdnsdomain'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1016",
+     "predicates": [
+      "cmd~'config'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1018",
+     "predicates": [
+      "cmd~'controllers'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1018",
+     "predicates": [
+      "image=nltest.exe",
+      "cmd~'userdnsdomain'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'system'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1654",
+     "predicates": [
+      "cmd~'enum-logs'"
+     ],
+     "precision_in_fold": 1.0
+    },
+    {
+     "target": "T1003.003",
+     "predicates": [
+      "cmd~'create'"
+     ],
+     "precision_in_fold": 1.0
+    }
+   ]
+  }
+ ],
+ "note": "rules_train.jsonl = IN-SAMPLE; Buoc 8 CHI dung rules_oof_train.jsonl de hoc fusion. G3 trong fold xap xi bang precision tren 4/5 Train."
+}

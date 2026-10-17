@@ -54,7 +54,7 @@ VT-Guard/  (= vt-guard-research/)
 | 4 | Đóng băng dataset (tag `dataset-v1.2`, thay v1.1/v1.0 — bản sửa dataset CUỐI): gộp, cửa sổ, đặc trưng, chia tập, dataset card | `src/dataset/`, `reports/` | Hoàn thành |
 | 5 | Khung đánh giá (`src/eval/`), baseline B0–B3 (`src/baselines/`) + ablation; tổng hợp `reports/step5_report.md` (tag `step5-done`) | `src/eval/`, `src/baselines/`, `reports/` | Hoàn thành |
 | 6 | VT-Seq (GRU-Attention đa nhiệm) + ablation; `reports/step6_report.md` (tag `step6-done`); triển khai = VT-Seq-ens (M3, 5 seed) | `src/models/`, `notebooks/`, `reports/step6/` | Hoàn thành |
-| 7 | Luật | `src/rules/` | Chưa bắt đầu |
+| 7 | Auto Rule Engine: 11 luật tự sinh (RIPPER, chỉ Train) → Sigma `rules/sigma/`; `reports/step7_report.md` (tag `step7-done`) | `src/rules/`, `rules/sigma/` | Hoàn thành |
 | 8 | Fusion | `src/fusion/` | Chưa bắt đầu |
 | — | Bằng chứng hạ tầng | `evidence/` | Chưa bắt đầu |
 | — | Báo cáo (song song) | `reports/` | Chưa bắt đầu |
@@ -212,16 +212,30 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   đạt mọi k. ONNX opset 17 (seed 1337 + ens), parity ≤ 6.6e-7, ens ~1.4 ms/cửa sổ CPU 1 thread. `.onnx`/`.pt` không vào git (sha256).
 - Tiêu chí chấp nhận mục 9: 8/8 đạt. Brief mục 6 đã sửa (hạt giống chỉ Train; attention test chỉ để giải thích).
 
+### Bước 7 (Auto Rule Engine) — 2026-10-17
+- `src/rules/predicates.py`: atom "có mặt" (image / parent / event_id / token lệnh norm_cmd / image+token cùng event), danh sách cấm
+  S1 (đường dẫn/mã ART), S2 (vỏ cmd), S3 (PowerShell), S4 (ESENT/VSS/COM nền), S5 (tên miền lab), matcher nội bộ.
+- `src/rules/induce.py` (CHỈ Train: split test chỉ băm sha; windows.jsonl chỉ parse dòng Train): 2 lượt (không ràng buộc / ràng
+  buộc + S4-auto: atom < 50% khớp trong cây tiến trình), engine chọn bằng macro-F1 TTP OOF: RIPPER 0.756 > cây 0.675/0.658;
+  luật = literal có mặt; OOF = quy nạp lại trên fold; cổng G0–G4 + ≥10 cửa sổ OOF (đặt trước test). 11 luật được duyệt
+  (commit 6b56a7a); G1 loại 18, G3 24, G4 1. Sai khác brief ghi trong provenance + report.
+- Sigma (`sigma_export.py`): 10 luật đơn + 1 correlation temporal (`generate: false`), token → `CommandLine|re` có biên token
+  (+ `\"` do log Wazuh); pySigma 2.0.1 + 31 validator: 0 lỗi. `apply.py`: matcher đọc YAML ≡ vị từ luật trên Train (0 lệch).
+- Chỉ-luật: T-hard 0/88 FP (B0 17/88), T-novel F1 0.878; phủ T1018/T1654/T1003 (B0 mù). Hạn chế: 6/6 ntds2v chỉ nhờ token chung
+  `create` (trùng khớp); token chung create/system; VTR-T1654-01 gắn nhầm 2 cửa sổ T-novel; không luật TTP cho T1016/T1087.002.
+- OOF cho Bước 8 (`oof.py`): chạy lại quy trình trên 4/5 Train mỗi fold → `reports/preds/rules_oof_train.jsonl` (G3 xấp xỉ).
+- Tiêu chí chấp nhận mục 8: 6/6 đạt; `test_induce.py` 15/15.
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
 - [x] Bước 5 mốc C: FPR phân tầng theo độ dài + Spearman điểm–độ dài trong evaluate.py.
 - [x] Bước 5 mốc D: B0, B1 (TF-IDF/raw), B2 (LightGBM), B3 (GRU, 3 seed) trên dataset-v1.2 + ablation (a)(b)(c chỉ T-hard)(c');
       tổng hợp `reports/step5_report.md` + `reports/step5_results.json`; preds ở `reports/preds/` (giữ cho Bước 8). Tag `step5-done`.
 - [x] Bước 6: VT-Seq + ablation, `reports/step6_report.md`, tag `step6-done`.
-- [ ] Bước 7: Auto Rule Engine — hạt giống `reports/step6/rule_seeds_train.json` (CHỈ Train) + đặc trưng B2; xử lý 4 cảnh báo
-      ở `reports/step6/m4_explain.md` (loại ntds_T1003, không dựa vỏ cmd /c hay sự hiện diện PowerShell, đo độ đặc hiệu theo TTP,
-      không dựa event nền ESENT); quality gate FPR trên T-hard, độ phủ trên T-novel.
-- [ ] Bước 8: fusion VT-Seq-ens (`reports/preds/vtseq_M3_ens_*`) + luật, cùng evaluate.py.
+- [x] Bước 7: Auto Rule Engine, `reports/step7_report.md`, tag `step7-done`.
+- [ ] Bước 8: fusion VT-Seq-ens (`reports/preds/vtseq_M3_ens_*`) + chỉ-luật, cùng evaluate.py. Học fusion CHỈ bằng OOF:
+      `reports/preds/vtseq_M3_ens_train.jsonl` (OOF) + `reports/preds/rules_oof_train.jsonl` (OOF theo fold). KHÔNG dùng
+      `rules_train.jsonl` (in-sample). T1016/T1087.002 không có luật theo TTP → dựa vào AI.
 - [ ] Kiểm soát độ dài chưa vững ở từng seed (crop) — cân nhắc ở bước sau nếu cần.
 - [ ] `.onnx`/`.pt` không vào git: bản gốc ở Drive `step6_m3_44f8948d.zip`; tái tạo ONNX: `python src/models/step6_explain.py onnx`.
 - [ ] #9 đạt sát ngưỡng (cmd.exe 15.1%) — nếu thu thêm dữ liệu: phiên benign gọi tool qua `cmd.exe /c`

@@ -7,7 +7,8 @@ process_creation (moi token cua luat chi khop o Sysmon EID 1 / Security 4688 tre
   cmd~'T'        -> CommandLine|re: '(?i)(^|[^a-z0-9_.<>/\\-])T($|[^a-z0-9_.<>/\\-])'  (bien token = TOK_RE, khong khop System32)
   image=X & cmd~ -> ca hai trong CUNG selection (cung event)
 Luat 1 atom -> mot luat Sigma. Luat nhieu atom (cac atom co the o event khac nhau) -> moi atom mot luat con (co `name`) +
-mot luat correlation `type: temporal` (group-by Computer, timespan 1m; tren Train hai event cach nhau <= 0.07 s).
+mot luat correlation `type: temporal` (group-by Computer, timespan 1m; tren Train hai event cach nhau <= 0.07 s),
+`generate: false`: luat con KHONG sinh truy van/canh bao rieng (spec Sigma correlation; pySigma disable_output).
 Moi file co custom field `vtguard_provenance` tro ve reports/step7/rules_provenance.json.
 Chay: python src/rules/sigma_export.py
 """
@@ -101,7 +102,7 @@ def export(root="."):
             corr = [f"title: {q('VT-Guard ' + r['id'] + ': ' + ' AND '.join(r['predicates']))}", f"id: {rid}", "status: experimental",
                     f"description: {q('VT-Guard auto-induced rule ' + r['id'] + ': all predicates within one session window (temporal correlation). Train: on 10/10 matched windows the two events are <= 0.07 s apart.')}",
                     "author: VT-Guard auto rule engine", f"date: {DATE}", "tags:"] + [f"    - {t}" for t in tags] + [
-                    "correlation:", "    type: temporal", "    rules:"] + [f"        - {n}" for n in names] + [
+                    "correlation:", "    type: temporal", "    generate: false", "    rules:"] + [f"        - {n}" for n in names] + [
                     "    group-by:", "        - Computer", f"    timespan: {TIMESPAN}",
                     "falsepositives:", "    - Administrative scripts running the same discovery commands", "level: high"] + prov_block(r, {"timespan_note": f"{TIMESPAN} (Train gap <= 0.07 s)"})
             text = "\n---\n".join(docs + ["\n".join(corr)]) + "\n"

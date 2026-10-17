@@ -63,6 +63,7 @@ tags:
     - attack.t1018
 correlation:
     type: temporal
+    generate: false
     rules:
         - vtguard_vtr_t1018_02_p1
         - vtguard_vtr_t1018_02_p2
