@@ -39,7 +39,7 @@ def cnt(rs, get, d=1):
     if len(rs) == 1: return str(get(rs[0]))
     return ms([get(r) for r in rs], d)
 
-RESULT_DIRS = (("reports", "step5"), ("reports", "step6", "eval"), ("reports", "step7", "eval"))
+RESULT_DIRS = (("reports", "step5"), ("reports", "step6", "eval"), ("reports", "step7", "eval"), ("reports", "step8", "eval"))
 
 def load(root, m, seeds):
     """<m>.json (1 ket qua) hoac <m>_s<seed>.json (nhieu seed; chi cac seed co file) trong reports/step5 hoac reports/step6/eval."""
