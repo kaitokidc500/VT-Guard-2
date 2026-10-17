@@ -1,0 +1,303 @@
+{
+ "locked_at": "2026-10-17T16:27:04+07:00",
+ "locked_from_commit": "b1e3ab229a715c505936364944dc6aaee617cc21",
+ "dataset_version": "v1.2",
+ "chosen": {
+  "strategy": "F3",
+  "variant": "B",
+  "formula": "s = p + beta*r ; s_k = p_k + beta*r_k (r_k = 0 cho TTP ngoai rule_ttp_channels)",
+  "beta": 0.1,
+  "threshold_binary": 0.8691660000000001,
+  "threshold_rule_binary": "FPR <= 1% tren cua so am OOF",
+  "thresholds_ttp": {
+   "T1016": 0.578938,
+   "T1018": 0.846576,
+   "T1087.002": 0.59086,
+   "T1654": 0.545895,
+   "T1003.003": 0.8349679999999999
+  },
+  "threshold_rule_ttp": "max-F1 OOF theo TTP (nhu Buoc 6)",
+  "rule_ttp_channels": [
+   "T1003.003",
+   "T1018",
+   "T1654"
+  ],
+  "r_definition": "r = 1 neu co luat khop (p_malicious chi-luat >= 0.5, nhu Buoc 7); r_k = 1 neu luat theo TTP k khop",
+  "p_definition": "p = diem nhi phan AI VT-Seq-ens (p_bin_max), p_k = xac suat TTP AI"
+ },
+ "sources_oof": {
+  "ai": "reports/preds/vtseq_M3_ens_train.jsonl",
+  "rules": "reports/preds/rules_oof_train.jsonl",
+  "ai_locked_thresholds": "reports/step6/m3/sel/vtseq_M3_ens.json",
+  "not_used": "reports/preds/rules_train.jsonl (in-sample; khong dung de hoc/chon)"
+ },
+ "sources_test": {
+  "ai": "reports/preds/vtseq_M3_ens_<split>.jsonl",
+  "rules": "reports/preds/rules_<split>.jsonl"
+ },
+ "deviation_from_brief": {
+  "what": "kenh luat theo TTP (r_k) CHI cho ['T1003.003', 'T1018', 'T1654']; brief muc 3 dinh nghia da nhan dung moi r_k",
+  "reason": "su kien cau truc CHI dua tren Train: bo luat cuoi (quy nap tu toan bo Train, Buoc 7) chi co luat theo TTP cho ['T1003.003', 'T1018', 'T1654']. Luc chay test r_k cua T1016 va T1087.002 luon = 0, nen tren OOF cung phai = 0 de dac trung fusion giong luc trien khai. Khong dung so lieu do nhay (in-sample, chi mo ta) lam can cu.",
+  "note_variant_A": "bien the A (moi kenh r_k) cung chon F3 va co macro-F1 TTP OOF cao hon (0.847 vs 0.835), nhung phan loi do kenh T1016 - kenh nay chi ton tai trong bo luat FOLD (de dai hon), KHONG ton tai trong bo luat cuoi."
+ },
+ "selection_variant_B": {
+  "criteria": [
+   "macro-F1 TTP OOF",
+   "PR-AUC nhi phan OOF",
+   "FPR OOF hard_negative"
+  ],
+  "tie": "|chenh| <= do lech chuan bootstrap cua hieu so (1000, seed 1337) -> it tham so hon (F2 < F3 < F4)",
+  "steps": [
+   {
+    "metric": "macro_f1_ttp",
+    "best": "F4",
+    "other": "F2",
+    "abs_diff": 0.005,
+    "boot_sd": 0.0108,
+    "tie": true
+   },
+   {
+    "metric": "macro_f1_ttp",
+    "best": "F4",
+    "other": "F3",
+    "abs_diff": 0.0011,
+    "boot_sd": 0.0111,
+    "tie": true
+   },
+   {
+    "metric": "pr_auc",
+    "best": "F3",
+    "other": "F2",
+    "abs_diff": 0.015,
+    "boot_sd": 0.0109,
+    "tie": false
+   },
+   {
+    "metric": "pr_auc",
+    "best": "F3",
+    "other": "F4",
+    "abs_diff": 0.0015,
+    "boot_sd": 0.0013,
+    "tie": false
+   }
+  ],
+  "chosen": "F3",
+  "beta_grid_note": "beta 0.1 / 0.2 / 0.3 cho ket qua OOF giong nhau -> beta nho nhat",
+  "oof_metrics": {
+   "F0": {
+    "macro_f1_ttp": 0.8296910335201563,
+    "f1_ttp": {
+     "T1016": 0.7522123893805309,
+     "T1018": 0.7764705882352941,
+     "T1087.002": 0.7914893617021277,
+     "T1654": 0.8282828282828283,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.9968333665696729,
+    "fpr_hard_negative": 0.03669724770642202,
+    "fpr_neg": 0.013029315960912053,
+    "recall": 0.9943181818181818,
+    "precision": 0.9776536312849162,
+    "f1_bin": 0.9859154929577465
+   },
+   "F1": {
+    "macro_f1_ttp": 0.3525082760376878,
+    "f1_ttp": {
+     "T1016": 0.0,
+     "T1018": 0.2857142857142857,
+     "T1087.002": 0.0,
+     "T1654": 0.7121212121212122,
+     "T1003.003": 0.7647058823529411
+    },
+    "pr_auc": 0.8010226488487359,
+    "fpr_hard_negative": 0.01834862385321101,
+    "fpr_neg": 0.006514657980456026,
+    "recall": 0.7045454545454546,
+    "precision": 0.9841269841269841,
+    "f1_bin": 0.8211920529801324
+   },
+   "F2": {
+    "macro_f1_ttp": 0.8308798851002525,
+    "f1_ttp": {
+     "T1016": 0.7522123893805309,
+     "T1018": 0.7906976744186046,
+     "T1087.002": 0.7914893617021277,
+     "T1654": 0.82,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.981923359740643,
+    "fpr_hard_negative": 0.05504587155963303,
+    "fpr_neg": 0.019543973941368076,
+    "recall": 0.9943181818181818,
+    "precision": 0.9668508287292817,
+    "f1_bin": 0.9803921568627451
+   },
+   "F3": {
+    "macro_f1_ttp": 0.8347382175124036,
+    "f1_ttp": {
+     "T1016": 0.7522123893805309,
+     "T1018": 0.7906976744186046,
+     "T1087.002": 0.7966101694915254,
+     "T1654": 0.8341708542713567,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.996934449367181,
+    "fpr_hard_negative": 0.027522935779816515,
+    "fpr_neg": 0.009771986970684038,
+    "recall": 0.9943181818181818,
+    "precision": 0.9831460674157303,
+    "f1_bin": 0.9887005649717514
+   },
+   "F4": {
+    "macro_f1_ttp": 0.8358344172667957,
+    "f1_ttp": {
+     "T1016": 0.7976190476190477,
+     "T1018": 0.7578947368421053,
+     "T1087.002": 0.7932489451476793,
+     "T1654": 0.8304093567251462,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.9954252832019865,
+    "fpr_hard_negative": 0.027522935779816515,
+    "fpr_neg": 0.009771986970684038,
+    "recall": 0.9943181818181818,
+    "precision": 0.9831460674157303,
+    "f1_bin": 0.9887005649717514
+   }
+  }
+ },
+ "variant_A_oof_for_reference": {
+  "chosen": "F3",
+  "macro_f1_ttp": {
+   "F2": 0.8308798851002525,
+   "F3": 0.8474536343731394,
+   "F4": 0.8319375881300453
+  }
+ },
+ "controls_locked_for_test": {
+  "F0": {
+   "desc": "chi-AI, nguong khoa Buoc 6",
+   "tau": 0.8691656000000001,
+   "tau_k": {
+    "T1016": 0.5789375999999999,
+    "T1018": 0.8465758000000001,
+    "T1087.002": 0.5908604000000001,
+    "T1654": 0.5458952,
+    "T1003.003": 0.7349676
+   }
+  },
+  "F0_prime": {
+   "desc": "chi-AI, nguong chon lai tren CUNG OOF (FPR <= 1% nhi phan, max-F1 TTP) - doi chung MO TA, khong vao ho Holm",
+   "thr": 0.8691660000000001,
+   "thr_k": {
+    "T1016": 0.578938,
+    "T1018": 0.846576,
+    "T1087.002": 0.59086,
+    "T1654": 0.545895,
+    "T1003.003": 0.734968
+   }
+  },
+  "F1": {
+   "desc": "chi-luat Buoc 7 (nguong 0.5)"
+  },
+  "F2": {
+   "desc": "OR, bien the B",
+   "tau": 0.8691656000000001,
+   "tau_k": {
+    "T1016": 0.5789375999999999,
+    "T1018": 0.8465758000000001,
+    "T1087.002": 0.5908604000000001,
+    "T1654": 0.5458952,
+    "T1003.003": 0.7349676
+   }
+  },
+  "F4_B": {
+   "desc": "stacking LR bien the B, fit toan OOF; nguong tren diem OOF long",
+   "models": {
+    "bin": {
+     "coef": [
+      1.337776,
+      0.982599,
+      0.0,
+      0.094614,
+      0.0,
+      0.252047,
+      0.290382
+     ],
+     "intercept": -1.819418
+    },
+    "T1016": {
+     "coef": [
+      0.871678,
+      1.246179,
+      0.0,
+      -0.189158,
+      0.0,
+      -0.356262,
+      -0.656989
+     ],
+     "intercept": -2.300264
+    },
+    "T1018": {
+     "coef": [
+      1.397046,
+      -0.603792,
+      0.0,
+      1.751594,
+      0.0,
+      0.214137,
+      -0.17957
+     ],
+     "intercept": -2.283356
+    },
+    "T1087.002": {
+     "coef": [
+      0.98102,
+      0.496799,
+      0.0,
+      -0.941085,
+      0.0,
+      -1.194348,
+      -0.737368
+     ],
+     "intercept": -1.310418
+    },
+    "T1654": {
+     "coef": [
+      0.974876,
+      -0.446214,
+      0.0,
+      0.364416,
+      0.0,
+      2.273145,
+      -0.316174
+     ],
+     "intercept": -1.610444
+    },
+    "T1003.003": {
+     "coef": [
+      1.853304,
+      0.316194,
+      0.0,
+      -0.019166,
+      0.0,
+      -0.184924,
+      0.659088
+     ],
+     "intercept": -2.94161
+    }
+   },
+   "thr": 0.8801888292760787,
+   "thr_k": [
+    0.57469,
+    0.35111,
+    0.203116,
+    0.31947,
+    0.453035
+   ],
+   "n_features": 7
+  }
+ },
+ "test_runs_once": true,
+ "seed": 1337
+}
