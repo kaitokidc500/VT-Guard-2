@@ -1,0 +1,1316 @@
+{
+ "generated": "2026-10-17T16:43:48+07:00",
+ "dataset_version": "v1.2",
+ "lock_commit": "3fd9531",
+ "test_results_commit": "bdf2adc",
+ "final_fusion": {
+  "locked_at": "2026-10-17T16:27:04+07:00",
+  "locked_from_commit": "b1e3ab229a715c505936364944dc6aaee617cc21",
+  "dataset_version": "v1.2",
+  "chosen": {
+   "strategy": "F3",
+   "variant": "B",
+   "formula": "s = p + beta*r ; s_k = p_k + beta*r_k (r_k = 0 cho TTP ngoai rule_ttp_channels)",
+   "beta": 0.1,
+   "threshold_binary": 0.8691660000000001,
+   "threshold_rule_binary": "FPR <= 1% tren cua so am OOF",
+   "thresholds_ttp": {
+    "T1016": 0.578938,
+    "T1018": 0.846576,
+    "T1087.002": 0.59086,
+    "T1654": 0.545895,
+    "T1003.003": 0.8349679999999999
+   },
+   "threshold_rule_ttp": "max-F1 OOF theo TTP (nhu Buoc 6)",
+   "rule_ttp_channels": [
+    "T1003.003",
+    "T1018",
+    "T1654"
+   ],
+   "r_definition": "r = 1 neu co luat khop (p_malicious chi-luat >= 0.5, nhu Buoc 7); r_k = 1 neu luat theo TTP k khop",
+   "p_definition": "p = diem nhi phan AI VT-Seq-ens (p_bin_max), p_k = xac suat TTP AI"
+  },
+  "sources_oof": {
+   "ai": "reports/preds/vtseq_M3_ens_train.jsonl",
+   "rules": "reports/preds/rules_oof_train.jsonl",
+   "ai_locked_thresholds": "reports/step6/m3/sel/vtseq_M3_ens.json",
+   "not_used": "reports/preds/rules_train.jsonl (in-sample; khong dung de hoc/chon)"
+  },
+  "sources_test": {
+   "ai": "reports/preds/vtseq_M3_ens_<split>.jsonl",
+   "rules": "reports/preds/rules_<split>.jsonl"
+  },
+  "deviation_from_brief": {
+   "what": "kenh luat theo TTP (r_k) CHI cho ['T1003.003', 'T1018', 'T1654']; brief muc 3 dinh nghia da nhan dung moi r_k",
+   "reason": "su kien cau truc CHI dua tren Train: bo luat cuoi (quy nap tu toan bo Train, Buoc 7) chi co luat theo TTP cho ['T1003.003', 'T1018', 'T1654']. Luc chay test r_k cua T1016 va T1087.002 luon = 0, nen tren OOF cung phai = 0 de dac trung fusion giong luc trien khai. Khong dung so lieu do nhay (in-sample, chi mo ta) lam can cu.",
+   "note_variant_A": "bien the A (moi kenh r_k) cung chon F3 va co macro-F1 TTP OOF cao hon (0.847 vs 0.835), nhung phan loi do kenh T1016 - kenh nay chi ton tai trong bo luat FOLD (de dai hon), KHONG ton tai trong bo luat cuoi."
+  },
+  "selection_variant_B": {
+   "criteria": [
+    "macro-F1 TTP OOF",
+    "PR-AUC nhi phan OOF",
+    "FPR OOF hard_negative"
+   ],
+   "tie": "|chenh| <= do lech chuan bootstrap cua hieu so (1000, seed 1337) -> it tham so hon (F2 < F3 < F4)",
+   "steps": [
+    {
+     "metric": "macro_f1_ttp",
+     "best": "F4",
+     "other": "F2",
+     "abs_diff": 0.005,
+     "boot_sd": 0.0108,
+     "tie": true
+    },
+    {
+     "metric": "macro_f1_ttp",
+     "best": "F4",
+     "other": "F3",
+     "abs_diff": 0.0011,
+     "boot_sd": 0.0111,
+     "tie": true
+    },
+    {
+     "metric": "pr_auc",
+     "best": "F3",
+     "other": "F2",
+     "abs_diff": 0.015,
+     "boot_sd": 0.0109,
+     "tie": false
+    },
+    {
+     "metric": "pr_auc",
+     "best": "F3",
+     "other": "F4",
+     "abs_diff": 0.0015,
+     "boot_sd": 0.0013,
+     "tie": false
+    }
+   ],
+   "chosen": "F3",
+   "beta_grid_note": "beta 0.1 / 0.2 / 0.3 cho ket qua OOF giong nhau -> beta nho nhat",
+   "oof_metrics": {
+    "F0": {
+     "macro_f1_ttp": 0.8296910335201563,
+     "f1_ttp": {
+      "T1016": 0.7522123893805309,
+      "T1018": 0.7764705882352941,
+      "T1087.002": 0.7914893617021277,
+      "T1654": 0.8282828282828283,
+      "T1003.003": 1.0
+     },
+     "pr_auc": 0.9968333665696729,
+     "fpr_hard_negative": 0.03669724770642202,
+     "fpr_neg": 0.013029315960912053,
+     "recall": 0.9943181818181818,
+     "precision": 0.9776536312849162,
+     "f1_bin": 0.9859154929577465
+    },
+    "F1": {
+     "macro_f1_ttp": 0.3525082760376878,
+     "f1_ttp": {
+      "T1016": 0.0,
+      "T1018": 0.2857142857142857,
+      "T1087.002": 0.0,
+      "T1654": 0.7121212121212122,
+      "T1003.003": 0.7647058823529411
+     },
+     "pr_auc": 0.8010226488487359,
+     "fpr_hard_negative": 0.01834862385321101,
+     "fpr_neg": 0.006514657980456026,
+     "recall": 0.7045454545454546,
+     "precision": 0.9841269841269841,
+     "f1_bin": 0.8211920529801324
+    },
+    "F2": {
+     "macro_f1_ttp": 0.8308798851002525,
+     "f1_ttp": {
+      "T1016": 0.7522123893805309,
+      "T1018": 0.7906976744186046,
+      "T1087.002": 0.7914893617021277,
+      "T1654": 0.82,
+      "T1003.003": 1.0
+     },
+     "pr_auc": 0.981923359740643,
+     "fpr_hard_negative": 0.05504587155963303,
+     "fpr_neg": 0.019543973941368076,
+     "recall": 0.9943181818181818,
+     "precision": 0.9668508287292817,
+     "f1_bin": 0.9803921568627451
+    },
+    "F3": {
+     "macro_f1_ttp": 0.8347382175124036,
+     "f1_ttp": {
+      "T1016": 0.7522123893805309,
+      "T1018": 0.7906976744186046,
+      "T1087.002": 0.7966101694915254,
+      "T1654": 0.8341708542713567,
+      "T1003.003": 1.0
+     },
+     "pr_auc": 0.996934449367181,
+     "fpr_hard_negative": 0.027522935779816515,
+     "fpr_neg": 0.009771986970684038,
+     "recall": 0.9943181818181818,
+     "precision": 0.9831460674157303,
+     "f1_bin": 0.9887005649717514
+    },
+    "F4": {
+     "macro_f1_ttp": 0.8358344172667957,
+     "f1_ttp": {
+      "T1016": 0.7976190476190477,
+      "T1018": 0.7578947368421053,
+      "T1087.002": 0.7932489451476793,
+      "T1654": 0.8304093567251462,
+      "T1003.003": 1.0
+     },
+     "pr_auc": 0.9954252832019865,
+     "fpr_hard_negative": 0.027522935779816515,
+     "fpr_neg": 0.009771986970684038,
+     "recall": 0.9943181818181818,
+     "precision": 0.9831460674157303,
+     "f1_bin": 0.9887005649717514
+    }
+   }
+  },
+  "variant_A_oof_for_reference": {
+   "chosen": "F3",
+   "macro_f1_ttp": {
+    "F2": 0.8308798851002525,
+    "F3": 0.8474536343731394,
+    "F4": 0.8319375881300453
+   }
+  },
+  "controls_locked_for_test": {
+   "F0": {
+    "desc": "chi-AI, nguong khoa Buoc 6",
+    "tau": 0.8691656000000001,
+    "tau_k": {
+     "T1016": 0.5789375999999999,
+     "T1018": 0.8465758000000001,
+     "T1087.002": 0.5908604000000001,
+     "T1654": 0.5458952,
+     "T1003.003": 0.7349676
+    }
+   },
+   "F0_prime": {
+    "desc": "chi-AI, nguong chon lai tren CUNG OOF (FPR <= 1% nhi phan, max-F1 TTP) - doi chung MO TA, khong vao ho Holm",
+    "thr": 0.8691660000000001,
+    "thr_k": {
+     "T1016": 0.578938,
+     "T1018": 0.846576,
+     "T1087.002": 0.59086,
+     "T1654": 0.545895,
+     "T1003.003": 0.734968
+    }
+   },
+   "F1": {
+    "desc": "chi-luat Buoc 7 (nguong 0.5)"
+   },
+   "F2": {
+    "desc": "OR, bien the B",
+    "tau": 0.8691656000000001,
+    "tau_k": {
+     "T1016": 0.5789375999999999,
+     "T1018": 0.8465758000000001,
+     "T1087.002": 0.5908604000000001,
+     "T1654": 0.5458952,
+     "T1003.003": 0.7349676
+    }
+   },
+   "F4_B": {
+    "desc": "stacking LR bien the B, fit toan OOF; nguong tren diem OOF long",
+    "models": {
+     "bin": {
+      "coef": [
+       1.337776,
+       0.982599,
+       0.0,
+       0.094614,
+       0.0,
+       0.252047,
+       0.290382
+      ],
+      "intercept": -1.819418
+     },
+     "T1016": {
+      "coef": [
+       0.871678,
+       1.246179,
+       0.0,
+       -0.189158,
+       0.0,
+       -0.356262,
+       -0.656989
+      ],
+      "intercept": -2.300264
+     },
+     "T1018": {
+      "coef": [
+       1.397046,
+       -0.603792,
+       0.0,
+       1.751594,
+       0.0,
+       0.214137,
+       -0.17957
+      ],
+      "intercept": -2.283356
+     },
+     "T1087.002": {
+      "coef": [
+       0.98102,
+       0.496799,
+       0.0,
+       -0.941085,
+       0.0,
+       -1.194348,
+       -0.737368
+      ],
+      "intercept": -1.310418
+     },
+     "T1654": {
+      "coef": [
+       0.974876,
+       -0.446214,
+       0.0,
+       0.364416,
+       0.0,
+       2.273145,
+       -0.316174
+      ],
+      "intercept": -1.610444
+     },
+     "T1003.003": {
+      "coef": [
+       1.853304,
+       0.316194,
+       0.0,
+       -0.019166,
+       0.0,
+       -0.184924,
+       0.659088
+      ],
+      "intercept": -2.94161
+     }
+    },
+    "thr": 0.8801888292760787,
+    "thr_k": [
+     0.57469,
+     0.35111,
+     0.203116,
+     0.31947,
+     0.453035
+    ],
+    "n_features": 7
+   }
+  },
+  "test_runs_once": true,
+  "seed": 1337
+ },
+ "oof": {
+  "A": {
+   "F0": {
+    "macro_f1_ttp": 0.8296910335201563,
+    "f1_ttp": {
+     "T1016": 0.7522123893805309,
+     "T1018": 0.7764705882352941,
+     "T1087.002": 0.7914893617021277,
+     "T1654": 0.8282828282828283,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.9968333665696729,
+    "fpr_hard_negative": 0.03669724770642202,
+    "fpr_neg": 0.013029315960912053,
+    "recall": 0.9943181818181818,
+    "precision": 0.9776536312849162,
+    "f1_bin": 0.9859154929577465
+   },
+   "F1": {
+    "macro_f1_ttp": 0.5452378062853253,
+    "f1_ttp": {
+     "T1016": 0.706766917293233,
+     "T1018": 0.2857142857142857,
+     "T1087.002": 0.25688073394495414,
+     "T1654": 0.7121212121212122,
+     "T1003.003": 0.7647058823529411
+    },
+    "pr_auc": 0.8010226488487359,
+    "fpr_hard_negative": 0.01834862385321101,
+    "fpr_neg": 0.006514657980456026,
+    "recall": 0.7045454545454546,
+    "precision": 0.9841269841269841,
+    "f1_bin": 0.8211920529801324
+   },
+   "F2": {
+    "macro_f1_ttp": 0.8308798851002525,
+    "f1_ttp": {
+     "T1016": 0.7522123893805309,
+     "T1018": 0.7906976744186046,
+     "T1087.002": 0.7914893617021277,
+     "T1654": 0.82,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.981923359740643,
+    "fpr_hard_negative": 0.05504587155963303,
+    "fpr_neg": 0.019543973941368076,
+    "recall": 0.9943181818181818,
+    "precision": 0.9668508287292817,
+    "f1_bin": 0.9803921568627451
+   },
+   "F3": {
+    "macro_f1_ttp": 0.8474536343731394,
+    "f1_ttp": {
+     "T1016": 0.8157894736842105,
+     "T1018": 0.7906976744186046,
+     "T1087.002": 0.7966101694915254,
+     "T1654": 0.8341708542713567,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.996934449367181,
+    "fpr_hard_negative": 0.027522935779816515,
+    "fpr_neg": 0.009771986970684038,
+    "recall": 0.9943181818181818,
+    "precision": 0.9831460674157303,
+    "f1_bin": 0.9887005649717514
+   },
+   "F4": {
+    "macro_f1_ttp": 0.8319375881300453,
+    "f1_ttp": {
+     "T1016": 0.7848101265822784,
+     "T1018": 0.751219512195122,
+     "T1087.002": 0.7932489451476793,
+     "T1654": 0.8304093567251462,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.9954252832019865,
+    "fpr_hard_negative": 0.027522935779816515,
+    "fpr_neg": 0.009771986970684038,
+    "recall": 0.9943181818181818,
+    "precision": 0.9831460674157303,
+    "f1_bin": 0.9887005649717514
+   }
+  },
+  "B": {
+   "F0": {
+    "macro_f1_ttp": 0.8296910335201563,
+    "f1_ttp": {
+     "T1016": 0.7522123893805309,
+     "T1018": 0.7764705882352941,
+     "T1087.002": 0.7914893617021277,
+     "T1654": 0.8282828282828283,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.9968333665696729,
+    "fpr_hard_negative": 0.03669724770642202,
+    "fpr_neg": 0.013029315960912053,
+    "recall": 0.9943181818181818,
+    "precision": 0.9776536312849162,
+    "f1_bin": 0.9859154929577465
+   },
+   "F1": {
+    "macro_f1_ttp": 0.3525082760376878,
+    "f1_ttp": {
+     "T1016": 0.0,
+     "T1018": 0.2857142857142857,
+     "T1087.002": 0.0,
+     "T1654": 0.7121212121212122,
+     "T1003.003": 0.7647058823529411
+    },
+    "pr_auc": 0.8010226488487359,
+    "fpr_hard_negative": 0.01834862385321101,
+    "fpr_neg": 0.006514657980456026,
+    "recall": 0.7045454545454546,
+    "precision": 0.9841269841269841,
+    "f1_bin": 0.8211920529801324
+   },
+   "F2": {
+    "macro_f1_ttp": 0.8308798851002525,
+    "f1_ttp": {
+     "T1016": 0.7522123893805309,
+     "T1018": 0.7906976744186046,
+     "T1087.002": 0.7914893617021277,
+     "T1654": 0.82,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.981923359740643,
+    "fpr_hard_negative": 0.05504587155963303,
+    "fpr_neg": 0.019543973941368076,
+    "recall": 0.9943181818181818,
+    "precision": 0.9668508287292817,
+    "f1_bin": 0.9803921568627451
+   },
+   "F3": {
+    "macro_f1_ttp": 0.8347382175124036,
+    "f1_ttp": {
+     "T1016": 0.7522123893805309,
+     "T1018": 0.7906976744186046,
+     "T1087.002": 0.7966101694915254,
+     "T1654": 0.8341708542713567,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.996934449367181,
+    "fpr_hard_negative": 0.027522935779816515,
+    "fpr_neg": 0.009771986970684038,
+    "recall": 0.9943181818181818,
+    "precision": 0.9831460674157303,
+    "f1_bin": 0.9887005649717514
+   },
+   "F4": {
+    "macro_f1_ttp": 0.8358344172667957,
+    "f1_ttp": {
+     "T1016": 0.7976190476190477,
+     "T1018": 0.7578947368421053,
+     "T1087.002": 0.7932489451476793,
+     "T1654": 0.8304093567251462,
+     "T1003.003": 1.0
+    },
+    "pr_auc": 0.9954252832019865,
+    "fpr_hard_negative": 0.027522935779816515,
+    "fpr_neg": 0.009771986970684038,
+    "recall": 0.9943181818181818,
+    "precision": 0.9831460674157303,
+    "f1_bin": 0.9887005649717514
+   }
+  }
+ },
+ "test": {
+  "F0": {
+   "t_clean": {
+    "f1": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "fp": 0,
+    "pr_auc": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "macro_f1_ttp": {
+     "point": 0.8742,
+     "lo": 0.8273,
+     "hi": 0.9156,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    }
+   },
+   "t_hard": {
+    "f1": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_valid": 627,
+     "n_boot": 1000,
+     "n_units": 88
+    },
+    "fp": 1,
+    "pr_auc": null,
+    "macro_f1_ttp": null
+   },
+   "t_novel": {
+    "f1": {
+     "point": 0.9643,
+     "lo": 0.9273,
+     "hi": 0.9919,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "fp": 4,
+    "pr_auc": {
+     "point": 0.986,
+     "lo": 0.9671,
+     "hi": 0.9976,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "macro_f1_ttp": {
+     "point": 0.8168,
+     "lo": 0.7578,
+     "hi": 0.8685,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    }
+   }
+  },
+  "F0p": {
+   "t_clean": {
+    "f1": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "fp": 0,
+    "pr_auc": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "macro_f1_ttp": {
+     "point": 0.8742,
+     "lo": 0.8273,
+     "hi": 0.9156,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    }
+   },
+   "t_hard": {
+    "f1": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_valid": 627,
+     "n_boot": 1000,
+     "n_units": 88
+    },
+    "fp": 1,
+    "pr_auc": null,
+    "macro_f1_ttp": null
+   },
+   "t_novel": {
+    "f1": {
+     "point": 0.9643,
+     "lo": 0.9273,
+     "hi": 0.9919,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "fp": 4,
+    "pr_auc": {
+     "point": 0.986,
+     "lo": 0.9671,
+     "hi": 0.9976,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "macro_f1_ttp": {
+     "point": 0.8168,
+     "lo": 0.7578,
+     "hi": 0.8685,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    }
+   }
+  },
+  "F1": {
+   "t_clean": {
+    "f1": {
+     "point": 0.88,
+     "lo": 0.7887,
+     "hi": 0.9509,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "fp": 0,
+    "pr_auc": {
+     "point": 0.8868,
+     "lo": 0.8093,
+     "hi": 0.9526,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "macro_f1_ttp": {
+     "point": 0.3912,
+     "lo": 0.3189,
+     "hi": 0.4475,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    }
+   },
+   "t_hard": {
+    "f1": {
+     "point": null,
+     "lo": null,
+     "hi": null,
+     "n_valid": 0,
+     "n_boot": 1000,
+     "n_units": 88
+    },
+    "fp": 0,
+    "pr_auc": null,
+    "macro_f1_ttp": null
+   },
+   "t_novel": {
+    "f1": {
+     "point": 0.8776,
+     "lo": 0.7963,
+     "hi": 0.9423,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "fp": 1,
+    "pr_auc": {
+     "point": 0.852,
+     "lo": 0.7629,
+     "hi": 0.9283,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "macro_f1_ttp": {
+     "point": 0.4167,
+     "lo": 0.3545,
+     "hi": 0.4678,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    }
+   }
+  },
+  "F2": {
+   "t_clean": {
+    "f1": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "fp": 0,
+    "pr_auc": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "macro_f1_ttp": {
+     "point": 0.8802,
+     "lo": 0.833,
+     "hi": 0.9208,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    }
+   },
+   "t_hard": {
+    "f1": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_valid": 627,
+     "n_boot": 1000,
+     "n_units": 88
+    },
+    "fp": 1,
+    "pr_auc": null,
+    "macro_f1_ttp": null
+   },
+   "t_novel": {
+    "f1": {
+     "point": 0.9558,
+     "lo": 0.9143,
+     "hi": 0.9907,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "fp": 5,
+    "pr_auc": {
+     "point": 0.9759,
+     "lo": 0.9242,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "macro_f1_ttp": {
+     "point": 0.8142,
+     "lo": 0.7566,
+     "hi": 0.866,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    }
+   }
+  },
+  "F3B": {
+   "t_clean": {
+    "f1": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "fp": 0,
+    "pr_auc": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "macro_f1_ttp": {
+     "point": 0.8802,
+     "lo": 0.833,
+     "hi": 0.9208,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    }
+   },
+   "t_hard": {
+    "f1": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_valid": 627,
+     "n_boot": 1000,
+     "n_units": 88
+    },
+    "fp": 1,
+    "pr_auc": null,
+    "macro_f1_ttp": null
+   },
+   "t_novel": {
+    "f1": {
+     "point": 0.9643,
+     "lo": 0.9273,
+     "hi": 0.9919,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "fp": 4,
+    "pr_auc": {
+     "point": 0.998,
+     "lo": 0.9929,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "macro_f1_ttp": {
+     "point": 0.8198,
+     "lo": 0.7623,
+     "hi": 0.8711,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    }
+   }
+  },
+  "F4B": {
+   "t_clean": {
+    "f1": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "fp": 0,
+    "pr_auc": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    },
+    "macro_f1_ttp": {
+     "point": 0.8796,
+     "lo": 0.831,
+     "hi": 0.9199,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 89
+    }
+   },
+   "t_hard": {
+    "f1": {
+     "point": null,
+     "lo": null,
+     "hi": null,
+     "n_valid": 0,
+     "n_boot": 1000,
+     "n_units": 88
+    },
+    "fp": 0,
+    "pr_auc": null,
+    "macro_f1_ttp": null
+   },
+   "t_novel": {
+    "f1": {
+     "point": 0.9643,
+     "lo": 0.9273,
+     "hi": 0.9919,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "fp": 4,
+    "pr_auc": {
+     "point": 0.9883,
+     "lo": 0.9718,
+     "hi": 0.9982,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    },
+    "macro_f1_ttp": {
+     "point": 0.8083,
+     "lo": 0.7514,
+     "hi": 0.8604,
+     "n_valid": 1000,
+     "n_boot": 1000,
+     "n_units": 149
+    }
+   }
+  }
+ },
+ "paired_bootstrap_holm": {
+  "F3B - F0": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8198,
+    "b": 0.8168,
+    "diff": 0.003,
+    "lo": 0.0,
+    "hi": 0.011,
+    "p": 0.73,
+    "p_holm": 1.0
+   },
+   "pr_auc_t_novel": {
+    "a": 0.998,
+    "b": 0.986,
+    "diff": 0.012,
+    "lo": 0.0021,
+    "hi": 0.0289,
+    "p": 0.026,
+    "p_holm": 0.104
+   },
+   "fpr_t_hard": {
+    "a": 0.0114,
+    "b": 0.0114,
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p": 1.0,
+    "p_holm": 1.0
+   }
+  },
+  "F3B - F1": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8198,
+    "b": 0.4167,
+    "diff": 0.4031,
+    "lo": 0.316,
+    "hi": 0.481,
+    "p": 0.001,
+    "p_holm": 0.006
+   },
+   "pr_auc_t_novel": {
+    "a": 0.998,
+    "b": 0.852,
+    "diff": 0.146,
+    "lo": 0.0712,
+    "hi": 0.2348,
+    "p": 0.001,
+    "p_holm": 0.006
+   },
+   "fpr_t_hard": {
+    "a": 0.0114,
+    "b": 0.0,
+    "diff": 0.0114,
+    "lo": 0.0,
+    "hi": 0.0341,
+    "p": 0.722,
+    "p_holm": 1.0
+   }
+  }
+ },
+ "descriptive_vs_F0prime": {
+  "F3B - F0p (mo ta, ngoai Holm)": {
+   "macro_f1_ttp_t_novel": {
+    "a": 0.8198,
+    "b": 0.8168,
+    "diff": 0.003,
+    "lo": 0.0,
+    "hi": 0.011,
+    "p": 0.73
+   },
+   "pr_auc_t_novel": {
+    "a": 0.998,
+    "b": 0.986,
+    "diff": 0.012,
+    "lo": 0.0021,
+    "hi": 0.0289,
+    "p": 0.026
+   },
+   "fpr_t_hard": {
+    "a": 0.0114,
+    "b": 0.0114,
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p": 1.0
+   }
+  }
+ },
+ "explanation": {
+  "stats": {
+   "t_clean": {
+    "n_windows": 89,
+    "alerts": {
+     "n": 42,
+     "with_rule": 33,
+     "share_with_rule": 0.7857,
+     "decision_source": {
+      "both": 33,
+      "ai": 9
+     }
+    },
+    "tp": {
+     "n": 42,
+     "with_rule": 33,
+     "share_with_rule": 0.7857,
+     "decision_source": {
+      "both": 33,
+      "ai": 9
+     }
+    },
+    "fp": {
+     "n": 0,
+     "with_rule": 0,
+     "share_with_rule": null,
+     "decision_source": {}
+    },
+    "rule_match_not_alerted": 0,
+    "positives_missed": 0
+   },
+   "t_hard": {
+    "n_windows": 88,
+    "alerts": {
+     "n": 1,
+     "with_rule": 0,
+     "share_with_rule": 0.0,
+     "decision_source": {
+      "ai": 1
+     }
+    },
+    "tp": {
+     "n": 0,
+     "with_rule": 0,
+     "share_with_rule": null,
+     "decision_source": {}
+    },
+    "fp": {
+     "n": 1,
+     "with_rule": 0,
+     "share_with_rule": 0.0,
+     "decision_source": {
+      "ai": 1
+     }
+    },
+    "rule_match_not_alerted": 0,
+    "positives_missed": 0
+   },
+   "t_novel": {
+    "n_windows": 149,
+    "alerts": {
+     "n": 58,
+     "with_rule": 43,
+     "share_with_rule": 0.7414,
+     "decision_source": {
+      "both": 43,
+      "ai": 15
+     }
+    },
+    "tp": {
+     "n": 54,
+     "with_rule": 43,
+     "share_with_rule": 0.7963,
+     "decision_source": {
+      "both": 43,
+      "ai": 11
+     }
+    },
+    "fp": {
+     "n": 4,
+     "with_rule": 0,
+     "share_with_rule": 0.0,
+     "decision_source": {
+      "ai": 4
+     }
+    },
+    "rule_match_not_alerted": 1,
+    "positives_missed": 0
+   }
+  },
+  "precision_by_source": {
+   "t_clean": {
+    "both": {
+     "n": 33,
+     "tp": 33,
+     "precision": 1.0,
+     "wilson": {
+      "k": 33,
+      "n": 33,
+      "lo": 0.8957,
+      "hi": 1.0
+     }
+    },
+    "ai": {
+     "n": 9,
+     "tp": 9,
+     "precision": 1.0,
+     "wilson": {
+      "k": 9,
+      "n": 9,
+      "lo": 0.7009,
+      "hi": 1.0
+     }
+    },
+    "rule": {
+     "n": 0,
+     "tp": 0,
+     "precision": null,
+     "wilson": null
+    }
+   },
+   "t_hard": {
+    "both": {
+     "n": 0,
+     "tp": 0,
+     "precision": null,
+     "wilson": null
+    },
+    "ai": {
+     "n": 1,
+     "tp": 0,
+     "precision": 0.0,
+     "wilson": {
+      "k": 0,
+      "n": 1,
+      "lo": 0.0,
+      "hi": 0.7935
+     }
+    },
+    "rule": {
+     "n": 0,
+     "tp": 0,
+     "precision": null,
+     "wilson": null
+    }
+   },
+   "t_novel": {
+    "both": {
+     "n": 43,
+     "tp": 43,
+     "precision": 1.0,
+     "wilson": {
+      "k": 43,
+      "n": 43,
+      "lo": 0.918,
+      "hi": 1.0
+     }
+    },
+    "ai": {
+     "n": 15,
+     "tp": 11,
+     "precision": 0.7333,
+     "wilson": {
+      "k": 11,
+      "n": 15,
+      "lo": 0.4805,
+      "hi": 0.891
+     }
+    },
+    "rule": {
+     "n": 0,
+     "tp": 0,
+     "precision": null,
+     "wilson": null
+    }
+   },
+   "gop": {
+    "both": {
+     "n": 76,
+     "tp": 76,
+     "precision": 1.0,
+     "wilson": {
+      "k": 76,
+      "n": 76,
+      "lo": 0.9519,
+      "hi": 1.0
+     }
+    },
+    "ai": {
+     "n": 25,
+     "tp": 20,
+     "precision": 0.8,
+     "wilson": {
+      "k": 20,
+      "n": 25,
+      "lo": 0.6087,
+      "hi": 0.9114
+     }
+    },
+    "rule": {
+     "n": 0,
+     "tp": 0,
+     "precision": null,
+     "wilson": null
+    }
+   }
+  }
+ },
+ "pipeline": {
+  "check": {
+   "t_clean": {
+    "n": 89,
+    "featurize_mismatch_vs_split": 0,
+    "decision_mismatch_binary": 0,
+    "decision_mismatch_ttp": 0,
+    "rule_r_mismatch": 0,
+    "max_abs_score_diff": 6.142730712976885e-07
+   },
+   "t_hard": {
+    "n": 88,
+    "featurize_mismatch_vs_split": 0,
+    "decision_mismatch_binary": 0,
+    "decision_mismatch_ttp": 0,
+    "rule_r_mismatch": 0,
+    "max_abs_score_diff": 5.671930313061457e-07
+   },
+   "t_novel": {
+    "n": 149,
+    "featurize_mismatch_vs_split": 0,
+    "decision_mismatch_binary": 0,
+    "decision_mismatch_ttp": 0,
+    "rule_r_mismatch": 0,
+    "max_abs_score_diff": 5.590629578167139e-07
+   }
+  },
+  "latency": {
+   "batch1": {
+    "total": {
+     "mean_ms": 2.773,
+     "p95_ms": 5.973,
+     "n": 326
+    },
+    "featurize": {
+     "mean_ms": 0.86,
+     "p95_ms": 3.436,
+     "n": 326
+    },
+    "onnx": {
+     "mean_ms": 1.46,
+     "p95_ms": 1.884,
+     "n": 326
+    },
+    "sigma": {
+     "mean_ms": 0.4,
+     "p95_ms": 0.866,
+     "n": 326
+    },
+    "fusion": {
+     "mean_ms": 0.025,
+     "p95_ms": 0.03,
+     "n": 326
+    }
+   },
+   "batch32": {
+    "total": {
+     "mean_ms": 2.123,
+     "p95_ms": 3.059,
+     "n": 33
+    },
+    "featurize": {
+     "mean_ms": 0.779,
+     "p95_ms": 1.414,
+     "n": 33
+    },
+    "onnx": {
+     "mean_ms": 0.955,
+     "p95_ms": 1.025,
+     "n": 33
+    },
+    "sigma": {
+     "mean_ms": 0.372,
+     "p95_ms": 0.666,
+     "n": 33
+    },
+    "fusion": {
+     "mean_ms": 0.003,
+     "p95_ms": 0.005,
+     "n": 33
+    }
+   },
+   "n_windows": 326,
+   "host": {
+    "cpu": "Intel64 Family 6 Model 158 Stepping 13, GenuineIntel",
+    "onnxruntime": "1.31.0",
+    "onnx_threads": 1
+   },
+   "note": "ms/cua so; batch 32: thoi gian mot lo / so cua so trong lo; cache hash dong lenh xoa truoc moi luot"
+  }
+ },
+ "acceptance": [
+  {
+   "id": 1,
+   "criterion": "Checksum dataset khop; fusion hoc/chon chi tren OOF; khong dung rules_train.jsonl",
+   "pass": true,
+   "evidence": "check_dataset True; test_fuse 1a-1c (khong doc rules_train / preds test) True; OOF AI = TB 5 seed True; F4 CV long True"
+  },
+  {
+   "id": 2,
+   "criterion": "final_fusion.json commit truoc khi chay test",
+   "pass": true,
+   "evidence": "commit 3fd9531 co final_fusion.json True, chua co ket qua test True, la to tien cua commit ket qua test bdf2adc True; final_fusion.json khong doi tu luc khoa True"
+  },
+  {
+   "id": 3,
+   "criterion": "Bang test du F0-F4; paired bootstrap + Holm",
+   "pass": true,
+   "evidence": "eval F0, F0', F1, F2, F3-B, F4-B True; Holm 6 so sanh True"
+  },
+  {
+   "id": 4,
+   "criterion": "alerts_<split>.jsonl du schema; co ti le canh bao duoc luat giai thich",
+   "pass": true,
+   "evidence": "101 canh bao, du truong muc 6 True; co luat 75%"
+  },
+  {
+   "id": 5,
+   "criterion": "infer.py trung ket qua cham (0 lech) va co do tre",
+   "pass": true,
+   "evidence": "0 lech quyet dinh tren 3 tap True; do tre batch 1 2.773 ms, batch 32 2.123 ms / cua so"
+  },
+  {
+   "id": 6,
+   "criterion": "reports/preds/fusion_<split>.jsonl cung dinh dang chung",
+   "pass": true,
+   "evidence": "fusion_{train (OOF), t_clean, t_hard, t_novel}.jsonl; khoa ban ghi trung Buoc 5"
+  }
+ ]
+}

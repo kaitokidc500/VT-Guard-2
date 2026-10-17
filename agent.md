@@ -55,7 +55,7 @@ VT-Guard/  (= vt-guard-research/)
 | 5 | Khung đánh giá (`src/eval/`), baseline B0–B3 (`src/baselines/`) + ablation; tổng hợp `reports/step5_report.md` (tag `step5-done`) | `src/eval/`, `src/baselines/`, `reports/` | Hoàn thành |
 | 6 | VT-Seq (GRU-Attention đa nhiệm) + ablation; `reports/step6_report.md` (tag `step6-done`); triển khai = VT-Seq-ens (M3, 5 seed) | `src/models/`, `notebooks/`, `reports/step6/` | Hoàn thành |
 | 7 | Auto Rule Engine: 11 luật tự sinh (RIPPER, chỉ Train) → Sigma `rules/sigma/`; `reports/step7_report.md` (tag `step7-done`) | `src/rules/`, `rules/sigma/` | Hoàn thành |
-| 8 | Fusion | `src/fusion/` | Chưa bắt đầu |
+| 8 | Hybrid Fusion F3-B (AI + luật xác nhận) + pipeline suy luận `src/pipeline/infer.py`; `reports/step8_report.md` (tag `step8-done`) | `src/fusion/`, `src/pipeline/` | Hoàn thành |
 | — | Bằng chứng hạ tầng | `evidence/` | Chưa bắt đầu |
 | — | Báo cáo (song song) | `reports/` | Chưa bắt đầu |
 
@@ -226,6 +226,18 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - OOF cho Bước 8 (`oof.py`): chạy lại quy trình trên 4/5 Train mỗi fold → `reports/preds/rules_oof_train.jsonl` (G3 xấp xỉ).
 - Tiêu chí chấp nhận mục 8: 6/6 đạt; `test_induce.py` 15/15.
 
+### Bước 8 (Hybrid Fusion) — 2026-10-17
+- `src/fusion/fuse.py` F0–F4, học/chọn CHỈ trên OOF (AI: `vtseq_M3_ens_train.jsonl` = TB OOF 5 seed M3; luật: `rules_oof_train.jsonl`;
+  KHÔNG `rules_train.jsonl`); F4 CV lồng theo nhóm; ngưỡng FPR ≤ 1% OOF. `test_fuse.py` 13/13.
+- Biến thể A (mọi r_k) thắng OOF nhờ kênh T1016 chỉ có trong luật fold → khoá **biến thể B** (r_k chỉ T1018/T1654/T1003.003 —
+  sự kiện cấu trúc từ Train: bộ luật cuối chỉ có luật cho 3 TTP này), **F3 β=0,1** ở `reports/step8/final_fusion.json` (commit 3fd9531, trước test).
+- Test (một lần): F3-B hơn chỉ-luật có ý nghĩa sau Holm (macro-F1 TTP +0,40, PR-AUC +0,15); không kém chỉ-AI (biên 0), không hơn;
+  F0' = F0 → khác biệt do luật (PR-AUC 0,986→0,998, T1018). Giảm FPR ở OOF không lặp lại trên test (hoà ngưỡng).
+- Pipeline `src/pipeline/infer.py` (featurize → ONNX ens → Sigma → F3-B → alerts): trùng 0 lệch; ~2,1–2,7 ms/cửa sổ CPU 1 thread.
+  75% cảnh báo có luật giải thích; `both` 76/76 đúng, `ai` 20/25 (mô tả). Không cảnh báo chỉ-do-luật.
+- Đính chính Bước 7: VTR-T1654-01 khớp 1 cửa sổ T-novel lành tính (auditpol) — tag mới `step7-done-r1` (giữ `step7-done`).
+- Tiêu chí chấp nhận mục 9: 6/6 đạt.
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
 - [x] Bước 5 mốc C: FPR phân tầng theo độ dài + Spearman điểm–độ dài trong evaluate.py.
@@ -233,9 +245,8 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
       tổng hợp `reports/step5_report.md` + `reports/step5_results.json`; preds ở `reports/preds/` (giữ cho Bước 8). Tag `step5-done`.
 - [x] Bước 6: VT-Seq + ablation, `reports/step6_report.md`, tag `step6-done`.
 - [x] Bước 7: Auto Rule Engine, `reports/step7_report.md`, tag `step7-done`.
-- [ ] Bước 8: fusion VT-Seq-ens (`reports/preds/vtseq_M3_ens_*`) + chỉ-luật, cùng evaluate.py. Học fusion CHỈ bằng OOF:
-      `reports/preds/vtseq_M3_ens_train.jsonl` (OOF) + `reports/preds/rules_oof_train.jsonl` (OOF theo fold). KHÔNG dùng
-      `rules_train.jsonl` (in-sample). T1016/T1087.002 không có luật theo TTP → dựa vào AI.
+- [x] Bước 8: Hybrid Fusion F3-B, `reports/step8_report.md`, tag `step8-done`.
+- [ ] Dashboard (đọc `reports/step8/alerts_<split>.jsonl`: cảnh báo, decision_source, luật khớp, attention) và báo cáo cuối (hạn 01/11/2026).
 - [ ] Kiểm soát độ dài chưa vững ở từng seed (crop) — cân nhắc ở bước sau nếu cần.
 - [ ] `.onnx`/`.pt` không vào git: bản gốc ở Drive `step6_m3_44f8948d.zip`; tái tạo ONNX: `python src/models/step6_explain.py onnx`.
 - [ ] #9 đạt sát ngưỡng (cmd.exe 15.1%) — nếu thu thêm dữ liệu: phiên benign gọi tool qua `cmd.exe /c`
