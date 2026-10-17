@@ -1,0 +1,36 @@
+# VT-Guard dashboard (Buoc 9): giao dien toi kieu SOC/SIEM, chay offline.
+# Streamlit doc file nay tu thu muc lam viec hien tai -> chay `streamlit run dashboard/app.py` tu goc repo (= VTGUARD_HOME).
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+
+[theme]
+base = "dark"
+primaryColor = "#3d8bfd"
+backgroundColor = "#0b1120"
+secondaryBackgroundColor = "#131c2e"
+textColor = "#d8e0ee"
+borderColor = "#24314a"
+dataframeBorderColor = "#24314a"
+dataframeHeaderBackgroundColor = "#172238"
+showWidgetBorder = true
+baseRadius = "6px"
+baseFontSize = 14
+redColor = "#f05252"
+orangeColor = "#f5a524"
+yellowColor = "#facc15"
+greenColor = "#22c55e"
+blueColor = "#3d8bfd"
+violetColor = "#a78bfa"
+codeBackgroundColor = "#0e1626"
+chartCategoricalColors = ["#3d8bfd", "#f5a524", "#22c55e", "#a78bfa", "#f05252", "#2dd4bf"]
+
+[theme.sidebar]
+backgroundColor = "#0e1626"
+secondaryBackgroundColor = "#131c2e"
