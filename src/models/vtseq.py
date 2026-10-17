@@ -428,3 +428,99 @@ def run_oof_experiment(cfg, data, vocab, seed, outdir, root=".", device="cpu", m
     with open(os.path.join(outdir, "logs", f"{cfg.name}_s{seed}.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(rec, f, indent=1)
     return rec
+
+# ---------------- moc 3: fit cuoi, du doan test MOT lan, phat hien som, ensemble ----------------
+TEST_SPLITS = ("t_clean", "t_hard", "t_novel")
+EARLY_KS = (4, 8, 16, 32)
+# Ablation dac trung cho VT-Seq cuoi (M3): mat na ap CA khi train va khi test (nhu Buoc 5); (b) = M4b
+PRESETS["M3c"] = replace(PRESETS["M3"], name="M3c", mask="c")
+PRESETS["M3cp"] = replace(PRESETS["M3"], name="M3cp", mask="cp")
+
+def chosen_score(P_bin, P_ttp, which):
+    return P_bin if which == "p_bin" else np.maximum(P_bin, P_ttp.max(1))
+
+def read_jsonl(path): return [json.loads(l) for l in open(path, encoding="utf-8")]
+
+def early_inputs(w, cfg, k):
+    """Cua so duong cat con k event tu event malicious dau tien (origin aux, nhu evaluate.early_starts), roi ap mat na
+    ablation tren doan da cat (nhu B1/B3)."""
+    i0 = w.first_own(); keep = set(w.base_idx(cfg.mask).tolist())
+    return [i for i in range(i0, min(i0 + k, len(w))) if i in keep]
+
+def early_raw(nets, data, cfg, device="cpu"):
+    rows = []
+    for s in ("t_clean", "t_novel"):
+        pos = [w for w in data[s] if w.y_bin]
+        for k in EARLY_KS:
+            m = {w.wid: early_inputs(w, cfg, k) for w in pos}
+            pb, pt, _ = predict(nets, pos, cfg, device, idx_fn=lambda w: m[w.wid])
+            rows += [{"split": s, "k": k, "window_id": w.wid, "p_bin": float(pb[i]), "p_ttp": [float(x) for x in pt[i]]}
+                     for i, w in enumerate(pos)]
+    return rows
+
+def raw_rows(ws, split, pb, pt):
+    return [{"window_id": w.wid, "split": split, "p_bin": round(float(pb[i]), 7), "p_ttp": [round(float(x), 7) for x in pt[i]]}
+            for i, w in enumerate(ws)]
+
+def write_model_outputs(outdir, model, data, raw, early, sel, root="."):
+    """raw: {split: (P_bin, P_ttp)} (train = OOF); early: list hang early_raw. Ghi preds dinh dang Buoc 5
+    (<outdir>/reports/preds/<model>_<split>.jsonl, p_malicious = diem nhi phan da chon tren OOF), early da chon
+    (<outdir>/early/<model>.json) va nguong (<outdir>/sel/<model>.json)."""
+    from evaluate import load_meta, write_preds
+    for s, (pb, pt) in raw.items():
+        meta = load_meta(root, s); assert [m["window_id"] for m in meta] == [w.wid for w in data[s]]
+        sc = chosen_score(pb, pt, sel["binary_score"])
+        write_preds(outdir, model, s, meta, {w.wid: {"p": float(sc[i]), "p_ttp": {t: float(pt[i, j]) for j, t in enumerate(TTPS)}}
+                                            for i, w in enumerate(data[s])})
+    ech = {}
+    for r in early:
+        v = r["p_bin"] if sel["binary_score"] == "p_bin" else max(r["p_bin"], max(r["p_ttp"]))
+        ech.setdefault(r["split"], {}).setdefault(str(r["k"]), {})[r["window_id"]] = v
+    for d, obj in (("early", ech), ("sel", sel)):
+        os.makedirs(os.path.join(outdir, d), exist_ok=True)
+        with open(os.path.join(outdir, d, f"{model}.json"), "w", encoding="utf-8", newline="\n") as f: json.dump(obj, f, indent=1)
+
+def run_final(cfg, data, vocab, seed, outdir, root=".", device="cpu", oof_dir=None, max_batches=None):
+    """OOF (lay tu oof_dir/moc 2 neu co, neu khong chay CV) -> nguong tu OOF -> fit toan Train (so epoch = trung vi fold)
+    -> du doan t_clean/t_hard/t_novel MOT lan + phat hien som. Ghi raw/, reports/preds/, early/, sel/, ckpt/."""
+    model = f"vtseq_{cfg.name}_s{seed}"; t0 = time.time(); tr = data["train"]
+    lp = None if oof_dir is None else os.path.join(oof_dir, "logs", f"{cfg.name}_s{seed}.json")
+    if lp is not None and os.path.exists(lp):
+        log = json.load(open(lp, encoding="utf-8")); oof_path = os.path.join(oof_dir, "oof", f"{cfg.name}_s{seed}.jsonl"); src = oof_dir
+    else:
+        log = run_oof_experiment(cfg, data, vocab, seed, outdir, root, device, max_batches)
+        oof_path = os.path.join(outdir, "oof", f"{cfg.name}_s{seed}.jsonl"); src = "chay CV tai moc 3"
+    assert log["config"] == asdict(cfg), f"{model}: cau hinh khac log OOF"
+    oof = {r["window_id"]: r for r in read_jsonl(oof_path)}
+    P_bin = np.array([oof[w.wid]["p_malicious"] for w in tr]); P_ttp = np.array([[oof[w.wid]["p_ttp"][t] for t in TTPS] for w in tr])
+    sel = log["selection"]                                          # nguong khoa tu OOF (xac suat day du)
+    chk = choose_on_oof(tr, P_bin, P_ttp, cfg)                      # tinh lai tu file OOF (lam tron 6 so) phai khop
+    assert chk["binary_score"] == sel["binary_score"] and abs(chk["binary"] - sel["binary"]) < 1e-5, (model, chk["binary"], sel["binary"])
+    nets, info = fit_nets(cfg, vocab_sizes(vocab), tr, None, log["final_epochs"], seed, 0, device, max_batches)
+    raw = {"train": (P_bin, P_ttp)}
+    for s in TEST_SPLITS:
+        pb, pt, _ = predict(nets, data[s], cfg, device); raw[s] = (pb, pt)
+    er = early_raw(nets, data, cfg, device)
+    for s, (pb, pt) in raw.items(): write_jsonl(os.path.join(outdir, "raw", f"{model}_{s}.jsonl"), raw_rows(data[s], s, pb, pt))
+    write_jsonl(os.path.join(outdir, "raw", f"{model}_early.jsonl"), er)
+    write_model_outputs(outdir, model, data, raw, er, {**sel, "oof_source": src, "final_epochs": log["final_epochs"]}, root)
+    save_nets(os.path.join(outdir, "ckpt", f"{model}.pt"), nets, cfg, vocab_sizes(vocab), {"seed": seed, "final_epochs": log["final_epochs"]})
+    return {"model": model, "final_epochs": log["final_epochs"], "binary_score": sel["binary_score"], "thr": sel["binary"],
+            "oof_source": src, "minutes": round((time.time() - t0) / 60, 2)}
+
+def build_ensemble(cfg_name, seeds, outdir, data, root="."):
+    """VT-Seq-ens: trung binh xac suat (p_bin, p_ttp) cac seed - ca OOF (train), test va early; nguong + p_bin/p_bin'
+    chon lai tren OOF trung binh (cung quy tac 4.3)."""
+    model = f"vtseq_{cfg_name}_ens"; raw = {}
+    for s in ("train",) + TEST_SPLITS:
+        R = [read_jsonl(os.path.join(outdir, "raw", f"vtseq_{cfg_name}_s{sd}_{s}.jsonl")) for sd in seeds]
+        assert all([r["window_id"] for r in x] == [w.wid for w in data[s]] for x in R)
+        raw[s] = (np.mean([[r["p_bin"] for r in x] for x in R], 0), np.mean([[r["p_ttp"] for r in x] for x in R], 0))
+    E = [read_jsonl(os.path.join(outdir, "raw", f"vtseq_{cfg_name}_s{sd}_early.jsonl")) for sd in seeds]
+    early = [{**E[0][i], "p_bin": float(np.mean([e[i]["p_bin"] for e in E])), "p_ttp": list(np.mean([e[i]["p_ttp"] for e in E], 0))}
+             for i in range(len(E[0]))]
+    assert all((e[i]["window_id"], e[i]["k"]) == (early[i]["window_id"], early[i]["k"]) for e in E for i in range(len(early)))
+    sel = choose_on_oof(data["train"], raw["train"][0], raw["train"][1], PRESETS[cfg_name])
+    for s, (pb, pt) in raw.items(): write_jsonl(os.path.join(outdir, "raw", f"{model}_{s}.jsonl"), raw_rows(data[s], s, pb, pt))
+    write_model_outputs(outdir, model, data, raw, early, {**sel, "members": [f"vtseq_{cfg_name}_s{sd}" for sd in seeds]}, root)
+    return {"model": model, "binary_score": sel["binary_score"], "thr": sel["binary"], "oof_pr_auc": sel["oof_pr_auc"]}

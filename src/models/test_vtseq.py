@@ -191,6 +191,39 @@ def main():
     x1 = V.train_sample(wt, V.PRESETS["M4"], np.random.default_rng(9)); x2 = V.train_sample(wt2, V.PRESETS["M4"], np.random.default_rng(9))
     check("11e Train: doi nhan event -> dau vao giong het, chi nhan doan doi (nhan chi la target)",
           all(np.array_equal(a_, b_) for a_, b_ in zip(x1[0], x2[0])) and (x1[1] != x2[1] or not np.array_equal(x1[2], x2[2])))
+    # ---- 12. moc 3: phat hien som, run_final, ensemble ----
+    wn = [w_ for w_ in data["t_novel"] if w_.y_bin]
+    ok_a = all((lambda ix: ix[0] == w_.first_own() and len(ix) == min(k, len(w_) - w_.first_own()))(V.early_inputs(w_, V.PRESETS["M3"], k))
+               for w_ in wn for k in V.EARLY_KS)
+    ok_c = all(all(w_.origin[i] for i in V.early_inputs(w_, V.PRESETS["M3c"], k)) for w_ in wn for k in V.EARLY_KS)
+    check("12a early_inputs: bat dau o event malicious dau tien, dai min(k, con lai); mat na (c) chi giu event cay", ok_a and ok_c)
+    with tempfile.TemporaryDirectory() as d:
+        m2 = os.path.join(ROOT, "reports", "step6", "m2"); recs = []
+        for sd in (1337, 7):
+            recs.append(V.run_final(V.PRESETS["M3"], data, vocab, sd, d, root=ROOT, oof_dir=m2, max_batches=1))
+        cnt = {s_: sum(1 for _ in open(os.path.join(d, "reports", "preds", f"vtseq_M3_s1337_{s_}.jsonl"))) for s_ in V.SPLITS}
+        er = json.load(open(os.path.join(d, "early", "vtseq_M3_s1337.json")))
+        npos = {s_: sum(w_.y_bin > 0 for w_ in data[s_]) for s_ in ("t_clean", "t_novel")}
+        check("12b run_final (OOF moc 2, nguong tu log): preds 4 tap du cua so, early du k x cua so duong",
+              cnt == {s_: len(data[s_]) for s_ in V.SPLITS} and all(len(er[s_][str(k)]) == npos[s_] for s_ in npos for k in V.EARLY_KS),
+              f"{cnt}, epoch cuoi {[r_['final_epochs'] for r_ in recs]}, oof tu {os.path.basename(recs[0]['oof_source'])}")
+        sel = json.load(open(os.path.join(d, "sel", "vtseq_M3_s1337.json")))
+        lg = json.load(open(os.path.join(m2, "logs", "M3_s1337.json")))
+        check("12c nguong preds = nguong log OOF moc 2", sel["binary"] == lg["selection"]["binary"] and sel["binary_score"] == lg["selection"]["binary_score"])
+        tr_p = {json.loads(l)["window_id"]: json.loads(l)["p_malicious"] for l in open(os.path.join(d, "reports", "preds", "vtseq_M3_s1337_train.jsonl"))}
+        oo = {json.loads(l)["window_id"]: json.loads(l) for l in open(os.path.join(m2, "oof", "M3_s1337.jsonl"))}
+        sc = lambda r_: r_["p_malicious"] if sel["binary_score"] == "p_bin" else max(r_["p_malicious"], max(r_["p_ttp"].values()))
+        check("12d preds train = OOF (diem da chon), khong phai du doan cua mo hinh cuoi", all(abs(tr_p[k_] - sc(oo[k_])) < 1e-6 for k_ in tr_p))
+        ens = V.build_ensemble("M3", (1337, 7), d, data, root=ROOT)
+        r1 = V.read_jsonl(os.path.join(d, "raw", "vtseq_M3_s1337_t_novel.jsonl")); r2 = V.read_jsonl(os.path.join(d, "raw", "vtseq_M3_s7_t_novel.jsonl"))
+        re_ = V.read_jsonl(os.path.join(d, "raw", "vtseq_M3_ens_t_novel.jsonl"))
+        check("12e ensemble = trung binh xac suat seed; nguong chon lai tren OOF trung binh",
+              all(abs(e_["p_bin"] - (a_["p_bin"] + b_["p_bin"]) / 2) < 1e-6 for e_, a_, b_ in zip(re_, r1, r2))
+              and os.path.exists(os.path.join(d, "reports", "preds", "vtseq_M3_ens_t_hard.jsonl")), f"{ens}")
+        nets3, cfg3, _ = V.load_nets(os.path.join(d, "ckpt", "vtseq_M3_s1337.pt"))
+        pbk, _, _ = V.predict(nets3, data["t_hard"], cfg3)
+        rh = V.read_jsonl(os.path.join(d, "raw", "vtseq_M3_s1337_t_hard.jsonl"))
+        check("12f checkpoint nap lai cho dung du doan raw da ghi", np.allclose(pbk, [r_["p_bin"] for r_ in rh], atol=1e-6))
     # ---- 10. tat dinh ----
     sd = []
     for _ in range(2):
