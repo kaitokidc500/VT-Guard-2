@@ -1,0 +1,233 @@
+{
+ "VTR-BIN-01": {
+  "target": "bin",
+  "file": "VTR-BIN-01.yml",
+  "train": {
+   "tp": 35,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 7,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 21,
+   "fp": 0
+  }
+ },
+ "VTR-BIN-02": {
+  "target": "bin",
+  "file": "VTR-BIN-02.yml",
+  "train": {
+   "tp": 26,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 8,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 6,
+   "fp": 0
+  }
+ },
+ "VTR-BIN-03": {
+  "target": "bin",
+  "file": "VTR-BIN-03.yml",
+  "train": {
+   "tp": 25,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 5,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 8,
+   "fp": 0
+  }
+ },
+ "VTR-BIN-04": {
+  "target": "bin",
+  "file": "VTR-BIN-04.yml",
+  "train": {
+   "tp": 19,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 10,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 9,
+   "fp": 0
+  }
+ },
+ "VTR-BIN-05": {
+  "target": "bin",
+  "file": "VTR-BIN-05.yml",
+  "train": {
+   "tp": 18,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 2,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 6,
+   "fp": 0
+  }
+ },
+ "VTR-BIN-06": {
+  "target": "bin",
+  "file": "VTR-BIN-06.yml",
+  "train": {
+   "tp": 17,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 3,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 2,
+   "fp": 0
+  }
+ },
+ "VTR-T1003003-01": {
+  "target": "T1003.003",
+  "file": "VTR-T1003003-01.yml",
+  "train": {
+   "tp": 26,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 8,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 6,
+   "fp": 0
+  }
+ },
+ "VTR-T1018-01": {
+  "target": "T1018",
+  "file": "VTR-T1018-01.yml",
+  "train": {
+   "tp": 17,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 3,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 2,
+   "fp": 0
+  }
+ },
+ "VTR-T1018-02": {
+  "target": "T1018",
+  "file": "VTR-T1018-02.yml",
+  "train": {
+   "tp": 10,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 5,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 9,
+   "fp": 0
+  }
+ },
+ "VTR-T1654-01": {
+  "target": "T1654",
+  "file": "VTR-T1654-01.yml",
+  "train": {
+   "tp": 25,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 3,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 0,
+   "fp": 2
+  }
+ },
+ "VTR-T1654-02": {
+  "target": "T1654",
+  "file": "VTR-T1654-02.yml",
+  "train": {
+   "tp": 25,
+   "fp": 0
+  },
+  "t_clean": {
+   "tp": 5,
+   "fp": 0
+  },
+  "t_hard": {
+   "tp": 0,
+   "fp": 0
+  },
+  "t_hard_fp_by_signature": {},
+  "t_novel": {
+   "tp": 8,
+   "fp": 0
+  }
+ }
+}

@@ -1,0 +1,38 @@
+title: 'VT-Guard VTR-BIN-04: cmd~''.findall'''
+id: f473d6fb-ba8f-56f6-8259-526d686cca84
+status: experimental
+description: 'VT-Guard auto-induced rule VTR-BIN-04 (RIPPER on Train, dataset-v1.2). Target: bin (T1087.002). Train support 19 windows (precision 1.0), OOF precision 1.0 on 15 windows. Predicate: cmd~''.findall''.'
+author: VT-Guard auto rule engine
+date: 2026-10-17
+tags:
+    - attack.discovery
+    - attack.t1087.002
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|re: '(?i)(^|[^a-z0-9_.<>/\\-])\.findall($|[^a-z0-9_.<>/\\-]|\\")'
+    condition: selection
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Computer
+falsepositives:
+    - Administrative scripts running the same discovery / maintenance commands (see T-hard evaluation)
+level: medium
+vtguard_provenance:
+    rule_id: VTR-BIN-04
+    target: 'bin'
+    provenance_file: 'reports/step7/rules_provenance.json'
+    dataset: dataset-v1.2
+    induced_from: Train only (483 windows)
+    engine: 'wittgenstein RIPPER (k=2, prune_size 0.33)'
+    train_support: 19
+    train_precision: 1.0
+    oof_precision: 1.0
+    oof_windows: 15
+    folds_rediscovered: 4
+    window_semantics: 'fires on a window (<= 64 events of one session) if every predicate matches >= 1 event'

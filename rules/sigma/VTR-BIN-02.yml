@@ -1,0 +1,38 @@
+title: 'VT-Guard VTR-BIN-02: cmd~''create'''
+id: 8ae98297-a373-597e-ae84-b6bf9f275763
+status: experimental
+description: 'VT-Guard auto-induced rule VTR-BIN-02 (RIPPER on Train, dataset-v1.2). Target: bin (T1003.003). Train support 26 windows (precision 1.0), OOF precision 1.0 on 18 windows. Predicate: cmd~''create''.'
+author: VT-Guard auto rule engine
+date: 2026-10-17
+tags:
+    - attack.credential-access
+    - attack.t1003.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|re: '(?i)(^|[^a-z0-9_.<>/\\-])create($|[^a-z0-9_.<>/\\-]|\\")'
+    condition: selection
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Computer
+falsepositives:
+    - Administrative scripts running the same discovery / maintenance commands (see T-hard evaluation)
+level: medium
+vtguard_provenance:
+    rule_id: VTR-BIN-02
+    target: 'bin'
+    provenance_file: 'reports/step7/rules_provenance.json'
+    dataset: dataset-v1.2
+    induced_from: Train only (483 windows)
+    engine: 'wittgenstein RIPPER (k=2, prune_size 0.33)'
+    train_support: 26
+    train_precision: 1.0
+    oof_precision: 1.0
+    oof_windows: 18
+    folds_rediscovered: 4
+    window_semantics: 'fires on a window (<= 64 events of one session) if every predicate matches >= 1 event'

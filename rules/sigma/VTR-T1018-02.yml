@@ -1,0 +1,88 @@
+title: 'VT-Guard VTR-T1018-02 part 1: image=nltest.exe'
+id: c5d78426-9be7-5d9b-b7df-5301195add9f
+name: vtguard_vtr_t1018_02_p1
+status: experimental
+description: 'Sub-rule of correlation VTR-T1018-02: predicate image=nltest.exe. VT-Guard auto-induced rule VTR-T1018-02 (RIPPER on Train, dataset-v1.2). Target: T1018 (T1018). Train support 10 windows (precision 1.0), OOF precision 1.0 on 10 windows. Predicate: image=nltest.exe AND cmd~''userdnsdomain''.'
+author: VT-Guard auto rule engine
+date: 2026-10-17
+tags:
+    - attack.discovery
+    - attack.t1018
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\nltest.exe'
+    condition: selection
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Computer
+falsepositives:
+    - Administrative scripts running the same discovery / maintenance commands (see T-hard evaluation)
+level: high
+---
+title: 'VT-Guard VTR-T1018-02 part 2: cmd~userdnsdomain'
+id: 282a9672-685c-5d51-a502-61fd93624be1
+name: vtguard_vtr_t1018_02_p2
+status: experimental
+description: 'Sub-rule of correlation VTR-T1018-02: predicate cmd~userdnsdomain. VT-Guard auto-induced rule VTR-T1018-02 (RIPPER on Train, dataset-v1.2). Target: T1018 (T1018). Train support 10 windows (precision 1.0), OOF precision 1.0 on 10 windows. Predicate: image=nltest.exe AND cmd~''userdnsdomain''.'
+author: VT-Guard auto rule engine
+date: 2026-10-17
+tags:
+    - attack.discovery
+    - attack.t1018
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|re: '(?i)(^|[^a-z0-9_.<>/\\-])userdnsdomain($|[^a-z0-9_.<>/\\-]|\\")'
+    condition: selection
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Computer
+falsepositives:
+    - Administrative scripts running the same discovery / maintenance commands (see T-hard evaluation)
+level: high
+---
+title: 'VT-Guard VTR-T1018-02: image=nltest.exe AND cmd~''userdnsdomain'''
+id: ff9b1a09-3f41-560d-be80-3e4675034712
+status: experimental
+description: 'VT-Guard auto-induced rule VTR-T1018-02: all predicates within one session window (temporal correlation). Train: on 10/10 matched windows the two events are <= 0.07 s apart.'
+author: VT-Guard auto rule engine
+date: 2026-10-17
+tags:
+    - attack.discovery
+    - attack.t1018
+correlation:
+    type: temporal
+    rules:
+        - vtguard_vtr_t1018_02_p1
+        - vtguard_vtr_t1018_02_p2
+    group-by:
+        - Computer
+    timespan: 1m
+falsepositives:
+    - Administrative scripts running the same discovery commands
+level: high
+vtguard_provenance:
+    rule_id: VTR-T1018-02
+    target: 'T1018'
+    provenance_file: 'reports/step7/rules_provenance.json'
+    dataset: dataset-v1.2
+    induced_from: Train only (483 windows)
+    engine: 'wittgenstein RIPPER (k=2, prune_size 0.33)'
+    train_support: 10
+    train_precision: 1.0
+    oof_precision: 1.0
+    oof_windows: 10
+    folds_rediscovered: 4
+    window_semantics: 'fires on a window (<= 64 events of one session) if every predicate matches >= 1 event'
+    timespan_note: '1m (Train gap <= 0.07 s)'

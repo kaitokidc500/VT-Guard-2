@@ -1,0 +1,60 @@
+{
+ "tool": "pySigma 2.0.1 (SigmaCollection + 31 validator mac dinh)",
+ "files": {
+  "VTR-BIN-01.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-BIN-02.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-BIN-03.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-BIN-04.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-BIN-05.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-BIN-06.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-T1018-01.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-T1018-02.yml": {
+   "n_documents": 3,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-T1654-01.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-T1654-02.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  },
+  "VTR-T1003003-01.yml": {
+   "n_documents": 1,
+   "errors": [],
+   "validator_issues": {}
+  }
+ }
+}

@@ -1,0 +1,41 @@
+title: 'VT-Guard VTR-BIN-01: cmd~''userdnsdomain'''
+id: 61f5b0cc-c361-5b49-a2f4-43fb7345ccfe
+status: experimental
+description: 'VT-Guard auto-induced rule VTR-BIN-01 (RIPPER on Train, dataset-v1.2). Target: bin (T1016, T1018, T1087.002, T1654). Train support 35 windows (precision 1.0), OOF precision 1.0 on 24 windows. Predicate: cmd~''userdnsdomain''.'
+author: VT-Guard auto rule engine
+date: 2026-10-17
+tags:
+    - attack.discovery
+    - attack.t1016
+    - attack.t1018
+    - attack.t1087.002
+    - attack.t1654
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|re: '(?i)(^|[^a-z0-9_.<>/\\-])userdnsdomain($|[^a-z0-9_.<>/\\-]|\\")'
+    condition: selection
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Computer
+falsepositives:
+    - Administrative scripts running the same discovery / maintenance commands (see T-hard evaluation)
+level: medium
+vtguard_provenance:
+    rule_id: VTR-BIN-01
+    target: 'bin'
+    provenance_file: 'reports/step7/rules_provenance.json'
+    dataset: dataset-v1.2
+    induced_from: Train only (483 windows)
+    engine: 'wittgenstein RIPPER (k=2, prune_size 0.33)'
+    train_support: 35
+    train_precision: 1.0
+    oof_precision: 1.0
+    oof_windows: 24
+    folds_rediscovered: 4
+    window_semantics: 'fires on a window (<= 64 events of one session) if every predicate matches >= 1 event'
