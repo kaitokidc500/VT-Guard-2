@@ -205,8 +205,9 @@ def build(root="."):
          "Mo hinh CUOI cua moi luot fit lai voi so epoch = trung vi cac fold (18-49, deu duoi tran), nen anh huong nho; Buoc 6 nang "
          "tran 100, patience 10.",
          "- **T1003.003 test nho (6 phien T-novel, 12 cua so T-clean)**: moi chi so T1003 bao kem khoang tin cay / theo phien.",
-         "- **Coverage gap (gioi han sinh du lieu, khong phai mo hinh).** `route.exe`/`netstat.exe` chi o phia am; mot so hoat "
-         "dong Domain Admins chi o phia duong. Da do bang ablation va bao trong dataset card muc 5b/7a.",
+         "- **Coverage gap (gioi han sinh du lieu, khong phai mo hinh).** `route.exe`/`netstat.exe` va truy van \"Domain Admins\" "
+         "chi xuat hien o phia AM (kich ban benign/hard-negative; attack khong dung) -> duong tat nguoc: mo hinh co the hoc "
+         "\"thay route/netstat = lanh tinh\". Da do bang ablation va bao trong dataset card muc 5b/7a.",
          "- **Loi trung PID khi loai orchestrator** (labeler): 7 tien trinh / 23 event (gom ntdsutil malicious) co the bi loai/giu "
          "sai do PID bi tai su dung sau khoi phuc snapshot. Ghi trong dataset card muc 9.",
          "- **Ro ri da phat hien va xu ly:** dau vet bo sinh (duong dan cmd, `conhost.exe`, launcher cha, duoi `.exe`) trung hoa o "

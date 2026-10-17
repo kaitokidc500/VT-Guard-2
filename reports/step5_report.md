@@ -1,6 +1,6 @@
 # VT-Guard - Bao cao Buoc 5 (baseline B0-B3 tren dataset-v1.2)
 
-Sinh tu dong boi `src/baselines/step5_report.py` luc 2026-10-17T00:52:38+07:00. So lieu: `reports/step5_results.json`, chi tiet moi mo hinh: `reports/step5/<model>.json`, du doan: `reports/preds/<model>_<split>.jsonl` (giu cho Buoc 8 fusion).
+Sinh tu dong boi `src/baselines/step5_report.py` luc 2026-10-17T08:56:32+07:00. So lieu: `reports/step5_results.json`, chi tiet moi mo hinh: `reports/step5/<model>.json`, du doan: `reports/preds/<model>_<split>.jsonl` (giu cho Buoc 8 fusion).
 
 Dataset `dataset-v1.2` dong bang (809 cua so; Train 483 / T-clean 89 / T-hard 88 / T-novel 149; 272 duong). Khung danh gia `src/eval/evaluate.py`: nguong chon tren Train OOF (CV theo nhom chong thoi gian) roi KHOA, ap nguyen cho 3 tap test; CI bootstrap 95% (1000 lan, seed 1337). T-clean = tool cung ho tro da thay; T-hard = hard-negative (hoat dong quan tri lanh tinh, 0 duong); T-novel = batch05 + ntds2v (bien the/cong cu chua thay khi train).
 
@@ -108,7 +108,7 @@ T-hard: 88 cua so, 0 duong. 'du64/ngan' = so FP o cua so du 64 event / cua so ng
 - **Nguong B3 khong on dinh giua seed.** Nguong nhi phan khoa dao dong 0.51-0.95 giua 3 seed, keo theo phat hien som T1003 o k nho lech manh (vd (a): seed 1337/42 bat 6/6 tu k=4, seed 7 bat 0 toi k=16). Can bao trung binh +- do lech chuan, khong dua vao 1 seed.
 - **Tran epoch.** B3 gioi han 60 epoch/fold; 3/120 fold CV cham tran (a_s7, a_s42 o dau TTP; c_s1337 o dau nhi phan). Mo hinh CUOI cua moi luot fit lai voi so epoch = trung vi cac fold (18-49, deu duoi tran), nen anh huong nho; Buoc 6 nang tran 100, patience 10.
 - **T1003.003 test nho (6 phien T-novel, 12 cua so T-clean)**: moi chi so T1003 bao kem khoang tin cay / theo phien.
-- **Coverage gap (gioi han sinh du lieu, khong phai mo hinh).** `route.exe`/`netstat.exe` chi o phia am; mot so hoat dong Domain Admins chi o phia duong. Da do bang ablation va bao trong dataset card muc 5b/7a.
+- **Coverage gap (gioi han sinh du lieu, khong phai mo hinh).** `route.exe`/`netstat.exe` va truy van "Domain Admins" chi xuat hien o phia AM (kich ban benign/hard-negative; attack khong dung) -> duong tat nguoc: mo hinh co the hoc "thay route/netstat = lanh tinh". Da do bang ablation va bao trong dataset card muc 5b/7a.
 - **Loi trung PID khi loai orchestrator** (labeler): 7 tien trinh / 23 event (gom ntdsutil malicious) co the bi loai/giu sai do PID bi tai su dung sau khoi phuc snapshot. Ghi trong dataset card muc 9.
 - **Ro ri da phat hien va xu ly:** dau vet bo sinh (duong dan cmd, `conhost.exe`, launcher cha, duoi `.exe`) trung hoa o v1.1; bat doi xung 4688/EID1 sua o v1.2; cau hinh orchestrator `variant`/`tempo`/`user_role` (variant != mixed chi o attack -> ro nhan) cam lam feature o Buoc 5, quet tinh moi mo hinh (acceptance #2).
 
