@@ -91,6 +91,13 @@ def check_model_sources(root="."):
                     if _ACCESS_RE.search(l): bad.append(f"{os.path.relpath(fp, root).replace(os.sep, '/')}:{i}")
     return bad
 
+def oof_length_spearman(meta, scores, n_boot=N_BOOT, seed=SEED):
+    """(Them o Buoc 6) Spearman diem ~ do dai tren cua so AM cua mot tap (vd Train OOF); do dai chi dung bao cao.
+    meta: load_meta(); scores: {window_id: diem}. Tra CI bootstrap nhu spearman_score_len_neg."""
+    M = [w for w in meta if not w["window_malicious"]]
+    s = np.array([scores[w["window_id"]] for w in M], float); L = np.array([w["n_events"] for w in M], float)
+    return _ci(len(M), lambda i: spearman(s[i], L[i]) if len(i) else None, n_boot, seed)
+
 def load_all_meta(root="."):
     return {s: load_meta(root, s) for s in SPLITS}
 
