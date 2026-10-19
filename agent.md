@@ -259,12 +259,15 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   `dashboard/fixtures/`). `status.json` thêm source / agents / rate.
 - Commit Bước 9 (mốc 1–3, 5, 6; chưa tag `step9-done` vì mốc 4 chưa chạy). `samples/*.jsonl.gz` (log thô) và `reports/step6/m3/reports/`
   (bản sao preds Colab) vào .gitignore; log mẫu tái tạo bằng `python src/live/make_sample.py` từ `data/raw`.
+- Chuẩn bị mốc 4: `run.py live --check` (kiểm kết nối / role / event mới mỗi agent), `--reset`; tự xoá cảnh báo replay khi sang live;
+  `VTG_INDEXER_CHECK_HOSTNAME=0` (CA wazuh-docker cấp cho CN wazuh.indexer); `docker/vtguard.env.example`; `secrets/` vào .gitignore;
+  test_live L8 = Indexer giả lập (phân trang, cùng timestamp, checkpoint, _bulk) → 9/9.
 - Vấn đề tồn đọng: mốc 4 (live với Indexer thật + kịch bản demo) chưa chạy;
   bản arm64 chưa dựng; `reports/step6/m3/reports/` (preds Colab lồng) và `evidence/2026-10-12/` chưa đưa vào git — cần xem.
 
 ## 7. Việc tiếp theo / câu hỏi mở
 
-- [ ] Bước 9 mốc 4 (trong lab): `docker run ... vtguard:step9 live --env-file ...` hoặc `python src/live/run.py live --env-file ...`,
+- [ ] Bước 9 mốc 4 (trong lab) — làm theo `docs/STEP9-M4-LAB.md` (tài khoản Indexer riêng, `secrets/vtguard.env`, `run.py live --check`): `docker run ... vtguard:step9 live --env-file ...` hoặc `python src/live/run.py live --env-file ...`,
       chạy kịch bản demo mục 4, chụp Wazuh ↔ VT-Guard song song, ghi log mẫu mới; đo lại độ lệch khi chạy ART từ console.
 - [ ] Bước 9: commit + push + tag `step9-done` sau khi người dùng xác nhận; hỏi kiến trúc máy giảng viên (arm64?).
 

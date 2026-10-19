@@ -11,15 +11,18 @@ Khong can Indexer, khong can mang, khong doc nhan. Dung samples/replay_demo.json
      (container == host); ban ghi canh bao = schema Buoc 8 + truong luong truc tiep, KHONG co truong nhan; do tre >= 0
   L6 AlertPusher: _bulk ndjson dung index vtguard-alerts-YYYY.MM.DD, dem ban ghi thanh cong
   L7 dashboard doc canh bao truc tiep: ma LIVE-xxxx, su co LINC-xxx, khong co truong nhan
+  L8 IndexerSource voi Indexer GIA LAP cuc bo (http.server): phan trang + nhieu event cung timestamp doc dung 1 lan, checkpoint
+     luu file, khoi dong lai khong doc trung, check() bao so event / agent, AlertPusher ghi _bulk; khong can mang lab
 Chay: python src/live/test_live.py [--write-ref]
 """
-import argparse, gzip, json, os, sys, tempfile, time
+import argparse, json, os, sys, tempfile, threading, time
 from datetime import timedelta
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import connector as C                                                       # noqa: E402
 from run import home, load_pipeline, stream                                  # noqa: E402
-from windower import Windower, ts, dedup_key, W_DEFAULT                      # noqa: E402
+from windower import Windower, W_DEFAULT                                     # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "dataset"))
 from windows import EVENT_FIELDS                                             # noqa: E402
 
@@ -159,6 +162,54 @@ def main():
     check("L7 dashboard doc canh bao truc tiep (bo dong dang ghi do), ma LIVE-xxxx / LINC-xxx",
           len(L) == len(al) and all(x["code"].startswith("LIVE-") and x["incident"].startswith("LINC-") and x["split"] == "live" for x in L),
           f"{len(L)} canh bao, {len({x['incident'] for x in L})} dot su co")
+
+    # L8: Indexer gia lap
+    docs = [{"_id": f"e{i:06d}", "_source": r} for i, r in enumerate(sorted(rows[:3000], key=lambda r: C._parse(r["timestamp"])))]
+    for d in docs[100:140]: d["_source"] = {**d["_source"], "timestamp": docs[100]["_source"]["timestamp"]}   # 40 event cung timestamp
+    bulk = []
+    class H(BaseHTTPRequestHandler):
+        def log_message(self, *a): pass
+        def reply(self, obj):
+            b = json.dumps(obj).encode(); self.send_response(200); self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(b))); self.end_headers(); self.wfile.write(b)
+        def do_GET(self):
+            if self.headers.get("Authorization") != "Basic dnRndWFyZDp4": self.send_response(401); self.end_headers(); return
+            self.reply({"cluster_name": "gia-lap", "version": {"number": "2.19.1"}} if self.path == "/" else {"user_name": "vtguard", "roles": ["vtguard_ro"]})
+        def do_POST(self):
+            body = self.rfile.read(int(self.headers["Content-Length"])).decode()
+            if self.path == "/_bulk":
+                lines = body.strip().split("\n"); bulk.extend(json.loads(x) for x in lines[1::2])
+                return self.reply({"items": [{"index": {"status": 201}}] * (len(lines) // 2)})
+            q = json.loads(body); flt = q["query"]["bool"]["filter"]
+            ags = flt[0]["terms"]["agent.name"] if "terms" in flt[0] else [flt[0]["term"]["agent.name"]]
+            gte = flt[1]["range"]["timestamp"]["gte"]
+            hit = [d for d in docs if d["_source"]["agent"]["name"] in ags and C._parse(d["_source"]["timestamp"]).timestamp() * 1000 >= gte]
+            desc = q["sort"][0]["timestamp"] == "desc"
+            hit.sort(key=lambda d: (C._parse(d["_source"]["timestamp"]), d["_id"]), reverse=desc)
+            self.reply({"hits": {"total": {"value": len(hit)}, "hits": hit[:q["size"]]}})
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), H); threading.Thread(target=srv.serve_forever, daemon=True).start()
+    env_keep = {k: os.environ.get(k) for k in ("VTG_INDEXER_URL", "VTG_INDEXER_USER", "VTG_INDEXER_PASSWORD", "VTG_INDEXER_INSECURE", "VTG_INDEXER_CA")}
+    os.environ.update({"VTG_INDEXER_URL": f"http://127.0.0.1:{srv.server_port}", "VTG_INDEXER_USER": "vtguard", "VTG_INDEXER_PASSWORD": "x",
+                       "VTG_INDEXER_INSECURE": "1"}); os.environ.pop("VTG_INDEXER_CA", None)
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            stp = os.path.join(td, "state.json"); start = docs[0]["_source"]["timestamp"]
+            s1 = C.IndexerSource(stp, poll_s=0, start=start, page=50); got1, _ = s1.poll()
+            s2 = C.IndexerSource(stp, poll_s=0, page=50); got2, _ = s2.poll()               # khoi dong lai tu checkpoint
+            ids = [g.get("_id") for g in got1]
+            want = {(d["_source"]["timestamp"], d["_source"]["agent"]["name"], json.dumps(d["_source"], sort_keys=True)) for d in docs}
+            have = [(g["timestamp"], g["agent"]["name"], json.dumps(g, sort_keys=True)) for g in got1]
+            chk = s1.check(minutes=10 ** 7); n_push = C.AlertPusher(s1).push(al[:2])
+        ok8 = len(got1) == len(docs) and set(have) == want and len(have) == len(set(have)) and not got2 and ids is not None
+        ok8 &= chk["version"] == "2.19.1" and chk["user"] == "vtguard" and sum(v["events_last_min"] for v in chk["agents"].values()) == len(docs)
+        ok8 &= n_push == 2 and len(bulk) == 2 and all("@timestamp" in b for b in bulk)
+    finally:
+        srv.shutdown()
+        for k, v in env_keep.items():
+            if v is None: os.environ.pop(k, None)
+            else: os.environ[k] = v
+    check("L8 Indexer gia lap: phan trang 50 + 40 event cung timestamp doc dung 1 lan, khoi dong lai khong doc trung, check(), _bulk",
+          ok8, f"{len(got1)}/{len(docs)} event, lan 2: {len(got2)}; check {chk['agents']}; bulk {len(bulk)}")
 
     print(f"\nKET QUA: {sum(RESULTS)}/{len(RESULTS)} PASS trong {time.time() - t_start:.1f}s")
     sys.exit(0 if all(RESULTS) else 1)

@@ -67,7 +67,7 @@ trực tiếp, nhanh gấp 10 lần thời gian thật; khoảng im lặng dài 
 
 | Lệnh | Việc |
 |---|---|
-| `selftest` | kiểm thử không cần mạng: dashboard (31), luồng trực tiếp (8), quét file nhạy cảm |
+| `selftest` | kiểm thử không cần mạng: dashboard (31), luồng trực tiếp (9), quét file nhạy cảm |
 | `scan` | quét image: 0 checkpoint / log thô / thông tin đăng nhập |
 | `replay [--speed k]` | phát lại log ra `reports/step9/live/alerts.jsonl` (in tóm tắt) |
 | `infer --input /data/windows.jsonl --out /out/alerts.jsonl` | chạy pipeline trên file cửa sổ của bạn (`-v` mount thư mục) |

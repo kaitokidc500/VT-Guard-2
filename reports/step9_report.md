@@ -84,10 +84,10 @@ phai do tre that. Tren lab that cong them chu ky doc 12 s va nguong im lang 30 s
 | Image | `vtguard:step9`, python:3.12-slim + onnxruntime 1.31.0, numpy 2.5.3, pandas 3.0.6, PyYAML 6.0.3, streamlit 1.66.0 (khong PyTorch); ghim `docker/requirements.lock`, ban day du `docker/requirements.freeze.txt` |
 | Noi dung | dung tu danh sach cho phep (`docker/stage.py`), sha256 tung file o `docker/MANIFEST.json`: ma `src/` + `dashboard/`, ONNX ens, 11 Sigma, splits + vocab dataset-v1.2, `windows.jsonl` CHI 326 cua so test, `reports/`, 1 log mau |
 | `verify --network none` | **DAT 7/7** (V1 checksum dataset, V2 ONNX + 27 artefact, V3 featurize, V4 0 quyet dinh lech / diem lech <= 6,1e-7, V5 101 canh bao, V6 evaluate gom CI bootstrap trung eval Buoc 8, V7 TP/FP/FN B0 / VT-Seq-ens / chi-luat) - trung host |
-| `selftest --network none` | dashboard 31/31, luong truc tiep 8/8, quet file SACH |
+| `selftest --network none` | dashboard 31/31, luong truc tiep 9/9, quet file SACH |
 | Quet image (`docker/scan.py`) | 0 checkpoint; 0 log tho / event gan nhan (ngoai `samples/replay_demo.jsonl.gz`, brief 6.1 yeu cau); 0 thong tin dang nhap |
 | `demo` | dashboard + phat lai log mau x10 trong container, health check DAT |
-| Xuat file | `docker/out/vtguard_amd64.tar` 223 MB, sha256 `a3e06015cff4c86c...e94f01d` (day du o `docker/image_info.json`) |
+| Xuat file | `docker/out/vtguard_amd64.tar` 223 MB, sha256 `4aa7ac7f768e91cf...f5347fa5` (day du o `docker/image_info.json`) |
 | Huong dan | `README_DOCKER.md` |
 
 Chua lam: ban `linux/arm64` (chua biet kien truc may giang vien - brief 6.3), chay thu tren may sach.

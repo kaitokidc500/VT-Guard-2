@@ -10,7 +10,8 @@ Hai nguon, cung giao dien poll() -> (danh sach _source tho, now):
                   pipeline truc tiep (che do replay, du phong buoi bao ve).
 Thong tin dang nhap Indexer CHI nap luc chay tu bien moi truong hoac --env-file (KEY=VALUE), KHONG ghi vao code / image / log:
   VTG_INDEXER_URL (vd https://10.20.30.10:9200), VTG_INDEXER_USER, VTG_INDEXER_PASSWORD,
-  VTG_INDEXER_CA (duong dan file CA, mount tu ngoai) hoac VTG_INDEXER_INSECURE=1 (bo kiem chung chi, chi lab),
+  VTG_INDEXER_CA (duong dan file CA, mount tu ngoai) [+ VTG_INDEXER_CHECK_HOSTNAME=0 khi noi bang IP] hoac
+  VTG_INDEXER_INSECURE=1 (bo kiem chung chi, chi lab),
   VTG_AGENTS (mac dinh DC01,WIN10-01).
 AlertPusher (tuy chon, mac dinh TAT): ghi canh bao vao index vtguard-alerts-YYYY.MM.DD bang _bulk.
 """
@@ -90,7 +91,10 @@ class IndexerSource:
         if not (self.url and user and pw): raise SystemExit("Thieu VTG_INDEXER_URL / VTG_INDEXER_USER / VTG_INDEXER_PASSWORD (nap qua --env-file).")
         self.auth = "Basic " + base64.b64encode(f"{user}:{pw}".encode()).decode()
         ca = os.environ.get("VTG_INDEXER_CA")
-        if ca: self.ctx = ssl.create_default_context(cafile=ca)
+        if ca:
+            self.ctx = ssl.create_default_context(cafile=ca)
+            # wazuh-docker: chung chi Indexer cap cho CN 'wazuh.indexer'; noi bang IP thi van kiem CA nhung bo kiem ten may
+            if os.environ.get("VTG_INDEXER_CHECK_HOSTNAME", "1") == "0": self.ctx.check_hostname = False
         elif os.environ.get("VTG_INDEXER_INSECURE") == "1":
             self.ctx = ssl.create_default_context(); self.ctx.check_hostname = False; self.ctx.verify_mode = ssl.CERT_NONE
         else: raise SystemExit("Can VTG_INDEXER_CA (file CA mount tu ngoai) hoac VTG_INDEXER_INSECURE=1 (chi lab).")
@@ -133,6 +137,24 @@ class IndexerSource:
         return out, datetime.now(timezone.utc)
 
     def done(self): return False
+
+    def check(self, minutes=15):
+        """Kiem tra truoc khi chay that (khong doi checkpoint, khong ghi gi): phien ban Indexer, user + role cua tai khoan,
+        so event moi agent trong `minutes` phut gan nhat va timestamp moi nhat (theo gio Wazuh)."""
+        out = {"url": self.info()["name"], "agents": {}}
+        root = self.req("/", method="GET"); out["cluster"] = root.get("cluster_name"); out["version"] = (root.get("version") or {}).get("number")
+        try:
+            au = self.req("/_plugins/_security/authinfo", method="GET"); out["user"] = au.get("user_name"); out["roles"] = au.get("roles")
+        except Exception as e:                                                # noqa: BLE001 - chi de in, khong chan
+            out["user"] = f"(khong doc duoc authinfo: {type(e).__name__})"
+        since = int((datetime.now(timezone.utc) - timedelta(minutes=minutes)).timestamp() * 1000)
+        for ag in self.agents:
+            q = {"bool": {"filter": [{"term": {"agent.name": ag}}, {"range": {"timestamp": {"gte": since, "format": "epoch_millis"}}}]}}
+            r = self.req("/wazuh-archives-*/_search", {"size": 1, "track_total_hits": True, "sort": [{"timestamp": "desc"}], "query": q,
+                                                       "_source": ["timestamp"]})
+            hits = r["hits"]["hits"]
+            out["agents"][ag] = {"events_last_min": r["hits"]["total"]["value"], "latest": hits[0]["_source"]["timestamp"] if hits else None}
+        return out
 
     def info(self):
         """Mo ta nguon cho dashboard: chi host:port cua Indexer (khong user / mat khau), index, agent, moc da doc."""

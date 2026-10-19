@@ -105,16 +105,26 @@ def main():
     ap.add_argument("--out", default=None); ap.add_argument("--append", action="store_true", help="replay: ghi tiep thay vi lam moi")
     ap.add_argument("--push-alerts", action="store_true", help="live: ghi canh bao vao vtguard-alerts-* (mac dinh tat)")
     ap.add_argument("--start", default=None, help="live: moc bat dau (ISO) neu chua co file trang thai")
+    ap.add_argument("--check", action="store_true", help="live: chi kiem tra ket noi / tai khoan / event moi cua agent roi thoat")
+    ap.add_argument("--reset", action="store_true", help="live: bo checkpoint + canh bao cu, doc tu bay gio (hoac --start)")
     a = ap.parse_args()
     root = home(); d = live_dir(root); os.makedirs(d, exist_ok=True)
-    out = a.out or os.path.join(d, "alerts.jsonl"); status = os.path.join(d, "status.json")
+    out = a.out or os.path.join(d, "alerts.jsonl"); status = os.path.join(d, "status.json"); state = os.path.join(d, "connector_state.json")
     if a.mode == "replay":
         if not a.input: sys.exit("replay can --input")
         src = C.FileSource(a.input, poll_s=a.poll or 10.0, speed=a.speed); pusher = None
         if not a.append: open(out, "w").close()
     else:
         C.load_env_file(a.env_file)
-        src = C.IndexerSource(os.path.join(d, "connector_state.json"), poll_s=a.poll or 12.0, start=a.start)
+        prev = {}
+        try: prev = json.load(open(status, encoding="utf-8"))
+        except (OSError, json.JSONDecodeError): pass
+        if not a.check and (a.reset or prev.get("mode") == "replay"):  # khong tron canh bao phat lai voi canh bao that
+            if a.reset and os.path.exists(state): os.remove(state)
+            open(out, "w").close()
+        src = C.IndexerSource(state, poll_s=a.poll or 12.0, start=a.start)
+        if a.check:
+            print(json.dumps(src.check(), ensure_ascii=False, indent=1)); return
         pusher = C.AlertPusher(src) if a.push_alerts else None
     win = Windower(a.W, a.idle, a.gap, a.tool_mode); P = load_pipeline(root)
     print(f"[{a.mode}] bat dau -> {out} (W={a.W}, idle={a.idle}s, gap={a.gap}s, tool_mode={a.tool_mode}"

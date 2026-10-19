@@ -49,3 +49,5 @@ reports/step9/live/*.tmp
 reports/step6/m3/reports/
 # Log Wazuh tho mau cho replay (chi dong vao image Docker, khong dua len git)
 samples/*.jsonl.gz
+# Thong tin dang nhap Indexer cho che do live (Buoc 9 moc 4) - KHONG commit
+secrets/
