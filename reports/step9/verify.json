@@ -1,0 +1,75 @@
+{
+ "generated": "2026-10-19T20:06:00+0700",
+ "ket_qua": "DAT",
+ "dat": "7/7",
+ "kiem": {
+  "V1": {
+   "ten": "checksum dataset-v1.2 (splits + vocab)",
+   "dat": true,
+   "chi_tiet": {
+    "vocab.json": true,
+    "splits/train.jsonl": true,
+    "splits/t_clean.jsonl": true,
+    "splits/t_hard.jsonl": true,
+    "splits/t_novel.jsonl": true
+   }
+  },
+  "V2": {
+   "ten": "checksum ONNX + artefact bao cao",
+   "dat": true,
+   "chi_tiet": {
+    "onnx_ens": true,
+    "artefact": "31/31",
+    "lech": []
+   }
+  },
+  "V3": {
+   "ten": "featurize == vector trong file split",
+   "dat": true,
+   "chi_tiet": "326 cua so, 0 lech"
+  },
+  "V4": {
+   "ten": "infer.py == reports/preds/fusion_<tap>.jsonl",
+   "dat": true,
+   "chi_tiet": "0 quyet dinh lech (nhi phan + 5 TTP x 326 cua so); diem lech lon nhat 6.14e-07"
+  },
+  "V5": {
+   "ten": "canh bao == reports/step8/alerts_<tap>.jsonl",
+   "dat": true,
+   "chi_tiet": "101 canh bao; lech []"
+  },
+  "V6": {
+   "ten": "evaluate() tren diem vua chay == eval Buoc 8 (F3-B, gom CI)",
+   "dat": true,
+   "chi_tiet": {
+    "tom_tat": {
+     "t_clean": "F1 1.0000, FP 0/47, PR-AUC 1.0000, macro-F1 TTP 0.8802",
+     "t_hard": "F1 0.0000, FP 1/88",
+     "t_novel": "F1 0.9643, FP 4/95, PR-AUC 0.9980, macro-F1 TTP 0.8198"
+    },
+    "lech_eval": [],
+    "lech_step8_results": [],
+    "chu_ky_t_hard": "data/processed/all.events.jsonl"
+   }
+  },
+  "V7": {
+   "ten": "TP/FP/FN B0 / VT-Seq-ens / chi-luat == eval Buoc 5/6/7",
+   "dat": true,
+   "chi_tiet": {
+    "T-hard FP": {
+     "b0_wazuh": 17,
+     "vtseq_M3_ens": 1,
+     "rules": 0
+    },
+    "lech": []
+   }
+  }
+ },
+ "thoi_gian_s": 10.0,
+ "moi_truong": {
+  "python": "3.12.10",
+  "onnxruntime": "1.31.0",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "container": false
+ }
+}

@@ -1,0 +1,120 @@
+{
+ "generated": "2026-10-17T13:18:53Z",
+ "batch": "batch05",
+ "split": "t_novel",
+ "offline": {
+  "cua_so": 143,
+  "cua_so_canh_bao": 52,
+  "ghi_chu": "cua so offline: truot 64/32 trong khung manifest, toi da 8 cua so/phien (windows.py)"
+ },
+ "dinh_nghia": {
+  "a": "ghep theo host + giao khoang [t0, t1]; jaccard tren event thuoc pham vi cua so offline (khoa host, ts_system, channel, event_id)",
+  "b": "cua so truc tiep lanh tinh = khong chua event doc hai nao theo nhan dataset (nhan chi dung de cham)",
+  "c": "khoa event (host, channel, record_id, event_id, ts_system) so voi data/processed/<dot>.labeled.jsonl"
+ },
+ "che_do": [
+  {
+   "tool_mode": "orchestrator",
+   "luong": {
+    "polls": 716,
+    "events_read": 81758,
+    "windows": 129,
+    "alerts": 41
+   },
+   "loai_theo_quy_tac": {
+    "r4_tien_trinh_khung_art": 72707,
+    "r4_harness": 387,
+    "r5_conhost": 465
+   },
+   "tien_xu_ly": {
+    "r1_ps_fragment": 170,
+    "r0_khong_phai_win": 969
+   },
+   "a_trung_cua_so_canh_bao": {
+    "offline_cua_so_canh_bao": 52,
+    "offline_duoc_truc_tiep_phu": 52,
+    "ty_le_offline_duoc_phu": 1.0,
+    "truc_tiep_canh_bao": 41,
+    "truc_tiep_giao_offline": 40,
+    "ty_le_truc_tiep_giao_offline": 0.9756,
+    "jaccard_event_tren_pham_vi_offline": 0.6878,
+    "event_pham_vi_offline": 4416
+   },
+   "b_canh_bao_sai_phan_lanh_tinh": {
+    "truc_tiep_cua_so_lanh_tinh": 90,
+    "truc_tiep_canh_bao_sai": 4,
+    "ty_le": 0.0444,
+    "vi_du": [
+     "L20261014-145237-dc01:w00256",
+     "L20261014-150426-win10-01:w00000",
+     "L20261014-150426-win10-01:w00064",
+     "L20261014-150426-win10-01:w00128"
+    ],
+    "offline_canh_bao_sai_cung_dot": 4,
+    "offline_cua_so_lanh_tinh_cung_dot": 95
+   },
+   "c_lech_tien_xu_ly": {
+    "event_truc_tiep_giu": 7060,
+    "theo_trang_thai_dataset": {
+     "dataset_giu": 7054,
+     "orchestrator": 6
+    },
+    "khong_co_trong_nhan": 0,
+    "dataset_giu_nhung_truc_tiep_loai": 0
+   }
+  },
+  {
+   "tool_mode": "console",
+   "luong": {
+    "polls": 716,
+    "events_read": 81758,
+    "windows": 111,
+    "alerts": 6
+   },
+   "loai_theo_quy_tac": {
+    "r4_tien_trinh_khung_art": 72707,
+    "r4_con_cua_console": 1558,
+    "r5_conhost": 465
+   },
+   "tien_xu_ly": {
+    "r1_ps_fragment": 170,
+    "r0_khong_phai_win": 969
+   },
+   "a_trung_cua_so_canh_bao": {
+    "offline_cua_so_canh_bao": 52,
+    "offline_duoc_truc_tiep_phu": 10,
+    "ty_le_offline_duoc_phu": 0.1923,
+    "truc_tiep_canh_bao": 6,
+    "truc_tiep_giao_offline": 5,
+    "ty_le_truc_tiep_giao_offline": 0.8333,
+    "jaccard_event_tren_pham_vi_offline": 0.1367,
+    "event_pham_vi_offline": 4416
+   },
+   "b_canh_bao_sai_phan_lanh_tinh": {
+    "truc_tiep_cua_so_lanh_tinh": 109,
+    "truc_tiep_canh_bao_sai": 5,
+    "ty_le": 0.0459,
+    "vi_du": [
+     "L20261014-145237-dc01:w00256",
+     "L20261014-150426-win10-01:w00000",
+     "L20261014-150426-win10-01:w00064",
+     "L20261014-150426-win10-01:w00128",
+     "L20261014-150426-win10-01:w00256"
+    ],
+    "offline_canh_bao_sai_cung_dot": 4,
+    "offline_cua_so_lanh_tinh_cung_dot": 95
+   },
+   "c_lech_tien_xu_ly": {
+    "event_truc_tiep_giu": 5889,
+    "theo_trang_thai_dataset": {
+     "dataset_giu": 5883,
+     "orchestrator": 6
+    },
+    "khong_co_trong_nhan": 0,
+    "dataset_giu_nhung_truc_tiep_loai": 1171
+   }
+  }
+ ],
+ "che_do_mac_dinh": "orchestrator",
+ "ghi_chu": "So lieu chinh thuc van la ket qua tren tap test dong bang; bao cao nay chi do muc lech khi chay truc tiep."
+}

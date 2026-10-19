@@ -1,20 +1,37 @@
-"""Trang Chi tiet canh bao: diem AI so voi nguong (s = p + beta * r, theo TTP s_k = p_k + beta * r_k), luat Sigma khop
-(YAML + provenance + tai ve), top-5 event theo attention, canh bao cung su co. Che do danh gia: them nhan that cua cua so."""
+"""Phan A - trang Chi tiet canh bao (triage, docs/STEP9-BRIEF.md muc 3.2): diem AI so voi nguong (s = p + beta * r, theo TTP
+s_k = p_k + beta * r_k), luat Sigma khop (YAML + provenance + tai ve), nguon quyet dinh, top-5 event theo attention, canh bao cung
+su co; dai "3 yeu cau de tai" gan moi phan voi mot yeu cau. Nguon: luong truc tiep (Phan A, khong nhan) hoac tap kiem thu dong bang
+(Phan B, co nhan that cua cua so)."""
 import altair as alt
 import pandas as pd
 import streamlit as st
 
 import data as D
-from common import (T, TTP_COLOR, badge, cached_alerts, cached_labels, cached_scores, chain_html, esc, goto_incident, header, kv,
+from common import (T, TTP_COLOR, badge, cached_alerts, cached_labels, cached_live, cached_scores, chain_html, esc, goto_incident, header, kv,
                     note, prio_badge, prio_name, ptitle, res_md, short_split, src_badge, styled, tone_prio, ts, ttp_chips)
 
-ev = header(T("navsec_monitor"), T("d_title"), T("d_intro"))
-al = cached_alerts(); by_code = {a["code"]: a for a in al}; scores = cached_scores()
-order = [r["ma"] for r in D.sort_queue(D.queue_rows(al))]
-
+live = cached_live(); test = cached_alerts(); scores = cached_scores()
 if "goto_alert" in st.session_state:
+    st.session_state["detail_src"] = "live" if st.session_state["goto_alert"].startswith("LIVE-") else "test"
+elif st.session_state.get("detail_src") not in ("live", "test"):
+    qp = st.query_params.get("alert", "")
+    st.session_state["detail_src"] = "test" if qp.startswith("VTG-") or not live else "live"
+is_test = st.session_state["detail_src"] == "test"
+header("research" if is_test else "siem", T("d_title"), T("d_intro"))
+
+top = st.columns([1.75, 3, 1])
+top[0].segmented_control(T("d_source"), ["live", "test"], format_func=lambda k: T(f"d_src_{k}"), key="detail_src", required=True)
+is_test = st.session_state["detail_src"] == "test"
+al = test if is_test else live
+if not al:
+    st.info(T("d_empty_live")); st.stop()
+by_code = {a["code"]: a for a in al}
+order = ([r["ma"] for r in D.sort_queue(D.queue_rows(al))] if is_test else
+         [a["code"] for a in sorted(al, key=lambda a: (a.get("closed_at") or "", a["code"]), reverse=True)])  # truc tiep: moi nhat dau
+if "goto_alert" in st.session_state and st.session_state["goto_alert"] in by_code:
     st.session_state["detail_alert"] = st.session_state.pop("goto_alert")
 elif st.session_state.get("detail_alert") not in by_code:
+    st.session_state.pop("goto_alert", None)
     qp = st.query_params.get("alert", "")
     st.session_state["detail_alert"] = qp if qp in by_code else order[0]
 
@@ -22,10 +39,11 @@ def _label(c):
     a = by_code[c]
     return f"{c} \u00b7 {prio_name(D.PRIORITY[a['decision_source']])} \u00b7 {a['host']} \u00b7 {ts(a['t0'], 16)} \u00b7 {a['score']:.4f}"
 
-top = st.columns([3, 1])
-code = top[0].selectbox(T("d_pick"), order, format_func=_label, key="detail_alert")
+code = top[1].selectbox(T("d_pick"), order, format_func=_label, key="detail_alert")
 a = by_code[code]; det = D.alert_detail(a, scores); prio = D.PRIORITY[a["decision_source"]]
-if top[1].button(T("d_goto_inc", c=a["incident"]), width="stretch", icon=":material/timeline:"): goto_incident(a["incident"])
+if not is_test:
+    top[2].write("")
+    if top[2].button(T("d_goto_inc", c=a["incident"]), width="stretch", icon=":material/timeline:"): goto_incident(a["incident"])
 
 # ---- the tom tat ----
 facts = [(T("col_host"), esc(a["host"])), (T("d_time"), esc(f"{ts(a['t0'])} \u2192 {ts(a['t1'])} UTC")),
@@ -34,7 +52,7 @@ facts = [(T("col_host"), esc(a["host"])), (T("d_time"), esc(f"{ts(a['t0'])} \u21
          (T("col_luat"), esc(", ".join(r["id"] for r in a["rule_ids"]) or T("d_no_rule_short")))]
 card = (f'<div class="vtg-card"><div class="head"><span class="code">{esc(code)}</span>{prio_badge(prio)} {src_badge(a["decision_source"])} '
         f'{badge(a["incident"], "violet")}</div>{kv(facts)}</div>')
-if ev:
+if is_test:
     y, yt = cached_labels()[a["window_id"]]
     c1, c2 = st.columns([2.2, 1])
     c1.markdown(card, unsafe_allow_html=True)
@@ -44,8 +62,16 @@ if ev:
         st.markdown(kv([(T("col_ttp_that"), ttp_chips(yt)), (T("d_raw_window"), f'<span class="vtg-mono">{esc(a["window_id"])}</span>')]),
                     unsafe_allow_html=True)
 else:
-    st.markdown(card, unsafe_allow_html=True)
+    st.markdown(card, unsafe_allow_html=True); st.caption(T("d_live_nolabel"))
 st.markdown(chain_html([k for k in D.TTPS if k in a["ttps"]]), unsafe_allow_html=True)
+
+# ---- 3 yeu cau de tai tren canh bao nay ----
+reqs = [(T("d_req3"), T("d_req3_v", p=det["p"], t=det["tau"], k=len(a["ttps"])), "blue"),
+        (T("d_req1"), T("d_req1_yes", n=len(a["rule_ids"])) if a["rule_ids"] else T("d_req1_no"), "violet" if a["rule_ids"] else "gray"),
+        (T("d_req2"), T("d_req2_both") if a["decision_source"] == "both" else T("d_req2_ai"), "red" if a["decision_source"] == "both" else "amber")]
+st.markdown(f'<div class="vtg-ptitle">{esc(T("d_req"))}</div><div class="vtg-kpis" style="--n:3">' + "".join(
+    f'<div class="vtg-kpi {tone}"><div class="l">{esc(h)}</div><div class="s" style="font-size:.84rem;color:#d8e0ee;margin-top:6px">{esc(v)}</div></div>'
+    for h, v, tone in reqs) + "</div>", unsafe_allow_html=True)
 
 # ---- diem so voi nguong ----
 def score_chart(rows, taus, height):

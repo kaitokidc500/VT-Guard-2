@@ -56,6 +56,7 @@ VT-Guard/  (= vt-guard-research/)
 | 6 | VT-Seq (GRU-Attention đa nhiệm) + ablation; `reports/step6_report.md` (tag `step6-done`); triển khai = VT-Seq-ens (M3, 5 seed) | `src/models/`, `notebooks/`, `reports/step6/` | Hoàn thành |
 | 7 | Auto Rule Engine: 11 luật tự sinh (RIPPER, chỉ Train) → Sigma `rules/sigma/`; `reports/step7_report.md` (tag `step7-done`) | `src/rules/`, `rules/sigma/` | Hoàn thành |
 | 8 | Hybrid Fusion F3-B (AI + luật xác nhận) + pipeline suy luận `src/pipeline/infer.py`; `reports/step8_report.md` (tag `step8-done`) | `src/fusion/`, `src/pipeline/` | Hoàn thành |
+| 9 | Dashboard SOC tiếng Việt + luồng trực tiếp/replay (`src/live/`) + Docker kiểu A (`verify` offline 7/7); `reports/step9_report.md`. Còn: mốc 4 trong lab, commit + tag `step9-done` | `dashboard/`, `src/live/`, `docker/` | Đang làm |
 | — | Bằng chứng hạ tầng | `evidence/` | Chưa bắt đầu |
 | — | Báo cáo (song song) | `reports/` | Chưa bắt đầu |
 
@@ -238,7 +239,34 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - Đính chính Bước 7: VTR-T1654-01 khớp 1 cửa sổ T-novel lành tính (auditpol) — tag mới `step7-done-r1` (giữ `step7-done`).
 - Tiêu chí chấp nhận mục 9: 6/6 đạt.
 
+### Bước 9 (dashboard + live + Docker) — 2026-10-17 → 2026-10-19
+- Mốc 1–2 (commit beef8a0): dashboard SOC tiếng Việt, 2 chế độ vận hành / đánh giá, `dashboard/test_data.py` 27/27.
+- Mốc 3: `src/live/` — `connector.py` (Indexer `wazuh-archives-*` theo mốc + file replay; đăng nhập chỉ qua `--env-file`;
+  `AlertPusher` → `vtguard-alerts-*`), `windower.py` (host + thời gian, ≤64 event, đóng khi đủ 64 / im lặng 30 s / khoảng trống 120 s;
+  tiền xử lý gọi lại normalize/label/windows của dataset-v1.2), `run.py` (gọi nguyên infer.Pipeline), `drift.py`, `make_sample.py`;
+  trang Trực tiếp `dashboard/pages/live.py`. Replay mẫu (31 054 event) → 58 cửa sổ → 17 cảnh báo (13 both). Độ lệch batch05:
+  phủ 52/52 cảnh báo offline, cảnh báo sai lành tính 4/90 (offline 4/95). `tool_mode=console` chỉ phủ 19% → mặc định orchestrator.
+- `FileSource --speed` tua nhanh khoảng im lặng (đồng hồ luồng không đổi; demo x10 ~3 phút thay vì ~2 giờ). `src/live/test_live.py` 8/8,
+  tham chiếu `reports/step9/replay_reference.json`.
+- Mốc 5: `src/pipeline/verify.py` (V1–V7: checksum, featurize, 0 lệch quyết định, 101 cảnh báo, evaluate gồm CI == eval Bước 8,
+  TP/FP/FN B0/VT-Seq/luật); chữ ký T-hard đọc `reports/step9/hn_signatures.json` khi không có all.events.jsonl.
+  `docker/` (stage.py danh sách cho phép + MANIFEST.json, scan.py, Dockerfile, entrypoint.sh, build.sh, requirements.lock),
+  `README_DOCKER.md`. Image `vtguard:step9` amd64: verify `--network none` 7/7 ĐẠT, selftest ĐẠT, quét sạch; tar ở `docker/out/` (không vào git).
+- Gộp dashboard còn 5 trang, tách 2 phần (thay công tắc chế độ): **A · SIEM thời gian thực** (Trực tiếp · Hàng đợi = màn hình chính có dải số
+  Tổng quan + hạ tầng agent + lưu lượng + độ trễ + MITRE; Chi tiết; Dòng thời gian sự cố LINC theo host + nghỉ ≤ 15 phút; không nhãn) và
+  **B · Kết quả nghiên cứu** (Kết quả & đánh giá: 3 thẻ YC1/YC2/YC3 + VT-Guard so với Wazuh theo TTP + Holm + 101 cảnh báo có nhãn +
+  tái lập; Luật Sigma). Bỏ overview.py, queue.py. Nút phát lại log mẫu ngay trên trang (subprocess). `test_data.py` 31/31 (fixture
+  `dashboard/fixtures/`). `status.json` thêm source / agents / rate.
+- Commit Bước 9 (mốc 1–3, 5, 6; chưa tag `step9-done` vì mốc 4 chưa chạy). `samples/*.jsonl.gz` (log thô) và `reports/step6/m3/reports/`
+  (bản sao preds Colab) vào .gitignore; log mẫu tái tạo bằng `python src/live/make_sample.py` từ `data/raw`.
+- Vấn đề tồn đọng: mốc 4 (live với Indexer thật + kịch bản demo) chưa chạy;
+  bản arm64 chưa dựng; `reports/step6/m3/reports/` (preds Colab lồng) và `evidence/2026-10-12/` chưa đưa vào git — cần xem.
+
 ## 7. Việc tiếp theo / câu hỏi mở
+
+- [ ] Bước 9 mốc 4 (trong lab): `docker run ... vtguard:step9 live --env-file ...` hoặc `python src/live/run.py live --env-file ...`,
+      chạy kịch bản demo mục 4, chụp Wazuh ↔ VT-Guard song song, ghi log mẫu mới; đo lại độ lệch khi chạy ART từ console.
+- [ ] Bước 9: commit + push + tag `step9-done` sau khi người dùng xác nhận; hỏi kiến trúc máy giảng viên (arm64?).
 
 - [x] Bước 5 mốc C: FPR phân tầng theo độ dài + Spearman điểm–độ dài trong evaluate.py.
 - [x] Bước 5 mốc D: B0, B1 (TF-IDF/raw), B2 (LightGBM), B3 (GRU, 3 seed) trên dataset-v1.2 + ablation (a)(b)(c chỉ T-hard)(c');
@@ -246,7 +274,8 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - [x] Bước 6: VT-Seq + ablation, `reports/step6_report.md`, tag `step6-done`.
 - [x] Bước 7: Auto Rule Engine, `reports/step7_report.md`, tag `step7-done`.
 - [x] Bước 8: Hybrid Fusion F3-B, `reports/step8_report.md`, tag `step8-done`.
-- [ ] Dashboard (đọc `reports/step8/alerts_<split>.jsonl`: cảnh báo, decision_source, luật khớp, attention) và báo cáo cuối (hạn 01/11/2026).
+- [x] Dashboard (đọc `reports/step8/alerts_<split>.jsonl`: cảnh báo, decision_source, luật khớp, attention).
+- [ ] Bước 10: báo cáo cuối tiếng Việt (24–28/10), slide + tổng duyệt demo (29/10); hạn 01/11/2026.
 - [ ] Kiểm soát độ dài chưa vững ở từng seed (crop) — cân nhắc ở bước sau nếu cần.
 - [ ] `.onnx`/`.pt` không vào git: bản gốc ở Drive `step6_m3_44f8948d.zip`; tái tạo ONNX: `python src/models/step6_explain.py onnx`.
 - [ ] #9 đạt sát ngưỡng (cmd.exe 15.1%) — nếu thu thêm dữ liệu: phiên benign gọi tool qua `cmd.exe /c`

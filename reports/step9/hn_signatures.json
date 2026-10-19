@@ -1,0 +1,246 @@
+{
+ "20261014-035442-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-042633-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-044427-win10-01-h": [
+  "net.exe+net1.exe",
+  false
+ ],
+ "20261014-051106-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-051521-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-051914-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-052514-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-052716-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-052849-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-054259-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-054503-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-055650-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-071006-dc01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-072747-dc01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-075514-dc01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-082819-win10-01-h": [
+  "arp.exe+ipconfig.exe+net.exe+net1.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-090531-dc01-h": [
+  "arp.exe+ipconfig.exe+net.exe+net1.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-090536-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-090626-dc01-h": [
+  "net.exe+net1.exe",
+  false
+ ],
+ "20261014-092236-dc01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-092315-dc01-h": [
+  "net.exe+net1.exe",
+  false
+ ],
+ "20261014-092545-dc01-h": [
+  "net.exe+net1.exe",
+  false
+ ],
+ "20261014-092936-dc01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-093436-dc01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-094139-dc01-h": [
+  "arp.exe+ipconfig.exe+net.exe+net1.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-102453-win10-01-h": [
+  "arp.exe+ipconfig.exe+net.exe+net1.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-104853-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-105336-win10-01-h": [
+  "net.exe+net1.exe",
+  false
+ ],
+ "20261014-122901-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-125757-dc01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-130450-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261014-164724-dc01-h": [
+  "net.exe+net1.exe+vssadmin.exe",
+  false
+ ],
+ "20261014-165054-dc01-h": [
+  "net.exe+net1.exe+vssadmin.exe",
+  false
+ ],
+ "20261015-071019-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261015-071051-dc01-h": [
+  "net.exe+net1.exe+nltest.exe",
+  false
+ ],
+ "20261015-071109-win10-01-h": [
+  "net.exe+nltest.exe",
+  false
+ ],
+ "20261015-071200-dc01-h": [
+  "vssadmin.exe+wevtutil.exe",
+  false
+ ],
+ "20261015-071209-win10-01-h": [
+  "wevtutil.exe",
+  false
+ ],
+ "20261015-071301-win10-01-h": [
+  "arp.exe+ipconfig.exe+net.exe+net1.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261015-071352-win10-01-h": [
+  "arp.exe+ipconfig.exe+net.exe+netstat.exe+nltest.exe+route.exe",
+  false
+ ],
+ "20261015-071531-dc01-h": [
+  "nltest.exe+wevtutil.exe",
+  false
+ ],
+ "20261015-071652-win10-01-h": [
+  "arp.exe+ipconfig.exe+net.exe+net1.exe+netstat.exe+route.exe",
+  false
+ ],
+ "20261015-071753-dc01-h": [
+  "nltest.exe+vssadmin.exe",
+  false
+ ],
+ "20261015-071800-win10-01-h": [
+  "arp.exe+ipconfig.exe+netstat.exe+route.exe+wevtutil.exe",
+  false
+ ],
+ "20261015-072155-dc01-h": [
+  "net.exe+net1.exe+nltest.exe",
+  false
+ ],
+ "20261015-072516-dc01-h": [
+  "ntdsutil.exe+vssadmin.exe+wevtutil.exe",
+  true
+ ],
+ "20261015-072630-dc01-h": [
+  "arp.exe+net.exe+nltest.exe+ntdsutil.exe+ping.exe+vssadmin.exe",
+  true
+ ],
+ "20261015-072841-dc01-h": [
+  "arp.exe+net.exe+nltest.exe+ping.exe+wevtutil.exe",
+  true
+ ],
+ "20261015-121820-win10-01-h": [
+  "ipconfig.exe+nbtstat.exe+netsh.exe+nslookup.exe",
+  true
+ ],
+ "20261015-121854-dc01-h": [
+  "ipconfig.exe+nbtstat.exe+netsh.exe+nslookup.exe",
+  true
+ ],
+ "20261015-121926-win10-01-h": [
+  "ipconfig.exe+netsh.exe",
+  true
+ ],
+ "20261015-122153-dc01-h": [
+  "nbtstat.exe+netsh.exe+nslookup.exe",
+  true
+ ],
+ "20261015-122154-win10-01-h": [
+  "net.exe+nltest.exe+ping.exe",
+  true
+ ],
+ "20261015-122234-dc01-h": [
+  "net.exe+nltest.exe+ping.exe",
+  true
+ ],
+ "20261015-122522-win10-01-h": [
+  "net.exe+nltest.exe+ping.exe",
+  true
+ ],
+ "20261015-122705-win10-01-h": [
+  "ipconfig.exe+nbtstat.exe+netsh.exe+nslookup.exe",
+  true
+ ],
+ "20261015-122757-win10-01-h": [
+  "netsh.exe+nslookup.exe",
+  true
+ ],
+ "20261015-125057-dc01-h": [
+  "ntdsutil.exe+vssadmin.exe [revert_control]",
+  true
+ ],
+ "20261015-125317-dc01-h": [
+  "ntdsutil.exe+vssadmin.exe [revert_control]",
+  true
+ ],
+ "20261015-130852-dc01-h": [
+  "ntdsutil.exe+vssadmin.exe [revert_control]",
+  true
+ ],
+ "20261015-130958-dc01-h": [
+  "ntdsutil.exe+vssadmin.exe [revert_control]",
+  true
+ ]
+}

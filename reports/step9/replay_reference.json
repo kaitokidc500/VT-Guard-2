@@ -1,0 +1,234 @@
+{
+ "sample_sha256": "2d7c6c281e2a0572cdc535caef3511425515eec804ad66bf39bc9b0e638dc806",
+ "events_read": 31054,
+ "windows": 58,
+ "alerts": [
+  {
+   "window_id": "L20261014-133302-dc01:w00000",
+   "decision_source": "both",
+   "ttps": [
+    "T1016",
+    "T1018",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [
+    "VTR-BIN-01"
+   ],
+   "score": 1.098
+  },
+  {
+   "window_id": "L20261014-133302-dc01:w00064",
+   "decision_source": "ai",
+   "ttps": [
+    "T1016",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [],
+   "score": 0.8838
+  },
+  {
+   "window_id": "L20261014-133322-win10-01:w00064",
+   "decision_source": "both",
+   "ttps": [
+    "T1016",
+    "T1018",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [
+    "VTR-BIN-01",
+    "VTR-T1018-02"
+   ],
+   "score": 1.0982
+  },
+  {
+   "window_id": "L20261014-133302-dc01:w00128",
+   "decision_source": "both",
+   "ttps": [
+    "T1016",
+    "T1018",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [
+    "VTR-BIN-03",
+    "VTR-T1654-02"
+   ],
+   "score": 1.098
+  },
+  {
+   "window_id": "L20261014-133322-win10-01:w00128",
+   "decision_source": "both",
+   "ttps": [
+    "T1016",
+    "T1018",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [
+    "VTR-BIN-03",
+    "VTR-BIN-06",
+    "VTR-T1018-01",
+    "VTR-T1654-02"
+   ],
+   "score": 1.0982
+  },
+  {
+   "window_id": "L20261014-133322-win10-01:w00192",
+   "decision_source": "both",
+   "ttps": [
+    "T1016",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [
+    "VTR-BIN-04"
+   ],
+   "score": 1.0975
+  },
+  {
+   "window_id": "L20261014-133302-dc01:w00256",
+   "decision_source": "ai",
+   "ttps": [
+    "T1016",
+    "T1018",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [],
+   "score": 0.9963
+  },
+  {
+   "window_id": "L20261014-133302-dc01:w00320",
+   "decision_source": "ai",
+   "ttps": [
+    "T1016",
+    "T1018",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [],
+   "score": 0.9971
+  },
+  {
+   "window_id": "L20261014-133302-dc01:w00448",
+   "decision_source": "both",
+   "ttps": [
+    "T1016",
+    "T1018",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [
+    "VTR-BIN-05"
+   ],
+   "score": 1.0987
+  },
+  {
+   "window_id": "L20261014-134338-win10-01:w00064",
+   "decision_source": "both",
+   "ttps": [
+    "T1016",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [
+    "VTR-BIN-03",
+    "VTR-T1654-02"
+   ],
+   "score": 1.0954
+  },
+  {
+   "window_id": "L20261014-134338-win10-01:w00128",
+   "decision_source": "both",
+   "ttps": [
+    "T1016",
+    "T1018",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [
+    "VTR-BIN-01",
+    "VTR-T1018-02"
+   ],
+   "score": 1.0981
+  },
+  {
+   "window_id": "L20261014-134338-win10-01:w00192",
+   "decision_source": "both",
+   "ttps": [
+    "T1016",
+    "T1018",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [
+    "VTR-BIN-01",
+    "VTR-BIN-05",
+    "VTR-T1018-02"
+   ],
+   "score": 1.0984
+  },
+  {
+   "window_id": "L20261015-074749-dc01:w00256",
+   "decision_source": "ai",
+   "ttps": [
+    "T1016",
+    "T1087.002",
+    "T1654"
+   ],
+   "rules": [],
+   "score": 0.9945
+  },
+  {
+   "window_id": "L20261015-084930-dc01:w00448",
+   "decision_source": "both",
+   "ttps": [
+    "T1003.003"
+   ],
+   "rules": [
+    "VTR-BIN-02",
+    "VTR-T1003003-01"
+   ],
+   "score": 1.0734
+  },
+  {
+   "window_id": "L20261015-084930-dc01:w00832",
+   "decision_source": "both",
+   "ttps": [
+    "T1003.003"
+   ],
+   "rules": [
+    "VTR-BIN-02",
+    "VTR-T1003003-01"
+   ],
+   "score": 1.077
+  },
+  {
+   "window_id": "L20261015-084930-dc01:w01088",
+   "decision_source": "both",
+   "ttps": [
+    "T1003.003"
+   ],
+   "rules": [
+    "VTR-BIN-02",
+    "VTR-T1003003-01"
+   ],
+   "score": 1.0053
+  },
+  {
+   "window_id": "L20261015-084930-dc01:w01280",
+   "decision_source": "both",
+   "ttps": [
+    "T1003.003"
+   ],
+   "rules": [
+    "VTR-BIN-02",
+    "VTR-T1003003-01"
+   ],
+   "score": 1.0717
+  }
+ ]
+}

@@ -1,7 +1,8 @@
 """VT-Guard dashboard - phan dung chung cho moi trang: chuoi giao dien (ui_vi.json, UTF-8 co dau; code giu ASCII),
-giao dien kieu SOC/SIEM (CSS, thanh tieu de, the KPI, huy hieu), che do van hanh / danh gia, bo nho dem du lieu.
-Cong tac che do nam o app.py (thanh ben, dung chung moi trang); trang chi doc st.session_state['eval_mode'].
-Che do danh gia co the bat san bang tham so URL ?mode=danh-gia (dung cho demo / chup man hinh).
+giao dien kieu SOC/SIEM (CSS, thanh tieu de, the KPI, huy hieu), bo nho dem du lieu.
+Dashboard tach HAI PHAN (thay cho cong tac che do cu):
+  Phan A "siem"     - giam sat thoi gian thuc: luong live / replay, KHONG co nhan (nhu SOC that dang truc).
+  Phan B "research" - ket qua nghien cuu tren tap test dong bang, CO nhan + chi so tu results JSON.
 """
 import html
 import json
@@ -35,6 +36,15 @@ def cached_checksum(): return D.verify_artefacts()
 
 @st.cache_data(show_spinner=False)
 def cached_pipeline(): return D.pipeline_info()
+
+@st.cache_data(show_spinner=False, ttl=2)
+def cached_live(): return D.live_alerts()
+
+@st.cache_data(show_spinner=False, ttl=2)
+def cached_live_incidents(): return D.live_incidents(D.live_alerts())
+
+@st.cache_data(show_spinner=False)
+def cached_highlights(): return D.highlights()
 
 # ---------------- mau / nhan ----------------
 PRIO_COLOR = {"Cao": "#f05252", "Can xem lai": "#f5a524"}
@@ -97,12 +107,14 @@ CSS = """
 [data-testid="stMainBlockContainer"]{padding-top:1.1rem;padding-bottom:2.5rem;max-width:100%}
 [data-testid="stHeader"]{background:transparent}
 [data-testid="stDecoration"]{display:none}
+[data-testid="stElementToolbar"]{display:none}
+.vega-embed details{display:none}
 [data-testid="stSidebarHeader"]{padding-bottom:0}
 h1,h2,h3{letter-spacing:-.01em}
 .vtg-muted{color:var(--vtg-muted)}
 .vtg-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 18px;border:1px solid var(--vtg-border);border-radius:8px;
  background:linear-gradient(90deg,#121b2f 0%,#0f1729 100%);border-left:4px solid var(--vtg-green)}
-.vtg-top.vtg-eval{border-left-color:var(--vtg-amber)}
+.vtg-top.vtg-research{border-left-color:var(--vtg-amber)}
 .vtg-top .crumb{color:var(--vtg-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em}
 .vtg-top .title{font-size:1.32rem;font-weight:700;color:#f3f6fb;line-height:1.25}
 .vtg-top .tb{flex:1 1 480px;min-width:0}
@@ -113,12 +125,12 @@ h1,h2,h3{letter-spacing:-.01em}
 .vtg-pill.ok{color:#86efac;border-color:#1f5135}
 .vtg-pill.bad{color:#fca5a5;border-color:#7a2424}
 .vtg-pill.mode{font-weight:800;letter-spacing:.06em;color:#08101e}
-.vtg-pill.mode.ops{background:var(--vtg-green);border-color:var(--vtg-green)}
-.vtg-pill.mode.eval{background:var(--vtg-amber);border-color:var(--vtg-amber)}
+.vtg-pill.mode.siem{background:var(--vtg-green);border-color:var(--vtg-green)}
+.vtg-pill.mode.research{background:var(--vtg-amber);border-color:var(--vtg-amber)}
 .vtg-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px}
 .vtg-strip{margin:8px 0 16px;padding:7px 14px;border-radius:6px;font-size:.8rem}
-.vtg-strip.ops{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.30);color:#bbf7d0}
-.vtg-strip.eval{background:rgba(245,165,36,.09);border:1px solid rgba(245,165,36,.42);color:#fde68a}
+.vtg-strip.siem,.vtg-strip.ops{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.30);color:#bbf7d0}
+.vtg-strip.research,.vtg-strip.eval{background:rgba(245,165,36,.09);border:1px solid rgba(245,165,36,.42);color:#fde68a}
 .vtg-kpis{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:12px;margin:2px 0 16px}
 @media (max-width:1100px){.vtg-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:640px){.vtg-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -181,29 +193,42 @@ h1,h2,h3{letter-spacing:-.01em}
 .vtg-side{font-size:.74rem;color:var(--vtg-muted);line-height:1.55}
 .vtg-side b{color:#cbd5e1;font-weight:600}
 .vtg-note{font-size:.76rem;color:var(--vtg-muted);margin-top:4px}
+.vtg-reqs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:2px 0 16px}
+@media (max-width:1100px){.vtg-reqs{grid-template-columns:1fr}}
+.vtg-req{background:var(--vtg-panel);border:1px solid var(--vtg-border);border-radius:8px;padding:14px 16px;border-top:3px solid var(--vtg-amber)}
+.vtg-req .h{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#fde68a}
+.vtg-req .big{font-size:2rem;font-weight:800;color:#f3f6fb;line-height:1.15;margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.vtg-req ul{margin:4px 0 0 0;padding-left:18px}
+.vtg-req li{font-size:.8rem;color:#c6d0e2;margin:3px 0}
+.vtg-req .see{font-size:.72rem;color:var(--vtg-muted);margin-top:8px}
+.vtg-agents{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:8px}
+.vtg-infra{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:.74rem;color:#c6d0e2;margin:0 0 8px}
+.vtg-infra .n{background:var(--vtg-panel2);border:1px solid var(--vtg-border);border-radius:5px;padding:3px 8px}
+.vtg-infra .n.on{border-color:#1f5135;color:#86efac}
 </style>
 """
 
 def inject_css(): st.html(CSS)
 
-# ---------------- che do + thanh tieu de ----------------
-def eval_mode():
-    return bool(st.session_state.get("eval_mode", False))
-
-def header(crumb, title, sub=""):
-    """Thanh tieu de kieu SOC: duong dan trang, tieu de, trang thai (che do, nguon du lieu, checksum, cau hinh khoa) + dai bao che do.
-    Tra True neu dang o che do danh gia."""
-    ev = eval_mode(); cs = cached_checksum(); n_ok = sum(v is True for v in cs.values()); ok = n_ok == len(cs)
-    pi = cached_pipeline()
-    pills = [f'<span class="vtg-pill mode {"eval" if ev else "ops"}"><span class="vtg-dot"></span>{esc(T("pill_eval" if ev else "pill_ops"))}</span>',
-             f'<span class="vtg-pill">{esc(T("pill_source"))} <b>dataset-{esc(pi["dataset"])}</b></span>',
+# ---------------- phan + thanh tieu de ----------------
+def header(part, title, sub=""):
+    """Thanh tieu de kieu SOC. part: 'siem' (Phan A, thoi gian thuc, khong nhan) hoac 'research' (Phan B, ket qua nghien cuu).
+    Pill: phan, nguon du lieu (luong / dataset), cau hinh khoa, checksum artefact; dai bao duoi thanh ghi ro dang o phan nao."""
+    assert part in ("siem", "research")
+    cs = cached_checksum(); n_ok = sum(v is True for v in cs.values()); ok = n_ok == len(cs); pi = cached_pipeline()
+    if part == "siem":
+        stt = D.live_status() or {}; mode = stt.get("mode")
+        src = f'<span class="vtg-pill">{esc(T("pill_stream"))} <b>{esc(T("lv_mode_" + (mode or "none")))}</b></span>'
+    else:
+        src = f'<span class="vtg-pill">{esc(T("pill_source"))} <b>dataset-{esc(pi["dataset"])}</b></span>'
+    pills = [f'<span class="vtg-pill mode {part}"><span class="vtg-dot"></span>{esc(T("pill_" + part))}</span>', src,
              f'<span class="vtg-pill">{esc(T("pill_pipeline"))} <b>{esc(pi["strategy"])}-{esc(pi["variant"])} \u00b7 {esc(pi["lock_commit"])}</b></span>',
              f'<span class="vtg-pill {"ok" if ok else "bad"}">{esc(T("pill_checksum"))} <b>{n_ok}/{len(cs)}</b></span>']
-    st.markdown(f'<div class="vtg-top {"vtg-eval" if ev else "vtg-ops"}"><div class="tb"><div class="crumb">{esc(crumb)}</div>'
+    st.markdown(f'<div class="vtg-top vtg-{part}"><div class="tb"><div class="crumb">{esc(T("crumb_" + part))}</div>'
                 f'<div class="title">{esc(title)}</div>' + (f'<div class="sub">{esc(sub)}</div>' if sub else "") +
                 f'</div><div class="vtg-pills">{"".join(pills)}</div></div>'
-                f'<div class="vtg-strip {"eval" if ev else "ops"}">{esc(T("banner_eval" if ev else "banner_ops"))}</div>', unsafe_allow_html=True)
-    return ev
+                f'<div class="vtg-strip {part}">{esc(T("banner_" + part))}</div>', unsafe_allow_html=True)
+    return part == "research"
 
 def kpis(items):
     """items: [(nhan, gia tri, chu thich, tone)]; gia tri co the kem don vi nho: ('76', '/ 101')."""
@@ -232,18 +257,26 @@ def chain_html(chain):
                      f'<div class="tid">{k}</div><div class="tn">{esc(name)}</div></div>')
     return '<div class="vtg-chain">' + '<div class="vtg-arrow">&#8250;</div>'.join(steps) + "</div>"
 
-def lock_panel():
-    """Trang chi co o che do danh gia: hien khung khoa + nut bat che do danh gia."""
-    st.markdown(f'<div class="vtg-lock"><div class="t">{esc(T("lock_title"))}</div><div class="d">{esc(T("lock_desc"))}</div></div>',
-                unsafe_allow_html=True)
-    st.write("")
-    c = st.columns([2, 1, 2])[1]
-    c.button(T("lock_button"), type="primary", width="stretch", on_click=lambda: st.session_state.update(eval_mode=True))
-
 def goto_alert(code):
+    """Mo trang Chi tiet: LIVE-xxxx = canh bao luong truc tiep (Phan A), VTG-xxxx = canh bao tap kiem thu (Phan B)."""
+    st.session_state["detail_src"] = "live" if code.startswith("LIVE-") else "test"
     st.session_state["goto_alert"] = code
     st.switch_page("pages/detail.py")
 
 def goto_incident(code):
     st.session_state["goto_incident"] = code
     st.switch_page("pages/timeline.py")
+
+def mitre_html(counts, inc_counts=None, stacked=False):
+    """Ma tran MITRE ATT&CK gon: moi o = ky thuat, mau dam theo so canh bao."""
+    mx = max(counts.values()) or 1; cols = []
+    for tac in ("TA0007", "TA0006"):
+        cells = []
+        for k in [k for k in D.TTPS if D.MITRE[k][0] == tac]:
+            a = counts.get(k, 0); alpha = 0.08 + 0.57 * a / mx
+            extra = f' \u00b7 <b>{inc_counts.get(k, 0)}</b> {esc(T("ov_mitre_inc"))}' if inc_counts is not None else ""
+            cells.append(f'<div class="vtg-tcell" style="background:rgba(240,82,82,{alpha:.2f})"><div class="id">{k}</div>'
+                         f'<div class="nm">{esc(T("ttp_vi_" + k))}</div><div class="ct"><b>{a}</b> {esc(T("ov_mitre_alerts"))}{extra}</div></div>')
+        cols.append(f'<div class="vtg-tac"><div class="th">{esc(tactic_name(tac))} <span>{tac}</span></div><div class="vtg-tcells">{"".join(cells)}</div></div>')
+    sty = ' style="grid-template-columns:1fr"' if stacked else ""
+    return f'<div class="vtg-matrix"{sty}>{"".join(cols)}</div>'

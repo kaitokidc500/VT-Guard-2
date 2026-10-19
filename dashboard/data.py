@@ -14,7 +14,7 @@ Chay: python dashboard/data.py --write-manifest   (ghi manifest tu artefact hien
 """
 import argparse, hashlib, json, os, re
 from collections import Counter, defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 SPLITS = ("t_clean", "t_hard", "t_novel")
@@ -31,7 +31,8 @@ ARTEFACTS = ([f"reports/step8/alerts_{s}.jsonl" for s in SPLITS] + [f"reports/pr
              [f"reports/preds/vtseq_M3_ens_{s}.jsonl" for s in SPLITS] +
              ["reports/step8_results.json", "reports/step8/final_fusion.json", "reports/step8/m3_explain.json",
               "reports/step7/rules_provenance.json", "reports/step5_results.json", "reports/step6_results.json",
-              "reports/step7_results.json"])
+              "reports/step7_results.json"] +
+             [f"reports/step8/eval/fusion_{m}.json" for m in ("F0", "F1", "F3B")] + ["reports/step5/b0_wazuh.json"])
 
 def home():
     return Path(os.environ.get("VTGUARD_HOME") or Path(__file__).resolve().parent.parent).resolve()
@@ -204,33 +205,104 @@ def sort_queue(rows, how="uu tien roi diem"):
 # ---------------- trang Chi tiet canh bao ----------------
 def alert_detail(a, scores):
     """Phan ra diem cua mot canh bao: s = p + beta * r (nhi phan) va s_k = p_k + beta * r_k (TTP). Chi doc, khong tinh lai quyet dinh:
-    'chon' = TTP trong a['ttps'] (output pipeline); 's_k >= tau_k' chi de hien thi va duoc kiem bang test (0 lech)."""
-    fc = a["fusion_config"]; sc = scores[a["window_id"]]
+    'chon' = TTP trong a['ttps'] (output pipeline); 's_k >= tau_k' chi de hien thi va duoc kiem bang test (0 lech).
+    Canh bao truc tiep mang san p_ttp_ai / score_ttp trong ban ghi (khong co file preds)."""
+    fc = a["fusion_config"]
+    sc = {"s": a["score"], "s_ttp": a["score_ttp"], "p_ttp": a["p_ttp_ai"]} if "score_ttp" in a else scores[a["window_id"]]
     ttp = [{"ttp": k, "p": sc["p_ttp"][k], "bonus": round(sc["s_ttp"][k] - sc["p_ttp"][k], 6), "s": sc["s_ttp"][k],
             "tau": a["thresholds_ttp"][k], "kenh_luat": k in fc["rule_ttp_channels"], "chon": k in a["ttps"]} for k in TTPS]
     return {"p": a["p_ai"], "beta": fc["beta"], "r": int(bool(a["rule_ids"])), "bonus": round(a["score"] - a["p_ai"], 6),
             "s": a["score"], "tau": a["threshold"], "margin": round(a["score"] - a["threshold"], 6), "ttp": ttp}
 
+# ---------------- trang Truc tiep (kieu B) ----------------
+LIVE_ALERTS = "reports/step9/live/alerts.jsonl"
+LIVE_STATUS = "reports/step9/live/status.json"
+SAMPLE_LOG = "samples/replay_demo.jsonl.gz"
+
+def live_path(): return os.environ.get("VTGUARD_LIVE_ALERTS") or LIVE_ALERTS
+
+def status_path(): return os.environ.get("VTGUARD_LIVE_STATUS") or LIVE_STATUS
+
+LIVE_GAP_S = 900                                              # su co truc tiep: canh bao cung host cach nhau <= 15 phut
+
+def live_alerts():
+    """Canh bao do src/live/run.py (live / replay) ghi. Ma LIVE-xxxx theo thu tu dong cua so; su co LINC-xxx (live_incidents).
+    Khong co truong nhan; dong dang ghi do (JSON hong) bi bo qua."""
+    p = P(live_path()) if not os.path.isabs(live_path()) else Path(live_path())
+    if not p.exists(): return []
+    al = []
+    for l in open(p, encoding="utf-8"):
+        if not l.strip(): continue
+        try: a = json.loads(l)
+        except json.JSONDecodeError: continue                  # dong dang ghi do
+        assert not set(a) & set(LABEL_KEYS), "canh bao truc tiep chua truong nhan"
+        al.append({**a, "split": "live"})
+    al.sort(key=lambda a: (a.get("closed_at") or "", a["window_id"]))
+    for i, a in enumerate(al, 1):
+        a["code"] = f"LIVE-{i:04d}"; a["session"] = a["window_id"].split(":", 1)[0]; a["window"] = a["window_id"]
+    for inc in live_incidents(al):
+        for c in inc["alerts"]: next(a for a in al if a["code"] == c)["incident"] = inc["code"]
+    return al
+
+def live_incidents(al, gap_s=LIVE_GAP_S):
+    """Su co cua luong truc tiep (khong co phien / manifest): gom canh bao cung host, canh bao sau bat dau khong qua gap_s giay
+    sau khi canh bao truoc ket thuc. Cung cau truc ban ghi voi incidents(); ma LINC-xxx theo thoi diem bat dau."""
+    by_host = defaultdict(list)
+    for a in sorted(al, key=lambda a: (_dt(a["t0"]), a["code"])): by_host[a["host"]].append(a)
+    groups = []
+    for A in by_host.values():
+        cur = [A[0]]
+        for a in A[1:]:
+            if (_dt(a["t0"]) - max(_dt(x["t1"]) for x in cur)).total_seconds() > gap_s: groups.append(cur); cur = [a]
+            else: cur.append(a)
+        groups.append(cur)
+    out = [_incident(A[0]["host"], A[0]["window_id"].split(":", 1)[0], A) for A in groups]
+    out.sort(key=lambda i: (_dt(i["start"]), i["host"]))
+    for n, i in enumerate(out, 1): i["code"] = f"LINC-{n:03d}"
+    return out
+
+def replay_running(stt):
+    """Luong (live / replay) dang chay: status.json chua 'done' va cap nhat trong 30 s gan nhat."""
+    if not stt or stt.get("done"): return False
+    try: return (datetime.now(timezone.utc) - _dt(stt["updated_at"])).total_seconds() < 30
+    except (KeyError, ValueError): return False
+
+def start_replay(speed=10):
+    """Chay src/live/run.py replay log mau (nen) tu dashboard; ghi reports/step9/live/. -> True neu da khoi dong."""
+    import subprocess, sys
+    if replay_running(live_status()) or not P(SAMPLE_LOG).exists(): return False
+    subprocess.Popen([sys.executable, str(P("src/live/run.py")), "replay", "--input", str(P(SAMPLE_LOG)), "--speed", str(speed)],
+                     cwd=str(home()), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                     env={**os.environ, "VTGUARD_HOME": str(home())}, start_new_session=True)
+    return True
+
+def live_status():
+    p = Path(status_path()) if os.path.isabs(status_path()) else P(status_path())
+    try: return json.load(open(p, encoding="utf-8")) if p.exists() else None
+    except json.JSONDecodeError: return None
+
 # ---------------- trang Dong thoi gian su co ----------------
+def _incident(host, sess, A):
+    A = sorted(A, key=lambda a: (_dt(a["t0"]), a["window_id"]))
+    chain = []
+    for a in A:
+        chain += [k for k in TTPS if k in a["ttps"] and k not in chain]
+    end = max((a["t1"] for a in A), key=_dt)
+    return {"host": host, "session": sess, "start": A[0]["t0"], "end": end, "n": len(A),
+            "n_high": sum(a["decision_source"] == "both" for a in A), "max_score": max(a["score"] for a in A), "chain": chain,
+            "tactics": list(dict.fromkeys(MITRE[k][0] for k in chain)), "rules": sorted({r["id"] for a in A for r in a["rule_ids"]}),
+            "splits": sorted({a["split"] for a in A}), "alerts": [a.get("code", "") for a in A], "_window_ids": [a["window_id"] for a in A],
+            "priority": "Cao" if any(a["decision_source"] == "both" for a in A) else "Can xem lai",
+            "duration_s": round((_dt(end) - _dt(A[0]["t0"])).total_seconds(), 1)}
+
 def incidents(al):
     """Gom canh bao theo host + phien (phien da bo hau to). Chuoi TTP = thu tu xuat hien dau tien theo thoi gian
     (trong mot canh bao: thu tu MITRE cua TTPS). Ma INC-xxx theo thoi diem bat dau."""
     g = defaultdict(list)
     for a in al: g[(a["host"], mask_run(a["window_id"].split(":", 1)[0]))].append(a)
-    out = []
-    for (host, sess), A in g.items():
-        A = sorted(A, key=lambda a: (_dt(a["t0"]), a["window_id"]))
-        chain = []
-        for a in A:
-            chain += [k for k in TTPS if k in a["ttps"] and k not in chain]
-        out.append({"host": host, "session": sess, "start": A[0]["t0"], "end": max((a["t1"] for a in A), key=_dt), "n": len(A),
-                    "n_high": sum(a["decision_source"] == "both" for a in A), "max_score": max(a["score"] for a in A), "chain": chain,
-                    "tactics": list(dict.fromkeys(MITRE[k][0] for k in chain)), "rules": sorted({r["id"] for a in A for r in a["rule_ids"]}),
-                    "splits": sorted({a["split"] for a in A}), "alerts": [a.get("code", "") for a in A], "_window_ids": [a["window_id"] for a in A]})
+    out = [_incident(host, sess, A) for (host, sess), A in g.items()]
     out.sort(key=lambda i: (_dt(i["start"]), i["host"], i["session"]))
-    for n, i in enumerate(out, 1):
-        i["code"] = f"INC-{n:03d}"; i["priority"] = "Cao" if i["n_high"] else "Can xem lai"
-        i["duration_s"] = round((_dt(i["end"]) - _dt(i["start"])).total_seconds(), 1)
+    for n, i in enumerate(out, 1): i["code"] = f"INC-{n:03d}"
     return out
 
 def incident_rows(inc, eval_mode=False, labels=None):
@@ -369,6 +441,48 @@ def holm_rows():
                          "p": h["p"], "p_holm": h["p_holm"]})
     for r in rows: r["sig"] = r["p_holm"] < 0.05
     return rows
+
+def per_ttp_f1(split="t_novel"):
+    """F1 theo TTP tren mot tap test: B0 (luat Wazuh), VT-Seq-ens (F0), chi-luat (F1), F3-B - doc tu eval JSON Buoc 5 / 8."""
+    src = {"B0": "reports/step5/b0_wazuh.json", "VTSEQ": "reports/step8/eval/fusion_F0.json", "RULES": "reports/step8/eval/fusion_F1.json",
+           "F3B": "reports/step8/eval/fusion_F3B.json"}
+    out = {}
+    for k, rel in src.items():
+        pt = load_json(rel)["splits"][split]["ttp_tuned"]["per_ttp"]
+        out[k] = {t: {"f1": pt[t]["f1"]["point"], "lo": pt[t]["f1"]["lo"], "hi": pt[t]["f1"]["hi"], "n_pos": pt[t]["n_pos"], "tp": pt[t]["tp"]}
+                  for t in TTPS}
+    return out
+
+def highlights():
+    """So lieu chinh cho 3 yeu cau de tai (chi doc results JSON / eval JSON, khong tinh lai).
+    YC1 luat tu sinh co xuat xu (Buoc 7) - YC2 hop nhat AI + luat (Buoc 8) - YC3 mo hinh chuoi tuy bien (Buoc 6)."""
+    r6, r7, r8 = results(6), results(7), results(8)
+    cmp_ = {r["key"]: r for r in model_comparison()}; hr = holm_rows(); pt = per_ttp_f1("t_novel")
+    ro = r7["rules_only"]; sg = rule_engine_info()["sigma"]; pr = r8["explanation"]["precision_by_source"]["gop"]
+    st = r8["explanation"]["stats"]
+    ch = r6["chain"]
+    return {"blind": [t for t in TTPS if pt["B0"][t]["f1"] == 0.0], "per_ttp": pt,
+            "yc1": {"n_rules": len(r7["rules"]), "engine": r7["engine"]["chosen"], "rejected": sum(r7["n_rejected_by_gate"].values()),
+                    "sigma_errors": sg["errors"], "hard_fp": int(ro["t_hard_fp"]), "b0_hard_fp": int(cmp_["B0"]["t_hard_fp"]["v"]),
+                    "novel_f1": ro["t_novel_f1"]["point"], "ttp_rules": sorted({r["target"] for r in r7["rules"] if r["target"] != "bin"})},
+            "yc2": {"holm": [r for r in hr if r["family"] == 8], "both_tp": pr["both"]["tp"], "both_n": pr["both"]["n"], "ai_tp": pr["ai"]["tp"],
+                    "ai_n": pr["ai"]["n"], "with_rule": sum(st[s]["alerts"]["with_rule"] for s in SPLITS),
+                    "n_alerts": sum(st[s]["alerts"]["n"] for s in SPLITS),
+                    "rule_only": sum(st[s]["alerts"]["decision_source"].get("rule", 0) for s in SPLITS),
+                    "f3_macro": cmp_["F3B"]["macro_novel"], "ai_macro": cmp_["VTSEQ"]["macro_novel"], "rules_macro": cmp_["RULES"]["macro_novel"],
+                    "f3_prauc": cmp_["F3B"]["t_novel_pr_auc"], "rules_prauc": cmp_["RULES"]["t_novel_pr_auc"]},
+            "yc3": {"holm": next(r for r in hr if r["family"] == 6 and r["sig"]), "oof_m0": cell(ch["M0a"]["oof"]["macro_f1_ttp"]),
+                    "oof_m1": cell(ch["M1"]["oof"]["macro_f1_ttp"]), "hard_fp": cmp_["VTSEQ"]["t_hard_fp"]["v"], "b0_hard_fp": cmp_["B0"]["t_hard_fp"]["v"],
+                    "macro": cmp_["VTSEQ"]["macro_novel"], "b0_macro": cmp_["B0"]["macro_novel"], "b3_macro": cmp_["B3"]["macro_novel"],
+                    "deployed": r6["deployed_model"]}}
+
+def verify_info():
+    """Ket qua lenh verify gan nhat (reports/step9/verify.json) va thong tin image Docker (docker/image_info.json) neu co."""
+    out = {}
+    for k, rel in (("verify", "reports/step9/verify.json"), ("image", "docker/image_info.json")):
+        try: out[k] = load_json(rel)
+        except (OSError, json.JSONDecodeError): out[k] = None
+    return out
 
 def acceptance():
     return {s: results(s)["acceptance"] for s in (6, 7, 8)}

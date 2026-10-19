@@ -1,5 +1,6 @@
-"""Trang Luat: 11 luat Sigma tu sinh (RIPPER, chi Train), thong tin quy nap (Train / OOF), so cua so khop moi tap test,
-provenance, YAML + tai ve (tung luat / ca bo .zip). Che do danh gia: them TP / FP theo tap (step7_results.json per_rule)."""
+"""Phan B - trang Luat Sigma tu sinh (YC1 cua de tai, docs/STEP9-BRIEF.md muc 3.5): 11 luat (RIPPER, chi Train), thong tin quy nap
+(Train / OOF), TP / FP theo tap test (step7_results.json per_rule), provenance, cong chat luong, YAML + tai ve (tung luat / ca bo .zip),
+canh bao F3-B tren tap test dan chieu luat."""
 import io
 import zipfile
 
@@ -9,7 +10,7 @@ import streamlit as st
 import data as D
 from common import T, badge, cached_alerts, esc, goto_alert, header, kpis, kv, note, ptitle, short_split, styled
 
-ev = header(T("navsec_detect"), T("r_title"), T("r_intro"))
+ev = header("research", T("r_title"), T("r_intro"))
 al = cached_alerts(); rows = D.rule_rows(al, eval_mode=ev); info = D.rule_engine_info()
 n_bin = sum(r["dich"] == "bin" for r in rows)
 kpis([(T("r_k_rules"), str(len(rows)), T("r_k_rules_s", b=n_bin, t=len(rows) - n_bin), "blue"),

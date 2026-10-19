@@ -1,22 +1,24 @@
-"""Trang Dong thoi gian su co: gom canh bao theo host + phien (INC-xxx), chuoi TTP theo thoi gian kem ma / chien thuat MITRE,
-bieu do toan cuc + bieu do Gantt tung su co. Che do danh gia: them so canh bao nham va TTP that cua su co."""
+"""Phan A - trang Dong thoi gian su co (docs/STEP9-BRIEF.md muc 3.3): gom canh bao cua LUONG TRUC TIEP theo host + khoang nghi
+<= 15 phut (LINC-xxx, data.live_incidents), chuoi TTP theo thoi gian kem ma / chien thuat MITRE, ban do thoi gian + Gantt tung su co.
+Khong co nhan (Phan A)."""
 import altair as alt
 import pandas as pd
 import streamlit as st
 
 import data as D
-from common import (PRIO_COLOR, T, TTP_COLOR, badge, cached_alerts, cached_incidents, cached_labels, chain_html, esc, goto_alert, header,
-                    kpis, kv, note, prio_badge, prio_name, ptitle, short_split, styled, tone_prio, tone_res, ts, ttp_chips)
+from common import (PRIO_COLOR, T, TTP_COLOR, badge, cached_live, cached_live_incidents, chain_html, esc, goto_alert, header,
+                    kpis, kv, note, prio_badge, prio_name, ptitle, styled, tone_prio, ts)
 
-ev = header(T("navsec_monitor"), T("tl_title"), T("tl_intro"))
-al = cached_alerts(); inc = cached_incidents(); labels = cached_labels() if ev else None
-rows = D.incident_rows(inc, eval_mode=ev, labels=labels); by_inc = {i["code"]: i for i in inc}
+header("siem", T("tl_title"), T("tl_intro"))
+al = cached_live(); inc = cached_live_incidents()
+if not inc:
+    st.info(T("tl_empty_live")); st.stop()
+rows = D.incident_rows(inc); by_inc = {i["code"]: i for i in inc}
 
 n_ca = sum("TA0006" in i["tactics"] for i in inc)
 kp = [(T("tl_k_inc"), str(len(inc)), T("tl_k_inc_s"), "violet"), (T("tl_k_high"), str(sum(i["priority"] == "Cao" for i in inc)), T("tl_k_high_s"), "red"),
       (T("tl_k_ca"), str(n_ca), T("tl_k_ca_s"), "amber"), (T("tl_k_multi"), str(sum(len(i["chain"]) >= 3 for i in inc)), T("tl_k_multi_s"), "blue"),
       (T("tl_k_alerts"), str(sum(i["n"] for i in inc)), T("tl_k_alerts_s"), "teal")]
-if ev: kp.append((T("tl_k_fp"), str(sum(r["so_nham"] > 0 for r in rows)), T("tl_k_fp_s"), "gray"))
 kpis(kp)
 
 with st.container(border=True):
@@ -41,7 +43,7 @@ with st.container(border=True):
         tip = [alt.Tooltip("ma:N", title=T("col_ma")), alt.Tooltip("start:T", title=T("col_bat_dau"), format="%d/%m %H:%M:%S"),
                alt.Tooltip("n:Q", title=T("ov_axis_alerts")), alt.Tooltip("chuoi:N", title=T("tl_chain")), alt.Tooltip("chien_thuat:N", title=T("tl_tactic"))]
         pts = base.mark_circle(opacity=0.85, stroke="#0b1120", strokeWidth=1).encode(
-            x=alt.X("start:T", title=None, axis=alt.Axis(format="%d/%m %H:%M", labelAngle=0, tickCount=10)),
+            x=alt.X("start:T", title=None, axis=alt.Axis(format="%d/%m %H:%M", labelAngle=0, tickCount=8)),
             size=alt.Size("n:Q", scale=alt.Scale(range=[60, 600]), legend=None), tooltip=tip)
         st.altair_chart(pts.properties(height=190), width="stretch")
     else:
@@ -58,13 +60,11 @@ with st.container(border=True):
     st.session_state["_tl_codes"] = list(tab["ma"]) if len(tab) else []
     if len(tab):
         tab["uu_tien"] = tab["uu_tien"].map(prio_name); tab["bat_dau"] = tab["bat_dau"].map(ts); tab["ket_thuc"] = tab["ket_thuc"].map(ts)
-        tab["tap"] = tab["tap"].map(lambda s: ", ".join(short_split(x) for x in s.split(", ")))
-        cols = ["ma", "uu_tien", "host", "bat_dau", "thoi_luong_s", "so_canh_bao", "so_cao", "chuoi", "chien_thuat", "luat", "tap"]
-        if ev: cols[2:2] = ["so_nham", "ttp_that"]
+        cols = ["ma", "uu_tien", "host", "bat_dau", "thoi_luong_s", "so_canh_bao", "so_cao", "chuoi", "chien_thuat", "luat", "phien"]
         cfg = {c: st.column_config.Column(T(f"tl_col_{c}")) for c in cols}
         cfg |= {"ma": st.column_config.TextColumn(T("tl_col_ma"), pinned=True, width="small"), 
                 "thoi_luong_s": st.column_config.NumberColumn(T("tl_col_thoi_luong_s"), format="%.1f s")}
-        st.dataframe(styled(tab[cols], {"uu_tien": tone_prio(), "so_nham": {n: "red" for n in range(1, 65)}}), hide_index=True, width="stretch", height=330, column_config=cfg, on_select=_pick, selection_mode="single-row", key="inc_table")
+        st.dataframe(styled(tab[cols], {"uu_tien": tone_prio()}), hide_index=True, width="stretch", height=min(330, 36 * (len(tab) + 1) + 4), column_config=cfg, on_select=_pick, selection_mode="single-row", key="inc_table")
     note(T("tl_list_note"))
 
 if not codes: st.stop()
@@ -83,11 +83,7 @@ with st.container(border=True):
     i = by_inc[c]; ia = sorted([a for a in al if a["incident"] == c], key=lambda a: (D._dt(a["t0"]), a["code"]))
     facts = [(T("col_host"), esc(i["host"])), (T("d_session"), f'<span class="vtg-mono">{esc(i["session"])}</span>'),
              (T("d_time"), esc(f"{ts(i['start'])} \u2192 {ts(i['end'])} UTC ({i['duration_s']:.1f} s)")),
-             (T("tl_col_so_canh_bao"), esc(T("tl_n_alerts", n=i["n"], h=i["n_high"]))), (T("col_luat"), esc(", ".join(i["rules"]) or "-")),
-             (T("col_tap"), esc(", ".join(short_split(s) for s in i["splits"])))]
-    if ev:
-        r = next(r for r in rows if r["ma"] == c)
-        facts += [(T("tl_col_so_nham"), badge(str(r["so_nham"]), "red" if r["so_nham"] else "green")), (T("col_ttp_that"), ttp_chips(r["ttp_that"].split(", ") if r["ttp_that"] else []))]
+             (T("tl_col_so_canh_bao"), esc(T("tl_n_alerts", n=i["n"], h=i["n_high"]))), (T("col_luat"), esc(", ".join(i["rules"]) or "-"))]
     st.markdown(f'<div class="vtg-card"><div class="head"><span class="code">{esc(c)}</span>{prio_badge(i["priority"])}'
                 f'{"".join(badge(D.TACTICS[t], "violet") for t in i["tactics"])}</div>{kv(facts)}</div>', unsafe_allow_html=True)
     ptitle(T("tl_chain"), T("tl_chain_h"))
@@ -112,14 +108,11 @@ with st.container(border=True):
     st.altair_chart((bars + ticks).resolve_scale(color="independent").properties(height=max(110, 40 * len(i["chain"]) + 30)), width="stretch")
 
     ptitle(T("tl_alerts"), T("tl_alerts_h"))
-    lab = cached_labels() if ev else None
     at = pd.DataFrame([{"ma": a["code"], "uu_tien": prio_name(D.PRIORITY[a["decision_source"]]), "bat_dau": ts(a["t0"]), "ket_thuc": ts(a["t1"]),
-                        "diem": a["score"], "ttps": ", ".join(a["ttps"]), "luat": ", ".join(r["id"] for r in a["rule_ids"]),
-                        **({"ket_qua": T("res_Dung" if lab[a["window_id"]][0] else "res_Nham")} if ev else {})}
-                       for a in ia])
+                        "diem": a["score"], "ttps": ", ".join(a["ttps"]), "luat": ", ".join(r["id"] for r in a["rule_ids"])} for a in ia])
     cfg = {k: st.column_config.Column(T(f"col_{k}")) for k in at.columns}
     cfg |= {"diem": st.column_config.NumberColumn(T("col_diem"), format="%.4f")}
-    sel = st.dataframe(styled(at, {"uu_tien": tone_prio(), "ket_qua": tone_res()}), hide_index=True, width="stretch", column_config=cfg,
+    sel = st.dataframe(styled(at, {"uu_tien": tone_prio()}), hide_index=True, width="stretch", column_config=cfg,
                        on_select="rerun", selection_mode="single-row", key=f"inc_alerts_{c}")
     pr = sel.selection.rows if sel is not None and hasattr(sel, "selection") else []
     b1, b2 = st.columns([3, 1])

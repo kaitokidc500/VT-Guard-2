@@ -35,3 +35,17 @@ Thumbs.db
 .DS_Store
 .vscode/
 .idea/
+
+# Docker (Buoc 9): build context sinh tu docker/stage.py, file image
+docker/build/
+*.tar
+docker/out/
+# Luong truc tiep (Buoc 9): trang thai luc chay, sinh lai bang src/live/run.py
+reports/step9/live/alerts.jsonl
+reports/step9/live/status.json
+reports/step9/live/connector_state.json
+reports/step9/live/*.tmp
+# Ban sao preds giai nen tu Colab (trung reports/preds/)
+reports/step6/m3/reports/
+# Log Wazuh tho mau cho replay (chi dong vao image Docker, khong dua len git)
+samples/*.jsonl.gz

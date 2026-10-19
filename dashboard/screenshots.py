@@ -8,12 +8,10 @@ from pathlib import Path
 
 # (ten file, duong dan, phan tu cho, chieu cao cua so): Streamlit cuon trong khung rieng nen full_page khong du -> dat chieu cao
 _KPI, _DF = ".vtg-kpis", "[data-testid='stDataFrame']"
-PAGES = [("01_tong_quan_van_hanh", "", _KPI, 1850), ("02_tong_quan_danh_gia", "?mode=danh-gia", _KPI, 2200),
-         ("03_hang_doi_van_hanh", "queue", _DF, 1250), ("04_hang_doi_danh_gia", "queue?mode=danh-gia", _DF, 1250),
-         ("05_chi_tiet_van_hanh", "detail", _DF, 1800), ("06_chi_tiet_danh_gia", "detail?mode=danh-gia", _DF, 1800),
-         ("07_dong_thoi_gian_van_hanh", "timeline", _DF, 2050), ("08_dong_thoi_gian_danh_gia", "timeline?mode=danh-gia", _DF, 2100),
-         ("09_luat_van_hanh", "rules", _DF, 1650), ("10_luat_danh_gia", "rules?mode=danh-gia", _DF, 1650),
-         ("11_danh_gia_khoa_van_hanh", "evaluation", ".vtg-lock", 500), ("12_danh_gia", "evaluation?mode=danh-gia", _DF, 1150)]
+# Phan A can luong truc tiep da co canh bao (reports/step9/live/alerts.jsonl: chay replay truoc)
+PAGES = [("A1_truc_tiep_hang_doi", "", _DF, 1500), ("A2_chi_tiet_truc_tiep", "detail", _DF, 2000),
+         ("A3_dong_thoi_gian", "timeline", _DF, 1900), ("B1_ket_qua_nghien_cuu", "evaluation", ".vtg-reqs", 1500),
+         ("B2_chi_tiet_tap_test", "detail?alert=VTG-0001", _DF, 2000), ("B3_luat_sigma", "rules", _DF, 1650)]
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--url", default="http://localhost:8501"); ap.add_argument("--channel", default="chrome")
