@@ -11,6 +11,8 @@ Khong can Indexer, khong can mang, khong doc nhan. Dung samples/replay_demo.json
      (container == host); ban ghi canh bao = schema Buoc 8 + truong luong truc tiep, KHONG co truong nhan; do tre >= 0
   L6 AlertPusher: _bulk ndjson dung index vtguard-alerts-YYYY.MM.DD, dem ban ghi thanh cong
   L7 dashboard doc canh bao truc tiep: ma LIVE-xxxx, su co LINC-xxx, khong co truong nhan
+  L10 demo_report: doi chieu Wazuh <-> VT-Guard theo phien demo (Indexer gia lap)
+  L9 prune(): don trang thai tien trinh cu hon TTL khong doi ket qua (chay dai ngay khong phinh bo nho)
   L8 IndexerSource voi Indexer GIA LAP cuc bo (http.server): phan trang + nhieu event cung timestamp doc dung 1 lan, checkpoint
      luu file, khoi dong lai khong doc trung, check() bao so event / agent, AlertPusher ghi _bulk; khong can mang lab
 Chay: python src/live/test_live.py [--write-ref]
@@ -210,6 +212,45 @@ def main():
             else: os.environ[k] = v
     check("L8 Indexer gia lap: phan trang 50 + 40 event cung timestamp doc dung 1 lan, khoi dong lai khong doc trung, check(), _bulk",
           ok8, f"{len(got1)}/{len(docs)} event, lan 2: {len(got2)}; check {chk['agents']}; bulk {len(bulk)}")
+
+    # L9: don trang thai cu (chay dai ngay) khong doi ket qua
+    import windower as WM
+    def run_w(ttl):
+        old = WM.STATE_TTL_H; WM.STATE_TTL_H = ttl
+        try:
+            w = Windower(); src = C.FileSource(SAMPLE, poll_s=10.0); out = []
+            while not src.done():
+                r, now = src.poll(); out += w.add(r, now)
+            out += w.tick(now, force=True)
+            return [(x["window_id"], x["_keys"]) for x in out], len(w.prep.e1), w.prep.stats.get("don_tien_trinh_cu", 0)
+        finally: WM.STATE_TTL_H = old
+    base, n_base, _ = run_w(10_000); short, n_short, pruned = run_w(0.75)
+    check("L9 don trang thai tien trinh cu (TTL 45 phut) khong doi cua so / event, va thuc su giai phong bo nho",
+          base == short and pruned > 0 and n_short < n_base, f"{len(short)} cua so trung khop; e1 {n_base} -> {n_short}, da don {pruned}")
+
+    # L10: bao cao doi chieu Wazuh <-> VT-Guard theo phien demo
+    import demo_report as DR
+    fx = os.path.join(ROOT, "dashboard", "fixtures", "live_alerts.jsonl")
+    fal = [json.loads(l) for l in open(fx, encoding="utf-8")]
+    a_ntds = next(x for x in fal if "T1003.003" in x["ttps"]); a_disc = next(x for x in fal if "T1018" in x["ttps"] and x["host"] == "WIN10-01")
+    man = [{"run_id": "demo-ntds", "class": "attack", "host": a_ntds["host"], "ttps": ["T1003.003"], "t_start": a_ntds["t0"], "t_end": a_ntds["t1"]},
+           {"run_id": "demo-disc", "class": "attack", "host": a_disc["host"], "ttps": ["T1018", "T1016"], "t_start": a_disc["t0"], "t_end": a_disc["t1"]},
+           {"run_id": "demo-hn", "class": "hard_negative", "host": "WIN10-01", "ttps": [], "t_start": "2026-10-20T00:00:00Z", "t_end": "2026-10-20T00:05:00Z"}]
+    wz_hits = {"DC01": [{"timestamp": a_ntds["t0"], "rule": {"id": "92052", "level": 4, "description": "Windows command prompt started by an abnormal process",
+                                                         "mitre": {"id": ["T1059.003"]}}}],
+               "WIN10-01": [{"timestamp": a_disc["t0"], "rule": {"id": "92103", "level": 6, "description": "LDAP activity", "mitre": {"id": ["T1018"]}}}]}
+    class FakeSrc:
+        def req(self, path, body=None, **kw):
+            host = body["query"]["bool"]["filter"][0]["term"]["agent.name"]; rng = body["query"]["bool"]["filter"][1]["range"]["timestamp"]
+            hits = [h for h in wz_hits.get(host, []) if rng["gte"] <= C._parse(h["timestamp"]).timestamp() * 1000 <= rng["lte"]]
+            return {"hits": {"hits": [{"_source": h} for h in hits]}}
+    rows = {r["run_id"]: r for r in DR.build(man, fx, FakeSrc())}
+    md = DR.render(list(rows.values()), 4)
+    ok10 = (rows["demo-ntds"]["ket_luan"] == "VT-Guard gan dung, Wazuh khong" and rows["demo-ntds"]["wazuh"]["n"] == 1
+            and rows["demo-disc"]["wazuh"]["ttp_dung"] == {"T1018": True, "T1016": False} and rows["demo-disc"]["vtguard"]["ttp_dung"]["T1018"]
+            and rows["demo-hn"]["ket_luan"].startswith("VT-Guard im lang") and "| demo-ntds |" in md)
+    check("L10 demo_report: doi chieu Wazuh <-> VT-Guard theo phien (gan dung TTP, phien quan tri im lang)", ok10,
+          "; ".join(f"{k}: {v['ket_luan']}" for k, v in rows.items()))
 
     print(f"\nKET QUA: {sum(RESULTS)}/{len(RESULTS)} PASS trong {time.time() - t_start:.1f}s")
     sys.exit(0 if all(RESULTS) else 1)

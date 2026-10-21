@@ -103,7 +103,8 @@ def main():
     ap.add_argument("--gap", type=float, default=GAP_DEFAULT)
     ap.add_argument("--tool-mode", choices=["orchestrator", "console"], default="orchestrator")
     ap.add_argument("--out", default=None); ap.add_argument("--append", action="store_true", help="replay: ghi tiep thay vi lam moi")
-    ap.add_argument("--push-alerts", action="store_true", help="live: ghi canh bao vao vtguard-alerts-* (mac dinh tat)")
+    ap.add_argument("--push-alerts", action=argparse.BooleanOptionalAction, default=False,
+                    help="live: ghi canh bao vao vtguard-alerts-* (mac dinh tat; --no-push-alerts de tat ro rang)")
     ap.add_argument("--start", default=None, help="live: moc bat dau (ISO) neu chua co file trang thai")
     ap.add_argument("--check", action="store_true", help="live: chi kiem tra ket noi / tai khoan / event moi cua agent roi thoat")
     ap.add_argument("--reset", action="store_true", help="live: bo checkpoint + canh bao cu, doc tu bay gio (hoac --start)")

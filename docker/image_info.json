@@ -1,11 +1,11 @@
 {
  "linux/amd64": {
   "tar": "vtguard_amd64.tar",
-  "bytes": 222724096,
-  "sha256": "4aa7ac7f768e91cf34ffa03280ec8b3f6ed76aa4e17efc83b8437147f5347fa5",
+  "bytes": 222730240,
+  "sha256": "d45fa5d6cad717c2dab9d78368eabab9524eeb047b8febd36f946c4773c74931",
   "image": "vtguard:step9",
   "platform": "linux/amd64",
-  "image_id": "sha256:c02232f02e803f9673eff6be9347e4a9d7ded24b27bce422b99928a3eb8875c5",
-  "image_size": 222705203
+  "image_id": "sha256:6af0268a8b00af3bc6b76d1e5c04647e8dd5c6b39762283fd06e1f93efbcec4e",
+  "image_size": 222711624
  }
 }

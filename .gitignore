@@ -51,3 +51,12 @@ reports/step6/m3/reports/
 samples/*.jsonl.gz
 # Thong tin dang nhap Indexer cho che do live (Buoc 9 moc 4) - KHONG commit
 secrets/
+# Bao cao Word (Buoc 10): thu vien npm + ban render kiem tra
+report/node_modules/
+report/render/
+# Trien khai moc 4: cau hinh + mat khau tren VT-SIEM01 (khong commit)
+deploy/.env
+deploy/secrets/
+# Cho phep cac file mau .env.example (khong chua bi mat that)
+!*.env.example
+!deploy/.env.example

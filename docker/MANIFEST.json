@@ -1,10 +1,10 @@
 {
  "image": "vtguard:step9",
- "git_head": "eb3c5b86fd41c3b357d0dd4e188d27a5e47ce8fb",
+ "git_head": "abc3c58c375126ac8f6addcf0f0d5b855ec464ab",
  "worktree_dirty": true,
  "dataset": "dataset-v1.2",
- "n_files": 714,
- "bytes": 53577968,
+ "n_files": 716,
+ "bytes": 53598698,
  "notes": {
   "windows.jsonl": "chi 326 cua so cua 3 tap test (t_clean, t_hard, t_novel), dong nguyen van tu ban host",
   "samples/replay_demo.jsonl.gz": "log Wazuh mau duy nhat (brief 6.1: 'mot file log mau cho replay'); khong co log tho nao khac",
@@ -12,7 +12,7 @@
  },
  "files": {
   "README_DOCKER.md": {
-   "sha256": "27ba0af3f45c3c504a4f91d69c471f1dbea56d1201f12ebffafd2fd85b1aeb95",
+   "sha256": "92a1007ef52ba2af97f057a66b4ffd56c34d0dfa8a5c429c9f62d08bc669e83f",
    "bytes": 5144
   },
   "dashboard/app.py": {
@@ -36,8 +36,8 @@
    "bytes": 17977
   },
   "dashboard/data.py": {
-   "sha256": "6eabe5c8c325dc46145d60ab44ef6da3be717fb0362ceab97db9ae8be5a0bb2d",
-   "bytes": 29015
+   "sha256": "ab9f1012d1b5a0ccecef2fcb58f77cb67a38e47c2bddd1dd625e3cd4b12464a9",
+   "bytes": 29847
   },
   "dashboard/fixtures/live_alerts.jsonl": {
    "sha256": "b4835e005b5d5e2997c8cd594c79dd699c0c2487aceb0ee904c0cde3ef129f3d",
@@ -56,8 +56,8 @@
    "bytes": 20498
   },
   "dashboard/pages/live.py": {
-   "sha256": "c08a1d6cc21f58b1b1219e22a2efb1773d37645d9f6bcf2519e4044ac49eadfc",
-   "bytes": 12083
+   "sha256": "1da3d9cec3a4a9157c04e707067bb10121bdfc757c73921ab676afae8979d207",
+   "bytes": 12111
   },
   "dashboard/pages/rules.py": {
    "sha256": "8ef06c12666ac456a0397276eebbdd88a42dd5f513c687b0c777a6d670c8b6fa",
@@ -116,11 +116,11 @@
    "bytes": 2447
   },
   "docker/entrypoint.sh": {
-   "sha256": "035c1269db04757fa8ef03d0fff655855599c78a1558d5da8717761b010affc3",
-   "bytes": 2780
+   "sha256": "88db88d15e204a1e5750661ad3b6ba1282244419907f72c32d3229255aefb499",
+   "bytes": 3179
   },
   "docker/image_info.json": {
-   "sha256": "52319e4826f1599daaf6a0dd508a640ec147aa255478eaa49ce03f26c4ecee73",
+   "sha256": "b8712fb8ff99b1a1e413de42760b3399cb013fe2770eda12398391905b4e1299",
    "bytes": 338
   },
   "docker/requirements.freeze.txt": {
@@ -132,8 +132,8 @@
    "bytes": 221
   },
   "docker/scan.py": {
-   "sha256": "7df7d9f060164bac0120d208fc17d8310dc13d5b167c589cc488f33fb740440b",
-   "bytes": 4230
+   "sha256": "7c032cb836a4c3ab8c2897926ab0cbbc5693e99322c0779cbc24ad0b0972ce23",
+   "bytes": 4307
   },
   "docker/stage.py": {
    "sha256": "0f336631ca6ad3032eded0e03c9f8816ea64c193fde4c1a88fc51bd946159f10",
@@ -2564,8 +2564,8 @@
    "bytes": 1764
   },
   "reports/step9_report.md": {
-   "sha256": "939f5305c401ed87e26d595adf08fa289b72853c4e6ffa2f16c1f5424776d1b0",
-   "bytes": 9519
+   "sha256": "fb7d582664f9160675779616dd4a3e57c0873cf78ffe3836b164d1501cf7b374",
+   "bytes": 11848
   },
   "reports/vocab.json": {
    "sha256": "9886ee564f6613bf83290656e7480184b25b21a1b1d5bb6b5954b3d865aa5fb1",
@@ -2744,28 +2744,36 @@
    "bytes": 0
   },
   "src/live/connector.py": {
-   "sha256": "e5c8a8eb3ec83e9911aae1236d3426aac8043b95e2bee50028a350a580131870",
-   "bytes": 11010
+   "sha256": "5555bbc762452491199a498b87d490cec7963b2e0238755be81f94da5ed421e5",
+   "bytes": 12019
+  },
+  "src/live/demo_report.py": {
+   "sha256": "b4a81214348590d7c720328e0de4775b8b9876ff1f7aa547ee63d7566851044f",
+   "bytes": 8537
   },
   "src/live/drift.py": {
    "sha256": "b278388aca92b6507261f48d9fcc94be15c78e17b5d20bd00ca9203127651979",
    "bytes": 7651
+  },
+  "src/live/health.py": {
+   "sha256": "d98d4cd298f2338284524ba40c890a1a8998f8c6d87af0e21fcd422954376b46",
+   "bytes": 2058
   },
   "src/live/make_sample.py": {
    "sha256": "a2db29c6c6254e09e1ec12d3536d18d4679c208a99ebb7a8a7e34c50f91fd5fb",
    "bytes": 1524
   },
   "src/live/run.py": {
-   "sha256": "04cd1776efc66dc5429b1cce6c967d41ced98838773e1d29fd4921fa231e1a9d",
-   "bytes": 8990
+   "sha256": "703b9e5b541dd2fd40d579c7080506e8de69edd21707bddf417959c5359a33ce",
+   "bytes": 9076
   },
   "src/live/test_live.py": {
-   "sha256": "521b4801261fa6d4530c784292f1be45a1d796ec86e1025a15392fd6542b5f29",
-   "bytes": 15515
+   "sha256": "bcda694a779c9494ae5ddfcef30d3166c550b5cab63bcd295d44e2be3e7d3643",
+   "bytes": 18884
   },
   "src/live/windower.py": {
-   "sha256": "1a2eb39738fd95b888a577cd659976cf05bb4e827c67fd9d4166bca5693a641b",
-   "bytes": 12521
+   "sha256": "381e77aa21844c433e6d0a80b144b5ee6589cebd31b6bede94c4631b71f31d46",
+   "bytes": 14527
   },
   "src/models/__init__.py": {
    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",

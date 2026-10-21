@@ -87,18 +87,39 @@ phai do tre that. Tren lab that cong them chu ky doc 12 s va nguong im lang 30 s
 | `selftest --network none` | dashboard 31/31, luong truc tiep 9/9, quet file SACH |
 | Quet image (`docker/scan.py`) | 0 checkpoint; 0 log tho / event gan nhan (ngoai `samples/replay_demo.jsonl.gz`, brief 6.1 yeu cau); 0 thong tin dang nhap |
 | `demo` | dashboard + phat lai log mau x10 trong container, health check DAT |
-| Xuat file | `docker/out/vtguard_amd64.tar` 223 MB, sha256 `4aa7ac7f768e91cf...f5347fa5` (day du o `docker/image_info.json`) |
+| Xuat file | `docker/out/vtguard_amd64.tar` 223 MB, sha256 `d45fa5d6cad717c2...73c74931` (day du o `docker/image_info.json`) |
 | Huong dan | `README_DOCKER.md` |
 
 Chua lam: ban `linux/arm64` (chua biet kien truc may giang vien - brief 6.3), chay thu tren may sach.
 
-## 4. Tieu chi chap nhan (brief muc 7)
+## 4. Moc 4: tich hop vao ha tang + kich ban demo
+
+Trien khai VT-Guard CANH wazuh-docker tren VT-SIEM01 (10.20.30.10), dashboard cong rieng 8501; Wazuh giu nguyen moi cong.
+Code + tai lieu da san sang; chay thuc te trong lab con lai (can hai endpoint + Indexer that).
+
+- **`deploy/docker-compose.yml`** (2 dich vu): `vtguard-live` (lenh `stream` - chi luong, doc `https://wazuh.indexer:9200` qua
+  mang Docker cua Wazuh nen kiem TLS day du; checkpoint + canh bao o volume `vtguard_live`, restart doc tiep) va `vtguard-dashboard`
+  (cong `10.20.30.10:8501`, `VTG_DISABLE_REPLAY=1` de nut phat lai khong ghi de canh bao that). `.env.example` + `secrets/vtguard.env.example`.
+- **Gia co van hanh:** connector thu lai Indexer 5->60 s giu checkpoint, dung han khi 401/403; `windower.prune()` don tien trinh cu
+  hon `VTG_STATE_TTL_H` = 12 h (test L9: khong doi ket qua, giai phong bo nho); dashboard chi doc 3000 canh bao moi nhat (`_tail`);
+  healthcheck `src/live/health.py` (luong: status.json tuoi <= 3 chu ky; dashboard: HTTP); gioi han RAM 1 GB / 768 MB; log xoay vong.
+- **Lenh entrypoint moi:** `stream` (chi luong), `health [live|dashboard]`; `--push-alerts` thanh `BooleanOptionalAction`.
+- **Huong dan:** `docs/STEP9-M4-DEPLOY.md` (dua image vao VT-SIEM01, tai khoan Indexer rieng chi doc archives/alerts + ghi
+  vtguard-alerts-*, cau hinh, `--check`, `docker compose up -d`, van hanh/su co); `docs/STEP9-M4-DEMO.md` (7 kich ban KB1-KB7).
+- **Tuong phan voi Wazuh co bang chung (tu du lieu da thu):** luat Wazuh co san chu yeu ban 92052 muc 4 "abnormal process" gan
+  T1059.003 cho moi TTP LOTL -> **gan SAI ky thuat**; T1087.002 thinh thoang co 92103 (gan nham T1018). B0 macro-F1 TTP 0,12; F1=0 o
+  T1016/T1018/T1654/T1003.003. Kich ban demo lam noi dung tuong phan nay (KB2, KB4); Wazuh KHONG nhan ra trich xuat NTDS la credential dumping.
+- **`src/live/demo_report.py`** sinh bang doi chieu Wazuh <-> VT-Guard theo tung phien demo (manifest + khung thoi gian; doc
+  `wazuh-alerts-*` va canh bao VT-Guard): moi phien ghi Wazuh co gan dung TTP khong, VT-Guard co gan dung khong, ket luan. Test L10.
+- **Kiem thu:** `src/live/test_live.py` 11/11 (them L9 prune, L10 demo_report); `dashboard/test_data.py` 31/31; `verify` 7/7.
+
+## 5. Tieu chi chap nhan (brief muc 7)
 
 | # | Tieu chi | Trang thai |
 |---|---|---|
 | 1 | Dashboard tieng Viet, 5 trang gon, hai che do tach bach; so lieu trung artefact | DAT: 5 trang, 2 phan (SIEM khong nhan / Nghien cuu co nhan), 31/31 test so lieu + trang |
-| 2 | `live` doc `wazuh-archives-*` -> trang Truc tiep; (tuy chon) `vtguard-alerts-*`; `replay` khong can Indexer | Code + test xong; `replay` DAT; **`live` chua chay voi Indexer that (moc 4, trong lab)** |
-| 3 | Kich ban demo muc 4 chay tron | **Chua** (moc 4, trong lab) |
+| 2 | `live` doc `wazuh-archives-*` -> trang Truc tiep; (tuy chon) `vtguard-alerts-*`; `replay` khong can Indexer | Code + compose + healthcheck + retry xong; `replay` DAT; **chay voi Indexer that trong lab con lai** |
+| 3 | Kich ban demo muc 4 chay tron | Kich ban + script doi chieu (`docs/STEP9-M4-DEMO.md`, `demo_report.py`) xong; **chay tron trong lab con lai** |
 | 4 | Docker build duoc, `verify` DAT voi `--network none`, khong log tho / checkpoint / dang nhap | DAT |
 | 5 | `vtguard.tar` + `README_DOCKER.md` + `docker/MANIFEST.json` + bao cao do lech | DAT (tar khong vao git) |
 | 6 | `step9_report.md` + anh, commit, push, tag `step9-done` | Bao cao + anh xong; commit / tag cho xac nhan |

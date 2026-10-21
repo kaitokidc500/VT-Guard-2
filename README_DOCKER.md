@@ -73,7 +73,20 @@ trực tiếp, nhanh gấp 10 lần thời gian thật; khoảng im lặng dài 
 | `infer --input /data/windows.jsonl --out /out/alerts.jsonl` | chạy pipeline trên file cửa sổ của bạn (`-v` mount thư mục) |
 | `live --env-file /secrets/vtguard.env [--push-alerts]` | chỉ dùng trong lab: nối Indexer Wazuh thật (xem dưới) |
 
-## Chế độ `live` (chỉ trong lab)
+## Triển khai cạnh Wazuh trên máy chủ SIEM
+
+Để chạy VT-Guard **cố định trên VT-SIEM01 (10.20.30.10) cạnh wazuh-docker**, dashboard ở cổng 8501, với tự khởi động lại,
+healthcheck và ghi ngược `vtguard-alerts-*`, dùng `deploy/docker-compose.yml`. Hướng dẫn đầy đủ: **`docs/STEP9-M4-DEPLOY.md`**;
+bộ kịch bản demo trước hội đồng: **`docs/STEP9-M4-DEMO.md`**.
+
+```bash
+cd deploy && cp .env.example .env && mkdir -p secrets && cp vtguard.env.example secrets/vtguard.env
+# sửa .env (mạng Wazuh, cổng) và secrets/vtguard.env (mật khẩu Indexer)
+docker compose run --rm vtguard-live stream --env-file /secrets/vtguard.env --check   # kiểm kết nối
+docker compose up -d
+```
+
+## Chế độ `live` (một container, trong lab)
 
 Thông tin đăng nhập KHÔNG nằm trong image: mount file từ ngoài lúc chạy.
 

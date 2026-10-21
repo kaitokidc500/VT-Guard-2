@@ -6,13 +6,15 @@
 #   infer --input <file> [--out <file>]   pipeline tren file cua so (dinh dang windows.jsonl) mount tu ngoai
 #   replay [--input <log>] [--speed k]    phat lai log qua pipeline truc tiep (mac dinh samples/replay_demo.jsonl.gz)
 #   live --env-file <file> [--push-alerts]  (chi trong lab) noi Indexer that + dashboard; dang nhap mount tu ngoai, khong nam trong image
+#   stream --env-file <file> [--push-alerts]  CHI luong live (tien canh) - dich vu vtguard-live trong deploy/docker-compose.yml
+#   health [live|dashboard]   kiem tra suc khoe cho Docker healthcheck (luong: status.json cap nhat <= 3 chu ky; dashboard: HTTP)
 #   selftest                  kiem thu khong can GPU / mang (dashboard + luong truc tiep + quet file nhay cam)
 #   scan                      quet image: 0 checkpoint / log tho / thong tin dang nhap
 set -e
 cd "${VTGUARD_HOME:-/app}"
 cmd="${1:-dashboard}"; [ $# -gt 0 ] && shift
 
-dash() { exec python -m streamlit run dashboard/app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true \
+dash() { exec python -m streamlit run dashboard/app.py --server.port "${VTG_PORT:-8501}" --server.address 0.0.0.0 --server.headless true \
            --browser.gatherUsageStats false "$@"; }
 
 # chay luong (replay / live) nen, log ra stdout container; dung trong 5 s dau (vd sai dang nhap) -> thoat loi, khong mo dashboard rong
@@ -36,6 +38,8 @@ case "$cmd" in
     case " $* " in *" --input "*) ;; *) set -- --input samples/replay_demo.jsonl.gz "$@" ;; esac
     exec python src/live/run.py replay "$@" ;;
   live) stream_bg live "$@"; dash ;;
+  stream) exec python src/live/run.py live "$@" ;;
+  health) exec python src/live/health.py "${1:-live}" ;;
   selftest)
     rc=0
     python dashboard/test_data.py || rc=1
@@ -45,5 +49,5 @@ case "$cmd" in
     exit $rc ;;
   scan) exec python docker/scan.py "${1:-/app}" ;;
   sh|bash) exec /bin/sh "$@" ;;
-  *) echo "Lenh: dashboard | demo | verify | infer | replay | live | selftest | scan"; exit 2 ;;
+  *) echo "Lenh: dashboard | demo | verify | infer | replay | live | stream | health | selftest | scan"; exit 2 ;;
 esac

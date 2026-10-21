@@ -36,7 +36,8 @@ from label import HARNESS, UPLOAD_RE, OPERATOR_RE, LIFE_SLACK, is_fragment      
 from windows import EVENT_FIELDS, SCAFFOLD_DROP_IMAGES, neutral_parent            # noqa: E402
 
 W_DEFAULT, IDLE_DEFAULT, GAP_DEFAULT = 64, 30.0, 120.0
-DEDUP_MAX = 2_000_000
+DEDUP_MAX = 300_000                  # trung lap chi xay ra trong vai phut (export / doc lai chong lan)
+STATE_TTL_H = float(os.environ.get("VTG_STATE_TTL_H", "12"))   # trang thai tien trinh cu hon TTL bi don (chay dai ngay)
 
 def ts(s):
     """ISO 8601 (Z / +0000 / 7 chu so phan giay) -> datetime UTC; None neu rong."""
@@ -107,7 +108,30 @@ class Prep:
             if OPERATOR_RE.search(txt): self.tools.add((h, pid, self.seg(h, pid, r["_w"])))
         return r
 
-    def seg(self, h, pid, w): return bisect_right(self.starts.get((h, pid), []), w)
+    def seg(self, h, pid, w):
+        """Dinh danh doan song cua PID tai thoi diem w = moc EID1 gan nhat <= w (None neu truoc moi EID1 da biet). Dung moc thay
+        cho chi so de prune() bo moc cu ma dinh danh cac doan con lai khong doi."""
+        lst = self.starts.get((h, pid), []); i = bisect_right(lst, w)
+        return lst[i - 1] if i else None
+
+    def prune(self, now_w):
+        """Don trang thai cu hon STATE_TTL_H (theo gio Wazuh, them 2 h du phong cho dong ho may lech): tien trinh (EID1 / cha / vong
+        doi), moc doan song (giu moc moi nhat moi PID), tien trinh khung ART. Ket qua cho moi event moi hon nguong khong doi."""
+        if now_w is None: return 0
+        cut = now_w - timedelta(hours=STATE_TTL_H); cut_t = cut - timedelta(hours=2); n0 = len(self.e1)
+        old = [g for g, e in self.e1.items() if e[4] is not None and e[4] < cut]
+        for g in old:
+            self.e1.pop(g, None); self.parent.pop(g, None); self.end.pop(g, None); self.upload.discard(g)
+        for k in list(self.life):
+            self.life[k] = [x for x in self.life[k] if x[1] is None or x[1] >= cut_t]
+            if not self.life[k]: del self.life[k]
+        for k in list(self.starts):
+            lst = self.starts[k]; keep = [x for x in lst if x >= cut]
+            if len(keep) < len(lst): keep = [max(x for x in lst if x < cut)] + keep
+            self.starts[k] = keep
+        live_seg = {(h, pid, x) for (h, pid), lst in self.starts.items() for x in lst}
+        self.tools = {t for t in self.tools if t[2] is None or t in live_seg}
+        return n0 - len(self.e1)
 
     def guid_of(self, h, pid, when):
         best = None
@@ -153,7 +177,8 @@ class Windower:
         self.burst = {}                       # host -> (ma dot, so event da phat trong dot)
         self.nkeep, self.maxt = {}, {}        # host -> so event giu (uoc luong luc nap) / ts_system lon nhat trong cua so mo
         self.dropped = defaultdict(int)
-        self.params = {"W": W, "idle_s": idle_s, "gap_s": gap_s, "tool_mode": tool_mode}
+        self.params = {"W": W, "idle_s": idle_s, "gap_s": gap_s, "tool_mode": tool_mode, "state_ttl_h": STATE_TTL_H}
+        self._pruned_at = None
 
     def add(self, sources, now):
         out = []
@@ -170,6 +195,9 @@ class Windower:
                 if self.nkeep[h] >= self.W:                      # dem lai voi trang thai moi nhat truoc khi dong
                     self.nkeep[h] = sum(self.prep.drop_reason(x) is None for x in self.buf[h])
                     if self.nkeep[h] >= self.W: out += self._close(h, now, "du_W")
+        if self._pruned_at is None or now - self._pruned_at > timedelta(minutes=10):   # don trang thai cu (chay dai ngay)
+            n = self.prep.prune(now); self._pruned_at = now
+            if n: self.prep.stats["don_tien_trinh_cu"] += n
         return out + self.tick(now)
 
     def tick(self, now, force=False):

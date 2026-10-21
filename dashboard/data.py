@@ -223,6 +223,19 @@ def live_path(): return os.environ.get("VTGUARD_LIVE_ALERTS") or LIVE_ALERTS
 
 def status_path(): return os.environ.get("VTGUARD_LIVE_STATUS") or LIVE_STATUS
 
+LIVE_MAX = int(os.environ.get("VTGUARD_LIVE_MAX", "3000"))   # chay dai ngay: dashboard chi doc LIVE_MAX canh bao moi nhat
+
+NL = bytes([10])
+
+def _tail(path, n):
+    """n dong cuoi cua file (doc nguoc theo khoi, khong nap ca file khi alerts.jsonl lon)."""
+    with open(path, "rb") as f:
+        f.seek(0, 2); end = f.tell(); buf = b""; pos = end
+        while pos > 0 and buf.count(NL) <= n:
+            step = min(1 << 16, pos); pos -= step; f.seek(pos); buf = f.read(step) + buf
+    lines = buf.decode("utf-8", errors="replace").splitlines()
+    return lines[-n:] if pos > 0 or len(lines) > n else lines
+
 LIVE_GAP_S = 900                                              # su co truc tiep: canh bao cung host cach nhau <= 15 phut
 
 def live_alerts():
@@ -231,7 +244,7 @@ def live_alerts():
     p = P(live_path()) if not os.path.isabs(live_path()) else Path(live_path())
     if not p.exists(): return []
     al = []
-    for l in open(p, encoding="utf-8"):
+    for l in _tail(p, LIVE_MAX):
         if not l.strip(): continue
         try: a = json.loads(l)
         except json.JSONDecodeError: continue                  # dong dang ghi do
@@ -267,10 +280,14 @@ def replay_running(stt):
     try: return (datetime.now(timezone.utc) - _dt(stt["updated_at"])).total_seconds() < 30
     except (KeyError, ValueError): return False
 
+def replay_disabled():
+    """Ban trien khai canh Wazuh (deploy/docker-compose.yml) dat VTG_DISABLE_REPLAY=1: khong cho phat lai ghi de canh bao that."""
+    return os.environ.get("VTG_DISABLE_REPLAY") == "1"
+
 def start_replay(speed=10):
     """Chay src/live/run.py replay log mau (nen) tu dashboard; ghi reports/step9/live/. -> True neu da khoi dong."""
     import subprocess, sys
-    if replay_running(live_status()) or not P(SAMPLE_LOG).exists(): return False
+    if replay_disabled() or replay_running(live_status()) or not P(SAMPLE_LOG).exists(): return False
     subprocess.Popen([sys.executable, str(P("src/live/run.py")), "replay", "--input", str(P(SAMPLE_LOG)), "--speed", str(speed)],
                      cwd=str(home()), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                      env={**os.environ, "VTGUARD_HOME": str(home())}, start_new_session=True)

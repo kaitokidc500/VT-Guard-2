@@ -100,6 +100,7 @@ class IndexerSource:
         else: raise SystemExit("Can VTG_INDEXER_CA (file CA mount tu ngoai) hoac VTG_INDEXER_INSECURE=1 (chi lab).")
         self.agents = list(agents or os.environ.get("VTG_AGENTS", ",".join(DEFAULT_AGENTS)).split(","))
         self.poll_s, self.page, self.state_path, self.mode = poll_s, page, state_path, "live"
+        self.errors = 0
         st = json.load(open(state_path, encoding="utf-8")) if state_path and os.path.exists(state_path) else {}
         self.cp = st.get("checkpoint") or start or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         self.cp_ids = set(st.get("ids_at_checkpoint", []))
@@ -118,13 +119,31 @@ class IndexerSource:
         with open(tmp, "w", encoding="utf-8") as f: json.dump({"checkpoint": self.cp, "ids_at_checkpoint": sorted(self.cp_ids)}, f)
         os.replace(tmp, self.state_path)
 
+    RETRY_MAX_S = 60.0
+
+    def search(self, body):
+        """POST _search co thu lai: loi tam thoi (mat mang, timeout, HTTP 5xx / 429) -> cho 5, 10, 20 ... toi da 60 s roi thu lai,
+        khong mat checkpoint; sai dang nhap / thieu quyen (401 / 403) -> dung han (loi cau hinh, thu lai vo ich)."""
+        import urllib.error
+        wait = 5.0
+        while True:
+            try: return self.req("/wazuh-archives-*/_search", body)
+            except urllib.error.HTTPError as e:
+                if e.code in (401, 403): raise SystemExit(f"Indexer tu choi ({e.code}): kiem tra tai khoan / role vtguard.")
+                err = f"HTTP {e.code}"
+            except (urllib.error.URLError, TimeoutError, ConnectionError, OSError) as e:
+                err = type(e).__name__
+            self.errors += 1
+            print(f"[live] Indexer tam loi ({err}); thu lai sau {wait:.0f} s (checkpoint {self.cp})", flush=True)
+            time.sleep(wait); wait = min(wait * 2, self.RETRY_MAX_S)
+
     def poll(self):
         time.sleep(self.poll_s); out = []
         while True:
             ms = int(_parse(self.cp).timestamp() * 1000)                   # epoch_millis: khong phu thuoc dinh dang chuoi ngay
             q = {"bool": {"filter": [{"terms": {"agent.name": self.agents}},
                                      {"range": {"timestamp": {"gte": ms, "format": "epoch_millis"}}}]}}
-            hits = self.req("/wazuh-archives-*/_search", {"size": self.page, "sort": [{"timestamp": "asc"}], "query": q})["hits"]["hits"]
+            hits = self.search({"size": self.page, "sort": [{"timestamp": "asc"}], "query": q})["hits"]["hits"]
             new = [h for h in hits if h["_id"] not in self.cp_ids]
             out += [h["_source"] for h in new]
             if hits:
@@ -160,7 +179,7 @@ class IndexerSource:
         """Mo ta nguon cho dashboard: chi host:port cua Indexer (khong user / mat khau), index, agent, moc da doc."""
         from urllib.parse import urlparse
         return {"kind": "indexer", "name": urlparse(self.url).netloc.split("@")[-1], "index": "wazuh-archives-*", "agents": self.agents,
-                "checkpoint": self.cp}
+                "checkpoint": self.cp, "errors": self.errors}
 
 class AlertPusher:
     """Ghi canh bao vao vtguard-alerts-YYYY.MM.DD (tai khoan Indexer rieng: chi ghi index nay)."""

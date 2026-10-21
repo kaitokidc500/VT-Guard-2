@@ -56,9 +56,9 @@ VT-Guard/  (= vt-guard-research/)
 | 6 | VT-Seq (GRU-Attention đa nhiệm) + ablation; `reports/step6_report.md` (tag `step6-done`); triển khai = VT-Seq-ens (M3, 5 seed) | `src/models/`, `notebooks/`, `reports/step6/` | Hoàn thành |
 | 7 | Auto Rule Engine: 11 luật tự sinh (RIPPER, chỉ Train) → Sigma `rules/sigma/`; `reports/step7_report.md` (tag `step7-done`) | `src/rules/`, `rules/sigma/` | Hoàn thành |
 | 8 | Hybrid Fusion F3-B (AI + luật xác nhận) + pipeline suy luận `src/pipeline/infer.py`; `reports/step8_report.md` (tag `step8-done`) | `src/fusion/`, `src/pipeline/` | Hoàn thành |
-| 9 | Dashboard SOC tiếng Việt + luồng trực tiếp/replay (`src/live/`) + Docker kiểu A (`verify` offline 7/7); `reports/step9_report.md`. Còn: mốc 4 trong lab, commit + tag `step9-done` | `dashboard/`, `src/live/`, `docker/` | Đang làm |
+| 9 | Dashboard SOC + luồng trực tiếp (`src/live/`) + Docker + triển khai cạnh Wazuh (`deploy/`) + kịch bản demo (`docs/STEP9-M4-*`); `reports/step9_report.md`. Còn: chạy thật trong lab, commit + tag `step9-done` | `dashboard/`, `src/live/`, `docker/`, `deploy/` | Đang làm |
 | — | Bằng chứng hạ tầng | `evidence/` | Chưa bắt đầu |
-| — | Báo cáo (song song) | `reports/` | Chưa bắt đầu |
+| 10 | Báo cáo Word cuối (`report/VT-Guard_BaoCao.docx`, ~39 trang, TNR 14, 1.5, lề 3-2-2-2) | `report/` | Đang làm |
 
 Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành` · `Tạm dừng`.
 
@@ -265,10 +265,28 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - Vấn đề tồn đọng: mốc 4 (live với Indexer thật + kịch bản demo) chưa chạy;
   bản arm64 chưa dựng; `reports/step6/m3/reports/` (preds Colab lồng) và `evidence/2026-10-12/` chưa đưa vào git — cần xem.
 
+### Bước 9 mốc 4 (tích hợp hạ tầng + demo) — 2026-10-21
+- Triển khai cạnh wazuh-docker trên VT-SIEM01 (10.20.30.10), dashboard cổng 8501: `deploy/docker-compose.yml` (vtguard-live dùng lệnh
+  `stream` + vtguard-dashboard), `.env.example`, `secrets/vtguard.env.example`. URL `https://wazuh.indexer:9200` qua mạng Docker Wazuh
+  → kiểm TLS đầy đủ. Volume `vtguard_live` giữ checkpoint + cảnh báo; restart đọc tiếp. `.env`, `secrets/` vào .gitignore.
+- Gia cố vận hành: connector retry 5→60 s giữ checkpoint, dừng khi 401/403; `windower.prune()` dọn tiến trình cũ > VTG_STATE_TTL_H=12h;
+  dashboard `_tail` 3000 cảnh báo mới nhất; `src/live/health.py` + healthcheck compose; `--push-alerts` BooleanOptionalAction; VTG_DISABLE_REPLAY.
+- Lệnh entrypoint mới: `stream`, `health`. `src/live/demo_report.py`: đối chiếu Wazuh↔VT-Guard theo phiên (manifest + wazuh-alerts-*).
+  test_live 11/11 (L9 prune, L10 demo_report); dashboard 31/31; verify 7/7. Image build lại (sha256 d45fa5d6…).
+- Phân tích Wazuh trên dữ liệu đã thu: luật có sẵn bắn 92052 L4 "abnormal process"→T1059.003 cho mọi TTP LOTL (gán SAI kỹ thuật);
+  T1087.002 thỉnh thoảng 92103→T1018. B0 macro-F1 0,12; F1=0 ở T1016/T1018/T1654/T1003.003 → tương phản demo là thật.
+- `docs/STEP9-M4-DEPLOY.md` (triển khai + vận hành ổn định), `docs/STEP9-M4-DEMO.md` (7 kịch bản KB1–KB7 làm nổi Wazuh bỏ sót).
+
+### Bước 10 (báo cáo Word) — 2026-10-19
+- `report/`: `make_charts.py` (biểu đồ từ results JSON qua dashboard/data.py), `make_diagrams.py` (10 sơ đồ HTML→PNG bằng Playwright),
+  `lib.js` + `ch1.js`/`ch2.js`/`ch3.js` + `build.js` (docx-js) → `VT-Guard_BaoCao.docx`. Kiểm tra bằng LibreOffice trong Docker
+  (image cục bộ `vtg-lo`): 39 trang gồm bìa, viết tắt, mục lục, 3 chương, kết luận, 16 tài liệu; 25 bảng/hình chương III.
+- Còn: điền bìa (trường, GVHD, SV, MSSV, lớp); mở bằng Word → Update Field để mục lục có số trang; bổ sung số liệu mốc 4 nếu chạy lab.
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
-- [ ] Bước 9 mốc 4 (trong lab) — làm theo `docs/STEP9-M4-LAB.md` (tài khoản Indexer riêng, `secrets/vtguard.env`, `run.py live --check`): `docker run ... vtguard:step9 live --env-file ...` hoặc `python src/live/run.py live --env-file ...`,
-      chạy kịch bản demo mục 4, chụp Wazuh ↔ VT-Guard song song, ghi log mẫu mới; đo lại độ lệch khi chạy ART từ console.
+- [ ] Bước 9 mốc 4 — CHẠY THẬT trong lab theo `docs/STEP9-M4-DEPLOY.md` (đưa image vào VT-SIEM01, tài khoản Indexer riêng, `docker compose up -d`)
+      rồi `docs/STEP9-M4-DEMO.md` (KB1–KB7); chụp Wazuh ↔ VT-Guard song song; `demo_report.py` sinh bảng đối chiếu → đưa vào step9_report + slide.
 - [ ] Bước 9: commit + push + tag `step9-done` sau khi người dùng xác nhận; hỏi kiến trúc máy giảng viên (arm64?).
 
 - [x] Bước 5 mốc C: FPR phân tầng theo độ dài + Spearman điểm–độ dài trong evaluate.py.

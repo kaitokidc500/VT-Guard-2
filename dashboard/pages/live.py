@@ -128,7 +128,7 @@ def live_panel():
     run = running()
     c = st.columns([3, 1])
     c[0].caption((T("lv_running", s=REFRESH) + " \u00b7 " if run else "") + T("lv_honest"))
-    if not run and c[1].button(T("lv_btn_replay_again") if al else T("lv_btn_replay"), icon=":material/replay:", width="stretch", key="lv_replay"):
+    if not run and not D.replay_disabled() and c[1].button(T("lv_btn_replay_again") if al else T("lv_btn_replay"), icon=":material/replay:", width="stretch", key="lv_replay"):
         start(); st.rerun()
     if not al:
         st.info(T("lv_empty"))

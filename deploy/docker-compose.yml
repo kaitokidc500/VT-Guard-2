@@ -1,0 +1,66 @@
+# VT-Guard Buoc 9 moc 4 - trien khai CANH wazuh-docker tren VT-SIEM01 (10.20.30.10). Huong dan: docs/STEP9-M4-DEPLOY.md
+#   vtguard-live      : luong phat hien truc tiep, doc wazuh-archives-* qua mang Docker cua Wazuh (https://wazuh.indexer:9200,
+#                       ten may trung chung chi -> kiem TLS day du), checkpoint + canh bao luu volume vtguard_live (khoi dong lai doc tiep).
+#   vtguard-dashboard : dashboard SOC tai http://10.20.30.10:${VTG_PORT:-8501} (cong rieng, khong trung 443/1514/1515/514/55000/9200).
+# Chay (trong thu muc deploy/, da co .env + secrets/vtguard.env):  docker compose up -d
+name: vtguard
+
+x-common: &common
+  image: vtguard:step9
+  restart: unless-stopped
+  environment:
+    TZ: UTC
+    VTG_STATE_TTL_H: "12"
+  volumes:
+    - vtguard_live:/app/reports/step9/live
+  logging:
+    driver: json-file
+    options: { max-size: "20m", max-file: "5" }
+
+services:
+  vtguard-live:
+    <<: *common
+    container_name: vtguard-live
+    command: ["stream", "--env-file", "/secrets/vtguard.env", "--poll", "${VTG_POLL:-12}", "${VTG_PUSH:---push-alerts}"]
+    volumes:
+      - vtguard_live:/app/reports/step9/live
+      - ./secrets/vtguard.env:/secrets/vtguard.env:ro
+      - ./demo:/demo:ro                 # manifest cac phien demo (chep tu C:\VT-Guard-runs) cho src/live/demo_report.py
+      - ${WAZUH_CERTS:-../../wazuh-docker/single-node/config/wazuh_indexer_ssl_certs}/root-ca.pem:/secrets/root-ca.pem:ro
+    networks: [wazuh]
+    mem_limit: 1g
+    cpus: 1.0
+    healthcheck:
+      test: ["CMD", "/app/docker/entrypoint.sh", "health", "live"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  vtguard-dashboard:
+    <<: *common
+    container_name: vtguard-dashboard
+    command: ["dashboard"]
+    environment:
+      TZ: UTC
+      VTG_PORT: "${VTG_PORT:-8501}"
+      VTG_DISABLE_REPLAY: "1"          # khong cho nut phat lai ghi de canh bao that trong volume chung
+    ports:
+      - "${VTG_BIND:-10.20.30.10}:${VTG_PORT:-8501}:${VTG_PORT:-8501}"
+    mem_limit: 768m
+    cpus: 1.0
+    depends_on: [vtguard-live]
+    healthcheck:
+      test: ["CMD", "/app/docker/entrypoint.sh", "health", "dashboard"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  vtguard_live:
+
+networks:
+  wazuh:
+    external: true
+    name: ${WAZUH_NET:-single-node_default}

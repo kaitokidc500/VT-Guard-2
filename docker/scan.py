@@ -41,7 +41,8 @@ def scan(root):
             if low.endswith(CKPT): bad.append(f"S1 {rel}"); continue
             if rel.startswith("data/raw/") or "/data/raw/" in rel or low.endswith(".labeled.jsonl") or low == "all.events.jsonl":
                 bad.append(f"S2 {rel}"); continue
-            if low == ".env" or low.endswith(".env") or low.startswith(".env."): bad.append(f"S3 {rel}"); continue
+            if (low == ".env" or low.endswith(".env") or low.startswith(".env.")) and not low.endswith((".example", ".sample", ".template")):
+                bad.append(f"S3 {rel}"); continue
             if not (low.endswith(TEXT_EXT) or low.endswith(".gz")) or rel in SKIP_TEXT: continue
             try:
                 op = gzip.open if low.endswith(".gz") else open
