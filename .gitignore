@@ -60,3 +60,4 @@ deploy/secrets/
 # Cho phep cac file mau .env.example (khong chua bi mat that)
 !*.env.example
 !deploy/.env.example
+deploy/certs/

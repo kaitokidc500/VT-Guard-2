@@ -74,10 +74,15 @@ cd ~/vtguard/deploy
 cp .env.example .env                      # sửa WAZUH_NET, WAZUH_CERTS (thư mục có root-ca.pem), VTG_BIND, VTG_PORT
 mkdir -p secrets && cp vtguard.env.example secrets/vtguard.env
 nano secrets/vtguard.env                  # điền VTG_INDEXER_PASSWORD
-chmod 600 secrets/vtguard.env
+chown 1000:1000 secrets/vtguard.env && chmod 600 secrets/vtguard.env   # container chạy user vtguard (uid 1000), không phải root
 ls "$(grep WAZUH_CERTS .env | cut -d= -f2)/root-ca.pem"   # CA của wazuh-docker phải tồn tại
 docker compose config >/dev/null && echo "compose hop le"
 ```
+
+**Quyền file:** container chạy bằng user `vtguard` (uid 1000) nên mọi file mount vào phải đọc được bởi uid 1000 — nếu không sẽ gặp
+`PermissionError: [Errno 13] Permission denied: '/secrets/vtguard.env'`. Với `root-ca.pem`: nếu `ls -ln` cho thấy thuộc `0 0` và chỉ
+root đọc được, **không đổi quyền chứng chỉ của Wazuh** mà chép một bản riêng (chứng chỉ CA là công khai):
+`mkdir -p certs && cp <WAZUH_CERTS>/root-ca.pem certs/ && chown -R 1000:1000 certs`, rồi đặt `WAZUH_CERTS=<thư mục deploy>/certs` trong `.env`.
 
 `secrets/vtguard.env` dùng `VTG_INDEXER_URL=https://wazuh.indexer:9200`: trong mạng Docker của Wazuh, tên này trùng CN chứng chỉ
 nên **kiểm TLS đầy đủ** (không cần `VTG_INDEXER_CHECK_HOSTNAME=0` hay `INSECURE`). `.env` và `secrets/` nằm ngoài git.
@@ -138,6 +143,7 @@ Gỡ bỏ: `docker compose down` (giữ dữ liệu) hoặc `docker compose down
 
 | Hiện tượng | Nguyên nhân thường gặp | Cách xử lý |
 |---|---|---|
+| `PermissionError: … /secrets/vtguard.env` (hoặc root-ca.pem) | file thuộc root, quyền 600; container chạy uid 1000 | `chown 1000:1000 secrets/vtguard.env`; chép `root-ca.pem` ra `certs/` (mục 3) |
 | `--check` báo 401 / 403 | sai mật khẩu, chưa gán role | làm lại mục 2; `authinfo` phải có `vtguard_role` |
 | `CERTIFICATE_VERIFY_FAILED` | sai đường dẫn `WAZUH_CERTS` hoặc URL không phải `wazuh.indexer` | kiểm `root-ca.pem`; container phải ở mạng `WAZUH_NET` |
 | `Name or service not known: wazuh.indexer` | sai `WAZUH_NET` | `docker network ls`, sửa `.env` |
