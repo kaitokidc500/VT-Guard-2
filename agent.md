@@ -58,7 +58,7 @@ VT-Guard/  (= vt-guard-research/)
 | 8 | Hybrid Fusion F3-B (AI + luật xác nhận) + pipeline suy luận `src/pipeline/infer.py`; `reports/step8_report.md` (tag `step8-done`) | `src/fusion/`, `src/pipeline/` | Hoàn thành |
 | 9 | Dashboard SOC + luồng trực tiếp (`src/live/`) + Docker + triển khai cạnh Wazuh (`deploy/`) + kịch bản demo (`docs/STEP9-M4-*`); `reports/step9_report.md`. Còn: chạy thật trong lab, commit + tag `step9-done` | `dashboard/`, `src/live/`, `docker/`, `deploy/` | Đang làm |
 | — | Bằng chứng hạ tầng | `evidence/` | Chưa bắt đầu |
-| 10 | Báo cáo Word cuối (`report/VT-Guard_BaoCao.docx`, ~39 trang, TNR 14, 1.5, lề 3-2-2-2) | `report/` | Đang làm |
+| 10 | Báo cáo Word cuối (`report/VT-Guard_BaoCao.docx`, 59 trang gồm 25 khung ảnh thực nghiệm chờ dán; TNR 14, 1.5, lề 3-2-2-2) | `report/` | Đang làm |
 
 Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành` · `Tạm dừng`.
 
@@ -282,6 +282,11 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   `lib.js` + `ch1.js`/`ch2.js`/`ch3.js` + `build.js` (docx-js) → `VT-Guard_BaoCao.docx`. Kiểm tra bằng LibreOffice trong Docker
   (image cục bộ `vtg-lo`): 39 trang gồm bìa, viết tắt, mục lục, 3 chương, kết luận, 16 tài liệu; 25 bảng/hình chương III.
 - Còn: điền bìa (trường, GVHD, SV, MSSV, lớp); mở bằng Word → Update Field để mục lục có số trang; bổ sung số liệu mốc 4 nếu chạy lab.
+- 2026-10-22: bổ sung Chương III mục **3.12 Triển khai VT-Guard lên hạ tầng giám sát Wazuh** (kiến trúc, 8 bước, phân quyền, vận hành ổn định;
+  sơ đồ `d_deploy`, `d_deploy_steps`) và **3.13 Thực nghiệm trực tiếp theo kịch bản** (KB1–KB6, `d_demo_flow`, bảng Wazuh gán sai kỹ thuật
+  từ dữ liệu đã thu, bảng tổng hợp). `report/ch3_deploy.js`; `lib.js` thêm `FigSlot` (khung ảnh trống có chú thích Hình 3.18–3.42) và `[[...]]`
+  (ô tô vàng cần điền). KB2 đã điền số liệu lần chạy đầu trên hạ tầng thật: 6 233 event, 56 cửa sổ, 2 cảnh báo (1 cao), trễ 46 s / TV 30 s.
+  Đánh giá chung thành 3.14. Docx 59 trang (LibreOffice).
 
 ## 7. Việc tiếp theo / câu hỏi mở
 
