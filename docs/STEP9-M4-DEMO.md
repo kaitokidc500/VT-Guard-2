@@ -137,10 +137,12 @@ Chép manifest các phiên demo về `deploy/demo/` trên VT-SIEM01 rồi sinh b
 VT-Guard trong volume, so theo khung thời gian từng phiên):
 
 ```bash
-docker compose run --rm -v "$PWD/demo:/demo:ro" vtguard-live \
-  python src/live/demo_report.py --manifests /demo --env-file /secrets/vtguard.env --out /app/reports/step9/m4
-# lấy kết quả ra host:
-docker compose cp vtguard-live:/app/reports/step9/m4/demo_report.md ./demo_report.md
+# deploy/demo đã được mount sẵn vào vtguard-live tại /demo (chỉ đọc); file chép vào phải đọc được bởi uid 1000
+chmod -R a+rX demo
+docker compose exec vtguard-live python src/live/demo_report.py \
+  --manifests /demo --env-file /secrets/vtguard.env --out /app/reports/step9/live/m4
+# lấy kết quả ra host (thư mục m4 nằm trong volume vtguard_live nên không mất khi container khởi động lại):
+docker compose cp vtguard-live:/app/reports/step9/live/m4/demo_report.md ./demo_report.md
 ```
 
 File `demo_report.md` cho mỗi phiên: số cảnh báo Wazuh (và mức ≥ 4), Wazuh có gán đúng TTP không, số cảnh báo VT-Guard (nguồn
