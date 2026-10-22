@@ -108,8 +108,30 @@ biểu đồ **Lưu lượng event** chạy. Trang không còn nút “Phát l�
 ## 5. Hiển thị cảnh báo VT-Guard trong Wazuh Dashboard
 
 `vtguard-live` mặc định ghi ngược `vtguard-alerts-YYYY.MM.DD` (`VTG_PUSH=--push-alerts` trong `.env`; tắt bằng `--no-push-alerts`).
-Trong Wazuh Dashboard (`https://10.20.30.10`): **Dashboards Management → Index patterns → Create** `vtguard-alerts-*`, trường thời
-gian `@timestamp` → **Discover**. Lọc gợi ý: `decision_source: both` (ưu tiên cao), `ttps: T1003.003`.
+Index chỉ tự sinh khi có **cảnh báo đầu tiên**; trước đó Wazuh Dashboard báo *“Your index pattern doesn't match any indices”* và không
+cho tạo pattern. Vì vậy tạo trước **index template** (kiểu dữ liệu đúng: thời gian `date`, TTP/nguồn quyết định `keyword`, 0 replica
+cho single-node) và index của hôm nay — chạy một lần bằng admin:
+
+```bash
+curl -sk -u admin -X PUT "https://localhost:9200/_index_template/vtguard-alerts" -H 'Content-Type: application/json' -d '{
+  "index_patterns": ["vtguard-alerts-*"],
+  "template": {
+    "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+    "mappings": {"properties": {
+      "@timestamp":  {"type": "date"},
+      "received_at": {"type": "date"},
+      "closed_at":   {"type": "date"},
+      "t0": {"type": "date"}, "t1": {"type": "date"},
+      "host": {"type": "keyword"}, "window_id": {"type": "keyword"}, "mode": {"type": "keyword"},
+      "decision_source": {"type": "keyword"}, "ttps": {"type": "keyword"},
+      "score": {"type": "float"}, "p_ai": {"type": "float"}, "threshold": {"type": "float"},
+      "rule_ids": {"properties": {"id": {"type": "keyword"}, "target": {"type": "keyword"}}},
+      "attention_top5": {"type": "object", "enabled": false}}}}}'
+curl -sk -u admin -X PUT "https://localhost:9200/vtguard-alerts-$(date -u +%Y.%m.%d)"
+```
+
+Sau đó trong Wazuh Dashboard (`https://10.20.30.10`): **Dashboards Management → Index patterns → Create** `vtguard-alerts-*`, trường
+thời gian `@timestamp` → **Discover**. Lọc gợi ý: `decision_source: both` (ưu tiên cao), `ttps: T1003.003`.
 
 ## 6. Vận hành ổn định
 
@@ -144,6 +166,7 @@ Gỡ bỏ: `docker compose down` (giữ dữ liệu) hoặc `docker compose down
 | Hiện tượng | Nguyên nhân thường gặp | Cách xử lý |
 |---|---|---|
 | `PermissionError: … /secrets/vtguard.env` (hoặc root-ca.pem) | file thuộc root, quyền 600; container chạy uid 1000 | `chown 1000:1000 secrets/vtguard.env`; chép `root-ca.pem` ra `certs/` (mục 3) |
+| Wazuh Dashboard: *index pattern doesn't match any indices* | chưa có cảnh báo nào nên `vtguard-alerts-*` chưa tồn tại | tạo template + index hôm nay (mục 5) |
 | `--check` báo 401 / 403 | sai mật khẩu, chưa gán role | làm lại mục 2; `authinfo` phải có `vtguard_role` |
 | `CERTIFICATE_VERIFY_FAILED` | sai đường dẫn `WAZUH_CERTS` hoặc URL không phải `wazuh.indexer` | kiểm `root-ca.pem`; container phải ở mạng `WAZUH_NET` |
 | `Name or service not known: wazuh.indexer` | sai `WAZUH_NET` | `docker network ls`, sửa `.env` |
