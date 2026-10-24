@@ -113,6 +113,20 @@ thời gian (discovery → NTDS), kèm chiến thuật MITRE. Thông điệp: Wa
 tấn công hoàn chỉnh**. Nếu bật ghi ngược: sang Wazuh Dashboard, index `vtguard-alerts-*` cho thấy **chính các cảnh báo đó nằm trong
 hạ tầng Wazuh** — chứng minh tích hợp.
 
+### KB-TC — Tấn công thủ công, KHÔNG qua bộ điều phối (~2 phút) → phát hiện không phụ thuộc khung mô phỏng
+
+(Tương ứng mục **3.13.10** của báo cáo.) Các KB trên đều sinh phiên qua `Invoke-VTSession.ps1`. Kịch bản này **gõ trực tiếp từng
+lệnh trinh sát trong một phiên PowerShell tương tác** trên WIN10-01 (tài khoản `VTLAB\user01`) — không bộ điều phối, không Atomic
+Red Team — mô phỏng “hands-on-keyboard”. Các lệnh LOTL tiêu chuẩn (đã liệt kê ở Chương I, theo khuyến cáo CISA): `ipconfig /all`,
+`arp -a`, `route print` (T1016); `nltest /dclist:vtlab.test`, `net view /domain` (T1018); `net group "Domain Admins" /domain`,
+`net user /domain` (T1087.002); `wevtutil qe Security /c:5 /rd:true /f:text` (T1654).
+
+- **Cơ sở:** luồng trực tiếp gom event theo **host + thời gian** (không cần manifest); lệnh gõ tay không khớp dấu hiệu khung mô phỏng
+  (quy tắc loại R4) nên được giữ, chuẩn hoá đồng nhất (`<launcher>`, bỏ `conhost`). **Không có manifest → không chạy `demo_report.py`**;
+  đối chiếu bằng ảnh chụp, điền tay Bảng 3.19 dòng 7.
+- **Kỳ vọng:** VT-Guard vẫn gán đúng các kỹ thuật trinh sát dù không có bộ điều phối. Thông điệp: **phát hiện đến từ hành vi trong log,
+  không từ khung mô phỏng.** (NTDS vẫn chạy qua bộ điều phối ở KB4/KB5 để giữ kỷ luật snapshot; kịch bản gõ tay chỉ gồm trinh sát.)
+
 ### KB7 — Định lượng (~2 phút) → cả ba yêu cầu
 
 Chuyển sang **Phần B – Kết quả nghiên cứu** của dashboard: biểu đồ F1 theo kỹ thuật (Wazuh 0 ở 4/5 kỹ thuật ↔ VT-Guard phủ đủ),
@@ -129,6 +143,7 @@ thức là trên tập kiểm thử đã đóng băng**, demo trực tiếp ch�
 | 4 | attack · DC01 · T1003.003 (ntdsutil) | 92052 mức 4 | nguồn `cả hai`, luật NTDS + AI | YC2 |
 | 5 | attack · DC01 · T1003.003 test 1 (vssadmin) | 92052 mức 4 | bắt biến thể chưa thấy | tổng quát hoá |
 | 6 | — | alert rời rạc | dòng thời gian một sự cố | câu chuyện tấn công |
+| TC | **gõ tay** · WIN10-01 · T1016,T1018,T1087.002,T1654 (không bộ điều phối) | gán nhầm / không gán | gán đúng dù gõ tay | không phụ thuộc khung mô phỏng |
 | 7 | — (Phần B) | — | biểu đồ + Holm | cả ba |
 
 ## 4. Báo cáo đối chiếu sau buổi demo
@@ -156,5 +171,6 @@ chứng định lượng kèm theo ảnh chụp hai màn hình để đưa vào 
 - Tương phản với Wazuh lấy từ **baseline B0 thật**, không dàn dựng: nói “luật Wazuh **có sẵn** không gán được các kỹ thuật này”,
   không nói “Wazuh không bao giờ bắt được” (có thể viết luật Wazuh thủ công cho từng kỹ thuật — nhưng đó chính là việc VT-Guard tự
   động hoá bằng luật Sigma tự sinh).
-- Nếu chạy tấn công từ console tay (không qua bộ điều phối), tiền xử lý có thể lệch so với lúc tạo dataset; nên chạy qua
-  `Invoke-VTSession.ps1` như trên và đo bằng `demo_report.py`.
+- KB1–KB6 chạy qua `Invoke-VTSession.ps1` để có manifest và đo định lượng bằng `demo_report.py`. **KB-TC (gõ tay) là phép thử có chủ
+  đích** chứng minh phát hiện không phụ thuộc khung mô phỏng; vì không có manifest nên chỉ đối chiếu bằng ảnh chụp, không đưa vào
+  `demo_report.py`, và trình bày là minh hoạ định tính.

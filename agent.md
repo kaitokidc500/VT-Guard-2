@@ -288,6 +288,10 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   từ dữ liệu đã thu, bảng tổng hợp). `report/ch3_deploy.js`; `lib.js` thêm `FigSlot` (khung ảnh trống có chú thích Hình 3.18–3.42) và `[[...]]`
   (ô tô vàng cần điền). KB2 đã điền số liệu lần chạy đầu trên hạ tầng thật: 6 233 event, 56 cửa sổ, 2 cảnh báo (1 cao), trễ 46 s / TV 30 s.
   Đánh giá chung thành 3.14. Docx 59 trang (LibreOffice).
+- 2026-10-24: `report/thucnghiem.js` → `report/HuongDan_ThucNghiem.docx` (runbook chạy KB1–KB7: chuẩn bị, lệnh, ảnh cần chụp kèm số Hình 3.18–3.45,
+  điền Bảng 3.19, xử lý sự cố). **Bổ sung KB7 – tấn công thủ công KHÔNG qua bộ điều phối** (gõ lệnh trinh sát LOTL tay trên WIN10-01) vào báo cáo
+  (`ch3_deploy.js`: mục 3.13.10, Hình 3.42–3.44, Bảng 3.19 thêm dòng 7, bảng tổng quan thêm KB7; Tổng hợp dời thành 3.13.11, bảng demo_report = Hình 3.45)
+  và `docs/STEP9-M4-DEMO.md` (KB-TC). Báo cáo dựng lại 60 trang. Docx không commit.
 - 2026-10-24: `report/slides.js` → `report/VT-Guard_DanY_Slide.docx` (dàn ý slide: 32 slide chính + 3 dự phòng, mỗi slide gồm tiêu đề / hình-bảng-sơ đồ /
   nội dung tóm tắt / lời nói gợi ý; hình lấy từ `report/figures` + `reports/step9/screenshots`; ô tô vàng = số liệu KB chờ điền). Docx không commit.
 
