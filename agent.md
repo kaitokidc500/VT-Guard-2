@@ -291,8 +291,10 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 
 ### Lộ trình + đánh giá + Bước 11 — 2026-10-24
 - `docs/ROADMAP.md` (11 bước, trạng thái, lịch đến 01/11), `README.md` viết lại (liên kết ROADMAP / ASSESSMENT / STEP11-BRIEF).
-- File Word không lưu trên git: `.gitignore` thêm `*.docx`, `report/VT-Guard_BaoCao.docx` gỡ khỏi index (vẫn còn trong lịch sử commit 59a55f2;
-  xoá khỏi lịch sử cần viết lại lịch sử + force-push — chỉ làm khi người dùng đồng ý).
+- File Word không lưu trên git: `.gitignore` thêm `*.docx`. Theo yêu cầu người dùng, đã xoá `report/VT-Guard_BaoCao.docx` khỏi LỊCH SỬ:
+  viết lại 2 commit cuối (59a55f2 → 0e951d8, 6de3199 → d3ff67c; giữ tác giả/ngày/thông điệp) rồi force-push `main`. Không tag nào bị đụng
+  (mọi tag dataset/step là tổ tiên của 6a26d29). Bản sao cục bộ trước khi xoá: ref `refs/backup/main-before-docx-purge` (không đẩy).
+  Máy khác đã clone sau 22/10 cần `git fetch && git reset --hard origin/main`.
 - `docs/ASSESSMENT.md`: chấm 8,5/10 theo 8 tiêu chí có trọng số; điểm yếu W1–W10; dự báo ~9,0 khi xong KB1–KB6 + báo cáo, 9,3–9,5 nếu thêm nhóm A.
 - `docs/STEP11-BRIEF.md`: A1 soak 24 giờ, A2 biến thể ART chưa dùng (T-novel-2), A3 kiểm thử ngoài (OTRF / EVTX-ATTACK-SAMPLES), A4 phân tích lỗi;
   B1 cổng độ đặc hiệu token (rules v2), B2 hiệu chỉnh xác suất, B3 luật tương quan T1016/T1087.002, B4 crop đều, B5 dataset-v1.3; C1–C5 đóng gói.
@@ -313,7 +315,6 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - [x] Dashboard (đọc `reports/step8/alerts_<split>.jsonl`: cảnh báo, decision_source, luật khớp, attention).
 - [ ] Bước 10: báo cáo cuối tiếng Việt (24–28/10), slide + tổng duyệt demo (29/10); hạn 01/11/2026.
 - [ ] Bước 11 (chỉ sau KB1–KB6 + báo cáo xong): theo `docs/STEP11-BRIEF.md`, nhóm A trước 29/10; B/C ghi vào Hướng phát triển.
-- [ ] Hỏi người dùng: có xoá `report/VT-Guard_BaoCao.docx` khỏi lịch sử git (commit 59a55f2) không — cần force-push `main`.
 - [ ] Kiểm soát độ dài chưa vững ở từng seed (crop) — cân nhắc ở bước sau nếu cần.
 - [ ] `.onnx`/`.pt` không vào git: bản gốc ở Drive `step6_m3_44f8948d.zip`; tái tạo ONNX: `python src/models/step6_explain.py onnx`.
 - [ ] #9 đạt sát ngưỡng (cmd.exe 15.1%) — nếu thu thêm dữ liệu: phiên benign gọi tool qua `cmd.exe /c`
