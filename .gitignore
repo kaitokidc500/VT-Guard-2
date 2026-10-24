@@ -61,3 +61,6 @@ deploy/secrets/
 !*.env.example
 !deploy/.env.example
 deploy/certs/
+# Bao cao Word: chi giu cuc bo, KHONG dua len git (dung lai bang node report/build.js)
+report/*.docx
+*.docx

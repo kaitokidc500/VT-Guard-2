@@ -58,7 +58,8 @@ VT-Guard/  (= vt-guard-research/)
 | 8 | Hybrid Fusion F3-B (AI + luật xác nhận) + pipeline suy luận `src/pipeline/infer.py`; `reports/step8_report.md` (tag `step8-done`) | `src/fusion/`, `src/pipeline/` | Hoàn thành |
 | 9 | Dashboard SOC + luồng trực tiếp (`src/live/`) + Docker + triển khai cạnh Wazuh (`deploy/`) + kịch bản demo (`docs/STEP9-M4-*`); `reports/step9_report.md`. Còn: chạy thật trong lab, commit + tag `step9-done` | `dashboard/`, `src/live/`, `docker/`, `deploy/` | Đang làm |
 | — | Bằng chứng hạ tầng | `evidence/` | Chưa bắt đầu |
-| 10 | Báo cáo Word cuối (`report/VT-Guard_BaoCao.docx`, 59 trang gồm 25 khung ảnh thực nghiệm chờ dán; TNR 14, 1.5, lề 3-2-2-2) | `report/` | Đang làm |
+| 10 | Báo cáo Word cuối (`report/VT-Guard_BaoCao.docx` — chỉ cục bộ, KHÔNG commit, 59 trang gồm 25 khung ảnh thực nghiệm chờ dán; TNR 14, 1.5, lề 3-2-2-2) | `report/` | Đang làm |
+| 11 | Cải tiến đề tài và mô hình (nhóm A trước hạn, B/C sau): `docs/STEP11-BRIEF.md`; đánh giá 8,5/10 ở `docs/ASSESSMENT.md` | `docs/`, `reports/step11/` | Chưa bắt đầu |
 
 Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành` · `Tạm dừng`.
 
@@ -288,6 +289,15 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   (ô tô vàng cần điền). KB2 đã điền số liệu lần chạy đầu trên hạ tầng thật: 6 233 event, 56 cửa sổ, 2 cảnh báo (1 cao), trễ 46 s / TV 30 s.
   Đánh giá chung thành 3.14. Docx 59 trang (LibreOffice).
 
+### Lộ trình + đánh giá + Bước 11 — 2026-10-24
+- `docs/ROADMAP.md` (11 bước, trạng thái, lịch đến 01/11), `README.md` viết lại (liên kết ROADMAP / ASSESSMENT / STEP11-BRIEF).
+- File Word không lưu trên git: `.gitignore` thêm `*.docx`, `report/VT-Guard_BaoCao.docx` gỡ khỏi index (vẫn còn trong lịch sử commit 59a55f2;
+  xoá khỏi lịch sử cần viết lại lịch sử + force-push — chỉ làm khi người dùng đồng ý).
+- `docs/ASSESSMENT.md`: chấm 8,5/10 theo 8 tiêu chí có trọng số; điểm yếu W1–W10; dự báo ~9,0 khi xong KB1–KB6 + báo cáo, 9,3–9,5 nếu thêm nhóm A.
+- `docs/STEP11-BRIEF.md`: A1 soak 24 giờ, A2 biến thể ART chưa dùng (T-novel-2), A3 kiểm thử ngoài (OTRF / EVTX-ATTACK-SAMPLES), A4 phân tích lỗi;
+  B1 cổng độ đặc hiệu token (rules v2), B2 hiệu chỉnh xác suất, B3 luật tương quan T1016/T1087.002, B4 crop đều, B5 dataset-v1.3; C1–C5 đóng gói.
+  Nguyên tắc: không sửa dataset-v1.2, mô hình triển khai giữ nguyên khi chấm tập mới, kết quả vào mục 3.15 / phụ lục.
+
 ## 7. Việc tiếp theo / câu hỏi mở
 
 - [ ] Bước 9 mốc 4 — CHẠY THẬT trong lab theo `docs/STEP9-M4-DEPLOY.md` (đưa image vào VT-SIEM01, tài khoản Indexer riêng, `docker compose up -d`)
@@ -302,6 +312,8 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
 - [x] Bước 8: Hybrid Fusion F3-B, `reports/step8_report.md`, tag `step8-done`.
 - [x] Dashboard (đọc `reports/step8/alerts_<split>.jsonl`: cảnh báo, decision_source, luật khớp, attention).
 - [ ] Bước 10: báo cáo cuối tiếng Việt (24–28/10), slide + tổng duyệt demo (29/10); hạn 01/11/2026.
+- [ ] Bước 11 (chỉ sau KB1–KB6 + báo cáo xong): theo `docs/STEP11-BRIEF.md`, nhóm A trước 29/10; B/C ghi vào Hướng phát triển.
+- [ ] Hỏi người dùng: có xoá `report/VT-Guard_BaoCao.docx` khỏi lịch sử git (commit 59a55f2) không — cần force-push `main`.
 - [ ] Kiểm soát độ dài chưa vững ở từng seed (crop) — cân nhắc ở bước sau nếu cần.
 - [ ] `.onnx`/`.pt` không vào git: bản gốc ở Drive `step6_m3_44f8948d.zip`; tái tạo ONNX: `python src/models/step6_explain.py onnx`.
 - [ ] #9 đạt sát ngưỡng (cmd.exe 15.1%) — nếu thu thêm dữ liệu: phiên benign gọi tool qua `cmd.exe /c`
