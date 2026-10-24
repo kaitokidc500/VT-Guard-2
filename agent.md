@@ -288,6 +288,8 @@ Giá trị trạng thái: `Chưa bắt đầu` · `Đang làm` · `Hoàn thành`
   từ dữ liệu đã thu, bảng tổng hợp). `report/ch3_deploy.js`; `lib.js` thêm `FigSlot` (khung ảnh trống có chú thích Hình 3.18–3.42) và `[[...]]`
   (ô tô vàng cần điền). KB2 đã điền số liệu lần chạy đầu trên hạ tầng thật: 6 233 event, 56 cửa sổ, 2 cảnh báo (1 cao), trễ 46 s / TV 30 s.
   Đánh giá chung thành 3.14. Docx 59 trang (LibreOffice).
+- 2026-10-24: `report/slides.js` → `report/VT-Guard_DanY_Slide.docx` (dàn ý slide: 32 slide chính + 3 dự phòng, mỗi slide gồm tiêu đề / hình-bảng-sơ đồ /
+  nội dung tóm tắt / lời nói gợi ý; hình lấy từ `report/figures` + `reports/step9/screenshots`; ô tô vàng = số liệu KB chờ điền). Docx không commit.
 
 ### Lộ trình + đánh giá + Bước 11 — 2026-10-24
 - `docs/ROADMAP.md` (11 bước, trạng thái, lịch đến 01/11), `README.md` viết lại (liên kết ROADMAP / ASSESSMENT / STEP11-BRIEF).
